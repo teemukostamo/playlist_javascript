@@ -1,26 +1,57 @@
-### Fullstack Harjoitustyö - Teemu Kostamo
+# Fullstack Harjoitustyö - Teemu Kostamo
 
-## Kappaletietojen raportointisovellus
+## Kappaletietojen raportointisovellus radiokanavalle
 
-Harjoitustyön aiheena on uusi kappaletietojen raportointisovellus Radio Helsingille. Radiokanavat ovat velvollisia raportoimaan soittamansa musiikin tekijänoikeusjärjestöille. Sovelluksen käyttäjiä ovat kanavan djt jotka täyttävät raportteihin ohjelmissaan soittamansa kappaleet. Kappaleita on mahdollista hakea yksittäiseen raporttiin studion playout-softan soittologista. Mikäli kappaleet on soitettu muualta kuin playout-softasta, dj syöttää jokaisen biisin käsin. Käytössä on pikahaku, joilla haetaan tietokannasta jo entuudestaan soitettuja kappaleita. Mikäli kappletta ei löydy tietokannasta, dj syöttää kappaleen tiedot ja lisää sen tietokantaan.
+Harjoitustyön aiheena on uusi kappaletietojen raportointisovellus Radio Helsingille. Sovelluksen käyttäjiä ovat kanavan djt jotka täyttävät raportteihin ohjelmissaan soittamansa kappaleet.
 
-# Toiminnallisuus - peruskäyttäjä
+Kappaleita on mahdollista hakea raporttiin studion playout-softan soittologista. Mikäli kappaleet on soitettu muualta kuin playout-softasta, dj syöttää jokaisen biisin käsin. Käytössä on ennakoiva pikahaku, joilla haetaan tietokannasta jo entuudestaan soitettuja kappaleita. Mikäli kappletta ei löydy tietokannasta, dj syöttää kappaleen tiedot käsin. Tiedot tallennetaan tietokantaan ja avoinna olevaan raporttiin.
 
-Käyttäjä kirjautuu etusivulla. Kirjautuneille aukeavassa näkymässä aloitetaan uuden raportin täyttäminen syöttämällä raporttiin ohjelman päivämäärä, kellonaika, ohjelman nimi ja dj:n nimi. Tämän jälkeen syötetään ohjelmassa soineet kappaleet. Valmis raportti merkataan valmiiksi ja tallennetaan.
+Kuukausittaiset raportit toimitetaan eteenpäin tekijänoikeusjärjestöille heidän vaatimassaan formaatissa. Linkki Gramexin raportointiohjeeseen [tässä](https://www.gramex.fi//wp-content/uploads/2018/11/raportointiohje_kaupalliset_radiot_1_7_20091.pdf)
 
-Raportit -näkymässä käyttäjä pääsee selaamaan tunnuksillaan tehtyjä raportteja. Raportit on mahdollista suodattaa päivämäärän ja tilan (valmis/keskeneräinen) mukaan.
+## Toiminnallisuus
+
+Käyttäjä kirjautuu sisään sovelluksen etusivulla. Kirjautuneille aukeavassa näkymässä aloitetaan uuden raportin täyttäminen syöttämällä raporttiin ohjelman päivämäärä, kellonaika, ohjelman nimi ja dj:n nimi. Tämän jälkeen syötetään ohjelmassa soineet kappaleet. Valmis raportti merkataan valmiiksi ja tallennetaan. "Demoversio" yksittäisen raportin näkymästä [täällä](https://student.labranet.jamk.fi/~M6242/harjoitukset/harjoitustyo/index.html)
+
+Raportit -näkymässä käyttäjä pääsee selaamaan tekemiään raportteja. Raportit on mahdollista suodattaa päivämäärän ja tilan (valmis/keskeneräinen) mukaan.
+
+Haku -näkymässä käyttäjä voi hakea tietoa kanvalla soineista biiseistä (esim kuinka monta kertaa kappale x on soinut tietyllä aikavälillä). Haku-sivu pitää sisällään Top-100 -kappaleiden listauksen tietyllä aikavälillä.
 
 Omat tiedot -näkymässä käyttäjä voi muokata yhteystietojaan ja vaihtaa salasanan.
 
-# Toiminnallisuus - admin
+## Toiminnallisuus - admin
 
-Sama kuin peruskäyttäjällä mitä tulee raporttien täyttämiseen ja selaamiseen sekä omien tietojen muokkaamiseen.
+Admineilla perustoiminnallisuuksien lisäksi mahdollisuus selata ja muokata kaikkien käyttäjien kaikkia raportteja, lisätä tai poistaa käyttäjiä tai ohjelmia ja luoda tekijänoikeusjärjestöille lähetettävä siirtotiedosto yhden kuukauden kaikista raporteista. Admin voi monistaa olemassa olevia raportteja. Näin tehdään mikäli ohjelmia lähetetään uusintoina. Alkuperäisen lähetyksen raporttiin vaihdetaan päivämääräksi uusinnan päivämäärä.
 
-Admineilla lisäksi mahdollisuus hallita käyttäjiä, ohjelmia ja luoda siirtotiedostot valmiista raporteista.
+## Kysymyksiä
 
-# Kysymyksiä
+### Biisitietokanta
 
-# Tehdäänkö näitä???
+Kanavan soittotapahtumat on tallennettu MySQL-tietokantaan noin vuoden 2000 alusta alkaen. Tietokannasta löytyy myös olemassaolevat käyttäjät ja heidän raporttinsa. Alla tietokannan taulut:
 
-- Top-100 -sivu
-- haku
+![Tietokannan taulut](readme_img/db_tables.png)
+
+### Tietokanta devauksen aikana
+
+Kannattaako tietokantaa käyttää localhostissa, vai pitäisikö kanta heittää jo johonkin pilvipalveluun? Esim AWS?
+
+### Tietokannan siivoaminen
+
+Vanhasta kannasta löytyy paljon esim duplikaattibiisejä, -artisteja ja -ohjelmia. Onko jotain "helppoa" keinoa näiden siivoamiseen?
+
+### Miten tutkitaan löytyykö playlogista haettuja biisitietoja tietokannasta?
+
+Kun playlogista haetaan kappaleita yksittäiseen raporttiin, täytyy selvittää löytyykö haettuja biisejä tietokannasta. Jos löytyy, niin ko. biisin riviin lisätään timestamp merkkaamaan soittokertaa. Mikäli kappaletta ei löydy, niin se lisätään uutena tietokantaan. Playlogista on saatavilla kaikki lisäykseen tarvittavat tiedot. Ideana siis se, että käyttäjä tekee raportin valmiiksi frontendissä. Vasta kun raportti on ajan tasalla, niin käyttäjä klikkaa "Tallenna" -nappia, ja vasta sitten tehdään tarvittavat tietokantaoperaatiot.
+
+Kuulostaako järkevältä?
+
+### Tarvittavat kirjastot
+
+Mitä kirjastoja sovelluksessa tulisi käyttää? Backendissa ainakin Bcrypt, Body-Parser, Cors, Dotenv, Express, JWT, Sequelize?
+
+### Redux vs hooks
+
+Onko tämän kokoisessa sovelluksessa perusteltua käyttää Reduxia vai riittääkö state hooks? Stateen menisi siis tieto kirjautuneesta käyttäjästä, lista raporteista, raportin lista kappaleista, hakusivujen kappalelistat. Adminilla toki vähän enemmän kuin edellä mainitut.
+
+### Käyttäjien autentikointi
+
+Onko Fullstack-kurssilla opeteltu JSONWebToken -autentikointi soveltuva? Tietokannasta löytyy nykyisen järjestelmän käyttäjät, jotka täytyisi saada tuotua mukaan uuteen sovellukseen.
