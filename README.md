@@ -4,7 +4,7 @@
 
 Harjoitustyön aiheena on uusi kappaletietojen raportointisovellus Radio Helsingille. Sovelluksen käyttäjiä ovat kanavan djt jotka täyttävät raportteihin ohjelmissaan soittamansa kappaleet.
 
-Kappaleita on mahdollista hakea raporttiin studion playout-softan soittologista. Mikäli kappaleet on soitettu muualta kuin playout-softasta, dj syöttää jokaisen biisin käsin. Käytössä on ennakoiva pikahaku, joilla haetaan tietokannasta jo entuudestaan soitettuja kappaleita. Mikäli kappletta ei löydy tietokannasta, dj syöttää kappaleen tiedot käsin. Tiedot tallennetaan tietokantaan ja avoinna olevaan raporttiin.
+Kappaleita on mahdollista hakea raporttiin studion playout-softan soittologista. Mikäli kappaleet on soitettu muualta kuin playout-softasta, dj syöttää jokaisen biisin käsin. Käytössä on ennakoiva pikahaku, joilla haetaan tietokannasta jo entuudestaan soitettuja kappaleita. Mikäli kapplaetta ei löydy tietokannasta, dj syöttää kappaleen tiedot käsin. Tiedot tallennetaan tietokantaan ja avoinna olevaan raporttiin.
 
 Kuukausittaiset raportit toimitetaan eteenpäin tekijänoikeusjärjestöille heidän vaatimassaan formaatissa. Linkki Gramexin raportointiohjeeseen [tässä](https://www.gramex.fi//wp-content/uploads/2018/11/raportointiohje_kaupalliset_radiot_1_7_20091.pdf)
 
