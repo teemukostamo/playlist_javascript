@@ -26,7 +26,7 @@ Admineilla perustoiminnallisuuksien lisäksi mahdollisuus selata ja muokata kaik
 
 ### Biisitietokanta
 
-Kanavan soittotapahtumat on tallennettu MySQL-tietokantaan noin vuoden 2000 alusta alkaen. Tietokannasta löytyy myös olemassaolevat käyttäjät ja heidän raporttinsa. Alla tietokannan taulut:
+Kanavan soittotapahtumat on tallennettu MySQL-tietokantaan noin vuoden 2000 alusta alkaen. Tietokannasta löytyy myös olemassaolevat käyttäjät ja heidän raporttinsa. Kannattaako uudessa sovelluksessa käyttää alkuperäistä tietokantaa vai luoda vanhasta uusi, esim MongoDB-tietookanta? Alla tietokannan taulut:
 
 ![Tietokannan taulut](readme_img/db_tables.png)
 
