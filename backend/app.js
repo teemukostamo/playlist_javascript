@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const artistsRouter = require('./controllers/artists');
 
 // Database
 const db = require('./config/database');
@@ -12,9 +13,14 @@ db.authenticate()
 // initialize app
 const app = express();
 
+app.use(express.static('build'));
+app.use(bodyParser.json());
+
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>');
 });
+
+app.use('/api/artists', artistsRouter);
 
 const PORT = process.env.PORT || 5000;
 

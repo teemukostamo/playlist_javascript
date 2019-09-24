@@ -26,7 +26,7 @@ const Album = db.define('album', {
     type: Sequelize.DATEONLY
   },
   spotify_id: {
-    type: STRING(22)
+    type: Sequelize.STRING(22)
   },
   user_id: {
     type: Sequelize.INTEGER(11)

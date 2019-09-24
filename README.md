@@ -55,3 +55,7 @@ Onko tämän kokoisessa sovelluksessa perusteltua käyttää Reduxia vai riittä
 ### Käyttäjien autentikointi
 
 Onko Fullstack-kurssilla opeteltu JSONWebToken -autentikointi soveltuva? Tietokannasta löytyy nykyisen järjestelmän käyttäjät, jotka täytyisi saada tuotua mukaan uuteen sovellukseen.
+
+### Sequelize foreign key reference
+
+Mysql workbenchissä ei näy foreign key -referenssejä tauluissa. Tulisiko nämä kuitenkin lisätä Sequelize-malleihin?
