@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Program = db.define(
-  'playlist__program',
+const Report_Transfer = db.define(
+  'playlist_report_transfer',
   {
     id: {
       type: Sequelize.INTEGER(11),
@@ -12,18 +12,17 @@ const Program = db.define(
       type: Sequelize.INTEGER(11),
       allowNull: false
     },
-    name: {
-      type: Sequelize.STRING(128),
-      allowNull: false
+    status: {
+      type: Sequelize.TINYINT(4)
     },
-    identifier: {
-      type: Sequelize.STRING
+    filename: {
+      type: Sequelize.STRING(18)
     },
-    display: {
-      type: Sequelize.INTEGER(4)
+    period: {
+      type: Sequelize.DATE
     },
-    site: {
-      type: Sequelize.INTEGER(4)
+    old_id: {
+      type: Sequelize.INTEGER(11)
     },
     created_at: {
       type: Sequelize.DATE
@@ -35,4 +34,4 @@ const Program = db.define(
   { freezeTableName: true, timestamps: false }
 );
 
-module.exports = Program;
+module.exports = Report_Transfer;

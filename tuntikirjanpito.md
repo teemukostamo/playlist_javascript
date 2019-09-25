@@ -8,3 +8,4 @@
 | 4.9.2019  |   2    |        npm init, install packages, test db connection        |
 | 23.9.2019 |   1    |             edited readme, Track & Album models              |
 | 24.9.2019 |   2    |           did rest of the models & one test route            |
+| 25.9.2019 |   2    |              more get routes, create react app               |

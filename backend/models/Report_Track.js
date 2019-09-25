@@ -1,29 +1,32 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
-const Program = db.define(
-  'playlist__program',
+const Report_Track = db.define(
+  'playlist__report_track',
   {
     id: {
       type: Sequelize.INTEGER(11),
       primaryKey: true
     },
-    user_id: {
+    track_id: {
       type: Sequelize.INTEGER(11),
       allowNull: false
     },
-    name: {
-      type: Sequelize.STRING(128),
+    report_id: {
+      type: Sequelize.INTEGER(11),
       allowNull: false
     },
-    identifier: {
-      type: Sequelize.STRING
+    length: {
+      type: Sequelize.SMALLINT(6)
     },
-    display: {
-      type: Sequelize.INTEGER(4)
+    comment: {
+      type: Sequelize.TEXT
     },
-    site: {
-      type: Sequelize.INTEGER(4)
+    old_id: {
+      type: Sequelize.INTEGER(11)
+    },
+    sortable_rank: {
+      type: Sequelize.INTEGER(11)
     },
     created_at: {
       type: Sequelize.DATE
@@ -35,4 +38,4 @@ const Program = db.define(
   { freezeTableName: true, timestamps: false }
 );
 
-module.exports = Program;
+module.exports = Report_Track;

@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const artistsRouter = require('./controllers/artists');
+const tracksRouter = require('./controllers/tracks');
+const albumsRouter = require('./controllers/albums');
+const usersRouter = require('./controllers/users');
 
 // Database
 const db = require('./config/database');
@@ -21,6 +25,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/artists', artistsRouter);
+app.use('/api/tracks', tracksRouter);
+app.use('/api/albums', albumsRouter);
+app.use('/api/users', usersRouter);
 
 const PORT = process.env.PORT || 5000;
 
