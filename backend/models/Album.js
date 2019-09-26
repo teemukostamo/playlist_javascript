@@ -6,7 +6,8 @@ const Album = db.define(
   {
     id: {
       type: Sequelize.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     artist_id: {
       type: Sequelize.INTEGER,

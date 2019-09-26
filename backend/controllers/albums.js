@@ -16,4 +16,6 @@ albumsRouter.get('/:id', async (req, res, next) => {
   }
 });
 
+// add album
+
 module.exports = albumsRouter;

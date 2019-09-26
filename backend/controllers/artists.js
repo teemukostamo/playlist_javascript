@@ -16,4 +16,25 @@ artistsRouter.get('/:id', async (req, res, next) => {
   }
 });
 
+// add artist
+artistsRouter.post('/', async (req, res, next) => {
+  try {
+    if (req.body.name === undefined) {
+      return res.status(400).json({ error: 'content missing' });
+    }
+
+    let { name, spotify_id, old_id, user_id } = req.body;
+
+    const savedArtist = await Artist.create({
+      name,
+      spotify_id,
+      old_id,
+      user_id
+    });
+    res.status(201).json(savedArtist.toJSON());
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 module.exports = artistsRouter;

@@ -6,7 +6,8 @@ const Track = db.define(
   {
     id: {
       type: Sequelize.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     artist_id: {
       type: Sequelize.INTEGER,
@@ -17,8 +18,7 @@ const Track = db.define(
       allowNull: false
     },
     identifier: {
-      type: Sequelize.STRING,
-      len: [0, 150]
+      type: Sequelize.STRING(150)
     },
     label: {
       type: Sequelize.STRING
@@ -28,16 +28,13 @@ const Track = db.define(
       allowNull: false
     },
     side: {
-      type: Sequelize.INTEGER,
-      len: [1, 4]
+      type: Sequelize.TINYINT(4)
     },
     track_no: {
-      type: Sequelize.INTEGER,
-      len: [1, 11]
+      type: Sequelize.INTEGER(11)
     },
     length: {
-      type: Sequelize.INTEGER,
-      len: [1, 6]
+      type: Sequelize.SMALLINT(6)
     },
     people: {
       type: Sequelize.TEXT
@@ -49,16 +46,13 @@ const Track = db.define(
       type: Sequelize.TEXT
     },
     record_country: {
-      type: Sequelize.STRING,
-      len: [0, 2]
+      type: Sequelize.STRING(2)
     },
     country: {
-      type: Sequelize.INTEGER,
-      len: [0, 4]
+      type: Sequelize.TINYINT(4)
     },
     fixed: {
-      type: Sequelize.INTEGER,
-      len: [0, 4]
+      type: Sequelize.TINYINT(4)
     },
     isrc: {
       type: Sequelize.STRING(12)

@@ -6,11 +6,13 @@ const User = db.define(
   {
     id: {
       type: Sequelize.INTEGER(11),
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     username: {
       type: Sequelize.STRING(64),
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     password: {
       type: Sequelize.STRING(40),

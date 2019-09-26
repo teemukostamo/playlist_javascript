@@ -6,7 +6,8 @@ const Artist = db.define(
   {
     id: {
       type: Sequelize.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     name: {
       type: Sequelize.STRING,
@@ -28,7 +29,11 @@ const Artist = db.define(
       type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false }
+  {
+    freezeTableName: true,
+    timestamps: true,
+    underscored: true
+  }
 );
 
 module.exports = Artist;
