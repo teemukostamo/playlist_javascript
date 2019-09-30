@@ -31,7 +31,15 @@ const Report_Transfer = db.define(
       type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: ['user_id']
+      }
+    ]
+  }
 );
 
 module.exports = Report_Transfer;

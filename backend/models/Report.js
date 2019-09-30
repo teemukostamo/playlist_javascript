@@ -47,7 +47,15 @@ const Report = db.define(
       type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: ['program_date', 'status', 'program_id', 'user_id']
+      }
+    ]
+  }
 );
 
 module.exports = Report;

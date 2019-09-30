@@ -42,7 +42,15 @@ const Album = db.define(
       type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: ['artist_id', 'name']
+      }
+    ]
+  }
 );
 
 module.exports = Album;

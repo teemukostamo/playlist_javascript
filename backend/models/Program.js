@@ -32,7 +32,15 @@ const Program = db.define(
       type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: ['user_id', 'name']
+      }
+    ]
+  }
 );
 
 module.exports = Program;

@@ -33,6 +33,14 @@ const Artist = db.define(
     freezeTableName: true,
     timestamps: true,
     underscored: true
+  },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: ['name']
+      }
+    ]
   }
 );
 

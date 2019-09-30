@@ -64,7 +64,15 @@ const User = db.define(
       type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false },
+  {
+    indexes: [
+      {
+        unique: true,
+        fields: ['username']
+      }
+    ]
+  }
 );
 
 module.exports = User;

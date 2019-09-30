@@ -79,7 +79,22 @@ const Track = db.define(
       type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: [
+          'name',
+          'artist_id',
+          'album_id',
+          'user_id',
+          'file_order',
+          'file'
+        ]
+      }
+    ]
+  }
 );
 
 module.exports = Track;

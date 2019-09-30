@@ -35,7 +35,15 @@ const Report_Track = db.define(
       type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: ['track_id', 'report_id']
+      }
+    ]
+  }
 );
 
 module.exports = Report_Track;
