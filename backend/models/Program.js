@@ -24,15 +24,15 @@ const Program = db.define(
     },
     site: {
       type: Sequelize.INTEGER(4)
-    },
-    created_at: {
-      type: Sequelize.DATE
-    },
-    updated_at: {
-      type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false },
+  {
+    freezeTableName: true,
+    timestamps: true,
+    underscored: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
   {
     indexes: [
       {

@@ -27,15 +27,15 @@ const Report_Track = db.define(
     },
     sortable_rank: {
       type: Sequelize.INTEGER(11)
-    },
-    created_at: {
-      type: Sequelize.DATE
-    },
-    updated_at: {
-      type: Sequelize.DATE
     }
   },
-  { freezeTableName: true, timestamps: false },
+  {
+    freezeTableName: true,
+    timestamps: true,
+    underscored: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
   {
     indexes: [
       {

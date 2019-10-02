@@ -21,18 +21,14 @@ const Artist = db.define(
     },
     user_id: {
       type: Sequelize.INTEGER(11)
-    },
-    created_at: {
-      type: Sequelize.DATE
-    },
-    updated_at: {
-      type: Sequelize.DATE
     }
   },
   {
     freezeTableName: true,
     timestamps: true,
-    underscored: true
+    underscored: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   },
   {
     indexes: [
