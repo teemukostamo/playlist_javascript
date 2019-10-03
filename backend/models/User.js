@@ -15,7 +15,7 @@ const User = db.define(
       unique: true
     },
     password: {
-      type: Sequelize.STRING(40),
+      type: Sequelize.STRING(64),
       allowNull: false
     },
     first_name: {

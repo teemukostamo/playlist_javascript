@@ -1,7 +1,8 @@
+const config = require('./config');
 const Sequelize = require('sequelize');
 
-module.exports = new Sequelize('playlist', 'root', 'salainen', {
-  host: 'localhost',
+module.exports = new Sequelize('rh_playlist', 'root', config.DB_SECRET, {
+  host: config.DB_URI,
   dialect: 'mysql',
 
   pool: {

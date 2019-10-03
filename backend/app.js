@@ -9,8 +9,6 @@ const albumsRouter = require('./controllers/albums');
 const usersRouter = require('./controllers/users');
 const middleware = require('./config/middleware');
 
-console.log('connecting to', config.DB_URI);
-
 // Database
 const db = require('./config/database');
 
