@@ -12,3 +12,6 @@
 | 26.9.2019 |   2    |                models fixing, artist post route                |
 | 30.9.2019 |   1    |                    added indexes to models                     |
 | 1.10.2019 |   1    | fixed model timestamps to underscored, added logger middleware |
+| 3.10.2019 |   2    |       solved password too long, db to aws, initial tests       |
+| 4.10.2019 |   1    |                        create user test                        |
+| 8.10.2019 |   2    |                           more tests                           |
