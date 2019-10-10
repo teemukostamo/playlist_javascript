@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
+import Button from './components/Button';
 
 const App = props => {
-  const [counter, setCounter] = useState(0);
+  const [value, setValue] = useState(10);
 
-  const handleClick = () => {
-    console.log('clicked');
-    setCounter(counter + 1);
+  const setToValue = newValue => {
+    console.log('klik');
+    setValue(newValue);
   };
+
   return (
     <div>
-      <div>{counter}</div>
-      <button onClick={handleClick}>plus</button>
+      {value}
+      <Button handleClick={() => setToValue(1000)} text="thoustn" />
+      <Button handleClick={() => setToValue(0)} text="zero" />
+      <Button handleClick={() => setToValue(value + 1)} text="inc" />
     </div>
   );
 };

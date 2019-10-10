@@ -13,9 +13,7 @@ usersRouter.get('/', async (req, res) => {
 usersRouter.get('/:id', async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.params.id } });
-    console.log(user);
     if (user) {
-      console.log('usersrouter log', user);
       res.json(user.toJSON());
     } else {
       res.status(404).end();
@@ -28,40 +26,39 @@ usersRouter.get('/:id', async (req, res, next) => {
 // add a user
 usersRouter.post('/', async (req, res, next) => {
   try {
-    let {
-      username,
-      password,
-      first_name,
-      last_name,
-      email,
-      address,
-      zip,
-      city,
-      country,
-      phone,
-      status,
-      level,
-      last_seen,
-      reset_key,
-      old_id
-    } = req.body;
-
-    // see if user exists
+    // see if user exists, send status 400 if not
     const existingUser = await User.findOne({
       where: { username: req.body.username }
     });
-
     if (existingUser !== null) {
       return res.status(400).json({ error: 'User already exists!' });
     } else {
+      // destructure values from req.body
+      let {
+        username,
+        first_name,
+        last_name,
+        email,
+        address,
+        zip,
+        city,
+        country,
+        phone,
+        status,
+        level,
+        last_seen,
+        reset_key,
+        old_id
+      } = req.body;
+
       // hash password
-      // const saltRounds = 10;
-      // const password = await bcrypt.hash(req.body.password, saltRounds);
+      const saltRounds = 10;
+      const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
 
       // create new user
       const savedUser = await User.create({
         username,
-        password,
+        password: passwordHash,
         first_name,
         last_name,
         email,
@@ -76,7 +73,6 @@ usersRouter.post('/', async (req, res, next) => {
         reset_key,
         old_id
       });
-      console.log('saved new user from userRouter', savedUser);
       res.status(201).json(savedUser.toJSON());
     }
   } catch (exception) {
