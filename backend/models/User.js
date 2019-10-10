@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 const db = require('../config/database');
 
@@ -60,6 +61,14 @@ const User = db.define(
   },
   {
     freezeTableName: true,
+    instanceMethods: {
+      generateHash(password) {
+        return bcrypt.hash(password, bcrypt.genSaltSync(10));
+      },
+      validPassword(password) {
+        return bcrypt.compare(password, this.password);
+      }
+    },
     timestamps: true,
     underscored: true,
     createdAt: 'created_at',

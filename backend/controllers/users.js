@@ -30,6 +30,7 @@ usersRouter.post('/', async (req, res, next) => {
   try {
     let {
       username,
+      password,
       first_name,
       last_name,
       email,
@@ -54,8 +55,8 @@ usersRouter.post('/', async (req, res, next) => {
       return res.status(400).json({ error: 'User already exists!' });
     } else {
       // hash password
-      const saltRounds = 10;
-      const password = await bcrypt.hash(req.body.password, saltRounds);
+      // const saltRounds = 10;
+      // const password = await bcrypt.hash(req.body.password, saltRounds);
 
       // create new user
       const savedUser = await User.create({

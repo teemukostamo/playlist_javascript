@@ -1,5 +1,6 @@
 const supertest = require('supertest');
 const app = require('../app');
+const dbConnection = require('../config/database');
 
 const api = supertest(app);
 
@@ -21,4 +22,10 @@ test('the track identifier is ', async () => {
   const response = await api.get('/api/tracks/1234');
 
   expect(response.body.identifier).toBe('DIFB100CDP');
+});
+
+afterAll(async done => {
+  // Closing the DB connection allows Jest to exit successfully.
+  dbConnection.close();
+  done();
 });

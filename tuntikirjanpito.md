@@ -15,3 +15,4 @@
 | 3.10.2019 |   2    |       solved password too long, db to aws, initial tests       |
 | 4.10.2019 |   1    |                        create user test                        |
 | 8.10.2019 |   2    |                           more tests                           |
+| 9.10.2019 |   2    |                          login router                          |
