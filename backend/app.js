@@ -1,5 +1,6 @@
 const config = require('./config/config');
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
@@ -16,7 +17,7 @@ db.authenticate()
   .then(() => console.log('Database connected...'))
   .catch(err => console.log('Error: ' + err));
 
-app.use(express.static('build'));
+app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(middleware.logger);
