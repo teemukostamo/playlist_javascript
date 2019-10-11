@@ -1,6 +1,7 @@
 const config = require('./config/config');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 
 const artistsRouter = require('./controllers/artists');
@@ -10,18 +11,14 @@ const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const middleware = require('./config/middleware');
 
-// Database
 const db = require('./config/database');
-
-// Test DB
 db.authenticate()
   .then(() => console.log('Database connected...'))
   .catch(err => console.log('Error: ' + err));
 
-// initialize app
-
 app.use(express.static('build'));
 app.use(bodyParser.json());
+app.use(cors());
 app.use(middleware.logger);
 app.use(middleware.tokenExtractor);
 
