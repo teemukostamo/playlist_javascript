@@ -19,4 +19,4 @@
 | 10.10.2019 |    2    |                    login router & jwt signing works                     |
 | 10.10.2019 |    2    |         added authentication to add artist route, more frontend         |
 | 11.10.2019 |    3    |       cors, login at frontend, simple styles, heroku first steps        |
-| 11.10.2019 |    2    | heroku tutorials on how to deploy when front- and backends in same repo |
+| 11.10.2019 |    3    | heroku tutorials on how to deploy when front- and backends in same repo |
