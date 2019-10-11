@@ -2,13 +2,20 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Fullstack harjoitustyö backend",
+  "engines": {
+    "node": "10.x"
+  },
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
-    "start:test": "cross-env NODE_ENV=test node index.js",
+    "start": "cross-env NODE_ENV=production node backend",
+    "start:test": "cross-env NODE_ENV=test node backend",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "watch": "cross-env NODE_ENV=development nodemon index.js"
+    "watch": "cross-env NODE_ENV=development nodemon backend"
   },
+  "cacheDirectories": [
+    "node_modules",
+    "frontend/node_modules"
+  ],
   "author": "Teemu Kostamo",
   "license": "ISC",
   "dependencies": {
@@ -22,6 +29,16 @@
     "mysql2": "^1.7.0",
     "sequelize": "^5.18.1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teemukostamo/fullstack_harjoitustyo.git"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
   "devDependencies": {
     "cross-env": "^6.0.2",
     "jest": "^24.9.0",
