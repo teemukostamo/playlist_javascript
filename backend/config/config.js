@@ -1,5 +1,5 @@
-'use strict';
-const fs = require('fs');
+// const fs = require('fs');
+require('dotenv').config();
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -10,24 +10,11 @@ let DB_URI = process.env.DB_URI;
 let DB_URI_GOOGLE = process.env.DB_URI_GOOGLE;
 let DB_SECRET = process.env.DB_SECRET;
 
-// SSL keys encoding for heroku
+// SSL keys decoded from base64 for heroku
 let CLIENT_CERT = Buffer.from(process.env.CLIENT_CERT, 'base64');
 let CLIENT_KEY = Buffer.from(process.env.CLIENT_KEY, 'base64');
 let SERVER_CA = Buffer.from(process.env.SERVER_CA, 'base64');
 
-console.log('client cert from .env', process.env.CLIENT_CERT);
-console.log(
-  'client cert decoded back to string',
-  CLIENT_CERT.toString('base64')
-);
-
-// base64 encoding ssl keys for heroku
-let encodeattempt = Buffer.from(
-  fs.readFileSync(__dirname + '/certs/client-key.pem'),
-  'base64'
-);
-
-console.log('encodeattempt', encodeattempt);
 // let client_key_base64data = client_key_for_heroku.toString('base64');
 // console.log('Client key converted to base 64 is:\n\n', client_key_base64data);
 
