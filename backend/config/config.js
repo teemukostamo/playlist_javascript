@@ -10,18 +10,9 @@ let DB_URI_GOOGLE = process.env.DB_URI_GOOGLE;
 let DB_SECRET = process.env.DB_SECRET;
 
 // SSL keys for heroku
-let CLIENT_CERT = Buffer.from(
-  process.env.CLIENT_CERT.replace(/\\n/g, '\n'),
-  'base64'
-);
-let CLIENT_KEY = Buffer.from(
-  process.env.CLIENT_KEY.replace(/\\n/g, '\n'),
-  'base64'
-);
-let SERVER_CA = Buffer.from(
-  process.env.SERVER_CA.replace(/\\n/g, '\n'),
-  'base64'
-);
+let CLIENT_CERT = Buffer.from(process.env.CLIENT_CERT_V2, 'base64');
+let CLIENT_KEY = Buffer.from(process.env.CLIENT_KEY_V2, 'base64');
+let SERVER_CA = Buffer.from(process.env.SERVER_CA_V2, 'base64');
 
 // base64 encoding ssl keys for heroku
 // let client_key_for_heroku = fs.readFileSync(
