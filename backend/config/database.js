@@ -1,7 +1,27 @@
-const config = require('./config');
 const fs = require('fs');
+const config = require('./config');
 const Sequelize = require('sequelize');
-const mysql = require('mysql2');
+
+module.exports = new Sequelize('playlist', 'root', config.DB_SECRET, {
+  host: config.DB_URI_GOOGLE,
+  dialect: 'mysql',
+  dialectOptions: {
+    ssl: {
+      key: fs.readFileSync(__dirname + '/certs/client-key.pem'),
+      cert: fs.readFileSync(__dirname + '/certs/client-cert.pem'),
+      ca: fs.readFileSync(__dirname + '/certs/server-ca.pem')
+    }
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  }
+});
+
+// const mysql = require('mysql2');
+// const fs = require('fs');
 
 // const connection = mysql.createConnection({
 //   host: config.DB_URI_GOOGLE,
@@ -24,29 +44,10 @@ const mysql = require('mysql2');
 
 // connection.end();
 
-module.exports = new Sequelize('playlist', 'root', config.DB_SECRET, {
-  host: config.DB_URI_GOOGLE,
-  dialect: 'mysql',
-
-  // dialectOptions: {
-  //   ssl: {
-  //     key: fs.readFileSync(__dirname + '/certs/client-key.pem'),
-  //     cert: fs.readFileSync(__dirname + '/certs/client-cert.pem'),
-  //     ca: fs.readFileSync(__dirname + '/certs/server-ca.pem')
-  //   }
-  // },
-  dialectOptions: {
-    ssl: {
-      key: config.CLIENT_KEY,
-      cert: config.CLIENT_CERT,
-      ca: config.SERVER_CA
-    }
-  },
-
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-});
+// dialectOptions: {
+//   ssl: {
+//     key: fs.readFileSync(__dirname + '/certs/client-key.pem'),
+//     cert: fs.readFileSync(__dirname + '/certs/client-cert.pem'),
+//     ca: fs.readFileSync(__dirname + '/certs/server-ca.pem')
+//   }
+// },
