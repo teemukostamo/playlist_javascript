@@ -1,3 +1,4 @@
+'use strict';
 const fs = require('fs');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -9,10 +10,21 @@ let DB_URI = process.env.DB_URI;
 let DB_URI_GOOGLE = process.env.DB_URI_GOOGLE;
 let DB_SECRET = process.env.DB_SECRET;
 
-// SSL keys for heroku
-let CLIENT_CERT = Buffer.from(process.env.CLIENT_CERT_V2, 'base64');
-let CLIENT_KEY = Buffer.from(process.env.CLIENT_KEY_V2, 'base64');
-let SERVER_CA = Buffer.from(process.env.SERVER_CA_V2, 'base64');
+// SSL keys encoding for heroku
+let CLIENT_CERT = Buffer.from(process.env.CLIENT_CERT, 'base64');
+let CLIENT_KEY = Buffer.from(process.env.CLIENT_KEY, 'base64');
+let SERVER_CA = Buffer.from(process.env.SERVER_CA, 'base64');
+
+console.log('client cert from .env', process.env.CLIENT_CERT);
+console.log(
+  'client cert decoded back to string',
+  CLIENT_CERT.toString('base64')
+);
+
+console.log(
+  'another decoding attempt',
+  Buffer.from(CLIENT_CERT.toString('utf8'))
+);
 
 // base64 encoding ssl keys for heroku
 // let client_key_for_heroku = fs.readFileSync(

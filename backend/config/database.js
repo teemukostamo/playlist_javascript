@@ -1,15 +1,15 @@
-const fs = require('fs');
 const config = require('./config');
 const Sequelize = require('sequelize');
+console.log('decoded cert', config.CLIENT_CERT.toString('base64'));
 
 module.exports = new Sequelize('playlist', 'root', config.DB_SECRET, {
   host: config.DB_URI_GOOGLE,
   dialect: 'mysql',
   dialectOptions: {
     ssl: {
-      key: fs.readFileSync(__dirname + '/certs/client-key.pem'),
-      cert: fs.readFileSync(__dirname + '/certs/client-cert.pem'),
-      ca: fs.readFileSync(__dirname + '/certs/server-ca.pem')
+      key: config.CLIENT_KEY.toString('base64'),
+      cert: config.CLIENT_CERT.toString('base64'),
+      ca: config.SERVER_CA.toString('base64')
     }
   },
   pool: {

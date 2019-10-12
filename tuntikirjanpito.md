@@ -20,4 +20,4 @@
 | 10.10.2019 |    2    |         added authentication to add artist route, more frontend         |
 | 11.10.2019 |    3    |       cors, login at frontend, simple styles, heroku first steps        |
 | 11.10.2019 |    3    | heroku tutorials on how to deploy when front- and backends in same repo |
-| 12.10.2019 |    3    |           switched to google cloud db. heroku & ssl's base64            |
+| 12.10.2019 |    5    |     switched to google cloud db. heroku & ssl's base64 not working      |
