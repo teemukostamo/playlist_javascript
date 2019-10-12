@@ -7,9 +7,9 @@ module.exports = new Sequelize('playlist', 'root', config.DB_SECRET, {
   dialect: 'mysql',
   dialectOptions: {
     ssl: {
-      key: config.CLIENT_KEY.toString('base64'),
-      cert: config.CLIENT_CERT.toString('base64'),
-      ca: config.SERVER_CA.toString('base64')
+      key: config.CLIENT_KEY,
+      cert: config.CLIENT_CERT,
+      ca: config.SERVER_CA
     }
   },
   pool: {

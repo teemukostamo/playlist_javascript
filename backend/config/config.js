@@ -21,15 +21,13 @@ console.log(
   CLIENT_CERT.toString('base64')
 );
 
-console.log(
-  'another decoding attempt',
-  Buffer.from(CLIENT_CERT.toString('utf8'))
+// base64 encoding ssl keys for heroku
+let encodeattempt = Buffer.from(
+  fs.readFileSync(__dirname + '/certs/client-key.pem'),
+  'base64'
 );
 
-// base64 encoding ssl keys for heroku
-// let client_key_for_heroku = fs.readFileSync(
-//   __dirname + '/certs/client-key.pem'
-// );
+console.log('encodeattempt', encodeattempt);
 // let client_key_base64data = client_key_for_heroku.toString('base64');
 // console.log('Client key converted to base 64 is:\n\n', client_key_base64data);
 
