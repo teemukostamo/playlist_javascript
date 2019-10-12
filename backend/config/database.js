@@ -28,11 +28,18 @@ module.exports = new Sequelize('playlist', 'root', config.DB_SECRET, {
   host: config.DB_URI_GOOGLE,
   dialect: 'mysql',
 
+  // dialectOptions: {
+  //   ssl: {
+  //     key: fs.readFileSync(__dirname + '/certs/client-key.pem'),
+  //     cert: fs.readFileSync(__dirname + '/certs/client-cert.pem'),
+  //     ca: fs.readFileSync(__dirname + '/certs/server-ca.pem')
+  //   }
+  // },
   dialectOptions: {
     ssl: {
-      key: fs.readFileSync(__dirname + '/certs/client-key.pem'),
-      cert: fs.readFileSync(__dirname + '/certs/client-cert.pem'),
-      ca: fs.readFileSync(__dirname + '/certs/server-ca.pem')
+      key: config.CLIENT_KEY,
+      cert: config.CLIENT_CERT,
+      ca: config.SERVER_CA
     }
   },
 
