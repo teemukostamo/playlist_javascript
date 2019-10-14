@@ -1,6 +1,7 @@
 const config = require('./config');
 const Sequelize = require('sequelize');
 console.log('db url at database.js', config.DB_URI_GOOGLE);
+console.log('db url as process env at database.js', process.env.DB_URI_GOOGLE);
 
 module.exports = new Sequelize(config.DB_NAME, 'root', config.DB_SECRET, {
   host: config.DB_URI_GOOGLE,
