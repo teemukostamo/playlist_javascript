@@ -19,6 +19,14 @@ db.authenticate()
   .catch(err => console.log('Error: ' + err));
 
 app.use(express.static(path.resolve(__dirname, '../frontend/build')));
+// production mode
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  app.get('*', (req, res) => {
+    res.sendfile(path.join((__dirname = '../frontend/build/index.html')));
+  });
+}
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(middleware.logger);
