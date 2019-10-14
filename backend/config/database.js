@@ -1,9 +1,17 @@
 const config = require('./config');
 const Sequelize = require('sequelize');
+console.log('db url at database.js', config.DB_URI_GOOGLE);
 
-module.exports = new Sequelize('playlist', 'root', config.DB_SECRET, {
-  host: 'localhost',
+module.exports = new Sequelize(config.DB_NAME, 'root', config.DB_SECRET, {
+  host: config.DB_URI_GOOGLE,
   dialect: 'mysql',
+  dialectOptions: {
+    ssl: {
+      key: config.CLIENT_KEY,
+      cert: config.CLIENT_CERT,
+      ca: config.SERVER_CA
+    }
+  },
   pool: {
     max: 5,
     min: 0,
@@ -11,24 +19,6 @@ module.exports = new Sequelize('playlist', 'root', config.DB_SECRET, {
     idle: 10000
   }
 });
-
-// module.exports = new Sequelize('playlist', 'root', config.DB_SECRET, {
-//   host: config.DB_URI_GOOGLE,
-//   dialect: 'mysql',
-//   dialectOptions: {
-//     ssl: {
-//       key: config.CLIENT_KEY,
-//       cert: config.CLIENT_CERT,
-//       ca: config.SERVER_CA
-//     }
-//   },
-//   pool: {
-//     max: 5,
-//     min: 0,
-//     acquire: 30000,
-//     idle: 10000
-//   }
-// });
 
 // const mysql = require('mysql2');
 // const fs = require('fs');

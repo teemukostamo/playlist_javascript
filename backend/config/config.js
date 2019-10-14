@@ -1,5 +1,4 @@
 // const fs = require('fs');
-require('dotenv').config();
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -8,6 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 let PORT = process.env.PORT || 5000;
 let DB_URI = process.env.DB_URI;
 let DB_URI_GOOGLE = process.env.DB_URI_GOOGLE;
+let DB_NAME = process.env.DB_NAME;
 let DB_SECRET = process.env.DB_SECRET;
 
 // SSL keys decoded from base64 for heroku
@@ -35,6 +35,7 @@ if (process.env.NODE_ENV === 'test') {
 module.exports = {
   DB_URI,
   DB_URI_GOOGLE,
+  DB_NAME,
   DB_SECRET,
   PORT,
   CLIENT_KEY,
