@@ -18,13 +18,16 @@ db.authenticate()
   .then(() => console.log('Database connected...'))
   .catch(err => console.log('Error: ' + err));
 
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '/frontend/build/index.html'), err => {
-    if (err) {
-      res.status(500).send(err);
+  res.sendFile(
+    path.resolve(__dirname, '../', 'frontend', 'build', 'index.html'),
+    err => {
+      if (err) {
+        res.status(500).send(err);
+      }
     }
-  });
+  );
 });
 
 app.use(bodyParser.json());
