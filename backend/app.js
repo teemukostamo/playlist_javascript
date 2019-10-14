@@ -19,6 +19,10 @@ db.authenticate()
   .catch(err => console.log('Error: ' + err));
 
 app.use(express.static(path.resolve(__dirname, '../frontend/build')));
+// All remaining requests return the React app, so it can handle routing.
+app.get('/', function(req, res) {
+  res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
+});
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -39,11 +43,6 @@ if (process.env.NODE_ENV === 'test') {
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
-
-// All remaining requests return the React app, so it can handle routing.
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
-});
 
 // const PORT = process.env.PORT || 5000;
 
