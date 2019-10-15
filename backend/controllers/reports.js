@@ -2,6 +2,8 @@ const reportsRouter = require('express').Router();
 const Report = require('../models/Report');
 const ReportTrack = require('../models/Report_Track');
 
+// rerun null = suora, 1 = uusinta
+
 // find report by user id
 // reportsRouter.get('/:id', async (req, res, next) => {
 //   try {

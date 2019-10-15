@@ -1,13 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import loginService from './services/login';
 
+import UserList from './components/UserList';
+import LoginForm from './components/LoginForm';
 import Notification from './components/Notification';
+
+import loginService from './services/login';
+import userService from './services/users';
+import { useField } from './hooks';
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [userList, setUserList] = useState([]);
+  const username = useField('text');
+  const password = useField('password');
+
   const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    console.log(userService);
+    userService.getAll();
+    userService.getAll().then(initialUsers => {
+      setUserList(initialUsers);
+    });
+  }, []);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
@@ -24,8 +39,8 @@ const App = () => {
     console.log('logging in with', username, password);
     try {
       const user = await loginService.login({
-        username,
-        password
+        username: username.attributes.value,
+        password: password.attributes.value
       });
       window.localStorage.setItem('loggedUser', JSON.stringify(user));
       setUser(user);
@@ -33,9 +48,6 @@ const App = () => {
 
       // set token for user here
       // playlistService.setToken(user.token);
-
-      setUsername('');
-      setPassword('');
     } catch (exception) {
       setErrorMessage('wrong credz');
       setTimeout(() => {
@@ -52,30 +64,23 @@ const App = () => {
   if (user === null) {
     return (
       <div>
-        <h2>Login</h2>
+        <h2>Login to system</h2>
         <Notification message={errorMessage} />
-        <form onSubmit={handleLogin}>
-          <input
-            type="text"
-            value={username}
-            placeholder="Käyttäjätunnus"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-          <input
-            type="password"
-            value={password}
-            placeholder="Salasana"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-          <button type="submit">Kirjaudu</button>
-        </form>{' '}
+        <LoginForm
+          username={username.attributes}
+          password={password.attributes}
+          onSubmit={handleLogin}
+        />
       </div>
     );
   }
+  console.log(userList);
   return (
     <div>
       Logged in as {user.username}
       <button onClick={handleLogout}>logout</button>
+      <h2>Usernmaes</h2>
+      <UserList userList={userList} />
     </div>
   );
 };

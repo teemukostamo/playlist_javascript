@@ -80,4 +80,7 @@ usersRouter.post('/', async (req, res, next) => {
   }
 });
 
+// update user
+usersRouter.put('/:id', (req, res, next) => {});
+
 module.exports = usersRouter;

@@ -21,4 +21,5 @@
 | 11.10.2019 |    3    |       cors, login at frontend, simple styles, heroku first steps        |
 | 11.10.2019 |    3    | heroku tutorials on how to deploy when front- and backends in same repo |
 | 12.10.2019 |    5    |     switched to google cloud db. heroku & ssl's base64 not working      |
-| 14.10.2019 |    4    |          fixed heroku env vars, attempting to serve index.html          |
+| 14.10.2019 | 4 (41h) |          fixed heroku env vars, attempting to serve index.html          |
+| 15.10.2019 |    4    |   get users on frontend, custom hook for forms, refactored loginform    |
