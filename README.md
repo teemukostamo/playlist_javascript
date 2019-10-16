@@ -30,10 +30,6 @@ Kanavan soittotapahtumat on tallennettu MySQL-tietokantaan noin vuoden 2000 alus
 
 ![Tietokannan taulut](readme_img/db_tables.png)
 
-### Tietokanta devauksen aikana
-
-Kannattaako tietokantaa käyttää localhostissa, vai pitäisikö kanta heittää jo johonkin pilvipalveluun? Esim AWS?
-
 ### Tietokannan siivoaminen
 
 Vanhasta kannasta löytyy paljon esim duplikaattibiisejä, -artisteja ja -ohjelmia. Onko jotain "helppoa" keinoa näiden siivoamiseen?

@@ -11,6 +11,10 @@ const Album = db.define(
     },
     artist_id: {
       type: Sequelize.INTEGER,
+      references: {
+        model: 'playlist__artist',
+        key: 'id'
+      },
       allowNull: false
     },
     name: {

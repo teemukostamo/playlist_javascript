@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Report = require('./Report');
 
 const Program = db.define(
   'playlist__program',

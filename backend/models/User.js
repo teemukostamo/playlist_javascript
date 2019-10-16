@@ -1,5 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+const Report = require('./Report');
+const Program = require('./Program');
+const Report_Transfer = require('./Report_Transfer');
 
 const User = db.define(
   'playlist__user',
@@ -74,5 +77,9 @@ const User = db.define(
     ]
   }
 );
+
+User.hasMany(Report);
+User.hasMany(Program);
+User.hasMany(Report_Transfer);
 
 module.exports = User;

@@ -25,6 +25,10 @@ const errorHandler = (error, req, res, next) => {
     return res.status(500).json({
       error: 'SequelizeAccessDeniedError: error accessing database'
     });
+  } else if (error.name === 'SequelizeDatabaseError') {
+    return res.status(500).json({
+      error
+    });
   }
 
   next(error);

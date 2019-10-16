@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import UserList from './components/UserList';
+import ReportList from './components/ReportList';
 import LoginForm from './components/LoginForm';
 import Notification from './components/Notification';
 
@@ -79,6 +80,8 @@ const App = () => {
     <div>
       Logged in as {user.username}
       <button onClick={handleLogout}>logout</button>
+      <h2>Reports</h2>
+      <ReportList />
       <h2>Usernmaes</h2>
       <UserList userList={userList} />
     </div>

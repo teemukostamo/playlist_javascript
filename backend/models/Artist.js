@@ -27,6 +27,7 @@ const Artist = db.define(
     freezeTableName: true,
     timestamps: true,
     underscored: true,
+    modelName: 'artist',
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   },
