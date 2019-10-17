@@ -1,68 +1,53 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useField } from './hooks';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import UserList from './components/UserList';
 import ReportList from './components/ReportList';
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/forms/LoginForm';
 import Notification from './components/Notification';
 
-import loginService from './services/login';
-import userService from './services/users';
-import { useField } from './hooks';
+import { initializeUsers } from './reducers/userReducer';
+import { initializeUser, newLogin, logout } from './reducers/loginReducer';
+import { getOneReport } from './reducers/reportReducer';
+import { showNotificationWithTimeout } from './reducers/notificationReducer';
 
-const App = () => {
-  const [user, setUser] = useState(null);
+const App = props => {
   const [userList, setUserList] = useState([]);
   const username = useField('text');
   const password = useField('password');
-
   const [errorMessage, setErrorMessage] = useState(null);
 
+  // initial logged in user
   useEffect(() => {
-    console.log(userService);
-    userService.getAll();
-    userService.getAll().then(initialUsers => {
-      setUserList(initialUsers);
-    });
+    props.initializeUser();
   }, []);
 
+  // initial users list
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedUser');
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      // set token to playlistservice
-      // playlistService.setToken(user.token);
-    }
+    props.initializeUsers();
   }, []);
 
+  // handle login redux
   const handleLogin = async event => {
     event.preventDefault();
-    console.log('logging in with', username, password);
-    try {
-      const user = await loginService.login({
-        username: username.attributes.value,
-        password: password.attributes.value
-      });
-      window.localStorage.setItem('loggedUser', JSON.stringify(user));
-      setUser(user);
-      console.log('logged in user', user);
-
-      // set token for user here
-      // playlistService.setToken(user.token);
-    } catch (exception) {
-      setErrorMessage('wrong credz');
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    }
+    console.log(username.attributes);
+    const user = {
+      username: username.attributes.value,
+      password: password.attributes.value
+    };
+    const errorNotification = props.showNotificationWithTimeout;
+    props.newLogin(user, errorNotification);
   };
 
+  // handle logout redux
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedUser');
-    setUser(null);
+    props.logout();
   };
 
-  if (user === null) {
+  console.log('app 74', props);
+  if (props.login.user === null) {
     return (
       <div>
         <h2>Login to system</h2>
@@ -78,14 +63,32 @@ const App = () => {
   console.log(userList);
   return (
     <div>
-      Logged in as {user.username}
+      Logged in as {props.login.username}
       <button onClick={handleLogout}>logout</button>
-      <h2>Reports</h2>
       <ReportList />
-      <h2>Usernmaes</h2>
-      <UserList userList={userList} />
+      <UserList />
     </div>
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  console.log('app state', state);
+  return {
+    login: state.login,
+    users: state.users
+  };
+};
+
+const mapDispatchToProps = {
+  showNotificationWithTimeout,
+  initializeUser,
+  newLogin,
+  logout,
+  initializeUsers,
+  getOneReport
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

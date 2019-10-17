@@ -24,3 +24,4 @@
 | 14.10.2019 | 4 (41h) |              fixed heroku env vars, attempting to serve index.html               |
 | 15.10.2019 |    4    |        get users on frontend, custom hook for forms, refactored loginform        |
 | 16.10.2019 |    6    | browsing sequelize docs and stackoverflow to get associations right, raw queries |
+| 17.10.2019 |    7    |  redux & react-router, get report-tracks route, fetch reports to fronend by id   |

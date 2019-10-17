@@ -18,7 +18,7 @@ and t.album_id = al.id
 SELECT rt.sortable_rank, ar.name as artist_name, tr.name as track_title, tr.length as length,
 tr.id as track_id, ar.id as artist_id
 FROM playlist__track as tr, playlist__artist as ar, playlist__report_track as rt
-WHERE rt.report_id = 52346
+WHERE rt.report_id = 64249
 and ar.id = tr.artist_id
 and rt.track_id = tr.id
-
+order by sortable_rank asc

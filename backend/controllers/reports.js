@@ -1,10 +1,9 @@
 const reportsRouter = require('express').Router();
 const Report = require('../models/Report');
-const ReportTrack = require('../models/Report_Track');
 const db = require('../config/database');
 // rerun null = suora, 1 = uusinta
 
-// reportsrouter get test raw query
+// reportsrouter get test raw query - get all
 reportsRouter.get('/', async (req, res, next) => {
   try {
     let reports = await db.query(
@@ -15,6 +14,27 @@ reportsRouter.get('/', async (req, res, next) => {
     reports = reports[1];
 
     res.json(reports);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// get report-tracks by report_id
+reportsRouter.get('/:id', async (req, res, next) => {
+  try {
+    console.log('req params id', req.params.id);
+    let report = await db.query(
+      'SELECT rt.sortable_rank, ar.name as artist_name, tr.name as track_title, tr.length as length, tr.id as track_id, ar.id as artist_id FROM playlist__track as tr, playlist__artist as ar, playlist__report_track as rt WHERE rt.report_id = :report_id and ar.id = tr.artist_id and rt.track_id = tr.id order by sortable_rank asc',
+      {
+        replacements: { report_id: req.params.id },
+        type: db.QueryTypes.SELECT
+      }
+    );
+
+    console.log(typeof report);
+    console.log('report', report);
+
+    res.json(report);
   } catch (exception) {
     next(exception);
   }
@@ -34,24 +54,6 @@ reportsRouter.get('/list/:id', async (req, res, next) => {
       //   where: { report_id: report.id, status: 0 }
       // });
       res.json(reports.map(report => report.toJSON()));
-    } else {
-      res.status(404).end();
-    }
-  } catch (exception) {
-    next(exception);
-  }
-});
-
-//find a single report with tracks
-reportsRouter.get('/tracks/:id', async (req, res, next) => {
-  try {
-    const report = await ReportTrack.findAll({
-      where: { id: req.params.id }
-    });
-    console.log(typeof report);
-
-    if (report) {
-      res.json(report.map(r => r.toJSON()));
     } else {
       res.status(404).end();
     }

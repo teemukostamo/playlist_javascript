@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const User = ({ userList }) => {
-  console.log(userList);
+const User = props => {
+  console.log('user props', props);
   return (
     <tbody>
-      {userList.map(user => (
+      {props.users.map(user => (
         <tr key={user.id}>
           <td>{user.username}</td>
           <td>
@@ -18,4 +19,14 @@ const User = ({ userList }) => {
   );
 };
 
-export default User;
+const mapStateToProps = state => {
+  console.log('user state', state);
+  return {
+    users: state.users,
+    login: state.login
+  };
+};
+
+const connectedUser = connect(mapStateToProps)(User);
+
+export default connectedUser;
