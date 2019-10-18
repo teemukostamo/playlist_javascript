@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import 'materialize-css/dist/css/materialize.min.css';
+import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
-import { useField } from './hooks';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-import UserList from './components/UserList';
-import ReportList from './components/ReportList';
-import LoginForm from './components/forms/LoginForm';
-import Notification from './components/Notification';
+import UserList from './components/user/UserList';
+import ReportList from './components/report/ReportList';
+import LoginForm from './components/login/LoginForm';
+import Notification from './components/layout/Notification';
 
 import { initializeUsers } from './reducers/userReducer';
 import { initializeUser, newLogin, logout } from './reducers/loginReducer';
@@ -15,9 +16,12 @@ import { showNotificationWithTimeout } from './reducers/notificationReducer';
 
 const App = props => {
   const [userList, setUserList] = useState([]);
-  const username = useField('text');
-  const password = useField('password');
   const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    // initializes MaterializeJS
+    M.AutoInit();
+  });
 
   // initial logged in user
   useEffect(() => {
@@ -28,18 +32,6 @@ const App = props => {
   useEffect(() => {
     props.initializeUsers();
   }, []);
-
-  // handle login redux
-  const handleLogin = async event => {
-    event.preventDefault();
-    console.log(username.attributes);
-    const user = {
-      username: username.attributes.value,
-      password: password.attributes.value
-    };
-    const errorNotification = props.showNotificationWithTimeout;
-    props.newLogin(user, errorNotification);
-  };
 
   // handle logout redux
   const handleLogout = () => {
@@ -52,17 +44,13 @@ const App = props => {
       <div>
         <h2>Login to system</h2>
         <Notification message={errorMessage} />
-        <LoginForm
-          username={username.attributes}
-          password={password.attributes}
-          onSubmit={handleLogin}
-        />
+        <LoginForm />
       </div>
     );
   }
   console.log(userList);
   return (
-    <div>
+    <div className="container">
       Logged in as {props.login.username}
       <button onClick={handleLogout}>logout</button>
       <ReportList />

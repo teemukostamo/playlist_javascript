@@ -8,7 +8,7 @@ const UserList = props => {
   return (
     <div>
       <h2>userlist</h2>
-      <table>
+      <table className="striped">
         <thead>
           <tr>
             <td>Käyttäjätunnus</td>

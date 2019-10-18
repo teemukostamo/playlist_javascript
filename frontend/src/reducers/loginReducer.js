@@ -1,4 +1,5 @@
 import loginService from '../services/login';
+import { INIT_USER, LOGIN, LOGOUT } from '../actions/types';
 
 const initialState = {
   user: null
@@ -9,13 +10,13 @@ const loginReducer = (state = initialState, action) => {
   console.log('loginreducer action', action);
 
   switch (action.type) {
-    case 'INIT_USER':
+    case INIT_USER:
       return action.data;
 
-    case 'LOGOUT':
+    case LOGOUT:
       return initialState;
 
-    case 'LOGIN':
+    case LOGIN:
       return action.data;
 
     default:

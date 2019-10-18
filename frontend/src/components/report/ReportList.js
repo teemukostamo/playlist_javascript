@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { showNotificationWithTimeout } from '../reducers/notificationReducer';
-import { getOneReport } from '../reducers/reportReducer';
-import ReportFilterForm from './forms/ReportFilterForm';
+import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
+import { getOneReport } from '../../reducers/reportReducer';
+import ReportFilterForm from './ReportFilterForm';
 
 const ReportList = props => {
   console.log('Reportlist props', props);
