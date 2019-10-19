@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import User from './User';
+import Preloader from '../layout/Preloader';
+import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
+import { initializeUsers } from '../../actions/userActions';
 
 const UserList = props => {
+  // initial users list
+  useEffect(() => {
+    props.initializeUsers();
+  }, []);
+
   console.log('userlist props', props);
   return (
     <div>
@@ -18,19 +26,33 @@ const UserList = props => {
           </tr>
         </thead>
 
-        <User />
+        <tbody>
+          {props.users === [] ? (
+            <tr className="center">
+              <td>No users to show</td>
+            </tr>
+          ) : (
+            props.users.map(user => <User user={user} key={user.id} />)
+          )}
+        </tbody>
       </table>
     </div>
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
-  console.log('userlist own props', ownProps);
-  return {
-    users: state.users
-  };
+const mapDispatchToProps = {
+  showNotificationWithTimeout,
+  initializeUsers
 };
 
-const connectedUserList = connect(mapStateToProps)(UserList);
+const mapStateToProps = state => ({
+  users: state.users,
+  login: state.login
+});
+
+const connectedUserList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserList);
 
 export default connectedUserList;

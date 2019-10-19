@@ -8,6 +8,18 @@ const setToken = newToken => {
 };
 
 // get a list of reports by date
+const getAllByDate = async date => {
+  console.log('getting reports from', date);
+  date = date + '%';
+  console.log(date);
+  const request = await axios.get(`${baseUrl}/list`, {
+    params: {
+      date
+    }
+  });
+  console.log('reportservice get one report-track data', request.data);
+  return request.data;
+};
 
 // get a list of reports by user_id, date
 
@@ -19,4 +31,4 @@ const getOne = async id => {
   return request.data;
 };
 
-export default { getOne };
+export default { getOne, getAllByDate };

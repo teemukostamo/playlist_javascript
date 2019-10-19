@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { newLogin } from '../../reducers/loginReducer';
+import { newLogin } from '../../actions/loginActions';
 import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
 
 const LoginForm = ({ newLogin }) => {

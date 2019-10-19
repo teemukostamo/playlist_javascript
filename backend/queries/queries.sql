@@ -22,3 +22,11 @@ WHERE rt.report_id = 64249
 and ar.id = tr.artist_id
 and rt.track_id = tr.id
 order by sortable_rank asc
+
+-- select all programs by month
+SELECT re.program_no, pr.name, re.program_date, re.program_start_time, 
+re.program_end_time, re.status, re.rerun, re.program_dj, re.id
+FROM playlist__program as pr, playlist__report as re
+where re.program_date like "2018-02%"
+and pr.id = re.program_id
+order by program_date asc

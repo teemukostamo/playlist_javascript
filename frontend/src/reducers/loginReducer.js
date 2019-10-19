@@ -1,13 +1,20 @@
-import loginService from '../services/login';
-import { INIT_USER, LOGIN, LOGOUT } from '../actions/types';
+import {
+  INIT_USER,
+  LOGIN,
+  LOGOUT,
+  LOGIN_ERROR,
+  SET_LOADING
+} from '../actions/types';
 
 const initialState = {
-  user: null
+  user: null,
+  loading: false,
+  error: null
 };
 
 const loginReducer = (state = initialState, action) => {
-  console.log('loginreducer state', state);
-  console.log('loginreducer action', action);
+  // console.log('loginreducer state', state);
+  // console.log('loginreducer action', action);
 
   switch (action.type) {
     case INIT_USER:
@@ -19,50 +26,22 @@ const loginReducer = (state = initialState, action) => {
     case LOGIN:
       return action.data;
 
+    case LOGIN_ERROR:
+      console.error(action.payload);
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+
     default:
       return state;
   }
-};
-
-export const initializeUser = () => {
-  return async dispatch => {
-    const loggedUserJSON = window.localStorage.getItem('loggedUser');
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      // set token for logged in user
-      // reportService.setToken(user.token);
-      dispatch({
-        type: 'INIT_USER',
-        data: user
-      });
-    }
-  };
-};
-
-export const newLogin = (user, errorNotification) => {
-  return async dispatch => {
-    try {
-      const newUser = await loginService.login(user);
-      window.localStorage.setItem('loggedUser', JSON.stringify(newUser));
-      // set token for logged in user
-      // blogService.setToken(newUser.token);
-      dispatch({
-        type: 'LOGIN',
-        data: newUser
-      });
-    } catch (exception) {
-      errorNotification(`väärä käyttäjätunnus tai salasana`, 4);
-    }
-  };
-};
-
-export const logout = () => {
-  return async dispatch => {
-    window.localStorage.removeItem('loggedUser');
-    dispatch({
-      type: 'LOGOUT'
-    });
-  };
 };
 
 export default loginReducer;
