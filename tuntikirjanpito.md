@@ -25,5 +25,6 @@
 | 15.10.2019 |    4    |        get users on frontend, custom hook for forms, refactored loginform        |
 | 16.10.2019 |    6    | browsing sequelize docs and stackoverflow to get associations right, raw queries |
 | 17.10.2019 |    7    |  redux & react-router, get report-tracks route, fetch reports by id to fronend   |
-| 17.10.2019 | 4 (62)  |                       redux tutorials,frontend refactoring                       |
-| 18.10.2019 |    6    |     reducers refactoring, navbar, get all reports by month (not working yet)     |
+| 18.10.2019 | 4 (62)  |                       redux tutorials,frontend refactoring                       |
+| 19.10.2019 |    6    |     reducers refactoring, navbar, get all reports by month (not working yet)     |
+| 21.10.2019 |    6    |    navbar routes, reportList route, user update route, tokens for user routes    |

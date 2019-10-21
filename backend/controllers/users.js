@@ -1,17 +1,40 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const usersRouter = require('express').Router();
 const User = require('../models/User');
 
+const getTokenFrom = req => {
+  const authorization = req.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7);
+  }
+  return null;
+};
+
 // get all users
-usersRouter.get('/', async (req, res) => {
-  const users = await User.findAll();
-  console.log('users length', users.length);
-  res.json(users.map(user => user.toJSON()));
+usersRouter.get('/', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    const users = await User.findAll();
+    console.log('users length', users.length);
+    res.json(users.map(user => user.toJSON()));
+  } catch (exception) {
+    next(exception);
+  }
 });
 
 // get one user
 usersRouter.get('/:id', async (req, res, next) => {
   try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
     const user = await User.findOne({ where: { id: req.params.id } });
     if (user) {
       res.json(user.toJSON());
@@ -26,6 +49,11 @@ usersRouter.get('/:id', async (req, res, next) => {
 // add a user
 usersRouter.post('/', async (req, res, next) => {
   try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
     // see if user exists, send status 400 if not
     const existingUser = await User.findOne({
       where: { username: req.body.username }
@@ -81,6 +109,39 @@ usersRouter.post('/', async (req, res, next) => {
 });
 
 // update user
-usersRouter.put('/:id', (req, res, next) => {});
+usersRouter.put('/:id', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+
+    const body = req.body;
+
+    let { first_name, last_name, email, status, level, last_seen } = body;
+
+    // hash password
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
+
+    const updatedUser = await User.update(
+      {
+        password: passwordHash,
+        first_name,
+        last_name,
+        email,
+        status,
+        level,
+        last_seen
+      },
+      { where: { id: req.params.id } }
+    );
+    console.log(updatedUser);
+    res.status(200).json(updatedUser);
+  } catch (exception) {
+    next(exception);
+  }
+});
 
 module.exports = usersRouter;

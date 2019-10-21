@@ -6,11 +6,13 @@ import loginReducer from './reducers/loginReducer';
 import notificationReducer from './reducers/notificationReducer';
 import reportReducer from './reducers/reportReducer';
 import userReducer from './reducers/userReducer';
+import reportsListReducer from './reducers/reportsListReducer';
 
 const reducer = combineReducers({
   login: loginReducer,
   notification: notificationReducer,
   report: reportReducer,
+  reportsList: reportsListReducer,
   users: userReducer
 });
 

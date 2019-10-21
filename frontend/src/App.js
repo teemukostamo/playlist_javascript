@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 import UserList from './components/user/UserList';
 import ReportList from './components/report/ReportList';
@@ -37,15 +37,21 @@ const App = props => {
     );
   }
   return (
-    <Fragment>
-      <Navbar />
-      <div className="container">
-        Logged in as {props.login.username}
-        <button onClick={handleLogout}>logout</button>
-        <ReportList />
-        <UserList />
-      </div>
-    </Fragment>
+    <Router>
+      <Fragment>
+        <Navbar loggedInUser={props.login} />
+        <div className="container">
+          Logged in as {props.login.username}
+          <button onClick={handleLogout}>logout</button>
+          <Switch>
+            <Route exact path="/users" component={UserList} />
+          </Switch>
+          <Switch>
+            <Route exact path="/reports" component={ReportList} />
+          </Switch>
+        </div>
+      </Fragment>
+    </Router>
   );
 };
 

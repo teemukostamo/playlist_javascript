@@ -1,35 +1,54 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Moment from 'react-moment';
-import { Link } from 'react-router-dom';
+// import Moment from 'react-moment';
 import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
 import { getOneReport } from '../../actions/reportActions';
 import ReportFilterForm from './ReportFilterForm';
-import moment from 'moment';
+import ReportListItem from './ReportListItem';
+// import moment from 'moment';
 
 const ReportList = props => {
   // console.log('Reportlist props', props);
+  console.log(props.reportsList);
+  if (props.reportsList.length === 0) {
+    return (
+      <div>
+        <h4>Ei raportteja valittuna ajankohtana. Valitse vuosi ja kuukausi</h4>
+        <ReportFilterForm />
+      </div>
+    );
+  }
 
   return (
     <div>
-      <h4>List of reports</h4>
-      <ReportFilterForm />
+      <div>
+        <ReportFilterForm />
+      </div>
 
-      <ul>
-        {props.report.map(r => (
-          <li key={r.track_id}>
-            {r.artist_name} {r.track_title}
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <td>pgmno</td>
+            <td>Nimi</td>
+            <td>Aika</td>
+            <td>Tila</td>
+          </tr>
+        </thead>
+        <tbody>
+          {props.reportsList.map(r => (
+            <ReportListItem key={r.id} report={r} />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
 const mapStateToProps = state => {
-  // console.log('report list state to props', state);
+  console.log('report list state to props', state);
   return {
     report: state.report,
+    reportsList: state.reportsList,
     notification: state.notification,
     login: state.login
   };

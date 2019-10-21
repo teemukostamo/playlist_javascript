@@ -9,14 +9,10 @@ const setToken = newToken => {
 
 // get a list of reports by date
 const getAllByDate = async date => {
+  // notice baseurl is different here!
   console.log('getting reports from', date);
-  date = date + '%';
-  console.log(date);
-  const request = await axios.get(`${baseUrl}/list`, {
-    params: {
-      date
-    }
-  });
+
+  const request = await axios.get(`/api/reportslist/${date}`);
   console.log('reportservice get one report-track data', request.data);
   return request.data;
 };

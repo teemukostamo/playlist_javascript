@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch,
+  withRouter,
+  matchPath
+} from 'react-router-dom';
 import User from './User';
 import Preloader from '../layout/Preloader';
 import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
@@ -11,6 +18,14 @@ const UserList = props => {
   useEffect(() => {
     props.initializeUsers();
   }, []);
+
+  if (props.users.error) {
+    return (
+      <div>
+        <h4>no users</h4>
+      </div>
+    );
+  }
 
   console.log('userlist props', props);
   return (

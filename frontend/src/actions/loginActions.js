@@ -1,4 +1,5 @@
 import loginService from '../services/login';
+import userService from '../services/users';
 import {
   INIT_USER,
   LOGIN,
@@ -14,7 +15,7 @@ export const initializeUser = () => async dispatch => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       // set token for logged in user
-      // reportService.setToken(user.token);
+      userService.setToken(user.token);
       dispatch({
         type: INIT_USER,
         data: user

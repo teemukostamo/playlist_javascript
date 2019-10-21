@@ -1,31 +1,82 @@
 import React from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ loggedInUser }) => {
+  // if logged in user is admin render all nav items
+  if (loggedInUser.level === 3) {
+    return (
+      <nav style={{ marginBottom: '30px' }} className="black">
+        <div className="nav-wrapper">
+          <a href="#!" className="brand-logo">
+            <NavLink to="/" excact>
+              PLAYLIST 2020
+            </NavLink>
+          </a>
+          <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li>
+              <a href="#!">
+                <NavLink to="/" excact>
+                  Etusivu
+                </NavLink>
+              </a>
+            </li>
+            <li>
+              <a href="#!">
+                <NavLink to="/reports" excact>
+                  Raportit
+                </NavLink>
+              </a>
+            </li>
+            <li>
+              <a href="#!">Top 100</a>
+            </li>
+            <li>
+              <a href="#!">Haku</a>
+            </li>
+            <li>
+              <a href="#!">
+                <NavLink to="/users" excact>
+                  Käyttäjät
+                </NavLink>
+              </a>
+            </li>
+            <li>
+              <a href="#!">Ohjelmat</a>
+            </li>
+            <li>
+              <a href="#!">Omat tiedot</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    );
+  }
+
+  // if logged in user is not admin render only some items
   return (
     <nav style={{ marginBottom: '30px' }} className="black">
       <div className="nav-wrapper">
-        <a href="#" className="brand-logo">
-          PLAYLIST 2020
+        <a href="#!" className="brand-logo">
+          <NavLink to="/" excact>
+            PLAYLIST 2020
+          </NavLink>
         </a>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
           <li>
-            <a href="#!">Etusivu</a>
+            <NavLink to="/" excact>
+              Etusivu
+            </NavLink>
           </li>
           <li>
-            <a href="#!">Raportit</a>
+            <NavLink to="/reports" excact>
+              Raportit
+            </NavLink>
           </li>
           <li>
             <a href="#!">Top 100</a>
           </li>
           <li>
             <a href="#!">Haku</a>
-          </li>
-          <li>
-            <a href="#!">Käyttäjät</a>
-          </li>
-          <li>
-            <a href="#!">Ohjelmat</a>
           </li>
           <li>
             <a href="#!">Omat tiedot</a>
