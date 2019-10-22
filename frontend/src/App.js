@@ -44,7 +44,7 @@ const App = props => {
           Logged in as {props.login.username}
           <button onClick={handleLogout}>logout</button>
           <Switch>
-            <Route exact path="/users" component={UserList} />
+            <Route path="/users" component={UserList} />
           </Switch>
           <Switch>
             <Route exact path="/reports" component={ReportList} />

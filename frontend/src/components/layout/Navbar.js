@@ -7,25 +7,19 @@ const Navbar = ({ loggedInUser }) => {
     return (
       <nav style={{ marginBottom: '30px' }} className="black">
         <div className="nav-wrapper">
-          <a href="#!" className="brand-logo">
-            <NavLink to="/" excact>
-              PLAYLIST 2020
-            </NavLink>
-          </a>
+          <NavLink className="brand-logo" to="/">
+            PLAYLIST 2020
+          </NavLink>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>
-              <a href="#!">
-                <NavLink to="/" excact>
-                  Etusivu
-                </NavLink>
-              </a>
+              <NavLink to="/" excact>
+                Etusivu
+              </NavLink>
             </li>
             <li>
-              <a href="#!">
-                <NavLink to="/reports" excact>
-                  Raportit
-                </NavLink>
-              </a>
+              <NavLink to="/reports" excact>
+                Raportit
+              </NavLink>
             </li>
             <li>
               <a href="#!">Top 100</a>
@@ -34,11 +28,9 @@ const Navbar = ({ loggedInUser }) => {
               <a href="#!">Haku</a>
             </li>
             <li>
-              <a href="#!">
-                <NavLink to="/users" excact>
-                  Käyttäjät
-                </NavLink>
-              </a>
+              <NavLink to="/users" excact>
+                Käyttäjät
+              </NavLink>
             </li>
             <li>
               <a href="#!">Ohjelmat</a>

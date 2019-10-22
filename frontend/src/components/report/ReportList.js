@@ -9,7 +9,7 @@ import ReportListItem from './ReportListItem';
 
 const ReportList = props => {
   // console.log('Reportlist props', props);
-  console.log(props.reportsList);
+  console.log(props);
   if (props.reportsList.length === 0) {
     return (
       <div>
@@ -21,14 +21,14 @@ const ReportList = props => {
 
   return (
     <div>
-      <div>
-        <ReportFilterForm />
-      </div>
+      <div></div>
 
       <table>
         <thead>
           <tr>
-            <td>pgmno</td>
+            <td>
+              pgmno <ReportFilterForm />
+            </td>
             <td>Nimi</td>
             <td>Aika</td>
             <td>Tila</td>

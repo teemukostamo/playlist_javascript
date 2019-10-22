@@ -1,4 +1,9 @@
-import { INIT_USERS_LIST, USER_ERROR, SET_LOADING } from '../actions/types';
+import {
+  INIT_USERS_LIST,
+  USER_ERROR,
+  SET_LOADING,
+  SET_CURRENT
+} from '../actions/types';
 import userService from '../services/users';
 
 export const initializeUsers = () => async dispatch => {
@@ -21,5 +26,13 @@ export const initializeUsers = () => async dispatch => {
 export const setLoading = () => {
   return {
     type: SET_LOADING
+  };
+};
+
+// Set current user for editing
+export const setCurrent = user => {
+  return {
+    type: SET_CURRENT,
+    payload: user
   };
 };

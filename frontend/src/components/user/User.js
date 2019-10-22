@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { setCurrent } from '../../actions/userActions';
 
 const User = props => {
   const onDelete = () => {
     console.log(`klikd delete on user ${props.user.id}`);
   };
+
   return (
     <tr>
-      <td>{props.user.username}</td>
+      <td>
+        <a
+          href="#edit-user-modal"
+          className="modal-trigger"
+          onClick={() => props.setCurrent(props.user)}
+        >
+          {props.user.username}
+        </a>
+      </td>
       <td>
         {props.user.first_name} {props.user.last_name}
       </td>
@@ -25,6 +36,13 @@ const User = props => {
   );
 };
 
-const connectedUser = connect(null)(User);
+const mapDispatchToProps = {
+  setCurrent
+};
+
+const connectedUser = connect(
+  null,
+  mapDispatchToProps
+)(User);
 
 export default connectedUser;

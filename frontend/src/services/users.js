@@ -12,6 +12,7 @@ const getAll = async () => {
     headers: { Authorization: token }
   };
   const req = await axios.get(baseUrl, config);
+  console.log(typeof req.date);
   return req.data;
 };
 

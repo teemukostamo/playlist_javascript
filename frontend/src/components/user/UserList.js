@@ -10,6 +10,9 @@ import {
 } from 'react-router-dom';
 import User from './User';
 import Preloader from '../layout/Preloader';
+import AddUserButton from './AddUserButton';
+import AddUserModal from './AddUserModal';
+import EditUserModal from './EditUserModal';
 import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
 import { initializeUsers } from '../../actions/userActions';
 
@@ -19,10 +22,10 @@ const UserList = props => {
     props.initializeUsers();
   }, []);
 
-  if (props.users.error) {
+  if (props.users.users === null) {
     return (
       <div>
-        <h4>no users</h4>
+        <Preloader />
       </div>
     );
   }
@@ -31,6 +34,10 @@ const UserList = props => {
   return (
     <div>
       <h2>userlist</h2>
+      <AddUserButton />
+      <AddUserModal />
+      <EditUserModal />
+
       <table className="striped">
         <thead>
           <tr>
@@ -42,12 +49,12 @@ const UserList = props => {
         </thead>
 
         <tbody>
-          {props.users === [] ? (
+          {props.users.users === [] ? (
             <tr className="center">
               <td>No users to show</td>
             </tr>
           ) : (
-            props.users.map(user => <User user={user} key={user.id} />)
+            props.users.users.map(user => <User user={user} key={user.id} />)
           )}
         </tbody>
       </table>
