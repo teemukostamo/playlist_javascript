@@ -29,4 +29,4 @@
 | 19.10.2019 |    6    |       reducers refactoring, navbar, get all reports by month (not working yet)       |
 | 21.10.2019 |    6    |      navbar routes, reportList route, user update route, tokens for user routes      |
 | 22.10.2019 | 8 (82)  | add & edit user modals, current user state, add track route. switched to semantic ui |
-| 22.10.2019 |         |              report-track frontend routes, report details backend route              |
+| 23.10.2019 |    7    |   report-track frontend routes, report details backend route, depolying to heroku    |
