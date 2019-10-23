@@ -6,41 +6,40 @@ import { getOneReport } from '../../actions/reportActions';
 import ReportFilterForm from './ReportFilterForm';
 import ReportListItem from './ReportListItem';
 // import moment from 'moment';
+import { Container, Table } from 'semantic-ui-react';
 
 const ReportList = props => {
-  // console.log('Reportlist props', props);
-  console.log(props);
+  console.log('Reportlist props', props);
+
   if (props.reportsList.length === 0) {
     return (
-      <div>
-        <h4>Ei raportteja valittuna ajankohtana. Valitse vuosi ja kuukausi</h4>
+      <Container>
+        <h2>Ei raportteja valittuna ajankohtana. Valitse vuosi ja kuukausi</h2>
         <ReportFilterForm />
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div>
-      <div></div>
+    <Container>
+      <ReportFilterForm />
 
-      <table>
-        <thead>
-          <tr>
-            <td>
-              pgmno <ReportFilterForm />
-            </td>
-            <td>Nimi</td>
-            <td>Aika</td>
-            <td>Tila</td>
-          </tr>
-        </thead>
-        <tbody>
+      <Table striped>
+        <Table.Header>
+          <Table.Row>
+            <Table.Cell>Ohjelmanro</Table.Cell>
+            <Table.Cell>Nimi</Table.Cell>
+            <Table.Cell>Aika</Table.Cell>
+            <Table.Cell>Tila</Table.Cell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
           {props.reportsList.map(r => (
             <ReportListItem key={r.id} report={r} />
           ))}
-        </tbody>
-      </table>
-    </div>
+        </Table.Body>
+      </Table>
+    </Container>
   );
 };
 

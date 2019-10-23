@@ -31,6 +31,14 @@ loginRouter.post('/', async (req, res) => {
   };
   const token = jwt.sign(userForToken, process.env.SECRET);
 
+  // update last seen field
+  const updatedUser = await User.update(
+    { last_seen: new Date() },
+    { where: { username: body.username } }
+  );
+
+  console.log(updatedUser);
+
   // response ok with token and username
   res.status(200).send({
     token,

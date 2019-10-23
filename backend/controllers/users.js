@@ -138,7 +138,7 @@ usersRouter.put('/:id', async (req, res, next) => {
       { where: { id: req.params.id } }
     );
     console.log(updatedUser);
-    res.status(200).json(updatedUser);
+    res.status(200).json(`${updatedUser[0]} rows affected`);
   } catch (exception) {
     next(exception);
   }

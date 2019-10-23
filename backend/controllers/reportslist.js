@@ -1,8 +1,22 @@
+const jwt = require('jsonwebtoken');
 const reportslistRouter = require('express').Router();
 const db = require('../config/database');
 
+const getTokenFrom = req => {
+  const authorization = req.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7);
+  }
+  return null;
+};
+
 reportslistRouter.get('/:date', async (req, res, next) => {
   try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
     console.log('got request');
     let date = req.params.date;
     console.log('date from backend route', date);

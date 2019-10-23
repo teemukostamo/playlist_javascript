@@ -11,6 +11,7 @@ export const SET_CURRENT = 'SET_CURRENT';
 
 // report actions
 export const GET_ONE_REPORT = 'GET_ONE_REPORT';
+export const GET_REPORT_DETAILS = 'GET_REPORT_DETAILS';
 export const GET_ALL_REPORTS_BY_DATE = 'GET_ALL_REPORTS_BY_DATE';
 
 // preloader actions

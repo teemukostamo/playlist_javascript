@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-
-import M from 'materialize-css/dist/js/materialize.min.js';
+import { setCurrent } from '../../actions/userActions';
+import {
+  Table,
+  Modal,
+  Header,
+  Form,
+  Button,
+  Input,
+  Icon
+} from 'semantic-ui-react';
 
 const EditUserModal = props => {
-  const [username, setUsername] = useState('');
+  console.log(props);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [level, setLevel] = useState('');
+  const [firstName, setFirstName] = useState(props.current.first_name);
+  const [lastName, setLastName] = useState(props.current.last_name);
+  const [email, setEmail] = useState(props.current.email);
+  const [level, setLevel] = useState(props.current.level);
 
   useEffect(() => {
     if (props.current) {
-      setUsername(props.current.username);
       setFirstName(props.current.first_name);
       setLastName(props.current.last_name);
       setEmail(props.current.email);
@@ -22,152 +29,117 @@ const EditUserModal = props => {
     }
   }, [props.current]);
 
-  const onSubmit = () => {
-    if (username === '' || password === '') {
-      M.toast({ html: 'Tarkasta käyttäjätunnus & salasana' });
-    } else {
-      console.log(
-        'submitted',
-        username,
-        password,
-        firstName,
-        lastName,
-        email,
-        level
-      );
-      // clear fields
-      setUsername('');
-      setPassword('');
-      setFirstName('');
-      setLastName('');
-      setEmail('');
-      setLevel('');
-    }
+  const onUpdateSubmit = () => {
+    console.log(
+      'submitted',
+
+      password,
+      confirmPassword,
+      firstName,
+      lastName,
+      email,
+      level
+    );
+    // clear fields
+    setPassword('');
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setLevel('');
   };
+
   return (
-    <div id="edit-user-modal" className="modal" style={modalStyle}>
-      <div className="modal-content">
-        <h4>Muokkaa käyttäjän tietoja</h4>
-        <br />
-        <div className="row">
-          <div className="input-field">
-            <input
+    <Modal
+      trigger={
+        <a href="#!" onClick={() => props.setCurrent(props.user)}>
+          {props.user.username}
+        </a>
+      }
+      closeIcon
+    >
+      <Header content="Muokkaa käyttäjän tietoja" />
+      <Modal.Content>
+        <Form onSubmit={onUpdateSubmit}>
+          <Form.Field>
+            <label>Käyttäjätunnus</label>
+            <Input
+              value={props.user.username}
               type="text"
-              name="username"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
+              placeholder="Käyttäjätunnus..."
+              disabled
             />
-            <label htmlFor="username" className="active">
-              Käyttäjätunnus
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-field">
-            <input
+          </Form.Field>
+          <Form.Field>
+            <label>Salasana - syötä vaihtaaksesi</label>
+            <Input
+              focus
               type="password"
-              name="password"
-              value=""
+              placeholder="Salasana..."
               onChange={e => setPassword(e.target.value)}
             />
-            <label htmlFor="password" className="active">
-              Salasana - syöta vaihtaaksesi
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-field">
-            <input
+          </Form.Field>
+          <Form.Field>
+            <label>Salasana uudelleen</label>
+            <Input
+              focus
               type="password"
-              name="confirmPassword"
-              value=""
+              placeholder="Vahvista salasana..."
               onChange={e => setConfirmPassword(e.target.value)}
             />
-            <label htmlFor="confirmPassword" className="active">
-              Vahvista salasana
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-field">
-            <input
-              type="text"
-              name="firstName"
+          </Form.Field>
+          <Form.Field>
+            <label>Etunimi</label>
+            <Input
+              focus
               value={firstName}
+              type="text"
+              placeholder="Etunimi..."
               onChange={e => setFirstName(e.target.value)}
             />
-            <label htmlFor="firstName" className="active">
-              Etunimi
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-field">
-            <input
-              type="text"
-              name="lastName"
+          </Form.Field>
+          <Form.Field>
+            <label>Sukunimi</label>
+            <Input
+              focus
               value={lastName}
+              type="text"
+              placeholder="Sukunimi..."
               onChange={e => setLastName(e.target.value)}
             />
-            <label htmlFor="lastName" className="active">
-              Sukunimi
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-field">
-            <input
-              type="email"
-              name="email"
+          </Form.Field>
+          <Form.Field>
+            <label>Email</label>
+            <Input
+              focus
               value={email}
+              type="text"
+              placeholder="Email..."
               onChange={e => setEmail(e.target.value)}
             />
-            <label htmlFor="email" className="active">
-              Sähköposti
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="input-field">
-            <select
-              name="level"
-              value={level}
-              className="browser-default"
-              onChange={e => setLevel(e.target.value)}
-            >
-              <option value="" disabled>
-                Taso...
-              </option>
-              <option value="1">DJ</option>
-              <option value="2">Toimitus</option>
-              <option value="3">Admin</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div className="modal-footer">
-        <a
-          href="#!"
-          onClick={onSubmit}
-          className="modal-close waves-effect waves-light black btn"
-        >
-          Tallenna
-        </a>
-      </div>
-    </div>
+          </Form.Field>
+          <Form.Field
+            label="Taso"
+            control="select"
+            value={level}
+            onChange={e => setLevel(e.target.value)}
+          >
+            <option value="1">DJ</option>
+            <option value="2">Toimitus</option>
+            <option value="3">Admin</option>
+          </Form.Field>
+          <Button type="submit">Tallenna</Button>
+        </Form>
+      </Modal.Content>
+    </Modal>
   );
 };
 
-const modalStyle = {
-  width: '75%',
-  height: '75%'
-};
-
 const mapStateToProps = state => ({
-  current: state.users.current
+  current: state.users.current,
+  users: state.users.users
 });
 
 export default connect(
   mapStateToProps,
-  null
+  { setCurrent }
 )(EditUserModal);

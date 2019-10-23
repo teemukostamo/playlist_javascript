@@ -1,18 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  BrowserRouter as Router,
-  Link,
-  Route,
-  Switch,
-  withRouter,
-  matchPath
-} from 'react-router-dom';
 import User from './User';
-import Preloader from '../layout/Preloader';
-import AddUserButton from './AddUserButton';
-import AddUserModal from './AddUserModal';
-import EditUserModal from './EditUserModal';
+import { Container, Dimmer, Loader } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
 import { initializeUsers } from '../../actions/userActions';
 
@@ -20,45 +10,40 @@ const UserList = props => {
   // initial users list
   useEffect(() => {
     props.initializeUsers();
+    // eslint-disable-next-line
   }, []);
 
   if (props.users.users === null) {
     return (
-      <div>
-        <Preloader />
-      </div>
+      <Container>
+        <Dimmer active inverted>
+          <Loader size="medium">Haetaan käyttäjiä...</Loader>
+        </Dimmer>
+      </Container>
     );
   }
 
   console.log('userlist props', props);
   return (
-    <div>
-      <h2>userlist</h2>
-      <AddUserButton />
-      <AddUserModal />
-      <EditUserModal />
+    <Container>
+      <h3>Käyttäjät</h3>
+      <Table striped>
+        <Table.Header>
+          <Table.Row>
+            <Table.Cell>Käyttäjätunnus</Table.Cell>
+            <Table.Cell>Nimi</Table.Cell>
+            <Table.Cell>Viimeisin kirjautuminen</Table.Cell>
+            <Table.Cell>Taso</Table.Cell>
+          </Table.Row>
+        </Table.Header>
 
-      <table className="striped">
-        <thead>
-          <tr>
-            <td>Käyttäjätunnus</td>
-            <td>Nimi</td>
-            <td>Viimeisin kirjautuminen</td>
-            <td>Taso</td>
-          </tr>
-        </thead>
-
-        <tbody>
-          {props.users.users === [] ? (
-            <tr className="center">
-              <td>No users to show</td>
-            </tr>
-          ) : (
-            props.users.users.map(user => <User user={user} key={user.id} />)
-          )}
-        </tbody>
-      </table>
-    </div>
+        <Table.Body>
+          {props.users.users.map(user => (
+            <User user={user} key={user.id} />
+          ))}
+        </Table.Body>
+      </Table>
+    </Container>
   );
 };
 

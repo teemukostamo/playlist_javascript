@@ -1,0 +1,16 @@
+{
+  "track_title": "apitest track",
+  "artist_name": "node js",
+  "album_name": "nodes greatest hits",
+  "label": "NODEJS",
+  "cat_id": "node1234",
+  "year": "2019",
+  "disc_no": 1,
+  "track_no": 1,
+  "length": 340,
+  "country": "1",
+  "record_country": "FI",
+  "people": "| nodeje | react |",
+  "comment": "tosi kova biisi",
+  "isrc": "FI129381783"
+}

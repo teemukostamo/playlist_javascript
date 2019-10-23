@@ -1,18 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import Moment from 'react-moment';
-
 import { connect } from 'react-redux';
 import { getOneReport } from '../../actions/reportActions';
 import { getAllReportsByDate } from '../../actions/reportsListActions';
-import moment from 'moment';
+import { Dropdown, Button } from 'semantic-ui-react';
+// import moment from 'moment';
 
 const ReportFilterForm = props => {
-  const [reportid, setReportid] = useState('');
+  const friendOptions = [
+    {
+      key: 'Jenny Hess',
+      text: 'Jenny Hess',
+      value: 'Jenny Hess'
+    },
+    {
+      key: 'Elliot Fu',
+      text: 'Elliot Fu',
+      value: 'Elliot Fu'
+    },
+    {
+      key: 'Stevie Feliciano',
+      text: 'Stevie Feliciano',
+      value: 'Stevie Feliciano'
+    },
+    {
+      key: 'Christian',
+      text: 'Christian',
+      value: 'Christian'
+    },
+    {
+      key: 'Matt',
+      text: 'Matt',
+      value: 'Matt'
+    },
+    {
+      key: 'Justen Kitsune',
+      text: 'Justen Kitsune',
+      value: 'Justen Kitsune'
+    }
+  ];
   const [reportMonth, setReportMonth] = useState('');
   const [reportYear, setReportYear] = useState('');
-  // const [reportMonth, setReportMonth] = useState('2018-10');
 
-  // initial reports list
+  // // initial reports list
   // useEffect(() => {
   //   props.getAllReportsByDate(moment().format('YYYY-MM'));
   // }, []);
@@ -27,18 +57,25 @@ const ReportFilterForm = props => {
     props.getAllReportsByDate(date);
   };
 
-  const idchange = event => {
-    setReportid(event.target.value);
-  };
-  const onGetReportByIdClick = () => {
-    console.log('klik', reportid);
-
-    props.getOneReport(reportid);
-  };
-
   return (
     <div>
-      <button onClick={() => getReportsByMonth()}>get reports from:</button>
+      <React.Fragment>
+        <Button onClick={() => getReportsByMonth()}>
+          Hae raportit ajalta:
+        </Button>
+        <Dropdown
+          placeholder="Vuosi"
+          openOnFocus
+          selection
+          options={friendOptions}
+        />{' '}
+        <Dropdown
+          placeholder="Kuukausi"
+          openOnFocus={false}
+          selection
+          options={friendOptions}
+        />
+      </React.Fragment>
       <div className="row">
         <div className="input-field col s5">
           <select
@@ -66,18 +103,14 @@ const ReportFilterForm = props => {
         </div>
         <div className="input-field col s2"></div>
       </div>
-
-      {/* <input onChange={idchange} />
-      <button onClick={() => onGetReportByIdClick()}>get report</button>
-      <button onClick={() => getReportsByMonth()}>get report by month</button> */}
     </div>
   );
 };
 
 const mapStateToProps = state => {
-  // console.log('reportfilterform state to props', state);
+  console.log('reportfilterform state to props', state);
   return {
-    reports: state.reports,
+    report: state.report,
     reportsList: state.reportsList,
     notification: state.notification,
     users: state.users,
