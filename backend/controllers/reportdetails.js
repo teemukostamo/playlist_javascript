@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const reportDetailsRouter = require('express').Router();
 const db = require('../config/database');
+const Report = require('../models/Report');
 
 const getTokenFrom = req => {
   const authorization = req.get('authorization');
@@ -10,7 +11,7 @@ const getTokenFrom = req => {
   return null;
 };
 
-// get one track
+// get one report details
 reportDetailsRouter.get('/:id', async (req, res, next) => {
   try {
     const token = getTokenFrom(req);
@@ -25,16 +26,56 @@ reportDetailsRouter.get('/:id', async (req, res, next) => {
       FROM playlist__program as pr, playlist__report as re, playlist__user as us
       WHERE re.id = ${req.params.id}
       and pr.id = re.program_id
-      and re.user_id = us.id`
+      and re.user_id = us.id`,
+      {
+        type: db.QueryTypes.SELECT
+      }
     );
     if (report) {
       console.log('report details router log', report);
-      res.json(report[0]);
+      res.json(report);
     } else {
       res.status(404).end();
     }
   } catch (exception) {
     next(exception);
+  }
+});
+
+// create new report
+reportDetailsRouter.post('/', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+
+    let {
+      user_id,
+      program_id,
+      program_date,
+      program_start_time,
+      program_end_time,
+      program_no,
+      status,
+      rerun
+    } = req.body;
+
+    const savedReport = await Report.create({
+      user_id,
+      program_id,
+      program_date,
+      program_start_time,
+      program_end_time,
+      program_no,
+      status,
+      rerun
+    });
+    console.log(savedReport);
+    res.status(201).json(savedReport.toJSON());
+  } catch (error) {
+    next(error);
   }
 });
 

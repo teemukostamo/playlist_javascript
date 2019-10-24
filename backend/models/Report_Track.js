@@ -6,7 +6,8 @@ const Report_Track = db.define(
   {
     id: {
       type: Sequelize.INTEGER(11),
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     track_id: {
       type: Sequelize.INTEGER(11),

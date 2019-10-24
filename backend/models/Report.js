@@ -6,7 +6,8 @@ const Report = db.define(
   {
     id: {
       type: Sequelize.INTEGER(11),
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     user_id: {
       type: Sequelize.INTEGER(11),

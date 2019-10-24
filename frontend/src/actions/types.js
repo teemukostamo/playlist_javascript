@@ -13,6 +13,11 @@ export const SET_CURRENT = 'SET_CURRENT';
 export const GET_ONE_REPORT = 'GET_ONE_REPORT';
 export const GET_REPORT_DETAILS = 'GET_REPORT_DETAILS';
 export const GET_ALL_REPORTS_BY_DATE = 'GET_ALL_REPORTS_BY_DATE';
+export const REPORT_ERROR = 'REPORT_ERROR';
+
+// program actions
+export const GET_ALL_PROGRAMS = 'GET_ALL_PROGRAMS';
+export const GET_ONE_PROGRAM = 'GET_ONE_PROGRAM';
 
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';

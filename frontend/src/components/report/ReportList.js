@@ -11,10 +11,13 @@ import { Container, Table } from 'semantic-ui-react';
 const ReportList = props => {
   console.log('Reportlist props', props);
 
-  if (props.reportsList.length === 0) {
+  if (props.reportsList.reportsList === null) {
     return (
       <Container>
-        <h2>Ei raportteja valittuna ajankohtana. Valitse vuosi ja kuukausi</h2>
+        <h2>
+          Ei raportteja valittuna ajankohtana. Valitse vuosi, kuukausi ja
+          käyttäjä
+        </h2>
         <ReportFilterForm />
       </Container>
     );
@@ -34,7 +37,7 @@ const ReportList = props => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {props.reportsList.map(r => (
+          {props.reportsList.reportsList.map(r => (
             <ReportListItem key={r.id} report={r} />
           ))}
         </Table.Body>

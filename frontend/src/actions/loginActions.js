@@ -1,4 +1,5 @@
 import loginService from '../services/login';
+import programService from '../services/programs';
 import reportService from '../services/reports';
 import userService from '../services/users';
 import {
@@ -18,6 +19,7 @@ export const initializeUser = () => async dispatch => {
       // set token for logged in user
       userService.setToken(user.token);
       reportService.setToken(user.token);
+      programService.setToken(user.token);
       dispatch({
         type: INIT_USER,
         data: user

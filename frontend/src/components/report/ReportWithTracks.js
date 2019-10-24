@@ -18,6 +18,8 @@ const ReportWithTracks = props => {
     // eslint-disable-next-line
   }, []);
 
+  console.log(props.report.loading);
+
   if (props.report.report === null) {
     return <Container>loading</Container>;
   }
@@ -38,7 +40,7 @@ const ReportWithTracks = props => {
         </Table.Header>
         <Table.Body>
           {props.report.report.map(track => (
-            <ReportWithTracksItem key={track.sortable_rank} track={track} />
+            <ReportWithTracksItem key={track.track_id} track={track} />
           ))}
         </Table.Body>
       </Table>

@@ -19,13 +19,14 @@ const userReducer = (state = initialState, action) => {
     case INIT_USERS_LIST:
       return {
         ...state,
-        users: action.data
+        users: action.data,
+        loading: false
       };
 
     case SET_LOADING:
       return {
         ...state,
-        loading: true
+        loading: false
       };
     case SET_CURRENT:
       return {

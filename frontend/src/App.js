@@ -12,12 +12,26 @@ import LoginForm from './components/login/LoginForm';
 import { Container, Menu } from 'semantic-ui-react';
 
 import { initializeUser, logout } from './actions/loginActions';
+import { initializeUsers } from './actions/userActions';
+import { initializePrograms } from './actions/programActions';
 import ReportWithTracks from './components/report/ReportWithTracks';
 
 const App = props => {
   // initial logged in user
   useEffect(() => {
     props.initializeUser();
+    // eslint-disable-next-line
+  }, []);
+
+  // initial programs list
+  useEffect(() => {
+    props.initializePrograms();
+    // eslint-disable-next-line
+  }, []);
+
+  // initial users list
+  useEffect(() => {
+    props.initializeUsers();
     // eslint-disable-next-line
   }, []);
 
@@ -84,13 +98,16 @@ const mapStateToProps = state => {
   return {
     reportsList: state.reportsList,
     login: state.login,
-    users: state.users
+    users: state.users,
+    programs: state.programs
   };
 };
 
 const mapDispatchToProps = {
   initializeUser,
-  logout
+  logout,
+  initializePrograms,
+  initializeUsers
 };
 
 export default connect(

@@ -1,13 +1,15 @@
 import {
   GET_ONE_REPORT,
   GET_REPORT_DETAILS,
-  SET_LOADING
+  SET_LOADING,
+  REPORT_ERROR
 } from '../actions/types';
 
 const initialState = {
   report: null,
   reportDetails: null,
-  loading: false
+  loading: false,
+  error: null
 };
 
 const reportReducer = (state = initialState, action) => {
@@ -32,6 +34,12 @@ const reportReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true
+      };
+    case REPORT_ERROR:
+      console.error(action.payload);
+      return {
+        ...state,
+        error: action.payload
       };
 
     default:

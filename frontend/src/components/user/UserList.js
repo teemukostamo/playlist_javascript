@@ -4,15 +4,8 @@ import User from './User';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import { Table } from 'semantic-ui-react';
 import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
-import { initializeUsers } from '../../actions/userActions';
 
 const UserList = props => {
-  // initial users list
-  useEffect(() => {
-    props.initializeUsers();
-    // eslint-disable-next-line
-  }, []);
-
   if (props.users.users === null) {
     return (
       <Container>
@@ -48,8 +41,7 @@ const UserList = props => {
 };
 
 const mapDispatchToProps = {
-  showNotificationWithTimeout,
-  initializeUsers
+  showNotificationWithTimeout
 };
 
 const mapStateToProps = state => ({

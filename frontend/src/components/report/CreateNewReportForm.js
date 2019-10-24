@@ -1,67 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Header, Form, Button, Input, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
-import { Header, Form, Button, Input, Dropdown } from 'semantic-ui-react';
-
-const ReportDetails = props => {
+const CreateNewReportForm = props => {
   const [programId, setProgramId] = useState('');
   const [programNumber, setProgramNumber] = useState('');
   const [dj, setDj] = useState('');
   const [programDate, setProgramDate] = useState('');
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
-  const [status, setStatus] = useState('');
-  const [userId, setUserId] = useState('');
-
   const [rerun, setRerun] = useState(null);
-  console.log('report detauls props', props);
-  useEffect(() => {
-    if (props.report.reportDetails !== null) {
-      setProgramId(props.report.reportDetails[0].program_id);
-      setDj(props.report.reportDetails[0].program_dj);
-      setProgramNumber(props.report.reportDetails[0].program_no);
-      setProgramDate(props.report.reportDetails[0].program_date);
-      setProgramStartTime(props.report.reportDetails[0].program_start_time);
-      setProgramEndTime(props.report.reportDetails[0].program_end_time);
-      setStatus(props.report.reportDetails[0].status);
-    }
-  }, [props.report.reportDetails]);
 
-  if (props.report.reportDetails === null) {
-    return <div>loading...</div>;
+  if (props.programs.allPrograms === null) {
+    return <div>loafing</div>;
   }
 
+  // list of programoptions for select
   let programOptions = props.programs.allPrograms.map(program => ({
     key: program.id,
     text: program.name,
     value: program.id
   }));
-  let userOptions = props.users.users.map(user => ({
-    key: user.id,
-    text: `${user.first_name} ${user.last_name}`,
-    value: user.id
-  }));
   const getProgram = (event, { value }) => {
     event.preventDefault();
     setProgramId(value);
   };
-  const getUser = (event, { value }) => {
-    event.preventDefault();
-    setUserId(value);
+  const createReport = () => {
+    console.log('creating report...');
   };
-  console.log('changed user id', userId);
-  const saveChanges = e => {
-    e.preventDefault();
-    console.log('saving changes...');
-  };
-  const copyReport = e => {
-    e.preventDefault();
-    console.log('klikd copy');
-  };
-  console.log('program name', programNumber);
   return (
     <div>
-      <Header>Raportin tiedot:</Header>
+      <Header>Luo uusi raportti</Header>
       <Form>
         <Form.Field>
           <label>Ohjelma</label>
@@ -115,31 +84,11 @@ const ReportDetails = props => {
           />
         </Form.Group>
         <Form.Field>
-          <label>Raportin tila</label>
-          <Input
-            value={status}
-            selection
-            onChange={e => setStatus(e.target.value)}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>Käyttäjä</label>
-          <Dropdown
-            placeholder="Käyttäjä"
-            openOnFocus={false}
-            selection
-            search
-            options={userOptions}
-            onChange={getUser}
-          />
-        </Form.Field>
-        <Form.Field>
           <label>Uusinta</label>
           <Form.Checkbox />
         </Form.Field>
         <Form.Group widths="equal">
-          <Button onClick={saveChanges}>Tallenna</Button>
-          <Button onClick={copyReport}>Monista</Button>
+          <Button onClick={createReport}>Jatka</Button>
         </Form.Group>
       </Form>
     </div>
@@ -158,9 +107,9 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedReportDetails = connect(
+const connectedCreateNewReportForm = connect(
   mapStateToProps,
   null
-)(ReportDetails);
+)(CreateNewReportForm);
 
-export default connectedReportDetails;
+export default connectedCreateNewReportForm;

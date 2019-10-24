@@ -7,12 +7,14 @@ import notificationReducer from './reducers/notificationReducer';
 import reportReducer from './reducers/reportReducer';
 import userReducer from './reducers/userReducer';
 import reportsListReducer from './reducers/reportsListReducer';
+import programReducer from './reducers/programReducer';
 
 const reducer = combineReducers({
   login: loginReducer,
   notification: notificationReducer,
   report: reportReducer,
   reportsList: reportsListReducer,
+  programs: programReducer,
   users: userReducer
 });
 

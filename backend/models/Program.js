@@ -1,22 +1,22 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Report = require('./Report');
 
 const Program = db.define(
   'playlist__program',
   {
     id: {
       type: Sequelize.INTEGER(11),
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     user_id: {
       type: Sequelize.INTEGER(11),
       allowNull: false
     },
-    name: {
-      type: Sequelize.STRING(128),
-      allowNull: false
-    },
+    // name: {
+    //   type: Sequelize.STRING(128),
+    //   allowNull: false
+    // },
     identifier: {
       type: Sequelize.STRING
     },

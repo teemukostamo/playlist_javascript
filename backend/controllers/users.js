@@ -54,7 +54,7 @@ usersRouter.post('/', async (req, res, next) => {
     if (!token || !decodedToken.id) {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
-    // see if user exists, send status 400 if not
+    // see if user exists, send status 400 if yes
     const existingUser = await User.findOne({
       where: { username: req.body.username }
     });

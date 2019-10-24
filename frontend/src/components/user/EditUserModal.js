@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setCurrent } from '../../actions/userActions';
-import {
-  Table,
-  Modal,
-  Header,
-  Form,
-  Button,
-  Input,
-  Icon
-} from 'semantic-ui-react';
+import { Modal, Header, Form, Button, Input } from 'semantic-ui-react';
 
 const EditUserModal = props => {
   console.log(props);

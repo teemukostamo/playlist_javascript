@@ -15,6 +15,12 @@ const getTokenFrom = req => {
 // get one track
 tracksRouter.get('/:id', async (req, res, next) => {
   try {
+    // see if token is valid
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
     const track = await Track.findOne({ where: { id: req.params.id } });
     if (track) {
       console.log('tracksrouter log', track);

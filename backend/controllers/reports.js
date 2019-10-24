@@ -26,13 +26,16 @@ reportsRouter.get('/:id', async (req, res, next) => {
       WHERE rt.report_id = ${req.params.id}
       and ar.id = tr.artist_id
       and rt.track_id = tr.id
-      order by sortable_rank asc`
+      order by sortable_rank asc`,
+      {
+        type: db.QueryTypes.SELECT
+      }
       // {
       //   replacements: { report_id: req.params.id },
       //   type: db.QueryTypes.SELECT
       // }
     );
-    res.json(report[0]);
+    res.json(report);
   } catch (exception) {
     next(exception);
   }

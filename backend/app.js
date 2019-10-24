@@ -10,6 +10,7 @@ const albumsRouter = require('./controllers/albums');
 const reportsRouter = require('./controllers/reports');
 const reportslistRouter = require('./controllers/reportslist');
 const reportDetailsRouter = require('./controllers/reportdetails');
+const programsRouter = require('./controllers/programs');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const middleware = require('./config/middleware');
@@ -43,6 +44,7 @@ app.use('/api/albums', albumsRouter);
 app.use('/api/reports', reportsRouter);
 app.use('/api/reportslist', reportslistRouter);
 app.use('/api/reportdetails', reportDetailsRouter);
+app.use('/api/programs', programsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 
