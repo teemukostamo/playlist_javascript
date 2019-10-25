@@ -32,6 +32,9 @@ const Report = db.define(
     program_no: {
       type: Sequelize.INTEGER(11)
     },
+    program_dj: {
+      type: Sequelize.STRING
+    },
     status: {
       type: Sequelize.INTEGER(4)
     },

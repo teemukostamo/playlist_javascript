@@ -43,4 +43,21 @@ const getReportDetails = async id => {
   return request.data;
 };
 
-export default { setToken, getOne, getAllByDate, getReportDetails };
+// create new report
+const createReport = async newReport => {
+  const config = {
+    headers: { Authorization: token }
+  };
+
+  const response = await axios.post('/api/reportdetails', newReport, config);
+  console.log(response.data);
+  return response.data;
+};
+
+export default {
+  setToken,
+  getOne,
+  getAllByDate,
+  getReportDetails,
+  createReport
+};

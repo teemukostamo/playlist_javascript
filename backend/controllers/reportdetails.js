@@ -21,7 +21,7 @@ reportDetailsRouter.get('/:id', async (req, res, next) => {
     }
     const report = await db.query(
       `SELECT pr.name as program_name, re.program_no, re.program_dj, re.program_date, re.program_start_time, 
-      re.program_end_time, re.id as report_id, pr.id as program_id, re.rerun, re.status,
+      re.program_end_time, re.id, pr.id as program_id, re.rerun, re.status,
       re.user_id, us.username, us.first_name, us.last_name
       FROM playlist__program as pr, playlist__report as re, playlist__user as us
       WHERE re.id = ${req.params.id}
@@ -58,6 +58,7 @@ reportDetailsRouter.post('/', async (req, res, next) => {
       program_start_time,
       program_end_time,
       program_no,
+      program_dj,
       status,
       rerun
     } = req.body;
@@ -69,6 +70,7 @@ reportDetailsRouter.post('/', async (req, res, next) => {
       program_start_time,
       program_end_time,
       program_no,
+      program_dj,
       status,
       rerun
     });

@@ -12,22 +12,22 @@ const ReportDetails = props => {
   const [programEndTime, setProgramEndTime] = useState('');
   const [status, setStatus] = useState('');
   const [userId, setUserId] = useState('');
-
   const [rerun, setRerun] = useState(null);
+
   console.log('report detauls props', props);
   useEffect(() => {
     if (props.report.reportDetails !== null) {
-      setProgramId(props.report.reportDetails[0].program_id);
-      setDj(props.report.reportDetails[0].program_dj);
-      setProgramNumber(props.report.reportDetails[0].program_no);
-      setProgramDate(props.report.reportDetails[0].program_date);
-      setProgramStartTime(props.report.reportDetails[0].program_start_time);
-      setProgramEndTime(props.report.reportDetails[0].program_end_time);
-      setStatus(props.report.reportDetails[0].status);
+      setProgramId(props.report.reportDetails.program_id);
+      setDj(props.report.reportDetails.program_dj);
+      setProgramNumber(props.report.reportDetails.program_no);
+      setProgramDate(props.report.reportDetails.program_date);
+      setProgramStartTime(props.report.reportDetails.program_start_time);
+      setProgramEndTime(props.report.reportDetails.program_end_time);
+      setStatus(props.report.reportDetails.status);
     }
   }, [props.report.reportDetails]);
 
-  if (props.report.reportDetails === null) {
+  if (props.report.reportDetails === null || props.users.users === null) {
     return <div>loading...</div>;
   }
 
@@ -69,6 +69,7 @@ const ReportDetails = props => {
             placeholder="Ohjelma"
             openOnFocus
             selection
+            value={programId}
             search
             options={programOptions}
             onChange={getProgram}

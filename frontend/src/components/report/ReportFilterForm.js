@@ -4,21 +4,21 @@ import { connect } from 'react-redux';
 import { getOneReport } from '../../actions/reportActions';
 import { getAllReportsByDate } from '../../actions/reportsListActions';
 import { Dropdown, Button, Select } from 'semantic-ui-react';
-// import moment from 'moment';
+import moment from 'moment';
 
 const ReportFilterForm = props => {
   const [reportMonth, setReportMonth] = useState('');
   const [reportYear, setReportYear] = useState('');
   const [userId, setUserId] = useState('');
   // initial reports list
-  // useEffect(() => {
-  //   props.getAllReportsByDate(moment().format('YYYY-MM'));
-  //   // eslint-disable-next-line
-  // }, []);
-  // month options
+  useEffect(() => {
+    props.getAllReportsByDate(moment().format('YYYY-MM'));
+    // eslint-disable-next-line
+  }, []);
   if (props.users.users === null) {
     return <div>loading</div>;
   }
+  // month options
   const monthOptions = [
     {
       key: '01',

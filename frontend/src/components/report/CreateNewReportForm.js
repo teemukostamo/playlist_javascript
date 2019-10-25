@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Header, Form, Button, Input, Dropdown } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Header, Form, Button, Input, Dropdown } from 'semantic-ui-react';
+import { createReport } from '../../actions/reportActions';
 
 const CreateNewReportForm = props => {
   const [programId, setProgramId] = useState('');
@@ -10,10 +12,13 @@ const CreateNewReportForm = props => {
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
   const [rerun, setRerun] = useState(null);
+  const [redirect, setRedirect] = useState(false);
 
   if (props.programs.allPrograms === null) {
     return <div>loafing</div>;
   }
+
+  console.log('create new report form props', props);
 
   // list of programoptions for select
   let programOptions = props.programs.allPrograms.map(program => ({
@@ -26,8 +31,30 @@ const CreateNewReportForm = props => {
     setProgramId(value);
   };
   const createReport = () => {
-    console.log('creating report...');
+    const newReport = {
+      user_id: props.login.id,
+      program_id: programId,
+      program_date: programDate,
+      program_start_time: programStartTime,
+      program_end_time: programEndTime,
+      program_no: programNumber,
+      program_dj: dj,
+      status: 1,
+      rerun: null
+    };
+    props.createReport(newReport);
+    console.log('create report button click pros', props.report.reportDetails);
+    console.log('creating report:', newReport);
+    setRedirect(true);
   };
+  console.log(dj);
+
+  if (redirect && props.report.newReport !== null) {
+    console.log('create new report for after submit props', props);
+    console.log('redirecting to id', props.report.newReport.id);
+    return <Redirect to={`reports/${props.report.newReport.id}`} />;
+  }
+
   return (
     <div>
       <Header>Luo uusi raportti</Header>
@@ -109,7 +136,7 @@ const mapStateToProps = state => {
 
 const connectedCreateNewReportForm = connect(
   mapStateToProps,
-  null
+  { createReport }
 )(CreateNewReportForm);
 
 export default connectedCreateNewReportForm;

@@ -8,17 +8,26 @@ import ReportDetails from './ReportDetails';
 const ReportWithTracks = props => {
   // get report tracks by report id
   useEffect(() => {
-    props.getOneReport(props.id);
+    if (props.id === undefined) {
+      props.getOneReport(props.report.reportDetails.id);
+    } else {
+      props.getOneReport(props.id);
+    }
     // eslint-disable-next-line
   }, []);
   // get report details by report id
   useEffect(() => {
-    console.log('get details of report ', props.id);
-    props.getReportDetails(props.id);
+    if (props.id === undefined) {
+      props.getReportDetails(props.report.reportDetails.id);
+    } else {
+      console.log('get details of report ', props.id);
+      props.getReportDetails(props.id);
+    }
+
     // eslint-disable-next-line
   }, []);
 
-  console.log(props.report.loading);
+  console.log('report with tracks props', props);
 
   if (props.report.report === null) {
     return <Container>loading</Container>;

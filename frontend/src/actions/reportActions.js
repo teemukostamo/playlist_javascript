@@ -1,6 +1,7 @@
 import {
   GET_ONE_REPORT,
   GET_REPORT_DETAILS,
+  CREATE_REPORT,
   SET_LOADING
 } from '../actions/types';
 import reportService from '../services/reports';
@@ -29,11 +30,31 @@ export const getOneReport = id => async dispatch => {
 export const getReportDetails = id => async dispatch => {
   try {
     setLoading();
-    const report = await reportService.getReportDetails(id);
+    let report = await reportService.getReportDetails(id);
+    report = report[0];
+    console.log('report actions report', report);
     dispatch({
       type: GET_REPORT_DETAILS,
       data: report,
       id
+    });
+  } catch (error) {
+    console.log(error);
+    // dispatch({
+    //   type: REPORT_ERROR,
+    //   payload: error.response.data
+    // });
+  }
+};
+
+// create new report
+export const createReport = newReport => async dispatch => {
+  try {
+    setLoading();
+    const report = await reportService.createReport(newReport);
+    dispatch({
+      type: CREATE_REPORT,
+      data: report
     });
   } catch (error) {
     console.log(error);
