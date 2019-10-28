@@ -81,4 +81,46 @@ reportDetailsRouter.post('/', async (req, res, next) => {
   }
 });
 
+// update existing report details
+reportDetailsRouter.put('/:id', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+
+    let {
+      user_id,
+      program_id,
+      program_date,
+      program_start_time,
+      program_end_time,
+      program_no,
+      program_dj,
+      status,
+      rerun
+    } = req.body;
+
+    const updatedReport = await Report.update(
+      {
+        user_id,
+        program_id,
+        program_date,
+        program_start_time,
+        program_end_time,
+        program_no,
+        program_dj,
+        status,
+        rerun
+      },
+      { where: { id: req.body.id } }
+    );
+    console.log(updatedReport);
+    res.status(201).json(updatedReport);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = reportDetailsRouter;

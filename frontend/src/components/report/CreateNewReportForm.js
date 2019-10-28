@@ -11,7 +11,6 @@ const CreateNewReportForm = props => {
   const [programDate, setProgramDate] = useState('');
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
-  const [rerun, setRerun] = useState(null);
   const [redirect, setRedirect] = useState(false);
 
   if (props.programs.allPrograms === null) {
@@ -29,6 +28,265 @@ const CreateNewReportForm = props => {
   const getProgram = (event, { value }) => {
     event.preventDefault();
     setProgramId(value);
+    console.log(programId);
+  };
+
+  // list of program start time options
+  const startTimeOptions = [
+    {
+      key: '00:00',
+      text: '00:00',
+      value: '00:00'
+    },
+    {
+      key: '01:00',
+      text: '01:00',
+      value: '01:00'
+    },
+    {
+      key: '02:00',
+      text: '02:00',
+      value: '02:00'
+    },
+    {
+      key: '03:00',
+      text: '03:00',
+      value: '03:00'
+    },
+    {
+      key: '04:00',
+      text: '04:00',
+      value: '04:00'
+    },
+    {
+      key: '05:00',
+      text: '05:00',
+      value: '05:00'
+    },
+    {
+      key: '06:00',
+      text: '06:00',
+      value: '06:00'
+    },
+    {
+      key: '07:00',
+      text: '07:00',
+      value: '07:00'
+    },
+    {
+      key: '08:00',
+      text: '08:00',
+      value: '08:00'
+    },
+    {
+      key: '09:00',
+      text: '09:00',
+      value: '09:00'
+    },
+    {
+      key: '10:00',
+      text: '10:00',
+      value: '10:00'
+    },
+    {
+      key: '11:00',
+      text: '11:00',
+      value: '11:00'
+    },
+    {
+      key: '12:00',
+      text: '12:00',
+      value: '12:00'
+    },
+    {
+      key: '13:00',
+      text: '13:00',
+      value: '13:00'
+    },
+    {
+      key: '14:00',
+      text: '14:00',
+      value: '14:00'
+    },
+    {
+      key: '15:00',
+      text: '15:00',
+      value: '15:00'
+    },
+    {
+      key: '16:00',
+      text: '16:00',
+      value: '16:00'
+    },
+    {
+      key: '17:00',
+      text: '17:00',
+      value: '17:00'
+    },
+    {
+      key: '18:00',
+      text: '18:00',
+      value: '18:00'
+    },
+    {
+      key: '19:00',
+      text: '19:00',
+      value: '19:00'
+    },
+    {
+      key: '20:00',
+      text: '20:00',
+      value: '20:00'
+    },
+    {
+      key: '21:00',
+      text: '21:00',
+      value: '21:00'
+    },
+    {
+      key: '22:00',
+      text: '22:00',
+      value: '22:00'
+    },
+    {
+      key: '23:00',
+      text: '23:00',
+      value: '23:00'
+    }
+  ];
+  const getStartTime = (event, { value }) => {
+    event.preventDefault();
+    setProgramStartTime(value);
+    console.log(programStartTime);
+  };
+
+  // list of program end time options
+  const endTimeOptions = [
+    {
+      key: '01:00',
+      text: '01:00',
+      value: '01:00'
+    },
+    {
+      key: '02:00',
+      text: '02:00',
+      value: '02:00'
+    },
+    {
+      key: '03:00',
+      text: '03:00',
+      value: '03:00'
+    },
+    {
+      key: '04:00',
+      text: '04:00',
+      value: '04:00'
+    },
+    {
+      key: '05:00',
+      text: '05:00',
+      value: '05:00'
+    },
+    {
+      key: '06:00',
+      text: '06:00',
+      value: '06:00'
+    },
+    {
+      key: '07:00',
+      text: '07:00',
+      value: '07:00'
+    },
+    {
+      key: '08:00',
+      text: '08:00',
+      value: '08:00'
+    },
+    {
+      key: '09:00',
+      text: '09:00',
+      value: '09:00'
+    },
+    {
+      key: '10:00',
+      text: '10:00',
+      value: '10:00'
+    },
+    {
+      key: '11:00',
+      text: '11:00',
+      value: '11:00'
+    },
+    {
+      key: '12:00',
+      text: '12:00',
+      value: '12:00'
+    },
+    {
+      key: '13:00',
+      text: '13:00',
+      value: '13:00'
+    },
+    {
+      key: '14:00',
+      text: '14:00',
+      value: '14:00'
+    },
+    {
+      key: '15:00',
+      text: '15:00',
+      value: '15:00'
+    },
+    {
+      key: '16:00',
+      text: '16:00',
+      value: '16:00'
+    },
+    {
+      key: '17:00',
+      text: '17:00',
+      value: '17:00'
+    },
+    {
+      key: '18:00',
+      text: '18:00',
+      value: '18:00'
+    },
+    {
+      key: '19:00',
+      text: '19:00',
+      value: '19:00'
+    },
+    {
+      key: '20:00',
+      text: '20:00',
+      value: '20:00'
+    },
+    {
+      key: '21:00',
+      text: '21:00',
+      value: '21:00'
+    },
+    {
+      key: '22:00',
+      text: '22:00',
+      value: '22:00'
+    },
+    {
+      key: '23:00',
+      text: '23:00',
+      value: '23:00'
+    },
+    {
+      key: '23:59',
+      text: '23:59',
+      value: '23:59'
+    }
+  ];
+  const getEndTime = (event, { value }) => {
+    event.preventDefault();
+    setProgramEndTime(value);
+    console.log(programEndTime);
   };
   const createReport = () => {
     const newReport = {
@@ -39,7 +297,7 @@ const CreateNewReportForm = props => {
       program_end_time: programEndTime,
       program_no: programNumber,
       program_dj: dj,
-      status: 1,
+      status: 0,
       rerun: null
     };
     props.createReport(newReport);
@@ -73,6 +331,7 @@ const CreateNewReportForm = props => {
         <Form.Field>
           <label>Ohjelmanumero</label>
           <Input
+            type="number"
             value={programNumber}
             selection
             onChange={e => setProgramNumber(e.target.value)}
@@ -98,17 +357,23 @@ const CreateNewReportForm = props => {
           <label>Ohjelma-aika</label>
         </Form.Field>
         <Form.Group widths="equal">
-          <Form.Input
-            fluid
-            value={programStartTime}
-            onChange={e => setProgramStartTime(e.target.value)}
+          <Dropdown
+            placeholder="Alkaen hh:mm"
+            openOnFocus
+            selection
+            search
+            options={startTimeOptions}
+            onChange={getStartTime}
           />{' '}
           -
-          <Form.Input
-            fluid
-            value={programEndTime}
-            onChange={e => setProgramEndTime(e.target.value)}
-          />
+          <Dropdown
+            placeholder="Päättyen hh:mm"
+            openOnFocus
+            selection
+            search
+            options={endTimeOptions}
+            onChange={getEndTime}
+          />{' '}
         </Form.Group>
         <Form.Field>
           <label>Uusinta</label>

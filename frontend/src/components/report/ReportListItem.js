@@ -5,6 +5,15 @@ import { Table } from 'semantic-ui-react';
 import { getOneReport } from '../../actions/reportActions';
 
 const ReportListItem = props => {
+  let reportStatusOutPrint;
+
+  if (props.report.status === 1) {
+    reportStatusOutPrint = 'Valmis';
+  } else if (props.report.status === 0) {
+    reportStatusOutPrint = 'Keskeneräinen';
+  } else if (props.report.status === 9) {
+    reportStatusOutPrint = 'Poistettu';
+  }
   return (
     <React.Fragment>
       <Table.Row>
@@ -16,7 +25,7 @@ const ReportListItem = props => {
           {props.report.program_date} {props.report.program_start_time} -{' '}
           {props.report.program_end_time}
         </Table.Cell>
-        <Table.Cell>{props.report.status}</Table.Cell>
+        <Table.Cell>{reportStatusOutPrint}</Table.Cell>
       </Table.Row>
     </React.Fragment>
   );

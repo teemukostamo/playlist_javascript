@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { updateReport } from '../../actions/reportActions';
 
-import { Header, Form, Button, Input, Dropdown } from 'semantic-ui-react';
+import { Header, Form, Button, Dropdown } from 'semantic-ui-react';
+import AddTrack from '../track/AddTrack';
 
 const ReportDetails = props => {
   const [programId, setProgramId] = useState('');
@@ -17,6 +19,7 @@ const ReportDetails = props => {
   console.log('report detauls props', props);
   useEffect(() => {
     if (props.report.reportDetails !== null) {
+      setUserId(props.report.reportDetails.user_id);
       setProgramId(props.report.reportDetails.program_id);
       setDj(props.report.reportDetails.program_dj);
       setProgramNumber(props.report.reportDetails.program_no);
@@ -49,19 +52,313 @@ const ReportDetails = props => {
     event.preventDefault();
     setUserId(value);
   };
-  console.log('changed user id', userId);
+  // list of program start time options
+  const startTimeOptions = [
+    {
+      key: '00:00',
+      text: '00:00',
+      value: '00:00'
+    },
+    {
+      key: '01:00',
+      text: '01:00',
+      value: '01:00'
+    },
+    {
+      key: '02:00',
+      text: '02:00',
+      value: '02:00'
+    },
+    {
+      key: '03:00',
+      text: '03:00',
+      value: '03:00'
+    },
+    {
+      key: '04:00',
+      text: '04:00',
+      value: '04:00'
+    },
+    {
+      key: '05:00',
+      text: '05:00',
+      value: '05:00'
+    },
+    {
+      key: '06:00',
+      text: '06:00',
+      value: '06:00'
+    },
+    {
+      key: '07:00',
+      text: '07:00',
+      value: '07:00'
+    },
+    {
+      key: '08:00',
+      text: '08:00',
+      value: '08:00'
+    },
+    {
+      key: '09:00',
+      text: '09:00',
+      value: '09:00'
+    },
+    {
+      key: '10:00',
+      text: '10:00',
+      value: '10:00'
+    },
+    {
+      key: '11:00',
+      text: '11:00',
+      value: '11:00'
+    },
+    {
+      key: '12:00',
+      text: '12:00',
+      value: '12:00'
+    },
+    {
+      key: '13:00',
+      text: '13:00',
+      value: '13:00'
+    },
+    {
+      key: '14:00',
+      text: '14:00',
+      value: '14:00'
+    },
+    {
+      key: '15:00',
+      text: '15:00',
+      value: '15:00'
+    },
+    {
+      key: '16:00',
+      text: '16:00',
+      value: '16:00'
+    },
+    {
+      key: '17:00',
+      text: '17:00',
+      value: '17:00'
+    },
+    {
+      key: '18:00',
+      text: '18:00',
+      value: '18:00'
+    },
+    {
+      key: '19:00',
+      text: '19:00',
+      value: '19:00'
+    },
+    {
+      key: '20:00',
+      text: '20:00',
+      value: '20:00'
+    },
+    {
+      key: '21:00',
+      text: '21:00',
+      value: '21:00'
+    },
+    {
+      key: '22:00',
+      text: '22:00',
+      value: '22:00'
+    },
+    {
+      key: '23:00',
+      text: '23:00',
+      value: '23:00'
+    }
+  ];
+  const getStartTime = (event, { value }) => {
+    event.preventDefault();
+    setProgramStartTime(value);
+  };
+
+  // list of program end time options
+  const endTimeOptions = [
+    {
+      key: '01:00',
+      text: '01:00',
+      value: '01:00'
+    },
+    {
+      key: '02:00',
+      text: '02:00',
+      value: '02:00'
+    },
+    {
+      key: '03:00',
+      text: '03:00',
+      value: '03:00'
+    },
+    {
+      key: '04:00',
+      text: '04:00',
+      value: '04:00'
+    },
+    {
+      key: '05:00',
+      text: '05:00',
+      value: '05:00'
+    },
+    {
+      key: '06:00',
+      text: '06:00',
+      value: '06:00'
+    },
+    {
+      key: '07:00',
+      text: '07:00',
+      value: '07:00'
+    },
+    {
+      key: '08:00',
+      text: '08:00',
+      value: '08:00'
+    },
+    {
+      key: '09:00',
+      text: '09:00',
+      value: '09:00'
+    },
+    {
+      key: '10:00',
+      text: '10:00',
+      value: '10:00'
+    },
+    {
+      key: '11:00',
+      text: '11:00',
+      value: '11:00'
+    },
+    {
+      key: '12:00',
+      text: '12:00',
+      value: '12:00'
+    },
+    {
+      key: '13:00',
+      text: '13:00',
+      value: '13:00'
+    },
+    {
+      key: '14:00',
+      text: '14:00',
+      value: '14:00'
+    },
+    {
+      key: '15:00',
+      text: '15:00',
+      value: '15:00'
+    },
+    {
+      key: '16:00',
+      text: '16:00',
+      value: '16:00'
+    },
+    {
+      key: '17:00',
+      text: '17:00',
+      value: '17:00'
+    },
+    {
+      key: '18:00',
+      text: '18:00',
+      value: '18:00'
+    },
+    {
+      key: '19:00',
+      text: '19:00',
+      value: '19:00'
+    },
+    {
+      key: '20:00',
+      text: '20:00',
+      value: '20:00'
+    },
+    {
+      key: '21:00',
+      text: '21:00',
+      value: '21:00'
+    },
+    {
+      key: '22:00',
+      text: '22:00',
+      value: '22:00'
+    },
+    {
+      key: '23:00',
+      text: '23:00',
+      value: '23:00'
+    },
+    {
+      key: '23:59',
+      text: '23:59',
+      value: '23:59'
+    }
+  ];
+  const getEndTime = (event, { value }) => {
+    event.preventDefault();
+    setProgramEndTime(value);
+  };
+
+  // list of program status options
+  const statusOptions = [
+    {
+      key: '0',
+      text: 'Keskeneräinen',
+      value: '0'
+    },
+    {
+      key: '1',
+      text: 'Valmis',
+      value: '1'
+    },
+    {
+      key: '9',
+      text: 'Poistettu',
+      value: '9'
+    }
+  ];
+  const getStatus = (event, { value }) => {
+    event.preventDefault();
+    setStatus(value);
+  };
+
+  // save changes to db
   const saveChanges = e => {
     e.preventDefault();
-    console.log('saving changes...');
+    const updatedReportDetails = {
+      id: props.report.reportDetails.id,
+      user_id: userId,
+      program_id: programId,
+      program_date: programDate,
+      program_start_time: programStartTime,
+      program_end_time: programEndTime,
+      program_no: programNumber,
+      program_dj: dj,
+      status: status,
+      rerun: rerun
+    };
+    console.log('saving changes...', updatedReportDetails);
+    props.updateReport(updatedReportDetails);
   };
+
+  // copy report for rerun
   const copyReport = e => {
     e.preventDefault();
     console.log('klikd copy');
   };
-  console.log('program name', programNumber);
   return (
     <div>
       <Header>Raportin tiedot:</Header>
+      <AddTrack />
       <Form>
         <Form.Field>
           <label>Ohjelma</label>
@@ -77,25 +374,20 @@ const ReportDetails = props => {
         </Form.Field>
         <Form.Field>
           <label>Ohjelmanumero</label>
-          <Input
+          <Form.Input
             value={programNumber}
-            selection
             onChange={e => setProgramNumber(e.target.value)}
           />{' '}
         </Form.Field>
         <Form.Field>
           <label>DJ</label>
-          <Input
-            value={dj}
-            selection
-            onChange={e => setDj(e.target.value)}
-          />{' '}
+          <Form.Input value={dj} onChange={e => setDj(e.target.value)} />{' '}
         </Form.Field>
         <Form.Field>
           <label>Ohjelman päivä</label>
-          <Input
+          <Form.Input
             value={programDate}
-            selection
+            selection="true"
             onChange={e => setProgramDate(e.target.value)}
           />{' '}
         </Form.Field>
@@ -103,24 +395,33 @@ const ReportDetails = props => {
           <label>Ohjelma-aika</label>
         </Form.Field>
         <Form.Group widths="equal">
-          <Form.Input
-            fluid
-            value={programStartTime}
-            onChange={e => setProgramStartTime(e.target.value)}
+          <Dropdown
+            placeholder={programStartTime}
+            openOnFocus
+            selection
+            search
+            options={startTimeOptions}
+            onChange={getStartTime}
           />{' '}
           -
-          <Form.Input
-            fluid
-            value={programEndTime}
-            onChange={e => setProgramEndTime(e.target.value)}
-          />
+          <Dropdown
+            placeholder={programEndTime}
+            openOnFocus
+            selection
+            search
+            options={endTimeOptions}
+            onChange={getEndTime}
+          />{' '}
         </Form.Group>
         <Form.Field>
           <label>Raportin tila</label>
-          <Input
-            value={status}
+          <Dropdown
+            openOnFocus
             selection
-            onChange={e => setStatus(e.target.value)}
+            search
+            options={statusOptions}
+            onChange={getStatus}
+            value={status}
           />{' '}
         </Form.Field>
         <Form.Field>
@@ -128,6 +429,7 @@ const ReportDetails = props => {
           <Dropdown
             placeholder="Käyttäjä"
             openOnFocus={false}
+            value={userId}
             selection
             search
             options={userOptions}
@@ -161,7 +463,7 @@ const mapStateToProps = state => {
 
 const connectedReportDetails = connect(
   mapStateToProps,
-  null
+  { updateReport }
 )(ReportDetails);
 
 export default connectedReportDetails;

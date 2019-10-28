@@ -54,10 +54,27 @@ const createReport = async newReport => {
   return response.data;
 };
 
+// update existing report
+const updateReport = async updatedReport => {
+  const config = {
+    headers: { Authorization: token }
+  };
+
+  console.log('reportservice report to update', updatedReport);
+  const request = axios.put(
+    `/api/reportdetails/${updatedReport.id}`,
+    updatedReport,
+    config
+  );
+  console.log(request.data);
+  return updatedReport;
+};
+
 export default {
   setToken,
   getOne,
   getAllByDate,
   getReportDetails,
-  createReport
+  createReport,
+  updateReport
 };

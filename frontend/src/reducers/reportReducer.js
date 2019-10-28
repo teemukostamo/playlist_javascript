@@ -2,6 +2,7 @@ import {
   GET_ONE_REPORT,
   GET_REPORT_DETAILS,
   CREATE_REPORT,
+  UPDATE_REPORT,
   SET_LOADING,
   REPORT_ERROR
 } from '../actions/types';
@@ -40,6 +41,13 @@ const reportReducer = (state = initialState, action) => {
         loading: false
       };
     }
+    case UPDATE_REPORT:
+      return {
+        ...state,
+        reportDetails: action.data,
+        newReport: null,
+        loading: false
+      };
     case SET_LOADING:
       return {
         ...state,

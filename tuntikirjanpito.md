@@ -31,4 +31,5 @@
 | 22.10.2019 | 8 (82)  | add & edit user modals, current user state, add track route. switched to semantic ui |
 | 23.10.2019 |    7    |   report-track frontend routes, report details backend route, depolying to heroku    |
 | 24.10.2019 |    6    |  program routes, report detail & filter forms, report date selection options array   |
-| 25.10.2019 |         |            create report frontend, redirect to new report after creation             |
+| 25.10.2019 |    3    |            create report frontend, redirect to new report after creation             |
+| 28.10.2019 | 4 (102) |     date & time dropdown for create new report form, update report back&frontend     |

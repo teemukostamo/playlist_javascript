@@ -38,6 +38,19 @@ const User = props => {
     console.log('for user', props.user.id);
   };
 
+  console.log(level);
+  console.log(typeof level);
+
+  let userLevelOutPrint;
+
+  if (level === 1) {
+    userLevelOutPrint = 'DJ';
+  } else if (level === 2) {
+    userLevelOutPrint = 'Toimitus';
+  } else {
+    userLevelOutPrint = 'Admin';
+  }
+
   return (
     <Table.Row>
       <Table.Cell>
@@ -130,7 +143,7 @@ const User = props => {
       <Table.Cell>
         <Moment format="MMMM Do YYYY, h:mm:ss a">{props.user.last_seen}</Moment>
       </Table.Cell>
-      <Table.Cell>{props.user.level}</Table.Cell>
+      <Table.Cell>{userLevelOutPrint}</Table.Cell>
       <Table.Cell>
         <Icon user onClick={onDelete} name="delete" />
       </Table.Cell>

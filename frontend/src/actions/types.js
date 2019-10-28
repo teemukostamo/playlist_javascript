@@ -14,6 +14,7 @@ export const GET_ONE_REPORT = 'GET_ONE_REPORT';
 export const GET_REPORT_DETAILS = 'GET_REPORT_DETAILS';
 export const GET_ALL_REPORTS_BY_DATE = 'GET_ALL_REPORTS_BY_DATE';
 export const CREATE_REPORT = 'CREATE_REPORT';
+export const UPDATE_REPORT = 'UPDATE_REPORT';
 export const REPORT_ERROR = 'REPORT_ERROR';
 
 // program actions

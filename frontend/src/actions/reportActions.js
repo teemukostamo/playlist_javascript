@@ -2,6 +2,7 @@ import {
   GET_ONE_REPORT,
   GET_REPORT_DETAILS,
   CREATE_REPORT,
+  UPDATE_REPORT,
   SET_LOADING
 } from '../actions/types';
 import reportService from '../services/reports';
@@ -62,6 +63,19 @@ export const createReport = newReport => async dispatch => {
     //   type: REPORT_ERROR,
     //   payload: error.response.data
     // });
+  }
+};
+
+export const updateReport = updatedReport => async dispatch => {
+  try {
+    setLoading();
+    const report = await reportService.updateReport(updatedReport);
+    dispatch({
+      type: UPDATE_REPORT,
+      data: report
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 

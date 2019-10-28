@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getOneReport } from '../../actions/reportActions';
 import { getAllReportsByDate } from '../../actions/reportsListActions';
-import { Dropdown, Button, Select } from 'semantic-ui-react';
+import { Dropdown, Button } from 'semantic-ui-react';
 import moment from 'moment';
 
 const ReportFilterForm = props => {
