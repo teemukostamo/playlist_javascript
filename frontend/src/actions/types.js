@@ -21,5 +21,8 @@ export const REPORT_ERROR = 'REPORT_ERROR';
 export const GET_ALL_PROGRAMS = 'GET_ALL_PROGRAMS';
 export const GET_ONE_PROGRAM = 'GET_ONE_PROGRAM';
 
+// search actions
+export const AUTOCOMPLETE_RESULTS = 'AUTOCOMPLETE_RESULTS';
+
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';

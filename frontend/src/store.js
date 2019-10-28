@@ -8,6 +8,7 @@ import reportReducer from './reducers/reportReducer';
 import userReducer from './reducers/userReducer';
 import reportsListReducer from './reducers/reportsListReducer';
 import programReducer from './reducers/programReducer';
+import searchReducer from './reducers/searchReducer';
 
 const reducer = combineReducers({
   login: loginReducer,
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   report: reportReducer,
   reportsList: reportsListReducer,
   programs: programReducer,
+  search: searchReducer,
   users: userReducer
 });
 

@@ -52,3 +52,12 @@ FROM playlist__program as pr, playlist__report as re, playlist__user as us
 WHERE re.id = 64249
 and pr.id = re.program_id
 and re.user_id = us.id
+
+-- query for autocomplete search
+SELECT t.name as track_title, ar.name as artist, al.name as album, t.id as track_id,
+al.id as album_id, ar.id as artist_id, t.label as label
+FROM playlist__artist as ar, playlist__album as al, playlist__track as t
+WHERE t.album_id = al.id
+and t.artist_id = ar.id
+and (t.name like "%bowie%" or ar.name like "%bowie%")
+order by t.name asc

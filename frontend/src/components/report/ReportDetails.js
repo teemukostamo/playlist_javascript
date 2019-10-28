@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { updateReport } from '../../actions/reportActions';
 
 import { Header, Form, Button, Dropdown } from 'semantic-ui-react';
-import AddTrack from '../track/AddTrack';
+import AddTrackToReport from '../track/AddTrackToReport';
 
 const ReportDetails = props => {
   const [programId, setProgramId] = useState('');
@@ -358,7 +358,7 @@ const ReportDetails = props => {
   return (
     <div>
       <Header>Raportin tiedot:</Header>
-      <AddTrack />
+      <AddTrackToReport />
       <Form>
         <Form.Field>
           <label>Ohjelma</label>
