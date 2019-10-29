@@ -1,7 +1,7 @@
 import { AUTOCOMPLETE_RESULTS, SET_LOADING } from '../actions/types';
 
 const initialState = {
-  searchResults: null,
+  searchResults: [],
   trackResults: null,
   artistResults: null,
   albumResults: null,

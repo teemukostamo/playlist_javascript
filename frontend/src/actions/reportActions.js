@@ -27,6 +27,23 @@ export const getOneReport = id => async dispatch => {
   }
 };
 
+// add track to a report
+export const addTrackToReport = trackToAdd => async dispatch => {
+  try {
+    setLoading();
+    let track = await reportService.addTrackToReport(trackToAdd);
+    console.log('add track to report track', track);
+    const report = await reportService.getOne(track.report_id);
+    console.log('reportactions', report);
+    dispatch({
+      type: GET_ONE_REPORT,
+      data: report
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // get report details by report id
 export const getReportDetails = id => async dispatch => {
   try {

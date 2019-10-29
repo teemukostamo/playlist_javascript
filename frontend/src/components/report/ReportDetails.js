@@ -4,6 +4,8 @@ import { updateReport } from '../../actions/reportActions';
 
 import { Header, Form, Button, Dropdown } from 'semantic-ui-react';
 import AddTrackToReport from '../track/AddTrackToReport';
+import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
+import Togglable from '../layout/Togglable';
 
 const ReportDetails = props => {
   const [programId, setProgramId] = useState('');
@@ -357,8 +359,16 @@ const ReportDetails = props => {
   };
   return (
     <div>
+      <Form>
+        <Form.Group widths="equal">
+          <AddTrackToReport />
+          <Togglable buttonLabel="Hae biisit DJonlinesta">
+            <GetDjOnlineTracks />
+          </Togglable>
+        </Form.Group>
+      </Form>
+
       <Header>Raportin tiedot:</Header>
-      <AddTrackToReport />
       <Form>
         <Form.Field>
           <label>Ohjelma</label>

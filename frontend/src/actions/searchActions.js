@@ -3,7 +3,9 @@ import searchService from '../services/search';
 
 export const getAutocompleteResults = query => async dispatch => {
   try {
-    setLoading();
+    dispatch({
+      type: SET_LOADING
+    });
     const results = await searchService.getTracksForSearch(query);
     console.log(results);
     dispatch({
@@ -13,11 +15,4 @@ export const getAutocompleteResults = query => async dispatch => {
   } catch (error) {
     console.log(error);
   }
-};
-
-// Set loading to true
-export const setLoading = () => {
-  return {
-    type: SET_LOADING
-  };
 };

@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+.ui.search > .results {
+  overflow-y: auto;
+  max-height: 550px;
+}
+
 /* Global Styles */
 :root {
   --primary-color: #dc3545;

@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-// import 'materialize-css/dist/css/materialize.min.css';
-// import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 // import './App.css';
@@ -17,20 +15,10 @@ import { initializePrograms } from './actions/programActions';
 import ReportWithTracks from './components/report/ReportWithTracks';
 
 const App = props => {
-  // initial logged in user
+  // initial logged in user, programs list, users list
   useEffect(() => {
     props.initializeUser();
-    // eslint-disable-next-line
-  }, []);
-
-  // initial programs list
-  useEffect(() => {
     props.initializePrograms();
-    // eslint-disable-next-line
-  }, []);
-
-  // initial users list
-  useEffect(() => {
     props.initializeUsers();
     // eslint-disable-next-line
   }, []);

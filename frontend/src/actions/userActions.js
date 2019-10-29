@@ -8,7 +8,9 @@ import userService from '../services/users';
 
 export const initializeUsers = () => async dispatch => {
   try {
-    setLoading();
+    dispatch({
+      type: SET_LOADING
+    });
     const users = await userService.getAll();
     dispatch({
       type: INIT_USERS_LIST,
@@ -20,13 +22,6 @@ export const initializeUsers = () => async dispatch => {
       payload: err
     });
   }
-};
-
-// Set loading to true
-export const setLoading = () => {
-  return {
-    type: SET_LOADING
-  };
 };
 
 // Set current user for editing

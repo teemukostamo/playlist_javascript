@@ -33,6 +33,15 @@ const getOne = async id => {
   return request.data;
 };
 
+const addTrackToReport = async trackToAdd => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.post(`${baseUrl}`, trackToAdd, config);
+  console.log('reportservice add track to report', request.data);
+  return request.data;
+};
+
 const getReportDetails = async id => {
   const config = {
     headers: { Authorization: token }
@@ -54,7 +63,7 @@ const createReport = async newReport => {
   return response.data;
 };
 
-// update existing report
+// update existing report details
 const updateReport = async updatedReport => {
   const config = {
     headers: { Authorization: token }
@@ -72,6 +81,7 @@ const updateReport = async updatedReport => {
 
 export default {
   setToken,
+  addTrackToReport,
   getOne,
   getAllByDate,
   getReportDetails,

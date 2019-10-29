@@ -13,6 +13,7 @@ const ReportWithTracks = props => {
     } else {
       props.getOneReport(props.id);
     }
+    // tää efekti uusiks sit kun hakutuloksista lisää biisin listaan
     // eslint-disable-next-line
   }, []);
   // get report details by report id
@@ -23,7 +24,6 @@ const ReportWithTracks = props => {
       console.log('get details of report ', props.id);
       props.getReportDetails(props.id);
     }
-
     // eslint-disable-next-line
   }, []);
 
