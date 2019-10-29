@@ -4,8 +4,9 @@ import { Form, Button, Dropdown } from 'semantic-ui-react';
 
 const GetDjOnlineTracks = () => {
   const [date, setDate] = useState('');
-  console.log(date);
   const [studioId, setStudioId] = useState('928');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
   const getStudioId = (e, { value }) => {
     e.preventDefault();
@@ -26,8 +27,291 @@ const GetDjOnlineTracks = () => {
     }
   ];
 
+  // list of program start time options
+  const startTimeOptions = [
+    {
+      key: '00:00',
+      text: '00:00',
+      value: '00'
+    },
+    {
+      key: '01:00',
+      text: '01:00',
+      value: '01'
+    },
+    {
+      key: '02:00',
+      text: '02:00',
+      value: '02'
+    },
+    {
+      key: '03:00',
+      text: '03:00',
+      value: '03'
+    },
+    {
+      key: '04:00',
+      text: '04:00',
+      value: '04'
+    },
+    {
+      key: '05:00',
+      text: '05:00',
+      value: '05'
+    },
+    {
+      key: '06:00',
+      text: '06:00',
+      value: '06'
+    },
+    {
+      key: '07:00',
+      text: '07:00',
+      value: '07'
+    },
+    {
+      key: '08:00',
+      text: '08:00',
+      value: '08'
+    },
+    {
+      key: '09:00',
+      text: '09:00',
+      value: '09'
+    },
+    {
+      key: '10:00',
+      text: '10:00',
+      value: '10'
+    },
+    {
+      key: '11:00',
+      text: '11:00',
+      value: '11'
+    },
+    {
+      key: '12:00',
+      text: '12:00',
+      value: '12'
+    },
+    {
+      key: '13:00',
+      text: '13:00',
+      value: '13'
+    },
+    {
+      key: '14:00',
+      text: '14:00',
+      value: '14'
+    },
+    {
+      key: '15:00',
+      text: '15:00',
+      value: '15'
+    },
+    {
+      key: '16:00',
+      text: '16:00',
+      value: '16'
+    },
+    {
+      key: '17:00',
+      text: '17:00',
+      value: '17'
+    },
+    {
+      key: '18:00',
+      text: '18:00',
+      value: '18'
+    },
+    {
+      key: '19:00',
+      text: '19:00',
+      value: '19'
+    },
+    {
+      key: '20:00',
+      text: '20:00',
+      value: '20'
+    },
+    {
+      key: '21:00',
+      text: '21:00',
+      value: '21'
+    },
+    {
+      key: '22:00',
+      text: '22:00',
+      value: '22'
+    },
+    {
+      key: '23:00',
+      text: '23:00',
+      value: '23'
+    }
+  ];
+  const getStartTime = (event, { value }) => {
+    event.preventDefault();
+    setStartTime(value);
+  };
+
+  // list of program end time options
+  const endTimeOptions = [
+    {
+      key: '01:00',
+      text: '01:00',
+      value: '01'
+    },
+    {
+      key: '02:00',
+      text: '02:00',
+      value: '02'
+    },
+    {
+      key: '03:00',
+      text: '03:00',
+      value: '03'
+    },
+    {
+      key: '04:00',
+      text: '04:00',
+      value: '04'
+    },
+    {
+      key: '05:00',
+      text: '05:00',
+      value: '05'
+    },
+    {
+      key: '06:00',
+      text: '06:00',
+      value: '06'
+    },
+    {
+      key: '07:00',
+      text: '07:00',
+      value: '07'
+    },
+    {
+      key: '08:00',
+      text: '08:00',
+      value: '08'
+    },
+    {
+      key: '09:00',
+      text: '09:00',
+      value: '09'
+    },
+    {
+      key: '10:00',
+      text: '10:00',
+      value: '10'
+    },
+    {
+      key: '11:00',
+      text: '11:00',
+      value: '11'
+    },
+    {
+      key: '12:00',
+      text: '12:00',
+      value: '12'
+    },
+    {
+      key: '13:00',
+      text: '13:00',
+      value: '13'
+    },
+    {
+      key: '14:00',
+      text: '14:00',
+      value: '14'
+    },
+    {
+      key: '15:00',
+      text: '15:00',
+      value: '15'
+    },
+    {
+      key: '16:00',
+      text: '16:00',
+      value: '16'
+    },
+    {
+      key: '17:00',
+      text: '17:00',
+      value: '17'
+    },
+    {
+      key: '18:00',
+      text: '18:00',
+      value: '18'
+    },
+    {
+      key: '19:00',
+      text: '19:00',
+      value: '19'
+    },
+    {
+      key: '20:00',
+      text: '20:00',
+      value: '20'
+    },
+    {
+      key: '21:00',
+      text: '21:00',
+      value: '21'
+    },
+    {
+      key: '22:00',
+      text: '22:00',
+      value: '22'
+    },
+    {
+      key: '23:00',
+      text: '23:00',
+      value: '23'
+    },
+    {
+      key: '24:00',
+      text: '24:00',
+      value: '24'
+    }
+  ];
+  const getEndTime = (event, { value }) => {
+    event.preventDefault();
+    setEndTime(value);
+  };
+
   const GetTracksFromApi = async () => {
-    const tracks = axios.get(``);
+    const tracks = await axios.get(
+      `https://www.djonline.fi/playing/playlog.php?id=${studioId}&date=${date}`
+    );
+    let arr = [];
+    for (const prop in tracks.data) {
+      arr.push(tracks.data[prop]);
+    }
+    arr = arr.reverse();
+    let newArr = [];
+    arr.forEach(track => {
+      let hours = track.date.charAt(11) + track.date.charAt(12);
+      hours = parseInt(hours);
+      // make loop skip the songs not matching the start time - end time -window
+      if (hours < parseInt(startTime) || hours >= parseInt(endTime)) {
+        return;
+      }
+      newArr.push({
+        album_name: track.album,
+        artist_name: track.artist,
+        play_time: track.date,
+        djonline_id: track.id,
+        label: track.label,
+        length: track.length,
+        track_title: track.song,
+        year: track.year
+      });
+    });
+    console.log(newArr);
   };
 
   return (
@@ -44,8 +328,24 @@ const GetDjOnlineTracks = () => {
           options={studioOptions}
           onChange={getStudioId}
         />{' '}
-        <Button onClick={GetTracksFromApi}>Hae</Button>
       </Form.Group>
+      <Form.Group widths="equal">
+        <Dropdown
+          placeholder="Alkaen HH:MM"
+          openOnFocus
+          selection
+          options={startTimeOptions}
+          onChange={getStartTime}
+        />{' '}
+        <Dropdown
+          placeholder="Päättyen HH:MM"
+          openOnFocus
+          selection
+          options={endTimeOptions}
+          onChange={getEndTime}
+        />{' '}
+      </Form.Group>
+      <Button onClick={GetTracksFromApi}>Hae</Button>
     </div>
   );
 };

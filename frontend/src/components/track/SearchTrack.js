@@ -38,6 +38,8 @@ const SearchTrack = ({
   const saveClick = () => {
     console.log('klikd save', trackToSave);
     addTrackToReport(trackToSave);
+    setSearchQuery('');
+    setTrackToSave(null);
   };
 
   const onSearchChange = (e, { value }) => {
@@ -57,21 +59,21 @@ const SearchTrack = ({
   }));
 
   return (
-    <Form>
+    <div>
+      <Search
+        // style={{ overflow: 'auto' }}
+        loading={search.loading}
+        onResultSelect={handleResultSelect}
+        onSearchChange={onSearchChange}
+        results={results}
+        // value={value}
+      />
       <Form.Group widths="equal">
-        <Search
-          style={{ overflow: 'auto', height: '80%' }}
-          loading={search.loading}
-          onResultSelect={handleResultSelect}
-          onSearchChange={onSearchChange}
-          results={results}
-          // value={value}
-        />
         <Button onClick={saveClick}>Lisää biisi raporttiin</Button>
         <Button>Lisää uusi biisi</Button>
         {/* <input type="text" onChange={e => setSearchQuery(e.target.value)} /> */}
       </Form.Group>
-    </Form>
+    </div>
   );
 };
 

@@ -26,7 +26,7 @@ searchRouter.get('/tracks/:query', async (req, res, next) => {
       return res.status(400).json({ error: 'query too short' });
     }
     const results = await db.query(
-      `SELECT t.name as track_title, ar.name as artist, al.name as album, t.id as track_id,
+      `SELECT t.name as track_title, ar.name as artist, al.name as album, t.id as track_id, t.length,
       al.id as album_id, ar.id as artist_id, t.label as label
       FROM playlist__artist as ar, playlist__album as al, playlist__track as t
       WHERE t.album_id = al.id

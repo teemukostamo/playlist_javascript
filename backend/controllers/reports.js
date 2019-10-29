@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const reportsRouter = require('express').Router();
 const db = require('../config/database');
+const Report_Track = require('../models/Report_Track');
 
 const getTokenFrom = req => {
   const authorization = req.get('authorization');
@@ -36,6 +37,28 @@ reportsRouter.get('/:id', async (req, res, next) => {
       // }
     );
     res.json(report);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// add a track to report-tracks list
+reportsRouter.post('/', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    // destructure values from req.body
+    let { track_id, report_id, length, sortable_rank } = req.body;
+    const newReportTrack = await Report_Track.create({
+      track_id,
+      report_id,
+      length,
+      sortable_rank
+    });
+    res.status(201).json(newReportTrack.toJSON());
   } catch (exception) {
     next(exception);
   }

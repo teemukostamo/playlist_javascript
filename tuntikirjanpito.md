@@ -33,3 +33,4 @@
 | 24.10.2019 |    6    |  program routes, report detail & filter forms, report date selection options array   |
 | 25.10.2019 |    3    |            create report frontend, redirect to new report after creation             |
 | 28.10.2019 | 6 (104) |       dropdown for create new report form, update report back&frontend, search       |
+| 29.10.2019 |    6    |   figuring out autocomplete search, add track to report route, get djonline tracks   |
