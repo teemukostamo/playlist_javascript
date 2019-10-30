@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { getDjonlineTracks } from '../../actions/trackActions';
+import { connect } from 'react-redux';
 import { Form, Button, Dropdown } from 'semantic-ui-react';
 
-const GetDjOnlineTracks = () => {
+const GetDjOnlineTracks = props => {
+  console.log('get djonline tracks props', props);
   const [date, setDate] = useState('');
   const [studioId, setStudioId] = useState('928');
   const [startTime, setStartTime] = useState('');
@@ -283,35 +286,43 @@ const GetDjOnlineTracks = () => {
     setEndTime(value);
   };
 
-  const GetTracksFromApi = async () => {
-    const tracks = await axios.get(
-      `https://www.djonline.fi/playing/playlog.php?id=${studioId}&date=${date}`
-    );
-    let arr = [];
-    for (const prop in tracks.data) {
-      arr.push(tracks.data[prop]);
-    }
-    arr = arr.reverse();
-    let newArr = [];
-    arr.forEach(track => {
-      let hours = track.date.charAt(11) + track.date.charAt(12);
-      hours = parseInt(hours);
-      // make loop skip the songs not matching the start time - end time -window
-      if (hours < parseInt(startTime) || hours >= parseInt(endTime)) {
-        return;
-      }
-      newArr.push({
-        album_name: track.album,
-        artist_name: track.artist,
-        play_time: track.date,
-        djonline_id: track.id,
-        label: track.label,
-        length: track.length,
-        track_title: track.song,
-        year: track.year
-      });
-    });
-    console.log(newArr);
+  const GetTracksFromApi = () => {
+    props.getDjonlineTracks(studioId, date, startTime, endTime);
+    // const tracks = await axios.get(
+    //   `https://www.djonline.fi/playing/playlog.php?id=${studioId}&date=${date}`
+    // );
+    // console.log(tracks);
+    // let arr = [];
+    // for (const prop in tracks.data) {
+    //   arr.push(tracks.data[prop]);
+    // }
+    // arr = arr.reverse();
+    // let newArr = [];
+    // arr.forEach(track => {
+    //   let hours = track.date.charAt(11) + track.date.charAt(12);
+    //   hours = parseInt(hours);
+    //   // make loop skip the songs not matching the start time - end time -window
+    //   if (hours < parseInt(startTime) || hours >= parseInt(endTime)) {
+    //     return;
+    //   }
+    //   newArr.push({
+    //     album_name: track.album,
+    //     artist_name: track.artist,
+    //     cat_id: track.matrix,
+    //     disc_no: track.side,
+    //     track_no: track.tracknumber,
+    //     isrc: track.isrc,
+    //     record_country: track.recording_country,
+    //     country: null,
+    //     play_time: track.date,
+    //     djonline_id: track.id,
+    //     label: track.label,
+    //     length: track.length,
+    //     track_title: track.song,
+    //     year: track.year
+    //   });
+    // });
+    // console.log(newArr);
   };
 
   return (
@@ -334,6 +345,7 @@ const GetDjOnlineTracks = () => {
           placeholder="Alkaen HH:MM"
           openOnFocus
           selection
+          search
           options={startTimeOptions}
           onChange={getStartTime}
         />{' '}
@@ -341,6 +353,7 @@ const GetDjOnlineTracks = () => {
           placeholder="Päättyen HH:MM"
           openOnFocus
           selection
+          search
           options={endTimeOptions}
           onChange={getEndTime}
         />{' '}
@@ -350,4 +363,21 @@ const GetDjOnlineTracks = () => {
   );
 };
 
-export default GetDjOnlineTracks;
+const mapStateToProps = state => {
+  console.log('getdjonlinetracks state to props', state);
+  return {
+    report: state.report,
+    reportsList: state.reportsList,
+    programs: state.programs,
+    notification: state.notification,
+    users: state.users,
+    login: state.login
+  };
+};
+
+const connectedGetDjOnlineTracks = connect(
+  mapStateToProps,
+  { getDjonlineTracks }
+)(GetDjOnlineTracks);
+
+export default connectedGetDjOnlineTracks;

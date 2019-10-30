@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { updateReport } from '../../actions/reportActions';
 
 import { Header, Form, Button, Dropdown } from 'semantic-ui-react';
-import AddTrackToReport from '../track/AddTrackToReport';
 import SearchTrack from '../track/SearchTrack';
 import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
 import Togglable from '../layout/Togglable';

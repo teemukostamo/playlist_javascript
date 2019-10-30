@@ -333,15 +333,14 @@ const CreateNewReportForm = props => {
           <Input
             type="number"
             value={programNumber}
-            selection
             onChange={e => setProgramNumber(e.target.value)}
           />{' '}
         </Form.Field>
         <Form.Field>
           <label>DJ</label>
           <Input
+            type="text"
             value={dj}
-            selection
             onChange={e => setDj(e.target.value)}
           />{' '}
         </Form.Field>
@@ -349,7 +348,6 @@ const CreateNewReportForm = props => {
           <label>Ohjelman päivä</label>
           <Input
             value={programDate}
-            selection
             onChange={e => setProgramDate(e.target.value)}
           />{' '}
         </Form.Field>
@@ -375,10 +373,6 @@ const CreateNewReportForm = props => {
             onChange={getEndTime}
           />{' '}
         </Form.Group>
-        <Form.Field>
-          <label>Uusinta</label>
-          <Form.Checkbox />
-        </Form.Field>
         <Form.Group widths="equal">
           <Button onClick={createReport}>Jatka</Button>
         </Form.Group>

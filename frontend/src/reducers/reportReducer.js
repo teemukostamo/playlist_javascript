@@ -1,6 +1,7 @@
 import {
   GET_ONE_REPORT,
   GET_REPORT_DETAILS,
+  GET_DJONLINE_TRACKS,
   CREATE_REPORT,
   UPDATE_REPORT,
   SET_LOADING,
@@ -25,6 +26,12 @@ const reportReducer = (state = initialState, action) => {
       return {
         ...state,
         report: action.data,
+        loading: false
+      };
+    case GET_DJONLINE_TRACKS:
+      return {
+        ...state,
+        report: [...state.report, action.data],
         loading: false
       };
     case GET_REPORT_DETAILS:

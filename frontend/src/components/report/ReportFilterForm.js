@@ -7,6 +7,7 @@ import { Dropdown, Button } from 'semantic-ui-react';
 import moment from 'moment';
 
 const ReportFilterForm = props => {
+  const [startDate, setStartDate] = useState(new Date());
   const [reportMonth, setReportMonth] = useState('');
   const [reportYear, setReportYear] = useState('');
   const [userId, setUserId] = useState('');
@@ -14,7 +15,7 @@ const ReportFilterForm = props => {
   useEffect(() => {
     props.getAllReportsByDate(moment().format('YYYY-MM'));
     // eslint-disable-next-line
-  }, []);
+  }, [props.users.users]);
   if (props.users.users === null) {
     return <div>loading</div>;
   }
@@ -125,8 +126,6 @@ const ReportFilterForm = props => {
     event.preventDefault();
     setUserId(value);
   };
-  console.log(userId);
-
   return (
     <React.Fragment>
       <Button onClick={() => getReportsByMonth()}>Hae raportit ajalta:</Button>

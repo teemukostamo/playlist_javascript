@@ -25,5 +25,8 @@ export const GET_ONE_PROGRAM = 'GET_ONE_PROGRAM';
 // search actions
 export const AUTOCOMPLETE_RESULTS = 'AUTOCOMPLETE_RESULTS';
 
+// track actions
+export const CHECK_DJONLINE_TRACKS = 'CHECK_DJONLINE_TRACKS';
+
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';
