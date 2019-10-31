@@ -1,21 +1,19 @@
-import { CHECK_DJONLINE_TRACKS } from './types';
+import { GET_DJONLINE_TRACKS, GET_ONE_REPORT, SET_LOADING } from './types';
 import trackService from '../services/tracks';
+import reportService from '../services/reports';
 
-export const getDjonlineTracks = (
-  studioId,
-  date,
-  startTime,
-  endTime
-) => async dispatch => {
+export const getDjonlineTracks = searchParams => async dispatch => {
   try {
-    const tracks = await trackService.checkDjonlineTracks(
-      studioId,
-      date,
-      startTime,
-      endTime
-    );
     dispatch({
-      type: CHECK_DJONLINE_TRACKS,
+      type: SET_LOADING
+    });
+    const tracks = await trackService.checkDjonlineTracks(searchParams);
+    // console.log(searchParams);
+    // const report = await reportService.getOne(searchParams.report_id);
+    // console.log('track actions report', report);
+    // console.log('track actions dispatch data', tracks);
+    dispatch({
+      type: GET_DJONLINE_TRACKS,
       data: tracks
     });
   } catch (error) {

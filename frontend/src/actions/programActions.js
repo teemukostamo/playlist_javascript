@@ -8,7 +8,9 @@ import programService from '../services/programs';
 // get all programs
 export const initializePrograms = () => async dispatch => {
   try {
-    setLoading();
+    dispatch({
+      type: SET_LOADING
+    });
     const programs = await programService.getAll();
     dispatch({
       type: GET_ALL_PROGRAMS,
@@ -22,7 +24,9 @@ export const initializePrograms = () => async dispatch => {
 // get one program by id
 export const getOneProgram = id => async dispatch => {
   try {
-    setLoading();
+    dispatch({
+      type: SET_LOADING
+    });
     const program = await programService.getOne(id);
     dispatch({
       type: GET_ONE_PROGRAM,
@@ -32,11 +36,4 @@ export const getOneProgram = id => async dispatch => {
   } catch (error) {
     console.log(error);
   }
-};
-
-// Set loading to true
-export const setLoading = () => {
-  return {
-    type: SET_LOADING
-  };
 };

@@ -7,22 +7,27 @@ const setToken = newToken => {
   token = `bearer ${newToken}`;
 };
 
-const checkDjonlineTracks = async (studioId, date, startTime, endTime) => {
+const checkDjonlineTracks = async searchParams => {
+  // TODO - Handle sortable_rank
   const tracks = await axios.get(
-    `https://www.djonline.fi/playing/playlog.php?id=${studioId}&date=${date}`
+    `https://www.djonline.fi/playing/playlog.php?id=${searchParams.studioId}&date=${searchParams.date}`
   );
-  console.log('tracks service raw data fetched from djonline api', tracks);
   let arr = [];
   for (const prop in tracks.data) {
     arr.push(tracks.data[prop]);
   }
   arr = arr.reverse();
   let newArr = [];
-  arr.forEach(track => {
+  arr.forEach((track, index) => {
     let hours = track.date.charAt(11) + track.date.charAt(12);
     hours = parseInt(hours);
+    let a = track.length.split(':');
+    let seconds = parseInt(a[0]) * 60 + parseInt(a[1]);
     // make loop skip the songs not matching the start time - end time -window
-    if (hours < parseInt(startTime) || hours >= parseInt(endTime)) {
+    if (
+      hours < parseInt(searchParams.startTime) ||
+      hours >= parseInt(searchParams.endTime)
+    ) {
       return;
     }
     newArr.push({
@@ -37,24 +42,32 @@ const checkDjonlineTracks = async (studioId, date, startTime, endTime) => {
       play_time: track.date,
       djonline_id: track.id,
       label: track.label,
-      length: track.length,
+      length: seconds,
       track_title: track.song,
-      year: track.year
+      year: track.year,
+      // sortable_rank: searchParams.sortable_rank_start + index + 1,
+      report_id: searchParams.report_id
     });
   });
-  console.log('trackservice reversed array', newArr);
   const config = {
     headers: { Authorization: token }
   };
+  console.log('array of tracks going to backend', newArr);
+  const newerArr = [];
+  newArr.forEach((track, index) => {
+    newerArr.push({
+      ...track,
+      sortable_rank: searchParams.sortable_rank_start + index + 1
+    });
+  });
   let returnArr = [];
-  newArr.forEach(async track => {
-    console.log('track to save in track service', track);
+  console.log('new arr to backend with sortable ranks', newerArr);
+  newerArr.forEach(async track => {
     const request = await axios.post(`${baseUrl}/djonline`, track, config);
-    console.log('returned track from backend', request.data);
     returnArr.push(request.data);
   });
   console.log('returned array from backend', returnArr);
-  return await returnArr;
+  return returnArr;
 };
 
 export default { setToken, checkDjonlineTracks };

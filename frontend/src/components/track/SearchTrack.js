@@ -13,7 +13,6 @@ const SearchTrack = ({
   console.log('search track props', search);
   const [searchQuery, setSearchQuery] = useState('');
   const [trackToSave, setTrackToSave] = useState(null);
-  console.log(searchQuery);
 
   // useEffect(() => {
   //   if (searchQuery.length >= 3) {

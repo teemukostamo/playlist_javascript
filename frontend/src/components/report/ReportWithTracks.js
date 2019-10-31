@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Container, Table } from 'semantic-ui-react';
+import { Container, Table, Segment, Dimmer, Loader } from 'semantic-ui-react';
 import { getOneReport, getReportDetails } from '../../actions/reportActions';
 import ReportWithTracksItem from './ReportWithTracksItem';
 import ReportDetails from './ReportDetails';
@@ -8,14 +8,16 @@ import ReportDetails from './ReportDetails';
 const ReportWithTracks = props => {
   // get report tracks by report id
   useEffect(() => {
-    if (props.id === undefined) {
-      props.getOneReport(props.report.reportDetails.id);
-    } else {
-      props.getOneReport(props.id);
-    }
+    setTimeout(() => {
+      if (props.id === undefined) {
+        props.getOneReport(props.report.reportDetails.id);
+      } else {
+        props.getOneReport(props.id);
+      }
+    }, 1000);
     // tää efekti uusiks sit kun hakutuloksista lisää biisin listaan
     // eslint-disable-next-line
-  }, []);
+  }, [props.report.djonline]);
   // get report details by report id
   useEffect(() => {
     if (props.id === undefined) {
@@ -29,8 +31,14 @@ const ReportWithTracks = props => {
 
   console.log('report with tracks props', props);
 
-  if (props.report.report === null) {
-    return <Container>loading</Container>;
+  if (props.report.report === null || props.report.loading === true) {
+    return (
+      <Segment>
+        <Dimmer active inverted>
+          <Loader inverted content="Ladataan..." />
+        </Dimmer>
+      </Segment>
+    );
   }
 
   return (

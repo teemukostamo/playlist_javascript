@@ -2,14 +2,17 @@ import {
   GET_ONE_REPORT,
   GET_REPORT_DETAILS,
   GET_DJONLINE_TRACKS,
+  DELETE_TRACK_FROM_REPORT,
   CREATE_REPORT,
   UPDATE_REPORT,
+  CLEAR_CURRENT_REPORT,
   SET_LOADING,
   REPORT_ERROR
 } from '../actions/types';
 
 const initialState = {
-  report: null,
+  report: [],
+  djonline: null,
   reportDetails: null,
   newReport: null,
   loading: false,
@@ -31,15 +34,15 @@ const reportReducer = (state = initialState, action) => {
     case GET_DJONLINE_TRACKS:
       return {
         ...state,
-        report: [...state.report, action.data],
+        djonline: action.data,
         loading: false
       };
     case GET_REPORT_DETAILS:
       return {
         ...state,
         reportDetails: action.data,
-        newReport: null,
-        loading: false
+        newReport: null
+        // loading: false
       };
     case CREATE_REPORT: {
       return {
@@ -54,6 +57,19 @@ const reportReducer = (state = initialState, action) => {
         reportDetails: action.data,
         newReport: null,
         loading: false
+      };
+
+    case DELETE_TRACK_FROM_REPORT:
+      return {
+        ...state,
+        report: state.report.filter(
+          track => track.report_track_id !== action.id
+        )
+      };
+    case CLEAR_CURRENT_REPORT:
+      return {
+        ...state,
+        report: []
       };
     case SET_LOADING:
       return {

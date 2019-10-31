@@ -42,6 +42,14 @@ const addTrackToReport = async trackToAdd => {
   return request.data;
 };
 
+const deleteTrackFromReport = async id => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.delete(`${baseUrl}/${id}`, config);
+  return request.data;
+};
+
 const getReportDetails = async id => {
   const config = {
     headers: { Authorization: token }
@@ -82,6 +90,7 @@ const updateReport = async updatedReport => {
 export default {
   setToken,
   addTrackToReport,
+  deleteTrackFromReport,
   getOne,
   getAllByDate,
   getReportDetails,

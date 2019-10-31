@@ -22,7 +22,7 @@ reportsRouter.get('/:id', async (req, res, next) => {
     console.log('req params id at reports controller', req.params.id);
     let report = await db.query(
       `SELECT rt.sortable_rank, ar.name as artist_name, tr.name as track_title, tr.length as length,
-      tr.id as track_id, ar.id as artist_id
+      tr.id as track_id, ar.id as artist_id, rt.id as report_track_id
       FROM playlist__track as tr, playlist__artist as ar, playlist__report_track as rt
       WHERE rt.report_id = ${req.params.id}
       and ar.id = tr.artist_id
@@ -59,6 +59,24 @@ reportsRouter.post('/', async (req, res, next) => {
       sortable_rank
     });
     res.status(201).json(newReportTrack.toJSON());
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// delete track from report-track list
+reportsRouter.delete('/:id', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    const deleteReportTrack = await Report_Track.destroy({
+      where: { id: req.params.id }
+    });
+    console.log('deleted report track', deleteReportTrack);
+    res.status(204).end();
   } catch (exception) {
     next(exception);
   }

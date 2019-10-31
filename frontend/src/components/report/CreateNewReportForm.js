@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Header, Form, Button, Input, Dropdown } from 'semantic-ui-react';
+import {
+  Header,
+  Form,
+  Button,
+  Input,
+  Dropdown,
+  Container,
+  Grid
+} from 'semantic-ui-react';
+import DatePicker from 'react-datepicker';
 import { createReport } from '../../actions/reportActions';
+import moment from 'moment';
 
 const CreateNewReportForm = props => {
   const [programId, setProgramId] = useState('');
   const [programNumber, setProgramNumber] = useState('');
-  const [dj, setDj] = useState('');
-  const [programDate, setProgramDate] = useState('');
+  const [dj, setDj] = useState(
+    `${props.login.first_name} ${props.login.last_name}`
+  );
+  const [programDate, setProgramDate] = useState(new Date());
+  console.log(moment(programDate).format('YYYY-MM-DD'));
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
   const [redirect, setRedirect] = useState(false);
@@ -288,11 +301,12 @@ const CreateNewReportForm = props => {
     setProgramEndTime(value);
     console.log(programEndTime);
   };
+
   const createReport = () => {
     const newReport = {
       user_id: props.login.id,
       program_id: programId,
-      program_date: programDate,
+      program_date: moment(programDate).format('YYYY-MM-DD'),
       program_start_time: programStartTime,
       program_end_time: programEndTime,
       program_no: programNumber,
@@ -305,7 +319,6 @@ const CreateNewReportForm = props => {
     console.log('creating report:', newReport);
     setRedirect(true);
   };
-  console.log(dj);
 
   if (redirect && props.report.newReport !== null) {
     console.log('create new report for after submit props', props);
@@ -314,70 +327,102 @@ const CreateNewReportForm = props => {
   }
 
   return (
-    <div>
-      <Header>Luo uusi raportti</Header>
-      <Form>
-        <Form.Field>
-          <label>Ohjelma</label>
-          <Dropdown
-            placeholder="Ohjelma"
-            openOnFocus
-            selection
-            search
-            options={programOptions}
-            onChange={getProgram}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>Ohjelmanumero</label>
-          <Input
-            type="number"
-            value={programNumber}
-            onChange={e => setProgramNumber(e.target.value)}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>DJ</label>
-          <Input
-            type="text"
-            value={dj}
-            onChange={e => setDj(e.target.value)}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>Ohjelman päivä</label>
-          <Input
-            value={programDate}
-            onChange={e => setProgramDate(e.target.value)}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>Ohjelma-aika</label>
-        </Form.Field>
-        <Form.Group widths="equal">
-          <Dropdown
-            placeholder="Alkaen hh:mm"
-            openOnFocus
-            selection
-            search
-            options={startTimeOptions}
-            onChange={getStartTime}
-          />{' '}
-          -
-          <Dropdown
-            placeholder="Päättyen hh:mm"
-            openOnFocus
-            selection
-            search
-            options={endTimeOptions}
-            onChange={getEndTime}
-          />{' '}
-        </Form.Group>
-        <Form.Group widths="equal">
-          <Button onClick={createReport}>Jatka</Button>
-        </Form.Group>
-      </Form>
-    </div>
+    <React.Fragment>
+      <Grid divided="vertically">
+        <Grid.Row columns={2}>
+          <Grid.Column>
+            <Container>
+              <Header>Luo uusi raportti</Header>
+              <Form>
+                <Form.Field>
+                  <label>Ohjelma</label>
+                  <Dropdown
+                    placeholder="Valitse ohjelma"
+                    openOnFocus
+                    selection
+                    search
+                    options={programOptions}
+                    onChange={getProgram}
+                  />{' '}
+                </Form.Field>
+                <Form.Field>
+                  <label>Ohjelmanumero</label>
+                  <Input
+                    type="number"
+                    value={programNumber}
+                    onChange={e => setProgramNumber(e.target.value)}
+                  />{' '}
+                </Form.Field>
+                <Form.Field>
+                  <label>DJ</label>
+                  <Input
+                    type="text"
+                    value={dj}
+                    onChange={e => setDj(e.target.value)}
+                  />{' '}
+                </Form.Field>
+
+                <Form.Group widths="equal">
+                  <Form.Field>
+                    <label>Ohjelman päivä</label>
+                    <DatePicker
+                      selected={programDate}
+                      dateFormat="yyyy-MM-dd"
+                      onChange={date => setProgramDate(date)}
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Alkaa kello</label>
+                    <Dropdown
+                      placeholder="hh:mm"
+                      openOnFocus
+                      selection
+                      search
+                      options={startTimeOptions}
+                      onChange={getStartTime}
+                    />{' '}
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Päättyy kello</label>
+                    <Dropdown
+                      placeholder="hh:mm"
+                      openOnFocus
+                      selection
+                      search
+                      options={endTimeOptions}
+                      onChange={getEndTime}
+                    />{' '}
+                  </Form.Field>
+                </Form.Group>
+                <Form.Group widths="equal">
+                  <Button onClick={createReport}>Jatka</Button>
+                </Form.Group>
+              </Form>
+            </Container>
+          </Grid.Column>
+          <Grid.Column>
+            <Container>
+              <Header>Omat keskeneräiset raportit</Header>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam
+                explicabo delectus sint quisquam minima, fugit ut magni
+                voluptates ullam maiores quo, sit iure earum, iusto aut
+                dignissimos odit accusantium quam deleniti laborum numquam
+                mollitia. Laboriosam soluta asperiores maiores eum, culpa
+                temporibus iste modi ut in esse excepturi beatae repudiandae
+                alias cupiditate enim corrupti error repellendus accusantium
+                perferendis facilis optio. Odio repellat sed sequi similique
+                labore, necessitatibus repudiandae ratione voluptatibus autem
+                alias iure ipsam. Fugiat sunt quam sapiente dolore asperiores
+                sequi inventore, reiciendis, ullam magnam doloremque voluptas
+                quod esse, a qui fuga itaque sit nesciunt aspernatur tenetur
+                veritatis. Est, praesentium sit.
+              </p>
+            </Container>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </React.Fragment>
   );
 };
 

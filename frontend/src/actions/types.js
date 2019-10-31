@@ -17,6 +17,9 @@ export const CREATE_REPORT = 'CREATE_REPORT';
 export const UPDATE_REPORT = 'UPDATE_REPORT';
 export const GET_DJONLINE_TRACKS = 'GET_DJONLINE_TRACKS';
 export const REPORT_ERROR = 'REPORT_ERROR';
+export const CLEAR_CURRENT_REPORT = 'CLEAR_CURRENT_REPORT';
+export const DELETE_TRACK_FROM_REPORT = 'DELETE_TRACK_FROM_REPORT';
+export const SORT_BY_USER_ID = 'SORT_BY_USER_ID';
 
 // program actions
 export const GET_ALL_PROGRAMS = 'GET_ALL_PROGRAMS';
@@ -26,7 +29,6 @@ export const GET_ONE_PROGRAM = 'GET_ONE_PROGRAM';
 export const AUTOCOMPLETE_RESULTS = 'AUTOCOMPLETE_RESULTS';
 
 // track actions
-export const CHECK_DJONLINE_TRACKS = 'CHECK_DJONLINE_TRACKS';
 
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';

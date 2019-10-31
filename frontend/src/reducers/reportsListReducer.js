@@ -1,5 +1,6 @@
 import {
   GET_ALL_REPORTS_BY_DATE,
+  SORT_BY_USER_ID,
   SET_LOADING,
   REPORT_ERROR
 } from '../actions/types';
@@ -20,7 +21,13 @@ const reportListReducer = (state = initialState, action) => {
     case GET_ALL_REPORTS_BY_DATE:
       return {
         reportsList: action.data,
-        loading: true
+        loading: false
+      };
+    case SORT_BY_USER_ID:
+      console.log('action id', action.id);
+      return {
+        ...state,
+        reportsList: state.reportsList.filter(r => r.user_id === action.id)
       };
     case SET_LOADING:
       return {

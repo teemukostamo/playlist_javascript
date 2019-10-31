@@ -1,8 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Table, Icon } from 'semantic-ui-react';
+import { deleteTrackFromReport } from '../../actions/reportActions';
 
 const ReportWithTracksItem = props => {
   const onDelete = () => {
+    const params = {
+      report_track_id: props.track.report_track_id,
+      report_id: props.report.reportDetails.id
+    };
+    console.log(params);
+    props.deleteTrackFromReport(params);
     console.log('klikd delete');
   };
   const onEdit = () => {
@@ -29,4 +37,17 @@ const ReportWithTracksItem = props => {
   );
 };
 
-export default ReportWithTracksItem;
+const mapStateToProps = state => {
+  return {
+    report: state.report,
+    reportsList: state.reportsList,
+    notification: state.notification
+  };
+};
+
+const connectedReportWithTracksItem = connect(
+  mapStateToProps,
+  { deleteTrackFromReport }
+)(ReportWithTracksItem);
+
+export default connectedReportWithTracksItem;

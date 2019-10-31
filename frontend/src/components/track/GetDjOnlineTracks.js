@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { getDjonlineTracks } from '../../actions/trackActions';
 import { connect } from 'react-redux';
 import { Form, Button, Dropdown } from 'semantic-ui-react';
 
 const GetDjOnlineTracks = props => {
-  console.log('get djonline tracks props', props);
   const [date, setDate] = useState('');
   const [studioId, setStudioId] = useState('928');
   const [startTime, setStartTime] = useState('');
@@ -15,7 +13,6 @@ const GetDjOnlineTracks = props => {
     e.preventDefault();
     setStudioId(value);
   };
-  console.log(studioId);
 
   const studioOptions = [
     {
@@ -287,42 +284,15 @@ const GetDjOnlineTracks = props => {
   };
 
   const GetTracksFromApi = () => {
-    props.getDjonlineTracks(studioId, date, startTime, endTime);
-    // const tracks = await axios.get(
-    //   `https://www.djonline.fi/playing/playlog.php?id=${studioId}&date=${date}`
-    // );
-    // console.log(tracks);
-    // let arr = [];
-    // for (const prop in tracks.data) {
-    //   arr.push(tracks.data[prop]);
-    // }
-    // arr = arr.reverse();
-    // let newArr = [];
-    // arr.forEach(track => {
-    //   let hours = track.date.charAt(11) + track.date.charAt(12);
-    //   hours = parseInt(hours);
-    //   // make loop skip the songs not matching the start time - end time -window
-    //   if (hours < parseInt(startTime) || hours >= parseInt(endTime)) {
-    //     return;
-    //   }
-    //   newArr.push({
-    //     album_name: track.album,
-    //     artist_name: track.artist,
-    //     cat_id: track.matrix,
-    //     disc_no: track.side,
-    //     track_no: track.tracknumber,
-    //     isrc: track.isrc,
-    //     record_country: track.recording_country,
-    //     country: null,
-    //     play_time: track.date,
-    //     djonline_id: track.id,
-    //     label: track.label,
-    //     length: track.length,
-    //     track_title: track.song,
-    //     year: track.year
-    //   });
-    // });
-    // console.log(newArr);
+    const searchParams = {
+      studioId,
+      date,
+      startTime,
+      endTime,
+      report_id: props.report.reportDetails.id,
+      sortable_rank_start: props.report.report.length
+    };
+    props.getDjonlineTracks(searchParams);
   };
 
   return (

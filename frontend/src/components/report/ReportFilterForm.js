@@ -2,20 +2,27 @@ import React, { useState, useEffect } from 'react';
 // import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { getOneReport } from '../../actions/reportActions';
-import { getAllReportsByDate } from '../../actions/reportsListActions';
-import { Dropdown, Button } from 'semantic-ui-react';
+import {
+  getAllReportsByDate,
+  sortByUserId
+} from '../../actions/reportsListActions';
+import { Dropdown, Button, Form, Input } from 'semantic-ui-react';
 import moment from 'moment';
 
 const ReportFilterForm = props => {
-  const [startDate, setStartDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
   const [reportMonth, setReportMonth] = useState('');
   const [reportYear, setReportYear] = useState('');
   const [userId, setUserId] = useState('');
+  const [status, setStatus] = useState('');
+  const [filterText, setFilterText] = useState('');
+  console.log(filterText);
+
   // initial reports list
   useEffect(() => {
     props.getAllReportsByDate(moment().format('YYYY-MM'));
     // eslint-disable-next-line
-  }, [props.users.users]);
+  }, []);
   if (props.users.users === null) {
     return <div>loading</div>;
   }
@@ -99,8 +106,39 @@ const ReportFilterForm = props => {
     text: `${user.first_name} ${user.last_name}`,
     value: user.id
   }));
+  const addAllToUserOptions = [
+    {
+      key: 0,
+      text: 'Kaikki',
+      value: 0
+    },
+    ...userOptions
+  ];
+  // status options
+  const statusOptions = [
+    {
+      key: '2',
+      text: 'Kaikki',
+      value: '2'
+    },
+    {
+      key: '0',
+      text: 'Keskeneräinen',
+      value: '0'
+    },
+    {
+      key: '1',
+      text: 'Valmis',
+      value: '1'
+    },
+    {
+      key: '9',
+      text: 'Poistettu',
+      value: '9'
+    }
+  ];
 
-  console.log(userOptions);
+  console.log(addAllToUserOptions);
   console.log(reportMonth);
   console.log(reportYear);
 
@@ -125,31 +163,76 @@ const ReportFilterForm = props => {
   const getUser = (event, { value }) => {
     event.preventDefault();
     setUserId(value);
+    console.log('user id', userId);
+    props.sortByUserId(userId);
+  };
+  const getStatus = (event, { value }) => {
+    event.preventDefault();
+    setStatus(value);
+
+    console.log('tila', status);
   };
   return (
     <React.Fragment>
-      <Button onClick={() => getReportsByMonth()}>Hae raportit ajalta:</Button>
-      <Dropdown
-        placeholder="Vuosi"
-        openOnFocus
-        selection
-        options={yearOptions}
-        onChange={getYear}
-      />{' '}
-      <Dropdown
-        placeholder="Kuukausi"
-        openOnFocus={false}
-        selection
-        options={monthOptions}
-        onChange={getMonth}
-      />
-      <Dropdown
-        placeholder="Käyttäjä"
-        openOnFocus={false}
-        selection
-        options={userOptions}
-        onChange={getUser}
-      />
+      <Form>
+        <h2>Hae raportit ajalta:</h2>
+
+        <Form.Group widths="equal">
+          <Form.Field>
+            <Dropdown
+              placeholder="Kuukausi"
+              openOnFocus={false}
+              selection
+              options={monthOptions}
+              onChange={getMonth}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Dropdown
+              placeholder="Vuosi"
+              openOnFocus
+              selection
+              options={yearOptions}
+              onChange={getYear}
+            />{' '}
+          </Form.Field>
+        </Form.Group>
+
+        <Form.Field>
+          <Button onClick={() => getReportsByMonth()}>HAE</Button>
+        </Form.Field>
+        <h4>Suodata:</h4>
+
+        <Form.Group widths="equal">
+          <Form.Field>
+            <Dropdown
+              placeholder="Käyttäjä"
+              openOnFocus={false}
+              search
+              selection
+              options={addAllToUserOptions}
+              onChange={getUser}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Dropdown
+              placeholder="Tila"
+              openOnFocus
+              selection
+              search
+              options={statusOptions}
+              onChange={getStatus}
+            />{' '}
+          </Form.Field>
+          <Form.Field>
+            <Input
+              type="text"
+              placeholder="Tekstisuodatus"
+              onChange={e => setFilterText(e.target.value)}
+            />
+          </Form.Field>
+        </Form.Group>
+      </Form>
     </React.Fragment>
   );
 };
@@ -167,7 +250,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getOneReport,
-  getAllReportsByDate
+  getAllReportsByDate,
+  sortByUserId
 };
 
 const connectedReportFilterForm = connect(

@@ -34,3 +34,5 @@
 | 25.10.2019 |    3    |            create report frontend, redirect to new report after creation             |
 | 28.10.2019 | 6 (104) |       dropdown for create new report form, update report back&frontend, search       |
 | 29.10.2019 |    6    |   figuring out autocomplete search, add track to report route, get djonline tracks   |
+| 30.10.2019 |    7    |                    get djonline tracks, delete track from report                     |
+| 31.10.2019 | 5 (122) |           styles, datepicker tweaking, rerun checkbox, filter report list            |

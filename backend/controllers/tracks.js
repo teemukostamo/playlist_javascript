@@ -3,6 +3,7 @@ const tracksRouter = require('express').Router();
 const Track = require('../models/Track');
 const Album = require('../models/Album');
 const Artist = require('../models/Artist');
+const Report_Track = require('../models/Report_Track');
 
 const getTokenFrom = req => {
   const authorization = req.get('authorization');
@@ -188,19 +189,18 @@ tracksRouter.post('/djonline', async (req, res, next) => {
       length,
       country,
       record_country,
+      sortable_rank,
       people,
       comment,
-      isrc
+      isrc,
+      report_id
     } = req.body;
 
     // see if artist exists
     const artist = await Artist.findOne({ where: { name: artist_name } });
-    // see if album exists
-    const album = await Album.findOne({
-      where: { artist_id: artist.id, name: album_name }
-    });
+    // uudet artistit crashaa siihen et ao id
 
-    if (!artist && !album) {
+    if (!artist) {
       // create new artist
       const newArtist = await Artist.create({
         name: artist_name
@@ -233,64 +233,108 @@ tracksRouter.post('/djonline', async (req, res, next) => {
         isrc
       });
       console.log('created new track', newTrack);
-      res.status(201).json(newTrack);
-    } else if (!album) {
-      // create new album
-      const newAlbum = await Album.create({
-        name: album_name,
-        artist_id: artist.id,
-        identifier: cat_id,
-        label: label,
-        year: year
-      });
-      console.log('created new album', newAlbum);
 
-      // create new track
-      const newTrack = await Track.create({
-        artist_id: artist.id,
-        album_id: newAlbum.id,
-        identifier: cat_id,
-        label,
-        name: track_title,
-        disc_no,
-        track_no,
-        length,
-        country,
-        record_country,
-        people,
-        comment,
-        isrc
+      // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
+      const newReportTrack = await Report_Track.create({
+        track_id: newTrack.id,
+        report_id,
+        length: newTrack.length,
+        sortable_rank
       });
-      console.log('created new track', newTrack);
+      console.log('adding to report track', newReportTrack);
       res.status(201).json(newTrack);
-    } else {
-      // see if track exists
-      const track = await Track.findOne({
-        where: { artist_id: artist.id, album_id: album.id, name: track_title }
+    } else if (artist) {
+      // see if album exists
+      const album = await Album.findOne({
+        where: { artist_id: artist.id, name: album_name }
       });
+      if (!album) {
+        // create new album
+        const newAlbum = await Album.create({
+          name: album_name,
+          artist_id: artist.id,
+          identifier: cat_id,
+          label: label,
+          year: year
+        });
+        console.log('created new album', newAlbum);
 
-      if (track) {
-        return res.status(200).json(track);
+        // create new track
+        const newTrack = await Track.create({
+          artist_id: artist.id,
+          album_id: newAlbum.id,
+          identifier: cat_id,
+          label,
+          name: track_title,
+          disc_no,
+          track_no,
+          length,
+          country,
+          record_country,
+          people,
+          comment,
+          isrc
+        });
+        console.log('created new track', newTrack);
+
+        // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
+        const newReportTrack = await Report_Track.create({
+          track_id: newTrack.id,
+          report_id,
+          length: newTrack.length,
+          sortable_rank
+        });
+        console.log('created new report-track', newReportTrack);
+        res.status(201).json(newTrack);
+      } else {
+        // see if track exists
+        const track = await Track.findOne({
+          where: { artist_id: artist.id, album_id: album.id, name: track_title }
+        });
+
+        if (track) {
+          // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
+          const newReportTrack = await Report_Track.create({
+            track_id: track.id,
+            report_id,
+            length: track.length,
+            sortable_rank
+          });
+          console.log('created new report track', newReportTrack);
+
+          return res.status(200).json(track);
+        }
+
+        // create new track
+        const newTrack = await Track.create({
+          artist_id: artist.id,
+          album_id: album.id,
+          identifier: cat_id,
+          label,
+          name: track_title,
+          disc_no,
+          track_no,
+          length,
+          country,
+          record_country,
+          people,
+          comment,
+          isrc
+        });
+        console.log('created new track', newTrack);
+
+        // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
+        const newReportTrack = await Report_Track.create({
+          track_id: newTrack.id,
+          report_id,
+          length: newTrack.length,
+          sortable_rank
+        });
+
+        console.log('new report-track', newReportTrack);
+
+        res.status(201).json(newTrack);
       }
-
-      // create new track
-      const newTrack = await Track.create({
-        artist_id: artist.id,
-        album_id: album.id,
-        identifier: cat_id,
-        label,
-        name: track_title,
-        disc_no,
-        track_no,
-        length,
-        country,
-        record_country,
-        people,
-        comment,
-        isrc
-      });
-      console.log('created new track', newTrack);
-      res.status(201).json(newTrack);
     }
   } catch (exception) {
     next(exception);

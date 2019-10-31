@@ -22,7 +22,7 @@ reportslistRouter.get('/:date', async (req, res, next) => {
     console.log('date from backend route', date);
     console.log('typeof date from backend route', typeof date);
     let reports = await db.query(
-      `SELECT re.program_no, pr.name, re.program_date, re.program_start_time, re.program_end_time, re.status, re.rerun, re.program_dj, re.id FROM playlist__program as pr, playlist__report as re where re.program_date like "${date}%" and pr.id = re.program_id order by program_date asc, program_start_time asc`,
+      `SELECT re.program_no, pr.name, re.program_date, re.program_start_time, re.program_end_time, re.status, re.rerun, re.program_dj, re.id, re.user_id FROM playlist__program as pr, playlist__report as re where re.program_date like "${date}%" and pr.id = re.program_id order by program_date asc, program_start_time asc`,
       {
         type: db.QueryTypes.SELECT
       }

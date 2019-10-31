@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css';
 // import './App.css';
 
 import Home from './components/layout/Home';

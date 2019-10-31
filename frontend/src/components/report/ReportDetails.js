@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { updateReport } from '../../actions/reportActions';
-
-import { Header, Form, Button, Dropdown } from 'semantic-ui-react';
+import {
+  Header,
+  Form,
+  Button,
+  Dropdown,
+  Segment,
+  Checkbox
+} from 'semantic-ui-react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import SearchTrack from '../track/SearchTrack';
 import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
 import Togglable from '../layout/Togglable';
+import { updateReport } from '../../actions/reportActions';
 
 const ReportDetails = props => {
   const [programId, setProgramId] = useState('');
@@ -17,6 +25,7 @@ const ReportDetails = props => {
   const [status, setStatus] = useState('');
   const [userId, setUserId] = useState('');
   const [rerun, setRerun] = useState(null);
+  console.log(rerun);
 
   console.log('report detauls props', props);
   useEffect(() => {
@@ -25,10 +34,11 @@ const ReportDetails = props => {
       setProgramId(props.report.reportDetails.program_id);
       setDj(props.report.reportDetails.program_dj);
       setProgramNumber(props.report.reportDetails.program_no);
-      setProgramDate(props.report.reportDetails.program_date);
+      setProgramDate(new Date(props.report.reportDetails.program_date));
       setProgramStartTime(props.report.reportDetails.program_start_time);
       setProgramEndTime(props.report.reportDetails.program_end_time);
       setStatus(props.report.reportDetails.status);
+      setRerun(props.report.reportDetails.rerun);
     }
   }, [props.report.reportDetails]);
 
@@ -333,6 +343,15 @@ const ReportDetails = props => {
     setStatus(value);
   };
 
+  const getRerun = () => {
+    console.log('getting rerun');
+    if (rerun === null) {
+      setRerun(1);
+    } else {
+      setRerun(null);
+    }
+  };
+
   // save changes to db
   const saveChanges = e => {
     e.preventDefault();
@@ -340,7 +359,7 @@ const ReportDetails = props => {
       id: props.report.reportDetails.id,
       user_id: userId,
       program_id: programId,
-      program_date: programDate,
+      program_date: moment(programDate).format('YYYY-MM-DD'),
       program_start_time: programStartTime,
       program_end_time: programEndTime,
       program_no: programNumber,
@@ -359,17 +378,19 @@ const ReportDetails = props => {
   };
   return (
     <div>
-      <Form>
-        <Form.Group widths="equal">
+      <Segment.Group horizontal>
+        <Segment>
           <Togglable buttonLabel="Pikahaku">
             <SearchTrack />
           </Togglable>
+        </Segment>
+        <Segment>
           {/* <AddTrackToReport /> */}
           <Togglable buttonLabel="Hae biisit DJonlinesta">
             <GetDjOnlineTracks />
           </Togglable>
-        </Form.Group>
-      </Form>
+        </Segment>
+      </Segment.Group>
 
       <Header>Raportin tiedot:</Header>
       <Form>
@@ -397,12 +418,18 @@ const ReportDetails = props => {
           <Form.Input value={dj} onChange={e => setDj(e.target.value)} />{' '}
         </Form.Field>
         <Form.Field>
-          <label>Ohjelman päivä</label>
+          {/* <label>Ohjelman päivä</label>
           <Form.Input
             value={programDate}
             selection="true"
             onChange={e => setProgramDate(e.target.value)}
-          />{' '}
+          />{' '} */}
+          <label>Ohjelman päivä</label>
+          <DatePicker
+            selected={programDate}
+            dateFormat="yyyy-MM-dd"
+            onChange={date => setProgramDate(date)}
+          />
         </Form.Field>
         <Form.Field>
           <label>Ohjelma-aika</label>
@@ -451,7 +478,11 @@ const ReportDetails = props => {
         </Form.Field>
         <Form.Field>
           <label>Uusinta</label>
-          <Form.Checkbox />
+          <Form.Checkbox
+            name="rerun"
+            onChange={getRerun}
+            checked={rerun ? true : false}
+          />
         </Form.Field>
         <Form.Group widths="equal">
           <Button onClick={saveChanges}>Tallenna</Button>

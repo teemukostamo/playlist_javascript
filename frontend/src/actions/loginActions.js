@@ -14,7 +14,9 @@ import {
 
 export const initializeUser = () => async dispatch => {
   try {
-    setLoading();
+    dispatch({
+      type: SET_LOADING
+    });
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
@@ -39,7 +41,9 @@ export const initializeUser = () => async dispatch => {
 
 export const newLogin = (user, errorNotification) => async dispatch => {
   try {
-    setLoading();
+    dispatch({
+      type: SET_LOADING
+    });
     const newUser = await loginService.login(user);
     window.localStorage.setItem('loggedUser', JSON.stringify(newUser));
     // set token for logged in user
@@ -58,11 +62,4 @@ export const logout = () => async dispatch => {
   dispatch({
     type: LOGOUT
   });
-};
-
-// Set loading to true
-export const setLoading = () => {
-  return {
-    type: SET_LOADING
-  };
 };

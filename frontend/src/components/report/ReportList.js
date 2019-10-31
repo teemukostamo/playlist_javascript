@@ -11,7 +11,10 @@ import { Container, Table } from 'semantic-ui-react';
 const ReportList = props => {
   console.log('Reportlist props', props);
 
-  if (props.reportsList.reportsList === null) {
+  if (
+    props.reportsList.reportsList === null ||
+    props.reportsList.reportsList === []
+  ) {
     return (
       <Container>
         <h2>
@@ -26,7 +29,6 @@ const ReportList = props => {
   return (
     <Container>
       <ReportFilterForm />
-
       <Table striped>
         <Table.Header>
           <Table.Row>
@@ -34,6 +36,7 @@ const ReportList = props => {
             <Table.Cell>Nimi</Table.Cell>
             <Table.Cell>Aika</Table.Cell>
             <Table.Cell>Tila</Table.Cell>
+            <Table.Cell></Table.Cell>
           </Table.Row>
         </Table.Header>
         <Table.Body>

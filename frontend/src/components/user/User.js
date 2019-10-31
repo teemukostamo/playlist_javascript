@@ -38,9 +38,6 @@ const User = props => {
     console.log('for user', props.user.id);
   };
 
-  console.log(level);
-  console.log(typeof level);
-
   let userLevelOutPrint;
 
   if (level === 1) {
@@ -145,7 +142,7 @@ const User = props => {
       </Table.Cell>
       <Table.Cell>{userLevelOutPrint}</Table.Cell>
       <Table.Cell>
-        <Icon user onClick={onDelete} name="delete" />
+        <Icon onClick={onDelete} name="delete" />
       </Table.Cell>
     </Table.Row>
   );

@@ -28,7 +28,6 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mysql2": "^1.7.0",
-    "react-moment": "^0.9.6",
     "sequelize": "^5.18.1"
   },
   "repository": {

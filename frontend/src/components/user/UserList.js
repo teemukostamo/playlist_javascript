@@ -6,7 +6,7 @@ import { Table } from 'semantic-ui-react';
 import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
 
 const UserList = props => {
-  if (props.users.users === null) {
+  if (props.users.users === null || props.users.loading === true) {
     return (
       <Container>
         <Dimmer active inverted>
