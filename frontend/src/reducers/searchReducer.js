@@ -1,4 +1,4 @@
-import { AUTOCOMPLETE_RESULTS, SET_LOADING } from '../actions/types';
+import { AUTOCOMPLETE_RESULTS, SET_SEARCH_LOADING } from '../actions/types';
 
 const initialState = {
   searchResults: [],
@@ -21,7 +21,7 @@ const searchReducer = (state = initialState, action) => {
         searchResults: action.data,
         loading: false
       };
-    case SET_LOADING:
+    case SET_SEARCH_LOADING:
       return {
         ...state,
         loading: true

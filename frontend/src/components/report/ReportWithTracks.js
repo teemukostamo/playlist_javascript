@@ -31,7 +31,7 @@ const ReportWithTracks = props => {
 
   console.log('report with tracks props', props);
 
-  if (props.report.report === null || props.report.loading === true) {
+  if (props.report.report === null) {
     return (
       <Segment>
         <Dimmer active inverted>
@@ -57,7 +57,7 @@ const ReportWithTracks = props => {
         </Table.Header>
         <Table.Body>
           {props.report.report.map(track => (
-            <ReportWithTracksItem key={track.track_id} track={track} />
+            <ReportWithTracksItem key={track.report_track_id} track={track} />
           ))}
         </Table.Body>
       </Table>

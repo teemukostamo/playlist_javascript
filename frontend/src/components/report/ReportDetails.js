@@ -6,7 +6,9 @@ import {
   Button,
   Dropdown,
   Segment,
-  Checkbox
+  Grid,
+  Dimmer,
+  Loader
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -25,7 +27,6 @@ const ReportDetails = props => {
   const [status, setStatus] = useState('');
   const [userId, setUserId] = useState('');
   const [rerun, setRerun] = useState(null);
-  console.log(rerun);
 
   console.log('report detauls props', props);
   useEffect(() => {
@@ -43,7 +44,13 @@ const ReportDetails = props => {
   }, [props.report.reportDetails]);
 
   if (props.report.reportDetails === null || props.users.users === null) {
-    return <div>loading...</div>;
+    return (
+      <Segment>
+        <Dimmer active inverted>
+          <Loader inverted content="Ladataan..." />
+        </Dimmer>
+      </Segment>
+    );
   }
 
   let programOptions = props.programs.allPrograms.map(program => ({
@@ -343,6 +350,16 @@ const ReportDetails = props => {
     setStatus(value);
   };
 
+  // status placeholder
+  let statusPlaceholder;
+  if (status === 0) {
+    statusPlaceholder = 'Keskeneräinen';
+  } else if (status === 1) {
+    statusPlaceholder = 'Valmis';
+  } else if (statusPlaceholder === 9) {
+    statusPlaceholder = 'Poistettu';
+  }
+
   const getRerun = () => {
     console.log('getting rerun');
     if (rerun === null) {
@@ -378,6 +395,7 @@ const ReportDetails = props => {
   };
   return (
     <div>
+      <Header>Lisää biisi raporttiin:</Header>
       <Segment.Group horizontal>
         <Segment>
           <Togglable buttonLabel="Pikahaku">
@@ -385,110 +403,118 @@ const ReportDetails = props => {
           </Togglable>
         </Segment>
         <Segment>
-          {/* <AddTrackToReport /> */}
           <Togglable buttonLabel="Hae biisit DJonlinesta">
             <GetDjOnlineTracks />
           </Togglable>
         </Segment>
       </Segment.Group>
 
-      <Header>Raportin tiedot:</Header>
-      <Form>
-        <Form.Field>
-          <label>Ohjelma</label>
-          <Dropdown
-            placeholder="Ohjelma"
-            openOnFocus
-            selection
-            value={programId}
-            search
-            options={programOptions}
-            onChange={getProgram}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>Ohjelmanumero</label>
-          <Form.Input
-            value={programNumber}
-            onChange={e => setProgramNumber(e.target.value)}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>DJ</label>
-          <Form.Input value={dj} onChange={e => setDj(e.target.value)} />{' '}
-        </Form.Field>
-        <Form.Field>
-          {/* <label>Ohjelman päivä</label>
-          <Form.Input
-            value={programDate}
-            selection="true"
-            onChange={e => setProgramDate(e.target.value)}
-          />{' '} */}
-          <label>Ohjelman päivä</label>
-          <DatePicker
-            selected={programDate}
-            dateFormat="yyyy-MM-dd"
-            onChange={date => setProgramDate(date)}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Ohjelma-aika</label>
-        </Form.Field>
-        <Form.Group widths="equal">
-          <Dropdown
-            placeholder={programStartTime}
-            openOnFocus
-            selection
-            search
-            options={startTimeOptions}
-            onChange={getStartTime}
-          />{' '}
-          -
-          <Dropdown
-            placeholder={programEndTime}
-            openOnFocus
-            selection
-            search
-            options={endTimeOptions}
-            onChange={getEndTime}
-          />{' '}
-        </Form.Group>
-        <Form.Field>
-          <label>Raportin tila</label>
-          <Dropdown
-            openOnFocus
-            selection
-            search
-            options={statusOptions}
-            onChange={getStatus}
-            value={status}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>Käyttäjä</label>
-          <Dropdown
-            placeholder="Käyttäjä"
-            openOnFocus={false}
-            value={userId}
-            selection
-            search
-            options={userOptions}
-            onChange={getUser}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Uusinta</label>
-          <Form.Checkbox
-            name="rerun"
-            onChange={getRerun}
-            checked={rerun ? true : false}
-          />
-        </Form.Field>
-        <Form.Group widths="equal">
-          <Button onClick={saveChanges}>Tallenna</Button>
-          <Button onClick={copyReport}>Monista</Button>
-        </Form.Group>
-      </Form>
+      <Grid divided="vertically">
+        <Grid.Row columns={2}>
+          <Grid.Column>
+            <Header>Raportin tiedot:</Header>
+            <Form>
+              <Form.Field>
+                <label>Ohjelma</label>
+                <Dropdown
+                  placeholder="Ohjelma"
+                  openOnFocus
+                  selection
+                  value={programId}
+                  search
+                  options={programOptions}
+                  onChange={getProgram}
+                />{' '}
+              </Form.Field>
+              <Form.Field>
+                <label>Ohjelmanumero</label>
+                <Form.Input
+                  value={programNumber}
+                  onChange={e => setProgramNumber(e.target.value)}
+                />{' '}
+              </Form.Field>
+              <Form.Field>
+                <label>DJ</label>
+                <Form.Input
+                  value={dj}
+                  onChange={e => setDj(e.target.value)}
+                />{' '}
+              </Form.Field>
+
+              <Form.Group widths="equal">
+                <Form.Field>
+                  <label>Ohjelman päivä</label>
+
+                  <DatePicker
+                    selected={programDate}
+                    dateFormat="yyyy-MM-dd"
+                    onChange={date => setProgramDate(date)}
+                  />
+                </Form.Field>
+
+                <Form.Field>
+                  <label>Alkaa kello</label>
+                  <Dropdown
+                    placeholder={programStartTime}
+                    openOnFocus
+                    selection
+                    search
+                    options={startTimeOptions}
+                    onChange={getStartTime}
+                  />{' '}
+                </Form.Field>
+
+                <Form.Field>
+                  <label>Päättyy kello</label>
+                  <Dropdown
+                    placeholder={programEndTime}
+                    openOnFocus
+                    selection
+                    search
+                    options={endTimeOptions}
+                    onChange={getEndTime}
+                  />{' '}
+                </Form.Field>
+              </Form.Group>
+              <Form.Field>
+                <label>Raportin tila</label>
+                <Dropdown
+                  placeholder={statusPlaceholder}
+                  openOnFocus
+                  selection
+                  options={statusOptions}
+                  onChange={getStatus}
+                  value={status}
+                />{' '}
+              </Form.Field>
+              <Form.Field>
+                <label>Käyttäjä</label>
+                <Dropdown
+                  placeholder="Käyttäjä"
+                  openOnFocus={false}
+                  value={userId}
+                  selection
+                  search
+                  options={userOptions}
+                  onChange={getUser}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Uusinta</label>
+                <Form.Checkbox
+                  name="rerun"
+                  onChange={getRerun}
+                  checked={rerun ? true : false}
+                />
+              </Form.Field>
+              <Form.Group widths="equal">
+                <Button onClick={saveChanges}>Tallenna</Button>
+                <Button onClick={copyReport}>Monista</Button>
+              </Form.Group>
+            </Form>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     </div>
   );
 };

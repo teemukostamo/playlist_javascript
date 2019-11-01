@@ -34,6 +34,7 @@ const reportReducer = (state = initialState, action) => {
     case GET_DJONLINE_TRACKS:
       return {
         ...state,
+        report: [...state.report, action.data.map(track => track)],
         djonline: action.data,
         loading: false
       };

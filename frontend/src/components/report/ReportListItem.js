@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Table } from 'semantic-ui-react';
 import { getOneReport } from '../../actions/reportActions';
-import moment from 'moment';
 
 const ReportListItem = props => {
   let reportStatusOutPrint;
-  console.log(props);
 
   if (props.report.status === 1) {
     reportStatusOutPrint = 'Valmis';

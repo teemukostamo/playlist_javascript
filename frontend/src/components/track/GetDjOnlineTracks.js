@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { getDjonlineTracks } from '../../actions/trackActions';
 import { connect } from 'react-redux';
-import { Form, Button, Dropdown } from 'semantic-ui-react';
+import { Form, Button, Dropdown, Grid, Header } from 'semantic-ui-react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 const GetDjOnlineTracks = props => {
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [studioId, setStudioId] = useState('928');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -286,7 +288,7 @@ const GetDjOnlineTracks = props => {
   const GetTracksFromApi = () => {
     const searchParams = {
       studioId,
-      date,
+      date: moment(date).format('YYYY-MM-DD'),
       startTime,
       endTime,
       report_id: props.report.reportDetails.id,
@@ -296,39 +298,59 @@ const GetDjOnlineTracks = props => {
   };
 
   return (
-    <div>
-      <Form.Group widths="equal">
-        <Form.Input
-          placeholder="Päivämäärä YYYY-MM-DD"
-          onChange={e => setDate(e.target.value)}
-        />
-        <Dropdown
-          placeholder="Studio 1"
-          openOnFocus
-          selection
-          options={studioOptions}
-          onChange={getStudioId}
-        />{' '}
-      </Form.Group>
-      <Form.Group widths="equal">
-        <Dropdown
-          placeholder="Alkaen HH:MM"
-          openOnFocus
-          selection
-          search
-          options={startTimeOptions}
-          onChange={getStartTime}
-        />{' '}
-        <Dropdown
-          placeholder="Päättyen HH:MM"
-          openOnFocus
-          selection
-          search
-          options={endTimeOptions}
-          onChange={getEndTime}
-        />{' '}
-      </Form.Group>
-      <Button onClick={GetTracksFromApi}>Hae</Button>
+    <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
+      <Grid divided="vertically">
+        <Grid.Row columns={2}>
+          <Form>
+            <Header>Hae biisit DJOnlinesta</Header>
+            <Form.Group widths="equal">
+              <Form.Field>
+                <label>Valitse päivä</label>
+                <DatePicker
+                  selected={date}
+                  dateFormat="yyyy-MM-dd"
+                  onChange={date => setDate(date)}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Valitse studio</label>
+                <Dropdown
+                  placeholder="Studio 1"
+                  openOnFocus
+                  selection
+                  options={studioOptions}
+                  onChange={getStudioId}
+                />{' '}
+              </Form.Field>
+            </Form.Group>
+            <Form.Group widths="equal">
+              <Form.Field>
+                <label>Alkaen kello</label>
+                <Dropdown
+                  placeholder="Alkaen HH:MM"
+                  openOnFocus
+                  selection
+                  search
+                  options={startTimeOptions}
+                  onChange={getStartTime}
+                />{' '}
+              </Form.Field>
+              <Form.Field>
+                <label>Päättyen kello</label>
+                <Dropdown
+                  placeholder="Päättyen HH:MM"
+                  openOnFocus
+                  selection
+                  search
+                  options={endTimeOptions}
+                  onChange={getEndTime}
+                />{' '}
+              </Form.Field>
+            </Form.Group>
+            <Button onClick={GetTracksFromApi}>Hae</Button>
+          </Form>
+        </Grid.Row>
+      </Grid>
     </div>
   );
 };

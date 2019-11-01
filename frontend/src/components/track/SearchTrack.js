@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Form, Search, Button } from 'semantic-ui-react';
+import { Form, Search, Button, Grid, Header } from 'semantic-ui-react';
 import { getAutocompleteResults } from '../../actions/searchActions';
 import { addTrackToReport } from '../../actions/reportActions';
 
@@ -14,14 +14,14 @@ const SearchTrack = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [trackToSave, setTrackToSave] = useState(null);
 
-  // useEffect(() => {
-  //   if (searchQuery.length >= 3) {
-  //     setTimeout(() => {
-  //       getAutocompleteResults(searchQuery);
-  //     }, 100);
-  //   }
-  //   // eslint-disable-next-line
-  // }, [searchQuery]);
+  useEffect(() => {
+    if (searchQuery.length >= 3) {
+      setTimeout(() => {
+        getAutocompleteResults(searchQuery);
+      }, 100);
+    }
+    // eslint-disable-next-line
+  }, [searchQuery]);
 
   const handleResultSelect = (e, { result }) => {
     const trackToSave = {
@@ -58,20 +58,39 @@ const SearchTrack = ({
   }));
 
   return (
-    <div>
-      <Search
-        // style={{ overflow: 'auto' }}
-        loading={search.loading}
-        onResultSelect={handleResultSelect}
-        onSearchChange={onSearchChange}
-        results={results}
-        // value={value}
-      />
-      <Form.Group widths="equal">
-        <Button onClick={saveClick}>Lisää biisi raporttiin</Button>
-        <Button>Lisää uusi biisi</Button>
-        {/* <input type="text" onChange={e => setSearchQuery(e.target.value)} /> */}
-      </Form.Group>
+    <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
+      <Grid divided="vertically">
+        <Grid.Row columns="2">
+          <Form>
+            <Header>Hae</Header>
+            <Form.Group widths="equal">
+              <Form.Field>
+                <Search
+                  style={{ overflow: 'auto' }}
+                  loading={search.loading}
+                  onResultSelect={handleResultSelect}
+                  onSearchChange={onSearchChange}
+                  results={results}
+                  // value={value}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Button onClick={saveClick}>Lisää biisi raporttiin</Button>
+              </Form.Field>
+            </Form.Group>
+            <Form.Group widths="equal">
+              <Form.Field>
+                {' '}
+                <Button>Tarkennettu haku</Button>
+              </Form.Field>
+              <Form.Field>
+                {' '}
+                <Button>Lisää uusi biisi</Button>
+              </Form.Field>
+            </Form.Group>
+          </Form>
+        </Grid.Row>
+      </Grid>
     </div>
   );
 };

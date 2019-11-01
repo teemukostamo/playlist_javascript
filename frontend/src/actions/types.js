@@ -27,6 +27,7 @@ export const GET_ONE_PROGRAM = 'GET_ONE_PROGRAM';
 
 // search actions
 export const AUTOCOMPLETE_RESULTS = 'AUTOCOMPLETE_RESULTS';
+export const SET_SEARCH_LOADING = 'SET_SEARCH_LOADING';
 
 // track actions
 

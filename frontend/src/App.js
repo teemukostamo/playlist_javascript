@@ -56,6 +56,9 @@ const App = props => {
             <Link to="/">Haku</Link>
           </Menu.Item>
           <Menu.Item link>
+            <Link to="/">Siirtotiedostot</Link>
+          </Menu.Item>
+          <Menu.Item link>
             <Link to="/users">Käyttäjät</Link>
           </Menu.Item>
           <Menu.Item link>

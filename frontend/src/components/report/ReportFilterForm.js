@@ -7,7 +7,6 @@ import {
   sortByUserId
 } from '../../actions/reportsListActions';
 import { Dropdown, Button, Form, Input } from 'semantic-ui-react';
-import moment from 'moment';
 
 const ReportFilterForm = props => {
   // const [startDate, setStartDate] = useState(new Date());
@@ -18,11 +17,6 @@ const ReportFilterForm = props => {
   const [filterText, setFilterText] = useState('');
   console.log(filterText);
 
-  // initial reports list
-  useEffect(() => {
-    props.getAllReportsByDate(moment().format('YYYY-MM'));
-    // eslint-disable-next-line
-  }, []);
   if (props.users.users === null) {
     return <div>loading</div>;
   }

@@ -241,8 +241,33 @@ tracksRouter.post('/djonline', async (req, res, next) => {
         length: newTrack.length,
         sortable_rank
       });
+      const trackToReturn = {
+        id: newTrack.id,
+        artist_id: newTrack.artist_id,
+        album_id: newTrack.album_id,
+        track_title: newTrack.name,
+        artist_name,
+        album_name,
+        label,
+        cat_id,
+        year,
+        disc_no,
+        track_no,
+        length,
+        country: newTrack.country,
+        record_country,
+        sortable_rank,
+        people: newTrack.people,
+        comment,
+        isrc,
+        report_id,
+        report_track_id: newReportTrack.id,
+        user_id: newTrack.user_id,
+        spotify_id: newTrack.spotify_id
+      };
       console.log('adding to report track', newReportTrack);
-      res.status(201).json(newTrack);
+      console.log('track to return', trackToReturn);
+      res.status(201).json(trackToReturn);
     } else if (artist) {
       // see if album exists
       const album = await Album.findOne({
@@ -285,7 +310,32 @@ tracksRouter.post('/djonline', async (req, res, next) => {
           sortable_rank
         });
         console.log('created new report-track', newReportTrack);
-        res.status(201).json(newTrack);
+        const trackToReturn = {
+          id: newTrack.id,
+          artist_id: newTrack.artist_id,
+          album_id: newTrack.album_id,
+          track_title: newTrack.name,
+          artist_name,
+          album_name,
+          label,
+          cat_id,
+          year,
+          disc_no,
+          track_no,
+          length,
+          country: newTrack.country,
+          record_country,
+          sortable_rank,
+          people: newTrack.people,
+          comment,
+          isrc,
+          report_id,
+          report_track_id: newReportTrack.id,
+          user_id: newTrack.user_id,
+          spotify_id: newTrack.spotify_id
+        };
+        console.log('track to return', trackToReturn);
+        res.status(201).json(trackToReturn);
       } else {
         // see if track exists
         const track = await Track.findOne({
@@ -302,7 +352,32 @@ tracksRouter.post('/djonline', async (req, res, next) => {
           });
           console.log('created new report track', newReportTrack);
 
-          return res.status(200).json(track);
+          const trackToReturn = {
+            id: track.id,
+            artist_id: track.artist_id,
+            album_id: track.album_id,
+            track_title: track.name,
+            artist_name,
+            album_name,
+            label,
+            cat_id,
+            year,
+            disc_no,
+            track_no,
+            length,
+            country: track.country,
+            record_country,
+            sortable_rank,
+            people: track.people,
+            comment,
+            isrc,
+            report_id,
+            report_track_id: newReportTrack.id,
+            user_id: track.user_id,
+            spotify_id: track.spotify_id
+          };
+          console.log('track to return', trackToReturn);
+          return res.status(200).json(trackToReturn);
         }
 
         // create new track
@@ -332,8 +407,32 @@ tracksRouter.post('/djonline', async (req, res, next) => {
         });
 
         console.log('new report-track', newReportTrack);
-
-        res.status(201).json(newTrack);
+        const trackToReturn = {
+          id: newTrack.id,
+          artist_id: newTrack.artist_id,
+          album_id: newTrack.album_id,
+          track_title: newTrack.name,
+          artist_name,
+          album_name,
+          label,
+          cat_id,
+          year,
+          disc_no,
+          track_no,
+          length,
+          country: newTrack.country,
+          record_country,
+          sortable_rank,
+          people: newTrack.people,
+          comment,
+          isrc,
+          report_id,
+          report_track_id: newReportTrack.id,
+          user_id: newTrack.user_id,
+          spotify_id: newTrack.spotify_id
+        };
+        console.log('track to return', trackToReturn);
+        res.status(201).json(trackToReturn);
       }
     }
   } catch (exception) {
