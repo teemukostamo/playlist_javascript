@@ -36,4 +36,4 @@
 | 29.10.2019 |    6    |   figuring out autocomplete search, add track to report route, get djonline tracks   |
 | 30.10.2019 |    7    |                    get djonline tracks, delete track from report                     |
 | 31.10.2019 | 5 (122) |           styles, datepicker tweaking, rerun checkbox, filter report list            |
-| 1.11.2019  |         |                      styles, export report sql & file printing                       |
+| 1.11.2019  |         |       styles, export report sql & file printing, exports list frontend&backend       |

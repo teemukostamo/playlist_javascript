@@ -33,6 +33,15 @@ const getOne = async id => {
   return request.data;
 };
 
+const getAllTransfers = async () => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.get('/api/reporttransfer', config);
+  console.log('reportservice get all transfers data', request.data);
+  return request.data;
+};
+
 const addTrackToReport = async trackToAdd => {
   const config = {
     headers: { Authorization: token }
@@ -93,6 +102,7 @@ export default {
   deleteTrackFromReport,
   getOne,
   getAllByDate,
+  getAllTransfers,
   getReportDetails,
   createReport,
   updateReport

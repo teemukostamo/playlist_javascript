@@ -8,6 +8,7 @@ import Home from './components/layout/Home';
 import UserList from './components/user/UserList';
 import ReportList from './components/report/ReportList';
 import LoginForm from './components/login/LoginForm';
+import ReportTransferList from './components/report/ReportTransferList';
 import { Container, Menu } from 'semantic-ui-react';
 
 import { initializeUser, logout } from './actions/loginActions';
@@ -56,7 +57,7 @@ const App = props => {
             <Link to="/">Haku</Link>
           </Menu.Item>
           <Menu.Item link>
-            <Link to="/">Siirtotiedostot</Link>
+            <Link to="/transfer">Siirtotiedostot</Link>
           </Menu.Item>
           <Menu.Item link>
             <Link to="/users">Käyttäjät</Link>
@@ -72,6 +73,7 @@ const App = props => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/reports" component={ReportList} />
+        <Route exact path="/transfer" component={ReportTransferList} />
         <Route
           path="/reports/:id"
           render={({ match }) => {

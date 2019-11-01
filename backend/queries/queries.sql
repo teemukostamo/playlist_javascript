@@ -61,3 +61,21 @@ WHERE t.album_id = al.id
 and t.artist_id = ar.id
 and (t.name like "%bowie%" or ar.name like "%bowie%")
 order by t.name asc
+
+-- get required info for monthly report export
+SELECT re.program_date, re.program_start_time, re.program_end_time,
+pr.name as program_name, ar.name as artist_name, tr.name as track_title,
+tr.length, tr.people as copyright_holders, tr.country, al.label,
+al.identifier as cat_id, al.year
+FROM playlist__report as re, playlist__program as pr, playlist__artist as ar,
+playlist__report_track as rt, playlist__track as tr, playlist__album as al
+WHERE re.program_id = pr.id
+and rt.track_id = tr.id
+and rt.report_id = re.id
+and tr.artist_id = ar.id
+and al.artist_id = ar.id
+and tr.album_id = al.id
+and re.status = 1
+and re.program_date like "2018-10%"
+order by program_date asc, program_start_time asc
+limit 10000

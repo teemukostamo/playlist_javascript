@@ -2,8 +2,7 @@ import {
   GET_ALL_REPORTS_BY_DATE,
   SET_LOADING,
   CLEAR_CURRENT_REPORT,
-  SORT_BY_USER_ID,
-  REPORT_ERROR
+  SORT_BY_USER_ID
 } from './types';
 import reportService from '../services/reports';
 
@@ -26,10 +25,7 @@ export const getAllReportsByDate = date => async dispatch => {
       date
     });
   } catch (error) {
-    dispatch({
-      type: REPORT_ERROR,
-      payload: error.response.data
-    });
+    console.log(error);
   }
 };
 

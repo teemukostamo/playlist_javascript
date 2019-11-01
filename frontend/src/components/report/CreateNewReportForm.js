@@ -21,7 +21,6 @@ const CreateNewReportForm = props => {
     `${props.login.first_name} ${props.login.last_name}`
   );
   const [programDate, setProgramDate] = useState(new Date());
-  console.log(moment(programDate).format('YYYY-MM-DD'));
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
   const [redirect, setRedirect] = useState(false);

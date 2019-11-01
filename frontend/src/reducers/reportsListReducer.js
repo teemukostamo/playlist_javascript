@@ -1,5 +1,6 @@
 import {
   GET_ALL_REPORTS_BY_DATE,
+  GET_ALL_REPORT_TRANSFERS,
   SORT_BY_USER_ID,
   SET_LOADING,
   REPORT_ERROR
@@ -7,6 +8,7 @@ import {
 
 const initialState = {
   reportsList: null,
+  reportTransferList: null,
   loading: false,
   error: null
 };
@@ -20,7 +22,14 @@ const reportListReducer = (state = initialState, action) => {
     // date is YYYY-MM
     case GET_ALL_REPORTS_BY_DATE:
       return {
+        ...state,
         reportsList: action.data,
+        loading: false
+      };
+    case GET_ALL_REPORT_TRANSFERS:
+      return {
+        ...state,
+        reportTransferList: action.data,
         loading: false
       };
     case SORT_BY_USER_ID:

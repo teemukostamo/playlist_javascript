@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-// import Moment from 'react-moment';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { getOneReport } from '../../actions/reportActions';
 import {
@@ -149,7 +148,7 @@ const ReportFilterForm = props => {
     setReportMonth(value);
   };
 
-  // get month from dropdown
+  // get year from dropdown
   const getYear = (event, { value }) => {
     event.preventDefault();
     setReportYear(value);

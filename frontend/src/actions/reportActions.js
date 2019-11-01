@@ -3,7 +3,6 @@ import {
   GET_REPORT_DETAILS,
   CREATE_REPORT,
   UPDATE_REPORT,
-  DELETE_TRACK_FROM_REPORT,
   SET_LOADING
 } from '../actions/types';
 import reportService from '../services/reports';

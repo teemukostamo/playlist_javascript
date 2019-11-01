@@ -38,16 +38,16 @@ let reportExport = {
   handle_code: '1' // 1 char - POS 460
 };
 
-console.log(reportExport);
+console.log(reportExport.join());
 
-var fs = require('fs');
+// var fs = require('fs');
 
-var file = fs.createWriteStream('array.txt');
-const arr = ['STRINGGGGGG', 'SECOND STRIINFGGGGG'];
-file.on('error', function(err) {
-  /* error handling */
-});
-arr.forEach(function(v) {
-  file.write(v + '\n');
-});
-file.end();
+// // var file = fs.createWriteStream('array.txt');
+// // const arr = ['STRINGGGGGG', 'SECOND STRIINFGGGGG'];
+// // file.on('error', function(err) {
+// //   console.log(err);
+// // });
+// // arr.forEach(function(v) {
+// //   file.write(v + '\n');
+// // });
+// // file.end();

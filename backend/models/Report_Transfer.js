@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/database');
 
 const Report_Transfer = db.define(
-  'playlist_report_transfer',
+  'playlist__report_transfer',
   {
     id: {
       type: Sequelize.INTEGER(11),
