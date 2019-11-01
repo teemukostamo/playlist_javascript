@@ -1,5 +1,6 @@
 import axios from 'axios';
 const baseUrl = '/api/reports';
+const download = require('downloadjs');
 
 let token = null;
 
@@ -96,6 +97,19 @@ const updateReport = async updatedReport => {
   return updatedReport;
 };
 
+// download report
+export const downloadReport = async filename => {
+  try {
+    const config = {
+      headers: { Authorization: token, responseType: 'blob' }
+    };
+    const response = await axios.get(`/api/reporttransfer/${filename}`, config);
+    download(response.data, filename);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default {
   setToken,
   addTrackToReport,
@@ -105,5 +119,6 @@ export default {
   getAllTransfers,
   getReportDetails,
   createReport,
-  updateReport
+  updateReport,
+  downloadReport
 };

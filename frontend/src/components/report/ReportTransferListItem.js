@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Table } from 'semantic-ui-react';
+import { downloadReport } from '../../services/reports';
 
 const ReportTransferListItem = props => {
+  const downloadTransfer = filename => {
+    downloadReport(filename);
+  };
   return (
     <Table.Row>
       <Table.Cell>{props.item.created_at}</Table.Cell>
@@ -12,7 +16,7 @@ const ReportTransferListItem = props => {
       </Table.Cell>
       <Table.Cell>{props.item.period}</Table.Cell>
       <Table.Cell>
-        <Link to={`reporttransfer/${props.item.filename}`}>
+        <Link to="#" onClick={() => downloadTransfer(props.item.filename)}>
           {props.item.filename}
         </Link>
       </Table.Cell>
@@ -20,4 +24,9 @@ const ReportTransferListItem = props => {
   );
 };
 
-export default ReportTransferListItem;
+const connectedReportTransferListItem = connect(
+  null,
+  { downloadReport }
+)(ReportTransferListItem);
+
+export default connectedReportTransferListItem;

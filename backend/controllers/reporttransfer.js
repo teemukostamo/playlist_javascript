@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const reportTransferRouter = require('express').Router();
+const path = require('path');
 const db = require('../config/database');
 
 const getTokenFrom = req => {
@@ -19,12 +20,27 @@ reportTransferRouter.get('/', async (req, res, next) => {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
     const transfers = await db.query(
-      'SELECT rt.id, rt.user_id, us.username, us.first_name, us.last_name, rt.status, rt.filename, rt.period, rt.created_at, rt.updated_at FROM playlist__report_transfer as rt, playlist__user as us WHERE rt.user_id = us.id',
+      'SELECT rt.id, rt.user_id, us.username, us.first_name, us.last_name, rt.status, rt.filename, rt.period, rt.created_at, rt.updated_at FROM playlist__report_transfer as rt, playlist__user as us WHERE rt.user_id = us.id order by created_at desc',
       {
         type: db.QueryTypes.SELECT
       }
     );
     res.json(transfers);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// send file to client by filename
+reportTransferRouter.get('/:filename', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    console.log('got download request for ', req.params.filename);
+    res.download(path.join(__dirname, `../transfers/${req.params.filename}`));
   } catch (exception) {
     next(exception);
   }

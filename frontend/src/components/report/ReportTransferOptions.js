@@ -32,7 +32,7 @@ const ReportTransferOptions = props => {
           <Form.Field>
             <DatePicker
               selected={pickerDate}
-              dateFormat="yyyy-MM"
+              dateFormat="MMMM yyyy"
               onChange={date => setPickerDate(date)}
               showMonthYearPicker
             />

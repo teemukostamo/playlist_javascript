@@ -29,10 +29,11 @@ const ReportTransferList = props => {
             <Table.Cell>Siirtotiedosto</Table.Cell>
           </Table.Row>
         </Table.Header>
-
-        {props.reportsList.reportTransferList.map(item => (
-          <ReportTransferListItem key={item.id} item={item} />
-        ))}
+        <Table.Body>
+          {props.reportsList.reportTransferList.map(item => (
+            <ReportTransferListItem key={item.id} item={item} />
+          ))}
+        </Table.Body>
       </Table>
     </Container>
   );

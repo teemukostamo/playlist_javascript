@@ -5,7 +5,6 @@ import {
   SORT_BY_USER_ID
 } from './types';
 import reportService from '../services/reports';
-
 // get a list of reports by user_id, date
 
 // get a list of reports by date
