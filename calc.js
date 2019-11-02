@@ -1,24 +1,4 @@
-// const moment = require('moment');
-// console.log(parseInt(moment().format('YYYY')));
-// const date = new Date().getFullYear() + 1;
-// const years = [];
-// for (var i = 2001; i <= date; i++) {
-//   years.push(i);
-// }
-
-// console.log(years);
-
-// var fs = require('fs');
-
-// // var file = fs.createWriteStream('array.txt');
-// // const arr = ['STRINGGGGGG', 'SECOND STRIINFGGGGG'];
-// // file.on('error', function(err) {
-// //   console.log(err);
-// // });
-// // arr.forEach(function(v) {
-// //   file.write(v + '\n');
-// // });
-// // file.end();
+var fs = require('fs');
 
 let placeholder = {
   track_title: '                                                  ',
@@ -55,7 +35,8 @@ const arrayWithTracks = [
     program_start_time: '08:00:00',
     program_end_time: '10:00:00',
     program_name: 'Neurosiivut',
-    artist_name: 'A takalo takavalo',
+    artist_name:
+      'A takalo takavalo takvavavavavavavavavavavavavavavavavavavappopop',
     track_title: 'Ja takavalo',
     length: 124,
     copyright_holders: '| Eka rivi | Toka rivi |',
@@ -94,7 +75,7 @@ const arrayWithTracks = [
     artist_name: 'Suar',
     track_title: 'Ja takavalo',
     length: 631,
-    copyright_holders: '| Eka rivi | Toka rivi |',
+    copyright_holders: null,
     country: 1,
     record_country: 'GB',
     disc_no: 1,
@@ -112,7 +93,7 @@ const arrayWithTracks = [
     artist_name: 'Manoddda',
     track_title: 'Laika virgin',
     length: 323,
-    copyright_holders: '| Eka rivi | Toka elvis |',
+    copyright_holders: '| Eka rivi |',
     country: null,
     disc_no: 1,
     track_no: 12,
@@ -143,10 +124,11 @@ arrayWithTracks.forEach(track => {
   console.log('new program end time length', new_programm_end_time.length);
 
   // get track title, remove track name length from placeholder, then add to remaining placeholder
+  let track_title_maxlength = 50;
   let new_track_title =
     track.track_title.toUpperCase() +
     placeholder.track_title.substring(track.track_title.length);
-
+  new_track_title = new_track_title.substring(0, track_title_maxlength);
   console.log('new track title', new_track_title);
   console.log('new track title length', new_track_title.length);
 
@@ -178,14 +160,18 @@ arrayWithTracks.forEach(track => {
   console.log('new country length', new_country.length);
 
   // get artist name
+  let artist_maxlength = 25;
   let new_artist_name =
     track.artist_name.toUpperCase() +
     placeholder.artist_name.substring(track.artist_name.length);
+
+  new_artist_name = new_artist_name.substring(0, artist_maxlength);
 
   console.log('new artist name', new_artist_name);
   console.log('new artist name length', new_artist_name.length);
 
   // get label
+  let label_maxlength = 20;
   let new_label;
   if (track.label === null) {
     new_label = placeholder.label;
@@ -193,11 +179,13 @@ arrayWithTracks.forEach(track => {
     new_label =
       track.label.toUpperCase() +
       placeholder.label.substring(track.label.length);
+    new_label = new_label.substring(0, label_maxlength);
   }
   console.log('new label', new_label);
   console.log('new label length', new_label.length);
 
   // get cat id
+  let cat_id_maxlength = 15;
   let new_cat_id;
   if (track.cat_id === null) {
     let unknown = 'EI ILMOITETTU';
@@ -206,6 +194,7 @@ arrayWithTracks.forEach(track => {
     new_cat_id =
       track.cat_id.toUpperCase() +
       placeholder.cat_id.substring(track.cat_id.length);
+    new_cat_id = new_cat_id.substring(0, cat_id_maxlength);
   }
   console.log('new cat_id', new_cat_id);
   console.log('new cat_id length', new_cat_id.length);
@@ -247,10 +236,11 @@ arrayWithTracks.forEach(track => {
   console.log('new record country typeof', typeof new_record_country);
 
   // get program name
+  let program_name_maxlength = 63;
   let new_program_name =
     track.program_name.toUpperCase() +
     placeholder.program_name.substring(track.program_name.length);
-
+  new_program_name = new_program_name.substring(0, program_name_maxlength);
   console.log('new program name', new_program_name);
   console.log('new program name length', new_program_name.length);
 
@@ -267,15 +257,204 @@ arrayWithTracks.forEach(track => {
   console.log('new year length', new_year.length);
 
   // get isrc
+  let isrc_maxlength = 12;
   let new_isrc;
   if (track.isrc === null) {
     new_isrc = placeholder.isrc;
   } else {
     new_isrc =
       track.isrc.toUpperCase() + placeholder.isrc.substring(track.isrc.length);
+    new_isrc = new_isrc.substring(0, isrc_maxlength);
   }
   console.log('new isrc', new_isrc);
   console.log('new isrc length', new_isrc.length);
+
+  // handle copyright holders
+  let copyright_holder_maxlength = 30;
+  let new_copyright_holder_1;
+  let new_copyright_holder_2;
+  let new_copyright_holder_3;
+  let new_copyright_holder_4;
+  let new_copyright_holder_5;
+  // if copyright holders is null insert placeholder values to array, else parse through values
+  if (track.copyright_holders === null) {
+    new_copyright_holder_1 = placeholder.copyright_holder_1;
+    new_copyright_holder_2 = placeholder.copyright_holder_2;
+    new_copyright_holder_3 = placeholder.copyright_holder_3;
+    new_copyright_holder_4 = placeholder.copyright_holder_4;
+    new_copyright_holder_5 = placeholder.copyright_holder_5;
+  } else {
+    let new_copyright_holders = track.copyright_holders.split('|');
+    new_copyright_holders.pop();
+    new_copyright_holders.shift();
+    if (new_copyright_holders.length === 1) {
+      new_copyright_holder_1 =
+        new_copyright_holders[0].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_1.substring(
+          new_copyright_holders[0].slice(1, -1).length
+        );
+      new_copyright_holder_1 = new_copyright_holder_1.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_2 = placeholder.copyright_holder_2;
+      new_copyright_holder_3 = placeholder.copyright_holder_3;
+      new_copyright_holder_4 = placeholder.copyright_holder_4;
+      new_copyright_holder_5 = placeholder.copyright_holder_5;
+    } else if (new_copyright_holders.length === 2) {
+      new_copyright_holder_1 =
+        new_copyright_holders[0].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_1.substring(
+          new_copyright_holders[0].slice(1, -1).length
+        );
+      new_copyright_holder_1 = new_copyright_holder_1.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_2 =
+        new_copyright_holders[1].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_1.substring(
+          new_copyright_holders[1].slice(1, -1).length
+        );
+      new_copyright_holder_2 = new_copyright_holder_2.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_3 = placeholder.copyright_holder_3;
+      new_copyright_holder_4 = placeholder.copyright_holder_4;
+      new_copyright_holder_5 = placeholder.copyright_holder_5;
+    } else if (new_copyright_holders.length === 3) {
+      new_copyright_holder_1 =
+        new_copyright_holders[0].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_1.substring(
+          new_copyright_holders[0].slice(1, -1).length
+        );
+      new_copyright_holder_1 = new_copyright_holder_1.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_2 =
+        new_copyright_holders[1].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_2.substring(
+          new_copyright_holders[1].slice(1, -1).length
+        );
+      new_copyright_holder_2 = new_copyright_holder_2.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_3 =
+        new_copyright_holders[2].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_3.substring(
+          new_copyright_holders[2].slice(1, -1).length
+        );
+      new_copyright_holder_3 = new_copyright_holder_3.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_4 = placeholder.copyright_holder_4;
+      new_copyright_holder_5 = placeholder.copyright_holder_5;
+    } else if (new_copyright_holders.length === 4) {
+      new_copyright_holder_1 =
+        new_copyright_holders[0].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_1.substring(
+          new_copyright_holders[0].slice(1, -1).length
+        );
+      new_copyright_holder_1 = new_copyright_holder_1.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_2 =
+        new_copyright_holders[1].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_2.substring(
+          new_copyright_holders[1].slice(1, -1).length
+        );
+      new_copyright_holder_2 = new_copyright_holder_2.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_3 =
+        new_copyright_holders[2].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_3.substring(
+          new_copyright_holders[2].slice(1, -1).length
+        );
+      new_copyright_holder_3 = new_copyright_holder_3.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_4 =
+        new_copyright_holders[3].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_4.substring(
+          new_copyright_holders[3].slice(1, -1).length
+        );
+      new_copyright_holder_4 = new_copyright_holder_4.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_5 = placeholder.copyright_holder_5;
+    } else if (new_copyright_holders.length === 5) {
+      new_copyright_holder_1 =
+        new_copyright_holders[0].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_1.substring(
+          new_copyright_holders[0].slice(1, -1).length
+        );
+      new_copyright_holder_1 = new_copyright_holder_1.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_2 =
+        new_copyright_holders[1].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_2.substring(
+          new_copyright_holders[1].slice(1, -1).length
+        );
+      new_copyright_holder_2 = new_copyright_holder_2.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_3 =
+        new_copyright_holders[2].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_3.substring(
+          new_copyright_holders[2].slice(1, -1).length
+        );
+      new_copyright_holder_3 = new_copyright_holder_3.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_4 =
+        new_copyright_holders[3].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_4.substring(
+          new_copyright_holders[3].slice(1, -1).length
+        );
+      new_copyright_holder_4 = new_copyright_holder_4.substring(
+        0,
+        copyright_holder_maxlength
+      );
+      new_copyright_holder_5 =
+        new_copyright_holders[4].slice(1, -1).toUpperCase() +
+        placeholder.copyright_holder_5.substring(
+          new_copyright_holders[4].slice(1, -1).length
+        );
+      new_copyright_holder_5 = new_copyright_holder_5.substring(
+        0,
+        copyright_holder_maxlength
+      );
+    } else {
+      new_copyright_holder_1 = placeholder.copyright_holder_1;
+      new_copyright_holder_2 = placeholder.copyright_holder_2;
+      new_copyright_holder_3 = placeholder.copyright_holder_3;
+      new_copyright_holder_4 = placeholder.copyright_holder_4;
+      new_copyright_holder_5 = placeholder.copyright_holder_5;
+    }
+  }
+  console.log('new copyright holder 1', new_copyright_holder_1);
+  console.log('new copyright holder 1 length', new_copyright_holder_1.length);
+  console.log('new copyright holder 2', new_copyright_holder_2);
+  console.log('new copyright holder 2 length', new_copyright_holder_2.length);
+  console.log('new copyright holder 3', new_copyright_holder_3);
+  console.log('new copyright holder 3 length', new_copyright_holder_3.length);
+  console.log('new copyright holder 4', new_copyright_holder_4);
+  console.log('new copyright holder 4 length', new_copyright_holder_4.length);
+  console.log('new copyright holder 5', new_copyright_holder_5);
+  console.log('new copyright holder 5 length', new_copyright_holder_5.length);
 
   newArr.push({
     program_date: new_program_date,
@@ -286,11 +465,11 @@ arrayWithTracks.forEach(track => {
     helper_field: '00',
     length: new_length,
     times: '0001',
-    // copyright holder 1
-    // copyright holder 2
-    // copyright holder 3
-    // copyright holder 4
-    // copyright holder 5
+    copyright_holder_1: new_copyright_holder_1,
+    copyright_holder_2: new_copyright_holder_2,
+    copyright_holder_3: new_copyright_holder_3,
+    copyright_holder_4: new_copyright_holder_4,
+    copyright_holder_5: new_copyright_holder_5,
     country: new_country,
     artist_name: new_artist_name,
     label: new_label,
@@ -307,8 +486,26 @@ arrayWithTracks.forEach(track => {
     handle_code: '1'
   });
 });
-
 console.log(newArr);
+
+// console.log(newArr);
+let exportArr = [];
+newArr.forEach(field =>
+  exportArr.push(
+    `${field.program_date}${field.program_start_time}${field.program_end_time}${field.teosto_id}${field.track_title}${field.helper_field}${field.length}${field.times}${field.copyright_holder_1}${field.copyright_holder_2}${field.copyright_holder_3}${field.copyright_holder_4}${field.copyright_holder_5}${field.country}${field.artist_name}${field.label}${field.cat_id}${field.disc_no}${field.track_no}${field.record_country}${field.type}${field.jingle}${field.program_name}${field.year}${field.isrc}${field.comment}${field.handle_code}`
+  )
+);
+
+// console.log(exportArr);
+
+var file = fs.createWriteStream('array.txt');
+file.on('error', function(err) {
+  console.log(err);
+});
+exportArr.forEach(function(v) {
+  file.write(v + '\n');
+});
+file.end();
 
 let reportExportDraft = {
   program_date: '191001', // 6 char - POS 1-6
@@ -327,7 +524,7 @@ let reportExportDraft = {
   country: '1', // 1 suomi, tyhjä muu - 1 char - POS 233
   artist: 'ARTIST NAME', // 25 char - POS 234-258
   label: 'LABEL', // 20 char - POS 259-278
-  cat_id: 'LABEL0001', // if null = EI ILMOITETTU - 15 char - POS 279-293
+  cat_id: '123456789', // if null = EI ILMOITETTU - 15 char - POS 279-293
   disc_no: '1', // 1 char - POS 294
   track_no: '12', //2 char - POS 295-296
   record_country: 'GB', // 3 char - POS 297-299
@@ -339,3 +536,6 @@ let reportExportDraft = {
   comment: '', // 79 char - POS 381-459
   handle_code: '1' // 1 char - POS 460
 };
+
+let string = 'TässäTössötossot';
+console.log(string.substring(0, 10));

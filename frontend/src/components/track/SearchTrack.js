@@ -15,11 +15,15 @@ const SearchTrack = ({
   const [trackToSave, setTrackToSave] = useState(null);
 
   useEffect(() => {
-    if (searchQuery.length >= 3) {
-      setTimeout(() => {
+    let timeout = null;
+    console.log('fire when typed to search', searchQuery);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      if (searchQuery.length >= 3) {
         getAutocompleteResults(searchQuery);
-      }, 100);
-    }
+      }
+    }, 1000);
+
     // eslint-disable-next-line
   }, [searchQuery]);
 
@@ -66,11 +70,12 @@ const SearchTrack = ({
             <Form.Group widths="equal">
               <Form.Field>
                 <Search
-                  style={{ overflow: 'auto' }}
                   loading={search.loading}
                   onResultSelect={handleResultSelect}
                   onSearchChange={onSearchChange}
+                  onSelectionChange={handleResultSelect}
                   results={results}
+
                   // value={value}
                 />
               </Form.Field>

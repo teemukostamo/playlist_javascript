@@ -10,7 +10,7 @@ const setToken = newToken => {
 const checkDjonlineTracks = async searchParams => {
   // TODO - Handle sortable_rank
   const tracks = await axios.get(
-    `https://www.djonline.fi/playing/playlog.php?id=${searchParams.studioId}&date=${searchParams.date}`
+    `${process.env.REACT_APP_PLAYLOG_URL}?id=${searchParams.studioId}&date=${searchParams.date}`
   );
   let arr = [];
   for (const prop in tracks.data) {
