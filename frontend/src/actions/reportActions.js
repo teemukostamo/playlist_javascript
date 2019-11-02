@@ -3,6 +3,8 @@ import {
   GET_REPORT_DETAILS,
   CREATE_REPORT,
   UPDATE_REPORT,
+  CHECK_FOR_DELETE,
+  UNCHECK_FOR_DELETE,
   SET_LOADING
 } from '../actions/types';
 import reportService from '../services/reports';
@@ -120,6 +122,51 @@ export const updateReport = updatedReport => async dispatch => {
     const report = await reportService.updateReport(updatedReport);
     dispatch({
       type: UPDATE_REPORT,
+      data: report
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const checkForDelete = id => async dispatch => {
+  try {
+    console.log('id to add to delete tracks', id);
+    dispatch({
+      type: CHECK_FOR_DELETE,
+      data: id
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const unCheckForDelete = id => async dispatch => {
+  try {
+    console.log('uncheckd id to add to delete tracks', id);
+    dispatch({
+      type: UNCHECK_FOR_DELETE,
+      data: id
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteChecked = (idsToDelete, report_id) => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    idsToDelete.forEach(async id => {
+      let deletedTrack = await reportService.deleteTrackFromReport(id);
+      console.log(deletedTrack);
+    });
+    console.log('array of ids to delete from report', idsToDelete);
+    const report = await reportService.getOne(report_id);
+    console.log('reportactions', report);
+    dispatch({
+      type: GET_ONE_REPORT,
       data: report
     });
   } catch (error) {

@@ -1,7 +1,18 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Container, Table, Segment, Dimmer, Loader } from 'semantic-ui-react';
-import { getOneReport, getReportDetails } from '../../actions/reportActions';
+import {
+  Container,
+  Table,
+  Segment,
+  Dimmer,
+  Loader,
+  Button
+} from 'semantic-ui-react';
+import {
+  getOneReport,
+  getReportDetails,
+  deleteChecked
+} from '../../actions/reportActions';
 import ReportWithTracksItem from './ReportWithTracksItem';
 import ReportDetails from './ReportDetails';
 
@@ -29,6 +40,11 @@ const ReportWithTracks = props => {
     // eslint-disable-next-line
   }, []);
 
+  const deleteChecked = () => {
+    console.log('klikd delete checkd');
+    props.deleteChecked(props.report.checkedForDelete, props.id);
+  };
+
   console.log('report with tracks props', props);
 
   if (props.report.report === null) {
@@ -47,6 +63,7 @@ const ReportWithTracks = props => {
       <Table striped>
         <Table.Header>
           <Table.Row>
+            <Table.Cell></Table.Cell>
             <Table.Cell>#</Table.Cell>
             <Table.Cell>Artisti</Table.Cell>
             <Table.Cell>Biisi</Table.Cell>
@@ -61,6 +78,9 @@ const ReportWithTracks = props => {
           ))}
         </Table.Body>
       </Table>
+      <Button onClick={deleteChecked} style={{ marginBottom: '2rem' }}>
+        Poista valitut
+      </Button>
       <ReportDetails report={props.report.reportDetails} />
     </Container>
   );
@@ -76,7 +96,7 @@ const mapStateToProps = state => {
 
 const connectedReportWithTracks = connect(
   mapStateToProps,
-  { getOneReport, getReportDetails }
+  { getOneReport, getReportDetails, deleteChecked }
 )(ReportWithTracks);
 
 export default connectedReportWithTracks;

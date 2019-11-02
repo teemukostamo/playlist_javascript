@@ -3,6 +3,8 @@ import {
   GET_REPORT_DETAILS,
   GET_DJONLINE_TRACKS,
   DELETE_TRACK_FROM_REPORT,
+  CHECK_FOR_DELETE,
+  UNCHECK_FOR_DELETE,
   CREATE_REPORT,
   UPDATE_REPORT,
   CLEAR_CURRENT_REPORT,
@@ -16,6 +18,7 @@ const initialState = {
   reportDetails: null,
   newReport: null,
   loading: false,
+  checkedForDelete: [],
   error: null
 };
 
@@ -65,6 +68,21 @@ const reportReducer = (state = initialState, action) => {
         ...state,
         report: state.report.filter(
           track => track.report_track_id !== action.id
+        )
+      };
+    case CHECK_FOR_DELETE:
+      return {
+        ...state,
+        checkedForDelete: [action.data, ...state.checkedForDelete]
+      };
+    case UNCHECK_FOR_DELETE:
+      console.log(action.data);
+      console.log(typeof state.checkedForDelete);
+      console.log(state.checkedForDelete);
+      return {
+        ...state,
+        checkedForDelete: state.checkedForDelete.filter(
+          id => id !== action.data
         )
       };
     case CLEAR_CURRENT_REPORT:

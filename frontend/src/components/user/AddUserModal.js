@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import M from 'materialize-css/dist/js/materialize.min.js';
 
 const AddUserModal = () => {
   const [username, setUsername] = useState('');

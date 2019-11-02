@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Table, Icon } from 'semantic-ui-react';
-import { deleteTrackFromReport } from '../../actions/reportActions';
+import { Table, Icon, Checkbox, Form } from 'semantic-ui-react';
+import {
+  deleteTrackFromReport,
+  checkForDelete,
+  unCheckForDelete
+} from '../../actions/reportActions';
 
 const ReportWithTracksItem = props => {
+  const [checked, setChecked] = useState(false);
+  console.log(checked);
+  console.log('report with tracks item props', props);
   const onDelete = () => {
     const params = {
       report_track_id: props.track.report_track_id,
@@ -16,11 +23,30 @@ const ReportWithTracksItem = props => {
   const onEdit = () => {
     console.log('klikd edit');
   };
+
+  const checkedClick = () => {
+    setChecked(!checked);
+    if (checked === true) {
+      console.log('removing id from delete array', props.track.report_track_id);
+      props.unCheckForDelete(props.track.report_track_id);
+    } else {
+      console.log('checked for delete id', props.track.report_track_id);
+      props.checkForDelete(props.track.report_track_id);
+    }
+  };
   const minutes = Math.floor(props.track.length / 60);
   const seconds = props.track.length - minutes * 60;
 
   return (
     <Table.Row>
+      <Table.Cell>
+        <Checkbox onChange={checkedClick} checked={checked} />
+        <Icon
+          style={{ marginLeft: '1.5rem' }}
+          onClick={onEdit}
+          name="arrows alternate"
+        />
+      </Table.Cell>
       <Table.Cell>{props.track.sortable_rank}</Table.Cell>
       <Table.Cell>{props.track.artist_name}</Table.Cell>
       <Table.Cell>{props.track.track_title}</Table.Cell>
@@ -47,7 +73,7 @@ const mapStateToProps = state => {
 
 const connectedReportWithTracksItem = connect(
   mapStateToProps,
-  { deleteTrackFromReport }
+  { deleteTrackFromReport, checkForDelete, unCheckForDelete }
 )(ReportWithTracksItem);
 
 export default connectedReportWithTracksItem;

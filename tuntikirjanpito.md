@@ -37,3 +37,4 @@
 | 30.10.2019 |    7    |                    get djonline tracks, delete track from report                     |
 | 31.10.2019 | 5 (122) |           styles, datepicker tweaking, rerun checkbox, filter report list            |
 | 1.11.2019  |   10    | styles, export report sql, exports list frontend&backend, download file, gramex hell |
+| 2.11.2019  |    7    |         generated txt file of monthly report, delete many tracks from report         |

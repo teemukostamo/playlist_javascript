@@ -196,6 +196,15 @@ tracksRouter.post('/djonline', async (req, res, next) => {
       report_id
     } = req.body;
 
+    // see if artist name ends with , the
+    let lastFive = artist_name.slice(artist_name.length - 5);
+    if (lastFive.toLowerCase() === ', the') {
+      artist_name = artist_name.substring(0, artist_name.length - 5);
+      artist_name = 'THE ' + artist_name.toUpperCase();
+    } else {
+      artist_name = artist_name.toUpperCase();
+    }
+
     // see if artist exists
     const artist = await Artist.findOne({ where: { name: artist_name } });
     // uudet artistit crashaa siihen et ao id

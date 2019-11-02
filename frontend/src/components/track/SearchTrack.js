@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, Search, Button, Grid, Header } from 'semantic-ui-react';
 import { getAutocompleteResults } from '../../actions/searchActions';
 import { addTrackToReport } from '../../actions/reportActions';
+import AddTrackModal from './AddTrackModal';
 
 const SearchTrack = ({
   search,
@@ -88,13 +89,10 @@ const SearchTrack = ({
                 {' '}
                 <Button>Tarkennettu haku</Button>
               </Form.Field>
-              <Form.Field>
-                {' '}
-                <Button>Lisää uusi biisi</Button>
-              </Form.Field>
             </Form.Group>
           </Form>
         </Grid.Row>
+        <AddTrackModal />
       </Grid>
     </div>
   );
