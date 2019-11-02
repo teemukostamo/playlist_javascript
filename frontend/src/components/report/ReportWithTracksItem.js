@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Table, Icon, Checkbox, Form } from 'semantic-ui-react';
+import { Table, Icon, Checkbox } from 'semantic-ui-react';
 import {
   deleteTrackFromReport,
   checkForDelete,
@@ -42,7 +42,7 @@ const ReportWithTracksItem = props => {
       <Table.Cell>
         <Checkbox onChange={checkedClick} checked={checked} />
         <Icon
-          style={{ marginLeft: '1.5rem' }}
+          style={{ marginLeft: '1.5rem', cursor: 'pointer' }}
           onClick={onEdit}
           name="arrows alternate"
         />
@@ -54,10 +54,10 @@ const ReportWithTracksItem = props => {
         {minutes}:{seconds}
       </Table.Cell>
       <Table.Cell>
-        <Icon onClick={onDelete} name="delete" />
+        <Icon style={{ cursor: 'pointer' }} onClick={onDelete} name="delete" />
       </Table.Cell>
       <Table.Cell>
-        <Icon onClick={onEdit} name="edit" />
+        <Icon style={{ cursor: 'pointer' }} onClick={onEdit} name="edit" />
       </Table.Cell>
     </Table.Row>
   );

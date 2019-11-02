@@ -6,7 +6,8 @@ import {
   Segment,
   Dimmer,
   Loader,
-  Button
+  Button,
+  Header
 } from 'semantic-ui-react';
 import {
   getOneReport,
@@ -54,6 +55,14 @@ const ReportWithTracks = props => {
           <Loader inverted content="Ladataan..." />
         </Dimmer>
       </Segment>
+    );
+  }
+  if (props.report.report.length === 0) {
+    return (
+      <Container>
+        <Header>Ei lisättyjä kappaleita. Lisää biisit alta</Header>
+        <ReportDetails report={props.report.reportDetails} />
+      </Container>
     );
   }
 

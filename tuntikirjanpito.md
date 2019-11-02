@@ -38,3 +38,4 @@
 | 31.10.2019 | 5 (122) |           styles, datepicker tweaking, rerun checkbox, filter report list            |
 | 1.11.2019  |   10    | styles, export report sql, exports list frontend&backend, download file, gramex hell |
 | 2.11.2019  |    7    |         generated txt file of monthly report, delete many tracks from report         |
+| 2.11.2019  |    2    |                 refactored navbar to own component, add track modal                  |

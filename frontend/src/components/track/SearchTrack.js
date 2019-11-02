@@ -16,15 +16,14 @@ const SearchTrack = ({
   const [trackToSave, setTrackToSave] = useState(null);
 
   useEffect(() => {
-    let timeout = null;
-    console.log('fire when typed to search', searchQuery);
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      if (searchQuery.length >= 3) {
+    if (searchQuery.length >= 3) {
+      let timeout = null;
+      console.log('fire when typed to search', searchQuery);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
         getAutocompleteResults(searchQuery);
-      }
-    }, 1000);
-
+      }, 1000);
+    }
     // eslint-disable-next-line
   }, [searchQuery]);
 
@@ -48,11 +47,11 @@ const SearchTrack = ({
 
   const onSearchChange = (e, { value }) => {
     setSearchQuery(value);
-    if (searchQuery.length >= 3) {
-      setTimeout(() => {
-        getAutocompleteResults(searchQuery);
-      }, 300);
-    }
+    // if (searchQuery.length >= 3) {
+    //   setTimeout(() => {
+    //     getAutocompleteResults(searchQuery);
+    //   }, 300);
+    // }
   };
 
   let results = search.searchResults.map(result => ({

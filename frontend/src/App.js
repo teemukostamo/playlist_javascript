@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 // import './App.css';
-
+import Navbar from './components/layout/Navbar';
 import Home from './components/layout/Home';
 import UserList from './components/user/UserList';
 import ReportList from './components/report/ReportList';
 import LoginForm from './components/login/LoginForm';
 import ReportTransferList from './components/report/ReportTransferList';
-import { Container, Menu } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 
 import { initializeUser, logout } from './actions/loginActions';
 import { initializeUsers } from './actions/userActions';
@@ -43,32 +43,7 @@ const App = props => {
       <div>
         Logged in as {props.login.username}
         <button onClick={handleLogout}>logout</button>
-        <Menu inverted>
-          <Menu.Item link>
-            <Link to="/">Etusivu</Link>
-          </Menu.Item>
-          <Menu.Item link>
-            <Link to="/reports">Raportit</Link>
-          </Menu.Item>
-          <Menu.Item link>
-            <Link to="/">Top 100</Link>
-          </Menu.Item>
-          <Menu.Item link>
-            <Link to="/">Haku</Link>
-          </Menu.Item>
-          <Menu.Item link>
-            <Link to="/transfer">Siirtotiedostot</Link>
-          </Menu.Item>
-          <Menu.Item link>
-            <Link to="/users">Käyttäjät</Link>
-          </Menu.Item>
-          <Menu.Item link>
-            <Link to="/">Ohjelmat</Link>
-          </Menu.Item>
-          <Menu.Item link>
-            <Link to="/">Omat tiedot</Link>
-          </Menu.Item>
-        </Menu>
+        <Navbar />
       </div>
       <Switch>
         <Route exact path="/" component={Home} />

@@ -1,81 +1,53 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Menu, Image, Header } from 'semantic-ui-react';
+import logo from '../../img/logo.png';
 
-const Navbar = ({ loggedInUser }) => {
-  // if logged in user is admin render all nav items
-  if (loggedInUser.level === 3) {
-    return (
-      <nav style={{ marginBottom: '30px' }} className="black">
-        <div className="nav-wrapper">
-          <NavLink className="brand-logo" to="/">
-            PLAYLIST 2020
-          </NavLink>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li>
-              <NavLink to="/" excact>
-                Etusivu
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/reports" excact>
-                Raportit
-              </NavLink>
-            </li>
-            <li>
-              <a href="#!">Top 100</a>
-            </li>
-            <li>
-              <a href="#!">Haku</a>
-            </li>
-            <li>
-              <NavLink to="/users" excact>
-                Käyttäjät
-              </NavLink>
-            </li>
-            <li>
-              <a href="#!">Ohjelmat</a>
-            </li>
-            <li>
-              <a href="#!">Omat tiedot</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    );
-  }
-
-  // if logged in user is not admin render only some items
+const Navbar = () => {
   return (
-    <nav style={{ marginBottom: '30px' }} className="black">
-      <div className="nav-wrapper">
-        <a href="#!" className="brand-logo">
-          <NavLink to="/" excact>
-            PLAYLIST 2020
-          </NavLink>
-        </a>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
-          <li>
-            <NavLink to="/" excact>
-              Etusivu
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/reports" excact>
-              Raportit
-            </NavLink>
-          </li>
-          <li>
-            <a href="#!">Top 100</a>
-          </li>
-          <li>
-            <a href="#!">Haku</a>
-          </li>
-          <li>
-            <a href="#!">Omat tiedot</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <Menu pointing stackable inverted>
+      <Menu.Item link>
+        <Link to="/">
+          <Image alt="logo" src={logo} size="small" />
+        </Link>
+      </Menu.Item>
+
+      <Menu.Item link>
+        <Link to="/reports">
+          <h4>RAPORTIT</h4>
+        </Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/">
+          <h4>TOP 100</h4>
+        </Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/">
+          <h4>HAKU</h4>
+        </Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/transfer">
+          <h4>SIIRTOTIEDOSTOT</h4>
+        </Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/users">
+          <h4>KÄYTTÄJÄT</h4>
+        </Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/">
+          <h4>OHJELMAT</h4>
+        </Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/">
+          <h4>OMAT TIEDOT</h4>
+        </Link>
+      </Menu.Item>
+    </Menu>
   );
 };
 
