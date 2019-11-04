@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import User from './User';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import { Table } from 'semantic-ui-react';
-import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
 
 const UserList = props => {
   if (props.users.users === null || props.users.loading === true) {
@@ -26,6 +25,7 @@ const UserList = props => {
             <Table.Cell>Käyttäjätunnus</Table.Cell>
             <Table.Cell>Nimi</Table.Cell>
             <Table.Cell>Viimeisin kirjautuminen</Table.Cell>
+            <Table.Cell>Tila</Table.Cell>
             <Table.Cell>Taso</Table.Cell>
           </Table.Row>
         </Table.Header>
@@ -40,10 +40,6 @@ const UserList = props => {
   );
 };
 
-const mapDispatchToProps = {
-  showNotificationWithTimeout
-};
-
 const mapStateToProps = state => ({
   users: state.users,
   login: state.login
@@ -51,7 +47,7 @@ const mapStateToProps = state => ({
 
 const connectedUserList = connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(UserList);
 
 export default connectedUserList;

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Button, Form, Header } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import { getAllReportsByDate } from '../../actions/reportsListActions';
+import { generateReportTransfer } from '../../actions/reportTransferActions';
 import moment from 'moment';
 
 const ReportTransferOptions = props => {
@@ -18,9 +19,21 @@ const ReportTransferOptions = props => {
       'transferring file from ',
       moment(pickerDate).format('YYYY-MM')
     );
+    const params = {
+      user_id: props.login.id,
+      status: 1,
+      period: moment(pickerDate).format('YYYY-MM'),
+      filename: moment(new Date()).format('YYYYMMDDhhmmss') + '.txt'
+    };
+    console.log(params);
+    props.generateReportTransfer(params);
   };
 
   if (props.reportsList.reportsList === null) {
+    return <div>loading</div>;
+  }
+
+  if (props.reportsList.loading === true) {
     return <div>loading</div>;
   }
 
@@ -28,22 +41,22 @@ const ReportTransferOptions = props => {
     <div>
       <Header>Hae siirtotiedosto ajalta:</Header>
       <Form>
-        <Form.Group widths="equal">
-          <Form.Field>
-            <DatePicker
-              selected={pickerDate}
-              dateFormat="MMMM yyyy"
-              onChange={date => setPickerDate(date)}
-              showMonthYearPicker
-            />
-          </Form.Field>
-          <Form.Field>
-            {/* löytyi {props.reportsList.reportsList.length} raporttia */}
-          </Form.Field>
-          <Form.Field>
-            <Button onClick={getTransferFile}>HAE</Button>
-          </Form.Field>
-        </Form.Group>
+        <Form.Field>
+          <DatePicker
+            selected={pickerDate}
+            dateFormat="MMMM yyyy"
+            onChange={date => setPickerDate(date)}
+            showMonthYearPicker
+          />
+        </Form.Field>
+        <Form.Field>
+          {/* löytyi {props.reportsList.reportsList.length} raporttia */}
+        </Form.Field>
+        <Form.Field>
+          <Button color="blue" onClick={getTransferFile}>
+            HAE
+          </Button>
+        </Form.Field>
       </Form>
     </div>
   );
@@ -53,13 +66,14 @@ const mapStateToProps = state => {
   console.log('report transfer options state to props', state);
   return {
     reportsList: state.reportsList,
-    notification: state.notification
+    notification: state.notification,
+    login: state.login
   };
 };
 
 const connectedReportTransferOptions = connect(
   mapStateToProps,
-  { getAllReportsByDate }
+  { getAllReportsByDate, generateReportTransfer }
 )(ReportTransferOptions);
 
 export default connectedReportTransferOptions;

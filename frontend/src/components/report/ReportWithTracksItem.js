@@ -34,8 +34,13 @@ const ReportWithTracksItem = props => {
       props.checkForDelete(props.track.report_track_id);
     }
   };
-  const minutes = Math.floor(props.track.length / 60);
-  const seconds = props.track.length - minutes * 60;
+  let minutes = Math.floor(props.track.length / 60);
+  minutes = minutes.toString();
+  let seconds = props.track.length - minutes * 60;
+  if (seconds.toString().length === 1) {
+    seconds = '0' + seconds.toString();
+  }
+  seconds = seconds.toString();
 
   return (
     <Table.Row>
@@ -54,10 +59,20 @@ const ReportWithTracksItem = props => {
         {minutes}:{seconds}
       </Table.Cell>
       <Table.Cell>
-        <Icon style={{ cursor: 'pointer' }} onClick={onDelete} name="delete" />
+        <Icon
+          style={{ cursor: 'pointer' }}
+          color="red"
+          onClick={onDelete}
+          name="delete"
+        />
       </Table.Cell>
       <Table.Cell>
-        <Icon style={{ cursor: 'pointer' }} onClick={onEdit} name="edit" />
+        <Icon
+          style={{ cursor: 'pointer' }}
+          color="blue"
+          onClick={onEdit}
+          name="edit"
+        />
       </Table.Cell>
     </Table.Row>
   );

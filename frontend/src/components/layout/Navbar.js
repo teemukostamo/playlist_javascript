@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Image, Header } from 'semantic-ui-react';
+import { Menu, Image } from 'semantic-ui-react';
 import logo from '../../img/logo.png';
 
 const Navbar = () => {

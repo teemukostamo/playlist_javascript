@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { createReport } from '../../actions/reportActions';
 import {
   Header,
   Form,
@@ -11,7 +12,6 @@ import {
   Grid
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
-import { createReport } from '../../actions/reportActions';
 import moment from 'moment';
 
 const CreateNewReportForm = props => {
@@ -394,7 +394,9 @@ const CreateNewReportForm = props => {
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths="equal">
-                  <Button onClick={createReport}>Jatka</Button>
+                  <Button color="green" onClick={createReport}>
+                    Jatka
+                  </Button>
                 </Form.Group>
               </Form>
             </Container>

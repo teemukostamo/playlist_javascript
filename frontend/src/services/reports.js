@@ -97,6 +97,19 @@ const updateReport = async updatedReport => {
   return updatedReport;
 };
 
+// generate text file for download
+export const generateReportDownload = async params => {
+  try {
+    const config = {
+      headers: { Authorization: token, responseType: 'blob' }
+    };
+    const request = await axios.post('/api/reporttransfer', params, config);
+    return request.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // download report
 export const downloadReport = async filename => {
   try {
@@ -120,5 +133,6 @@ export default {
   getReportDetails,
   createReport,
   updateReport,
+  generateReportDownload,
   downloadReport
 };

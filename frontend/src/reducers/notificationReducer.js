@@ -1,56 +1,72 @@
 const initialState = {
-  message: null
+  message: null,
+  type: null
 };
 
 const notificationReducer = (state = initialState, action) => {
   console.log('action', action);
+  console.log(state);
   switch (action.type) {
-    case 'NOTIFICATION':
-      return {
-        ...state,
-        message: action.message
-      };
+    case 'SET_NOTIFICATION':
+      return action.data;
 
-    case 'CLEAR':
-      return {
-        ...state,
-        message: null
-      };
+    case 'CLEAR_NOTIFICATION':
+      return initialState;
 
     default:
       return state;
   }
 };
 
-const setNotification = (id, message) => {
+export const setNotification = (message, type) => {
   console.log(message);
-  return dispatch => {
+  console.log(type);
+  const content = {
+    message,
+    type
+  };
+  return async dispatch => {
     dispatch({
-      type: 'NOTIFICATION',
-      id,
-      message
+      type: 'SET_NOTIFICATION',
+      data: content
     });
-  };
-};
-
-const clearNotification = id => {
-  return {
-    type: 'CLEAR',
-    id
-  };
-};
-
-let nextNotificationId = 0;
-export function showNotificationWithTimeout(text, duration) {
-  duration = duration * 1000;
-  return function(dispatch) {
-    const id = nextNotificationId++;
-    dispatch(setNotification(id, text));
-
     setTimeout(() => {
-      dispatch(clearNotification(id));
-    }, duration);
+      dispatch({
+        type: 'CLEAR_NOTIFICATION'
+      });
+    }, 3000);
   };
-}
+};
+
+// const setNotification = (id, message) => {
+//   console.log(message);
+//   return dispatch => {
+//     dispatch({
+//       type: 'NOTIFICATION',
+//       id,
+//       message
+//     });
+//   };
+// };
+
+// const clearNotification = id => {
+//   return {
+//     type: 'CLEAR',
+//     id
+//   };
+// };
+
+// let nextNotificationId = 0;
+// export function showNotificationWithTimeout(text, duration) {
+//   duration = duration * 1000;
+//   return function(dispatch) {
+//     const id = nextNotificationId++;
+//     dispatch(setNotification(id, text));
+
+//     setTimeout(() => {
+//       dispatch(clearNotification(id));
+//     }, duration);
+//   };
+// }
 
 export default notificationReducer;

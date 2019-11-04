@@ -39,7 +39,7 @@ export const initializeUser = () => async dispatch => {
   }
 };
 
-export const newLogin = (user, errorNotification) => async dispatch => {
+export const newLogin = user => async dispatch => {
   try {
     dispatch({
       type: SET_LOADING
@@ -50,10 +50,23 @@ export const newLogin = (user, errorNotification) => async dispatch => {
     // blogService.setToken(newUser.token);
     dispatch({
       type: LOGIN,
-      data: newUser
+      data: newUser,
+      loading: false
     });
   } catch (exception) {
-    errorNotification(`väärä käyttäjätunnus tai salasana`, 4);
+    const content = {
+      message: 'wrong username or password',
+      type: 'fail'
+    };
+    dispatch({
+      type: 'SET_NOTIFICATION',
+      data: content
+    });
+    setTimeout(() => {
+      dispatch({
+        type: 'CLEAR_NOTIFICATION'
+      });
+    }, 3000);
   }
 };
 

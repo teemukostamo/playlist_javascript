@@ -72,7 +72,6 @@ usersRouter.post('/', async (req, res, next) => {
         city,
         country,
         phone,
-        status,
         level,
         last_seen,
         reset_key,
@@ -95,7 +94,7 @@ usersRouter.post('/', async (req, res, next) => {
         city,
         country,
         phone,
-        status,
+        status: 1,
         level,
         last_seen,
         reset_key,
@@ -121,7 +120,24 @@ usersRouter.put('/:id', async (req, res, next) => {
 
     let { first_name, last_name, email, status, level, last_seen } = body;
 
+    // req body password is empty string, only update other info
+    if (req.body.password === '') {
+      const updatedUser = await User.update(
+        {
+          first_name,
+          last_name,
+          email,
+          status,
+          level,
+          last_seen
+        },
+        { where: { id: req.params.id } }
+      );
+      console.log(updatedUser);
+      res.status(200).json(`${updatedUser[0]} rows affected`);
+    }
     // hash password
+
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
 

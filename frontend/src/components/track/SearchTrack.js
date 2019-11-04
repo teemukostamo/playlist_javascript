@@ -80,18 +80,23 @@ const SearchTrack = ({
                 />
               </Form.Field>
               <Form.Field>
-                <Button onClick={saveClick}>Lisää biisi raporttiin</Button>
+                <Button color="green" onClick={saveClick}>
+                  Lisää biisi raporttiin
+                </Button>
               </Form.Field>
             </Form.Group>
             <Form.Group widths="equal">
               <Form.Field>
                 {' '}
-                <Button>Tarkennettu haku</Button>
+                <Button color="blue">Tarkennettu haku</Button>
+              </Form.Field>
+              <Form.Field>
+                {' '}
+                <AddTrackModal />
               </Form.Field>
             </Form.Group>
           </Form>
         </Grid.Row>
-        <AddTrackModal />
       </Grid>
     </div>
   );

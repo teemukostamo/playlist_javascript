@@ -506,6 +506,7 @@ reportTransferRouter.post('/', async (req, res, next) => {
         filename,
         period
       });
+      console.log(transferInfo);
       res.json(transferInfo);
     } else {
       res.status(404).end();

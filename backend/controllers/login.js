@@ -9,6 +9,7 @@ loginRouter.post('/', async (req, res) => {
 
   // check if user exists, return 401 if not
   const user = await User.findOne({ where: { username: body.username } });
+  console.log(user);
   if (!user) {
     return res.status(401).json({
       error: 'user not found!'
@@ -47,7 +48,8 @@ loginRouter.post('/', async (req, res) => {
     email: user.email,
     first_name: user.first_name,
     last_name: user.last_name,
-    level: user.level
+    level: user.level,
+    status: user.status
   });
 });
 

@@ -1,6 +1,7 @@
 import {
   GET_ALL_REPORTS_BY_DATE,
   GET_ALL_REPORT_TRANSFERS,
+  GENERATE_REPORT_TRANSFER,
   SORT_BY_USER_ID,
   SET_LOADING,
   REPORT_ERROR
@@ -9,6 +10,7 @@ import {
 const initialState = {
   reportsList: null,
   reportTransferList: null,
+  lastTransfer: null,
   loading: false,
   error: null
 };
@@ -30,6 +32,12 @@ const reportListReducer = (state = initialState, action) => {
       return {
         ...state,
         reportTransferList: action.data,
+        loading: false
+      };
+    case GENERATE_REPORT_TRANSFER:
+      return {
+        ...state,
+        lastTransfer: action.data,
         loading: false
       };
     case SORT_BY_USER_ID:

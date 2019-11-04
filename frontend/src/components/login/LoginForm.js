@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Notification from '../layout/Notification';
 import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { newLogin } from '../../actions/loginActions';
-import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
+import { setNotification } from '../../reducers/notificationReducer';
 
 const LoginForm = ({ newLogin }) => {
   const [username, setUsername] = useState('');
@@ -17,30 +18,33 @@ const LoginForm = ({ newLogin }) => {
       password
     };
     console.log(user);
-
-    const errorNotification = showNotificationWithTimeout;
-    newLogin(user, errorNotification);
+    newLogin(user);
   };
   return (
-    <Form onSubmit={handleLogin}>
-      <Form.Field>
-        <label>Käyttäjätunnus</label>
-        <input
-          type="text"
-          placeholder="Käyttäjätunnus..."
-          onChange={e => setUsername(e.target.value)}
-        />
-      </Form.Field>
-      <Form.Field>
-        <label>Salasana</label>
-        <input
-          type="password"
-          placeholder="Salasana..."
-          onChange={e => setPassword(e.target.value)}
-        />
-      </Form.Field>
-      <Button type="submit">Kirjaudu</Button>
-    </Form>
+    <div>
+      <Notification />
+      <Form onSubmit={handleLogin}>
+        <Form.Field>
+          <label>Käyttäjätunnus</label>
+          <input
+            type="text"
+            placeholder="Käyttäjätunnus..."
+            onChange={e => setUsername(e.target.value)}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Salasana</label>
+          <input
+            type="password"
+            placeholder="Salasana..."
+            onChange={e => setPassword(e.target.value)}
+          />
+        </Form.Field>
+        <Button color="green" type="submit">
+          Kirjaudu
+        </Button>
+      </Form>
+    </div>
   );
 };
 
@@ -50,5 +54,5 @@ LoginForm.propTypes = {
 
 export default connect(
   null,
-  { newLogin, showNotificationWithTimeout }
+  { newLogin, setNotification }
 )(LoginForm);

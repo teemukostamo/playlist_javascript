@@ -83,11 +83,18 @@ const ReportWithTracks = props => {
         </Table.Header>
         <Table.Body>
           {props.report.report.map(track => (
-            <ReportWithTracksItem key={track.report_track_id} track={track} />
+            <ReportWithTracksItem key={track.sortable_rank} track={track} />
           ))}
         </Table.Body>
+        <Table.Footer>
+          <Table.Row></Table.Row>
+        </Table.Footer>
       </Table>
-      <Button onClick={deleteChecked} style={{ marginBottom: '2rem' }}>
+      <Button
+        color="red"
+        onClick={deleteChecked}
+        style={{ marginLeft: '1rem', marginBottom: '1rem' }}
+      >
         Poista valitut
       </Button>
       <ReportDetails report={props.report.reportDetails} />

@@ -10,7 +10,6 @@ import ReportList from './components/report/ReportList';
 import LoginForm from './components/login/LoginForm';
 import ReportTransferList from './components/report/ReportTransferList';
 import { Container } from 'semantic-ui-react';
-
 import { initializeUser, logout } from './actions/loginActions';
 import { initializeUsers } from './actions/userActions';
 import { initializePrograms } from './actions/programActions';
@@ -23,7 +22,7 @@ const App = props => {
     props.initializePrograms();
     props.initializeUsers();
     // eslint-disable-next-line
-  }, []);
+  }, [props.login.token]);
 
   // handle logout redux
   const handleLogout = () => {

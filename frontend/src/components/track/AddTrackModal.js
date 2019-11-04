@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { setNotification } from '../../reducers/notificationReducer';
 import {
   Modal,
   Header,
@@ -10,7 +11,8 @@ import {
   Dropdown
 } from 'semantic-ui-react';
 
-const AddTrackModal = () => {
+const AddTrackModal = ({ setNotification }) => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [artist, setArtist] = useState('');
   const [album, setAlbum] = useState('');
   const [track, setTrack] = useState('');
@@ -29,6 +31,10 @@ const AddTrackModal = () => {
 
   const submitTrack = () => {
     console.log('klikd submit track');
+    // artist name validation
+    if (artist === null) {
+      setNotification('Artisti on pakollinen tieto', 'fail');
+    }
     const trackToAdd = {
       artist_name: artist,
       album_name: album,
@@ -46,6 +52,7 @@ const AddTrackModal = () => {
       comment
     };
     console.log(trackToAdd);
+    handleClose();
   };
 
   const countryOptions = [
@@ -317,13 +324,33 @@ const AddTrackModal = () => {
     event.preventDefault();
     setRecordCountry(value);
   };
+  const handleOpen = () => {
+    setModalOpen(true);
+  };
+  const handleClose = () => {
+    setModalOpen(false);
+  };
   return (
-    <Modal trigger={<Button>Lisää uusi biisi</Button>}>
+    <Modal
+      open={modalOpen}
+      closeIcon
+      trigger={
+        <Button color="blue" onClick={handleOpen}>
+          Lisää uusi biisi
+        </Button>
+      }
+      onClose={handleClose}
+    >
       <Header content="Lisää uusi biisi" />
       <Modal.Content>
         <Form onSubmit={submitTrack}>
           <Form.Field>
-            <label>Artisti</label>
+            <label>
+              Artisti{' '}
+              <span style={{ color: 'red' }}>
+                <strong>*</strong>
+              </span>
+            </label>
             <Input
               value={artist}
               type="text"
@@ -332,7 +359,12 @@ const AddTrackModal = () => {
             />
           </Form.Field>
           <Form.Field>
-            <label>Albumi</label>
+            <label>
+              Albumi
+              <span style={{ color: 'red' }}>
+                <strong>*</strong>
+              </span>
+            </label>
             <Input
               value={album}
               type="text"
@@ -341,7 +373,12 @@ const AddTrackModal = () => {
             />
           </Form.Field>
           <Form.Field>
-            <label>Biisi</label>
+            <label>
+              Biisi
+              <span style={{ color: 'red' }}>
+                <strong>*</strong>
+              </span>
+            </label>
             <Input
               value={track}
               type="text"
@@ -349,9 +386,14 @@ const AddTrackModal = () => {
               onChange={e => setTrack(e.target.value)}
             />
           </Form.Field>
-          <label>Kesto</label>
           <Form.Group widths="equal">
             <Form.Field>
+              <label>
+                Kesto - minuutit
+                <span style={{ color: 'red' }}>
+                  <strong>*</strong>
+                </span>
+              </label>
               <Input
                 maxLength={4}
                 value={min}
@@ -361,6 +403,12 @@ const AddTrackModal = () => {
               />
             </Form.Field>
             <Form.Field>
+              <label>
+                Kesto - sekunnit
+                <span style={{ color: 'red' }}>
+                  <strong>*</strong>
+                </span>
+              </label>
               <Input
                 value={sec}
                 maxLength={2}
@@ -372,7 +420,12 @@ const AddTrackModal = () => {
           </Form.Group>
           <Form.Group widths="equal">
             <Form.Field>
-              <label>Levy#</label>
+              <label>
+                Levy#
+                <span style={{ color: 'red' }}>
+                  <strong>*</strong>
+                </span>
+              </label>
               <Input
                 maxLength={2}
                 value={discNo}
@@ -382,7 +435,12 @@ const AddTrackModal = () => {
               />
             </Form.Field>
             <Form.Field>
-              <label>Biisi#</label>
+              <label>
+                Biisi#
+                <span style={{ color: 'red' }}>
+                  <strong>*</strong>
+                </span>
+              </label>
               <Input
                 value={trackNo}
                 maxLength={2}
@@ -401,7 +459,12 @@ const AddTrackModal = () => {
           </Form.Field>
           <Form.Group widths="equal">
             <Form.Field>
-              <label>Säveltäjän kotimaa</label>
+              <label>
+                Säveltäjän kotimaa
+                <span style={{ color: 'red' }}>
+                  <strong>*</strong>
+                </span>
+              </label>
               <Dropdown
                 placeholder="Suomi, muu, ei tietoa..."
                 openOnFocus={false}
@@ -425,7 +488,12 @@ const AddTrackModal = () => {
             </Form.Field>
           </Form.Group>
           <Form.Field>
-            <label>Levymerkki</label>
+            <label>
+              Levymerkki
+              <span style={{ color: 'red' }}>
+                <strong>*</strong>
+              </span>
+            </label>
             <Input
               value={label}
               type="text"
@@ -434,7 +502,12 @@ const AddTrackModal = () => {
             />
           </Form.Field>
           <Form.Field>
-            <label>Levykoodi</label>
+            <label>
+              Levykoodi
+              <span style={{ color: 'red' }}>
+                <strong>*</strong>
+              </span>
+            </label>
             <Input
               value={catId}
               type="text"
@@ -453,7 +526,12 @@ const AddTrackModal = () => {
             />
           </Form.Field>
           <Form.Field>
-            <label>Julkaisuvuosi</label>
+            <label>
+              Vuosi
+              <span style={{ color: 'red' }}>
+                <strong>*</strong>
+              </span>
+            </label>
             <Input
               value={year}
               maxLength={4}
@@ -469,11 +547,39 @@ const AddTrackModal = () => {
               placeholder="Lisätietoa..."
             />
           </Form.Field>
-          <Button type="submit">Tallenna ja lisää raporttiin</Button>
+          <Button
+            disabled={
+              !artist ||
+              !album ||
+              !track ||
+              !trackNo ||
+              !discNo ||
+              !min ||
+              !sec ||
+              !label ||
+              !catId ||
+              !year
+            }
+            color="green"
+            type="submit"
+          >
+            Tallenna ja lisää raporttiin
+          </Button>
         </Form>
       </Modal.Content>
     </Modal>
   );
 };
 
-export default AddTrackModal;
+const mapStateToProps = state => {
+  return {
+    report: state.report,
+    reportsList: state.reportsList
+  };
+};
+const connectedAddTrackModal = connect(
+  mapStateToProps,
+  { setNotification }
+)(AddTrackModal);
+
+export default connectedAddTrackModal;

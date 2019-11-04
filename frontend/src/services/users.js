@@ -16,4 +16,16 @@ const getAll = async () => {
   return req.data;
 };
 
-export default { getAll, setToken };
+const updateUser = async userToUpdate => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const response = await axios.put(
+    `${baseUrl}/${userToUpdate.id}`,
+    userToUpdate,
+    config
+  );
+  return response.data;
+};
+
+export default { getAll, setToken, updateUser };

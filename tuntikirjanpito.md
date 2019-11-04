@@ -39,3 +39,5 @@
 | 1.11.2019  |   10    | styles, export report sql, exports list frontend&backend, download file, gramex hell |
 | 2.11.2019  |    7    |         generated txt file of monthly report, delete many tracks from report         |
 | 2.11.2019  |    2    |                 refactored navbar to own component, add track modal                  |
+| 3.11.2019  | 2 (141) |                             notification, buttons colors                             |
+| 4.11.2019  |    4    |          useEffects on App.js render, generate report export from frontend           |

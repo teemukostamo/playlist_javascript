@@ -398,12 +398,12 @@ const ReportDetails = props => {
       <Header>Lisää biisi raporttiin:</Header>
       <Segment.Group horizontal>
         <Segment>
-          <Togglable buttonLabel="Pikahaku">
+          <Togglable color="blue" buttonLabel="Pikahaku">
             <SearchTrack />
           </Togglable>
         </Segment>
         <Segment>
-          <Togglable buttonLabel="Hae biisit DJonlinesta">
+          <Togglable color="blue" buttonLabel="Hae biisit DJonlinesta">
             <GetDjOnlineTracks />
           </Togglable>
         </Segment>
@@ -508,7 +508,9 @@ const ReportDetails = props => {
                 />
               </Form.Field>
               <Form.Group widths="equal">
-                <Button onClick={saveChanges}>Tallenna</Button>
+                <Button color="green" onClick={saveChanges}>
+                  Tallenna
+                </Button>
                 <Button onClick={copyReport}>Monista</Button>
               </Form.Group>
             </Form>

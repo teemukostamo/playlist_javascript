@@ -1,8 +1,8 @@
 import {
   INIT_USERS_LIST,
-  USER_ERROR,
   SET_LOADING,
-  SET_CURRENT
+  SET_CURRENT,
+  UPDATE_USER
 } from '../actions/types';
 import userService from '../services/users';
 
@@ -17,10 +17,7 @@ export const initializeUsers = () => async dispatch => {
       data: users
     });
   } catch (err) {
-    dispatch({
-      type: USER_ERROR,
-      payload: err
-    });
+    console.log(err);
   }
 };
 
@@ -30,4 +27,21 @@ export const setCurrent = user => {
     type: SET_CURRENT,
     payload: user
   };
+};
+
+export const updateUser = userToUpdate => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const updated = await userService.updateUser(userToUpdate);
+    const users = await userService.getAll();
+    console.log(updated);
+    dispatch({
+      type: UPDATE_USER,
+      data: users
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

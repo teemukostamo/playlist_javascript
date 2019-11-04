@@ -2,14 +2,13 @@ import {
   INIT_USERS_LIST,
   SET_LOADING,
   SET_CURRENT,
-  USER_ERROR
+  UPDATE_USER
 } from '../actions/types';
 
 const initialState = {
   users: null,
   current: null,
-  loading: false,
-  error: null
+  loading: false
 };
 const userReducer = (state = initialState, action) => {
   // console.log('userreducer state now: ', state);
@@ -33,11 +32,11 @@ const userReducer = (state = initialState, action) => {
         ...state,
         current: action.payload
       };
-    case USER_ERROR:
-      console.error(action.payload);
+    case UPDATE_USER:
       return {
         ...state,
-        error: action.payload
+        users: action.data,
+        loading: false
       };
     default:
       return state;

@@ -347,7 +347,9 @@ const GetDjOnlineTracks = props => {
                 />{' '}
               </Form.Field>
             </Form.Group>
-            <Button onClick={GetTracksFromApi}>Hae</Button>
+            <Button color="green" onClick={GetTracksFromApi}>
+              Hae
+            </Button>
           </Form>
         </Grid.Row>
       </Grid>

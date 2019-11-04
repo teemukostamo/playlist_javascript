@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-// import Moment from 'react-moment';
-import { showNotificationWithTimeout } from '../../reducers/notificationReducer';
-import { getOneReport } from '../../actions/reportActions';
-import { getAllReportsByDate } from '../../actions/reportsListActions';
 import ReportFilterForm from './ReportFilterForm';
 import ReportListItem from './ReportListItem';
-import moment from 'moment';
+import Notification from '../layout/Notification';
+import { getOneReport } from '../../actions/reportActions';
+import { getAllReportsByDate } from '../../actions/reportsListActions';
+import { setNotification } from '../../reducers/notificationReducer';
 import { Container, Table, Dimmer, Segment, Loader } from 'semantic-ui-react';
+import moment from 'moment';
 
 const ReportList = props => {
   // initial reports list
@@ -38,9 +38,15 @@ const ReportList = props => {
       </Container>
     );
   }
-
+  const showNotification = () => {
+    console.log('klikd show notification');
+    props.setNotification('notification here', 'fail');
+  };
   return (
     <Container>
+      <Notification />
+      <button onClick={showNotification}>show notification</button>
+
       <ReportFilterForm />
       <Table striped>
         <Table.Header>
@@ -73,9 +79,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  showNotificationWithTimeout,
   getAllReportsByDate,
-  getOneReport
+  getOneReport,
+  setNotification
 };
 
 const connectedReportList = connect(

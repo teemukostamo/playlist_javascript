@@ -10,7 +10,7 @@ const ReportTransferList = props => {
   useEffect(() => {
     props.getAllTransfers();
     // eslint-disable-next-line
-  }, []);
+  }, [props.reportsList.lastReport]);
 
   if (props.reportsList.reportTransferList === null) {
     return <div>loading</div>;

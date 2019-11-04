@@ -131,10 +131,6 @@ const ReportFilterForm = props => {
     }
   ];
 
-  console.log(addAllToUserOptions);
-  console.log(reportMonth);
-  console.log(reportYear);
-
   const getReportsByMonth = () => {
     const date = reportYear + '-' + reportMonth;
     console.log(date);
@@ -192,7 +188,9 @@ const ReportFilterForm = props => {
         </Form.Group>
 
         <Form.Field>
-          <Button onClick={() => getReportsByMonth()}>HAE</Button>
+          <Button color="blue" onClick={() => getReportsByMonth()}>
+            HAE
+          </Button>
         </Form.Field>
         <h4>Suodata:</h4>
 

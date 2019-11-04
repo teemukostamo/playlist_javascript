@@ -1,22 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Message } from 'semantic-ui-react';
 
 const Notification = ({ notification }) => {
-  if (notification === null) {
+  if (notification.message === null) {
     return null;
   }
 
-  const style = {
-    color: notification.type === 'error' ? 'red' : 'green',
-    background: 'lightgrey',
-    fontSize: 20,
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10
-  };
+  if (notification.type === 'success') {
+    return (
+      <Message
+        success
+        header={notification.message}
+        // content="You may now log-in with the username you have chosen"
+      />
+    );
+  }
 
-  return <div style={style}>{notification.message}</div>;
+  if (notification.type === 'fail') {
+    return (
+      <Message
+        negative
+        header={notification.message}
+        // content="You may now log-in with the username you have chosen"
+      />
+    );
+  }
+
+  return null;
 };
 
 const mapStateToProps = state => {
