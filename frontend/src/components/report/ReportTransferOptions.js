@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Button, Form, Header } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Header,
+  Container,
+  Dimmer,
+  Loader
+} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import { getAllReportsByDate } from '../../actions/reportsListActions';
 import { generateReportTransfer } from '../../actions/reportTransferActions';
@@ -30,11 +37,23 @@ const ReportTransferOptions = props => {
   };
 
   if (props.reportsList.reportsList === null) {
-    return <div>loading</div>;
+    return (
+      <Container>
+        <Dimmer active inverted>
+          <Loader size="medium">Ladataan...</Loader>
+        </Dimmer>
+      </Container>
+    );
   }
 
   if (props.reportsList.loading === true) {
-    return <div>loading</div>;
+    return (
+      <Container>
+        <Dimmer active inverted>
+          <Loader size="medium">Ladataan...</Loader>
+        </Dimmer>
+      </Container>
+    );
   }
 
   return (

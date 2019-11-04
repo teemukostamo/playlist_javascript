@@ -553,3 +553,41 @@ const checkd = [1, 3, 4];
 console.log(...checkd);
 let kik = checkd.filter(a => a !== 1);
 console.log(kik);
+
+const ids = [1, 2];
+
+const report = [
+  {
+    report_track_id: 12345,
+    sortable_rank: 1
+  },
+  {
+    report_track_id: 12346,
+    sortable_rank: 2
+  },
+  {
+    report_track_id: 12347,
+    sortable_rank: 3
+  },
+  {
+    report_track_id: 12348,
+    sortable_rank: 4
+  }
+];
+
+// let filtered = report.filter(e => {
+//   return this.indexOf(e.sortable_rank) < 0;
+// }, ids);
+
+// console.log(filtered);
+
+var filtered = report.filter(function(e) {
+  return this.indexOf(e.sortable_rank) < 0;
+}, ids);
+console.log(filtered);
+
+// report.forEach((item, index) => {
+//   console.log(item);
+//   console.log(index);
+// });
+// const newReport = report.filter(t => t.sortable_rank !== 1);

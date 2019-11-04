@@ -2,6 +2,7 @@ import {
   GET_ONE_REPORT,
   GET_REPORT_DETAILS,
   GET_DJONLINE_TRACKS,
+  ADD_NEW_TRACK,
   DELETE_TRACK_FROM_REPORT,
   CHECK_FOR_DELETE,
   UNCHECK_FOR_DELETE,
@@ -39,6 +40,12 @@ const reportReducer = (state = initialState, action) => {
         ...state,
         report: [...state.report, action.data.map(track => track)],
         djonline: action.data,
+        loading: false
+      };
+    case ADD_NEW_TRACK:
+      return {
+        ...state,
+        report: [...state.report, action.data],
         loading: false
       };
     case GET_REPORT_DETAILS:

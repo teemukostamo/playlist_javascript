@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { setNotification } from '../../reducers/notificationReducer';
+import { addNewTrack } from '../../actions/trackActions';
 import {
   Modal,
   Header,
@@ -11,7 +12,8 @@ import {
   Dropdown
 } from 'semantic-ui-react';
 
-const AddTrackModal = ({ setNotification }) => {
+const AddTrackModal = props => {
+  console.log('add track modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
   const [artist, setArtist] = useState('');
   const [album, setAlbum] = useState('');
@@ -33,13 +35,14 @@ const AddTrackModal = ({ setNotification }) => {
     console.log('klikd submit track');
     // artist name validation
     if (artist === null) {
-      setNotification('Artisti on pakollinen tieto', 'fail');
+      props.setNotification('Artisti on pakollinen tieto', 'fail');
     }
+    let length = parseInt(min) * 60 + parseInt(sec);
     const trackToAdd = {
       artist_name: artist,
       album_name: album,
       track_title: track,
-      length: min * 60 + sec,
+      length,
       country,
       record_country: recordCountry,
       people,
@@ -49,9 +52,13 @@ const AddTrackModal = ({ setNotification }) => {
       label,
       cat_id: catId,
       isrc,
-      comment
+      comment,
+      report_id: props.report.reportDetails.id,
+      user_id: props.login.id,
+      sortable_rank: props.report.report.length + 1
     };
     console.log(trackToAdd);
+    props.addNewTrack(trackToAdd);
     handleClose();
   };
 
@@ -574,12 +581,13 @@ const AddTrackModal = ({ setNotification }) => {
 const mapStateToProps = state => {
   return {
     report: state.report,
-    reportsList: state.reportsList
+    reportsList: state.reportsList,
+    login: state.login
   };
 };
 const connectedAddTrackModal = connect(
   mapStateToProps,
-  { setNotification }
+  { setNotification, addNewTrack }
 )(AddTrackModal);
 
 export default connectedAddTrackModal;

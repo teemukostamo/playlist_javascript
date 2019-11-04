@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ReportTransferOptions from './ReportTransferOptions';
 import ReportTransferListItem from './ReportTransferListItem';
-import { Container, Table } from 'semantic-ui-react';
+import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
 import { getAllTransfers } from '../../actions/reportTransferActions';
 
 const ReportTransferList = props => {
@@ -13,7 +13,13 @@ const ReportTransferList = props => {
   }, [props.reportsList.lastReport]);
 
   if (props.reportsList.reportTransferList === null) {
-    return <div>loading</div>;
+    return (
+      <Container>
+        <Dimmer active inverted>
+          <Loader size="medium">Ladataan...</Loader>
+        </Dimmer>
+      </Container>
+    );
   }
 
   return (

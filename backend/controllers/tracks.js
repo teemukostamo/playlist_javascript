@@ -34,7 +34,7 @@ tracksRouter.get('/:id', async (req, res, next) => {
   }
 });
 
-// add track
+// save track and add it to current report
 tracksRouter.post('/', async (req, res, next) => {
   try {
     // see if token is valid
@@ -60,17 +60,12 @@ tracksRouter.post('/', async (req, res, next) => {
       people,
       comment,
       isrc,
-      report_id
+      report_id,
+      user_id,
+      sortable_rank
     } = req.body;
 
-    // see if artist name ends with , the
-    let lastFive = artist_name.slice(artist_name.length - 5);
-    if (lastFive.toLowerCase() === ', the') {
-      artist_name = artist_name.substring(0, artist_name.length - 5);
-      artist_name = 'THE ' + artist_name.toUpperCase();
-    } else {
-      artist_name = artist_name.toUpperCase();
-    }
+    // tähän if no report id -> then just add track, no report-track
 
     // see if artist exists
     const artist = await Artist.findOne({ where: { name: artist_name } });
@@ -106,6 +101,7 @@ tracksRouter.post('/', async (req, res, next) => {
         record_country,
         people,
         comment,
+        user_id,
         isrc
       });
       console.log('created new track', newTrack);
@@ -174,7 +170,8 @@ tracksRouter.post('/', async (req, res, next) => {
           record_country,
           people,
           comment,
-          isrc
+          isrc,
+          user_id
         });
         console.log('created new track', newTrack);
 
@@ -270,6 +267,7 @@ tracksRouter.post('/', async (req, res, next) => {
           record_country,
           people,
           comment,
+          user_id,
           isrc
         });
         console.log('created new track', newTrack);

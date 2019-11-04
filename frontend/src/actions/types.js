@@ -36,6 +36,7 @@ export const AUTOCOMPLETE_RESULTS = 'AUTOCOMPLETE_RESULTS';
 export const SET_SEARCH_LOADING = 'SET_SEARCH_LOADING';
 
 // track actions
+export const ADD_NEW_TRACK = 'ADD_NEW_TRACK';
 
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';

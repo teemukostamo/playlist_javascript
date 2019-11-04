@@ -9,12 +9,15 @@ import {
 
 const ReportWithTracksItem = props => {
   const [checked, setChecked] = useState(false);
-  console.log(checked);
-  console.log('report with tracks item props', props);
+  // console.log('report with tracks item props', props);
   const onDelete = () => {
+    const remainingTracks = props.report.report.filter(
+      t => t.report_track_id !== props.track.report_track_id
+    );
     const params = {
       report_track_id: props.track.report_track_id,
-      report_id: props.report.reportDetails.id
+      report_id: props.report.reportDetails.id,
+      remainingTracks
     };
     console.log(params);
     props.deleteTrackFromReport(params);

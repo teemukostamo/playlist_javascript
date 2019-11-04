@@ -28,11 +28,18 @@ db.authenticate()
 
 app.use(express.static(path.resolve(__dirname, 'build')));
 app.get('/', function(req, res) {
-  res.sendFile(path.resolve(__dirname, 'build/index.html'), err => {
+  // res.sendFile(path.resolve(__dirname + '/../dist/index.html'));
+  res.sendFile(path.resolve(__dirname + '/build/index.html'), err => {
     if (err) {
       res.status(500).send(err);
     }
   });
+
+  // res.sendFile(path.resolve(__dirname, 'build/index.html'), err => {
+  //   if (err) {
+  //     res.status(500).send(err);
+  //   }
+  // });
 });
 
 app.use(bodyParser.json());

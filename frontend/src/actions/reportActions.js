@@ -59,6 +59,10 @@ export const deleteTrackFromReport = params => async dispatch => {
     let deletedTrack = await reportService.deleteTrackFromReport(
       params.report_track_id
     );
+    const updateSortableRank = await reportService.updateSortableRank(
+      params.remainingTracks
+    );
+    console.log(updateSortableRank);
     console.log(deletedTrack);
     const report = await reportService.getOne(params.report_id);
     console.log('reportactions', report);
@@ -153,7 +157,11 @@ export const unCheckForDelete = id => async dispatch => {
   }
 };
 
-export const deleteChecked = (idsToDelete, report_id) => async dispatch => {
+export const deleteChecked = (
+  idsToDelete,
+  report_id,
+  remainingTracks
+) => async dispatch => {
   try {
     dispatch({
       type: SET_LOADING
@@ -162,6 +170,10 @@ export const deleteChecked = (idsToDelete, report_id) => async dispatch => {
       let deletedTrack = await reportService.deleteTrackFromReport(id);
       console.log(deletedTrack);
     });
+    const updateSortableRank = await reportService.updateSortableRank(
+      remainingTracks
+    );
+    console.log(updateSortableRank);
     console.log('array of ids to delete from report', idsToDelete);
     const report = await reportService.getOne(report_id);
     console.log('reportactions', report);

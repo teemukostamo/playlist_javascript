@@ -41,10 +41,11 @@ const reportListReducer = (state = initialState, action) => {
         loading: false
       };
     case SORT_BY_USER_ID:
-      console.log('action id', action.id);
+      console.log('action id', action.data);
+      console.log(state.reportsList);
       return {
         ...state,
-        reportsList: state.reportsList.filter(r => r.user_id === action.id)
+        reportsList: state.reportsList.filter(r => r.user_id !== action.data)
       };
     case SET_LOADING:
       return {

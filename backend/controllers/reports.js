@@ -82,4 +82,25 @@ reportsRouter.delete('/:id', async (req, res, next) => {
   }
 });
 
+// update sortable ranks
+reportsRouter.put('/:id', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    console.log(req.body);
+    const updatedReportTrack = await Report_Track.update(
+      {
+        sortable_rank: req.body.sortable_rank
+      },
+      { where: { id: req.params.id } }
+    );
+    res.status(200).json(`${updatedReportTrack[0]} rows affected`);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 module.exports = reportsRouter;

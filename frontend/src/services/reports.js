@@ -60,6 +60,23 @@ const deleteTrackFromReport = async id => {
   return request.data;
 };
 
+const updateSortableRank = async remainingTracks => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  remainingTracks.forEach(async (track, index) => {
+    const trackToUpdate = {
+      sortable_rank: index + 1
+    };
+    const request = await axios.put(
+      `${baseUrl}/${track.report_track_id}`,
+      trackToUpdate,
+      config
+    );
+    return request.data;
+  });
+};
+
 const getReportDetails = async id => {
   const config = {
     headers: { Authorization: token }
@@ -127,6 +144,7 @@ export default {
   setToken,
   addTrackToReport,
   deleteTrackFromReport,
+  updateSortableRank,
   getOne,
   getAllByDate,
   getAllTransfers,

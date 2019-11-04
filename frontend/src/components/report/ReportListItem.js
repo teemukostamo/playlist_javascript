@@ -6,7 +6,6 @@ import { getOneReport } from '../../actions/reportActions';
 
 const ReportListItem = props => {
   let reportStatusOutPrint;
-
   if (props.report.status === 1) {
     reportStatusOutPrint = 'Valmis';
   } else if (props.report.status === 0) {

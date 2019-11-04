@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import ReactDragListView from 'react-drag-listview/lib/index.js';
 import {
   Container,
   Table,
@@ -18,6 +19,8 @@ import ReportWithTracksItem from './ReportWithTracksItem';
 import ReportDetails from './ReportDetails';
 
 const ReportWithTracks = props => {
+  const [dragState, setDragState] = useState();
+  console.log(dragState);
   // get report tracks by report id
   useEffect(() => {
     setTimeout(() => {
@@ -37,18 +40,51 @@ const ReportWithTracks = props => {
     } else {
       console.log('get details of report ', props.id);
       props.getReportDetails(props.id);
+      setDragState(props.report.report);
     }
     // eslint-disable-next-line
   }, []);
 
   const deleteChecked = () => {
     console.log('klikd delete checkd');
-    props.deleteChecked(props.report.checkedForDelete, props.id);
+
+    let remainingTracks = props.report.report.filter(function(e) {
+      return this.indexOf(e.report_track_id) < 0;
+    }, props.report.checkedForDelete);
+    console.log(remainingTracks);
+    props.deleteChecked(
+      props.report.checkedForDelete,
+      props.id,
+      remainingTracks
+    );
+  };
+
+  const dragProps = {
+    onDragEnd(fromIndex, toIndex) {
+      setDragState(props.report.report);
+      console.log(dragState);
+      const item = dragState.splice(fromIndex, 1)[0];
+      console.log(item);
+      console.log(dragState);
+      dragState.splice(toIndex, 0, item);
+      setDragState(dragState);
+    },
+    nodeSelector: 'tr',
+    handleSelector: 'i.arrows'
   };
 
   console.log('report with tracks props', props);
 
   if (props.report.report === null) {
+    return (
+      <Segment>
+        <Dimmer active inverted>
+          <Loader inverted content="Ladataan..." />
+        </Dimmer>
+      </Segment>
+    );
+  }
+  if (props.report.loading) {
     return (
       <Segment>
         <Dimmer active inverted>
@@ -69,27 +105,30 @@ const ReportWithTracks = props => {
   return (
     <Container>
       <h3>Raportti</h3>
-      <Table striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.Cell></Table.Cell>
-            <Table.Cell>#</Table.Cell>
-            <Table.Cell>Artisti</Table.Cell>
-            <Table.Cell>Biisi</Table.Cell>
-            <Table.Cell>Kesto</Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell></Table.Cell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {props.report.report.map(track => (
-            <ReportWithTracksItem key={track.sortable_rank} track={track} />
-          ))}
-        </Table.Body>
-        <Table.Footer>
-          <Table.Row></Table.Row>
-        </Table.Footer>
-      </Table>
+      <ReactDragListView {...dragProps}>
+        <Table striped>
+          <Table.Header>
+            <Table.Row>
+              <Table.Cell></Table.Cell>
+              <Table.Cell>#</Table.Cell>
+              <Table.Cell>Artisti</Table.Cell>
+              <Table.Cell>Biisi</Table.Cell>
+              <Table.Cell>Kesto</Table.Cell>
+              <Table.Cell></Table.Cell>
+              <Table.Cell></Table.Cell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {props.report.report.map(track => (
+              <ReportWithTracksItem key={track.sortable_rank} track={track} />
+            ))}
+          </Table.Body>
+          <Table.Footer>
+            <Table.Row></Table.Row>
+          </Table.Footer>
+        </Table>
+      </ReactDragListView>
+
       <Button
         color="red"
         onClick={deleteChecked}

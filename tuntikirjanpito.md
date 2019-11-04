@@ -41,3 +41,4 @@
 | 2.11.2019  |    2    |                 refactored navbar to own component, add track modal                  |
 | 3.11.2019  | 2 (141) |                             notification, buttons colors                             |
 | 4.11.2019  |    4    |          useEffects on App.js render, generate report export from frontend           |
+| 4.11.2019  |    3    |     updating sortable rank after track deletion from report, draggable listview      |

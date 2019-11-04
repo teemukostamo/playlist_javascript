@@ -70,4 +70,13 @@ const checkDjonlineTracks = async searchParams => {
   return returnArr;
 };
 
-export default { setToken, checkDjonlineTracks };
+const addNewTrack = async trackToAdd => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const response = await axios.post(baseUrl, trackToAdd, config);
+  console.log(response.data);
+  return response.data;
+};
+
+export default { setToken, checkDjonlineTracks, addNewTrack };
