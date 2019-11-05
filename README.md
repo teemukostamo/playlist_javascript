@@ -8,9 +8,9 @@ Kuukausittaiset soittotapahtumat otetaan ulos tietokannasta ja toimitetaan eteen
 
 ## Käyttöohje
 
-Käyttäjä kirjautuu sisään sovelluksen etusivulla. Kirjautuneille aukeavassa näkymässä aloitetaan uuden raportin täyttäminen syöttämällä raporttiin ohjelman päivämäärä, kellonaika, ohjelman nimi ja dj:n nimi. Tämän jälkeen syötetään ohjelmassa soineet kappaleet. Valmis raportti merkataan valmiiksi ja tallennetaan. "Demoversio" yksittäisen raportin näkymästä [täällä](https://student.labranet.jamk.fi/~M6242/harjoitukset/harjoitustyo/index.html)
+Käyttäjä kirjautuu sisään sovelluksen etusivulla. Kirjautuneille aukeavassa näkymässä aloitetaan uuden raportin täyttäminen syöttämällä raporttiin ohjelman päivämäärä, kellonaika, ohjelman nimi ja dj:n nimi. Tämän jälkeen syötetään ohjelmassa soineet kappaleet. Kun kappaleet on syötetty, raportin tilaksi vaihdetaan valmis ja tallennetaan.
 
-Kappaleita on mahdollista hakea raporttiin studion playout-softan soittologista. Mikäli kappaleet on soitettu muualta kuin playout-softasta, dj syöttää jokaisen biisin käsin. Käytössä on ennakoiva pikahaku, joilla haetaan tietokannasta jo entuudestaan soitettuja kappaleita. Mikäli kapplaetta ei löydy tietokannasta, dj lisää kappaleesta tarvittavat tiedot jotka tallennetaan tietokantaan ja kesken olevaan raporttiin.
+Kappaleita on mahdollista hakea raporttiin studion playout-softan soittologista (Hae kappaleet DJOnlinesta -nappi). Mikäli kappaleet on soitettu muualta kuin playout-softasta, dj syöttää jokaisen biisin käsin. Käytössä on ennakoiva pikahaku, joilla haetaan tietokannasta jo entuudestaan soitettuja kappaleita. Mikäli kapplaetta ei löydy tietokannasta, dj lisää kappaleesta tarvittavat tiedot, tallentaa ne tietokantaan ja kesken olevaan raporttiin.
 
 Raportit -näkymässä käyttäjä pääsee selaamaan tekemiään raportteja. Raportit on mahdollista suodattaa kuukauden ja tilan (valmis/keskeneräinen) mukaan.
 

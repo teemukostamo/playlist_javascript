@@ -34,10 +34,7 @@ const ReportList = props => {
   if (props.reportsList.reportsList.length === 0) {
     return (
       <Container>
-        <h2>
-          Ei raportteja valittuna ajankohtana. Valitse vuosi, kuukausi ja
-          käyttäjä
-        </h2>
+        <h2>Ei raportteja valittuna ajankohtana. Valitse vuosi ja kuukausi</h2>
         <ReportFilterForm />
       </Container>
     );

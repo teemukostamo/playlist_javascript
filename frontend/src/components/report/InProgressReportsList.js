@@ -6,12 +6,25 @@ import { Table, Grid, Container, Header } from 'semantic-ui-react';
 
 const InProgressReportsList = props => {
   console.log(props);
-  useEffect(() => {
-    props.getAllInProgress(props.login.id);
-  }, []);
+  // useEffect(() => {
+  //   props.getAllInProgress(props.login.id);
+  // }, []);
 
-  if (props.reportsList.inProgress === null) {
-    return <div>loading</div>;
+  // if (props.reportsList.inProgress === null) {
+  //   return <div>loading</div>;
+  // }
+  // if (props.reportsList.loading) {
+  //   return <div>loading</div>;
+  // }
+  if (props.reportsList.inProgress.length === 0) {
+    return (
+      <Grid.Column>
+        <Container>
+          <Header>Omat keskeneräiset raportit</Header>
+          ei keskeneräisiä raportteja
+        </Container>
+      </Grid.Column>
+    );
   }
   return (
     <React.Fragment>
@@ -23,7 +36,8 @@ const InProgressReportsList = props => {
               <Table.Row>
                 <Table.Cell>Nimi</Table.Cell>
                 <Table.Cell>Aika</Table.Cell>
-                <Table.Cell>Ohjelmanumero</Table.Cell>
+                <Table.Cell>Nro</Table.Cell>
+                <Table.Cell></Table.Cell>
               </Table.Row>
             </Table.Header>
             <Table.Body>

@@ -50,6 +50,23 @@ export const getAllInProgress = id => async dispatch => {
   }
 };
 
+export const deleteInProgressReport = params => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const deletedReport = await reportService.deleteReport(params.report_id);
+    console.log(deletedReport);
+    const reports = await reportService.getAllInProgress(params.user_id);
+    dispatch({
+      type: GET_ALL_IN_PROGRESS,
+      data: reports
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const sortByUserId = id => dispatch => {
   console.log('id to filter', id);
   dispatch({

@@ -72,6 +72,15 @@ const deleteTrackFromReport = async id => {
   return request.data;
 };
 
+const deleteReport = async id => {
+  const config = {
+    headers: { Authorization: token }
+  };
+
+  const request = await axios.delete(`/api/reportslist/${id}`, config);
+  return request.data;
+};
+
 const updateSortableRank = async remainingTracks => {
   const config = {
     headers: { Authorization: token }
@@ -156,6 +165,7 @@ export default {
   setToken,
   addTrackToReport,
   deleteTrackFromReport,
+  deleteReport,
   updateSortableRank,
   getOne,
   getAllByDate,

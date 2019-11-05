@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import Notification from '../layout/Notification';
 import { createReport } from '../../actions/reportActions';
+import { setNotification } from '../../reducers/notificationReducer';
 import {
   Header,
   Form,
@@ -25,9 +27,9 @@ const CreateNewReportForm = props => {
   const [programEndTime, setProgramEndTime] = useState('');
   const [redirect, setRedirect] = useState(false);
 
-  if (props.programs.allPrograms === null) {
-    return <div>loafing</div>;
-  }
+  // if (props.programs.allPrograms === null) {
+  //   return <div>loafing</div>;
+  // }
 
   console.log('create new report form props', props);
 
@@ -313,10 +315,21 @@ const CreateNewReportForm = props => {
       status: 0,
       rerun: null
     };
-    props.createReport(newReport);
-    console.log('create report button click pros', props.report.reportDetails);
-    console.log('creating report:', newReport);
-    setRedirect(true);
+    console.log(parseInt(programEndTime));
+    if (
+      parseInt(newReport.program_end_time) <=
+      parseInt(newReport.program_start_time)
+    ) {
+      props.setNotification('Tarkista ohjelman alku- ja loppuaika!', 'fail');
+    } else {
+      props.createReport(newReport);
+      console.log(
+        'create report button click pros',
+        props.report.reportDetails
+      );
+      console.log('creating report:', newReport);
+      setRedirect(true);
+    }
   };
 
   if (redirect && props.report.newReport !== null) {
@@ -392,7 +405,17 @@ const CreateNewReportForm = props => {
               </Form.Field>
             </Form.Group>
             <Form.Group widths="equal">
-              <Button color="green" onClick={createReport}>
+              <Button
+                disabled={
+                  !programId ||
+                  !programDate ||
+                  !programStartTime ||
+                  !programEndTime ||
+                  !dj
+                }
+                color="green"
+                onClick={createReport}
+              >
                 Jatka
               </Button>
             </Form.Group>
@@ -417,7 +440,7 @@ const mapStateToProps = state => {
 
 const connectedCreateNewReportForm = connect(
   mapStateToProps,
-  { createReport }
+  { createReport, setNotification }
 )(CreateNewReportForm);
 
 export default connectedCreateNewReportForm;

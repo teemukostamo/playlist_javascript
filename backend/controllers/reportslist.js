@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const reportslistRouter = require('express').Router();
 const db = require('../config/database');
+const Report = require('../models/Report');
 
 const getTokenFrom = req => {
   const authorization = req.get('authorization');
@@ -60,6 +61,27 @@ reportslistRouter.get('/user/:id', async (req, res, next) => {
     );
     // console.log('results from reports route', reports);
     res.json(reports);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// delete report - set status to 9
+reportslistRouter.delete('/:id', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    const deletedReport = await Report.update(
+      {
+        status: 9
+      },
+      { where: { id: req.params.id } }
+    );
+    console.log(deletedReport);
+    res.status(200).json(`${deletedReport[0]} rows affected`);
   } catch (exception) {
     next(exception);
   }
