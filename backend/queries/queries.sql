@@ -1,8 +1,9 @@
 -- get single track by trackid
 SELECT t.name as track_title, ar.name as artist, al.name as album, t.id as track_id,
-al.id as album_id, ar.id as artist_id, t.label as label
+al.id as album_id, ar.id as artist_id, t.label as label, al.identifier as cat_id, t.length, t.side as disc_no,
+t.track_no, t.people, t.isrc, al.year, t.comment, t.record_country, t.country
 FROM playlist__artist as ar, playlist__album as al, playlist__track as t
-WHERE t.id = 12344
+WHERE t.id = 123441
 and t.album_id = al.id
 and t.artist_id = ar.id
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Table, Icon, Checkbox } from 'semantic-ui-react';
+import EditTrackModal from '../track/EditTrackModal';
 import {
   deleteTrackFromReport,
   checkForDelete,
@@ -70,12 +71,13 @@ const ReportWithTracksItem = props => {
         />
       </Table.Cell>
       <Table.Cell>
-        <Icon
+        {/* <Icon
           style={{ cursor: 'pointer' }}
           color="blue"
           onClick={onEdit}
           name="edit"
-        />
+        /> */}
+        <EditTrackModal id={props.track.track_id} />
       </Table.Cell>
     </Table.Row>
   );

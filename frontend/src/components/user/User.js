@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import ModalNotification from '../layout/ModalNotification';
 import { setNotification } from '../../reducers/notificationReducer';
-import { updateUser } from '../../actions/userActions';
+import { setCurrent, updateUser } from '../../actions/userActions';
 import {
   Table,
   Modal,
@@ -13,7 +13,6 @@ import {
   Input,
   Icon
 } from 'semantic-ui-react';
-import { setCurrent } from '../../actions/userActions';
 
 const User = props => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,7 +26,6 @@ const User = props => {
 
   const handleOpen = () => {
     props.setCurrent(props.user);
-
     setModalOpen(true);
   };
   const handleClose = () => {

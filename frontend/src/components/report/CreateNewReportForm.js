@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Notification from '../layout/Notification';
 import { createReport } from '../../actions/reportActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import {

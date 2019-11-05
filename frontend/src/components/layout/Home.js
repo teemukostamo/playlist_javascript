@@ -9,6 +9,7 @@ import { getAllInProgress } from '../../actions/reportsListActions';
 const Home = props => {
   useEffect(() => {
     props.getAllInProgress(props.login.id);
+    // eslint-disable-next-line
   }, []);
   if (
     props.programs.allPrograms === null ||

@@ -3,6 +3,7 @@ import {
   GET_REPORT_DETAILS,
   GET_DJONLINE_TRACKS,
   ADD_NEW_TRACK,
+  GET_ONE_TRACK,
   DELETE_TRACK_FROM_REPORT,
   CHECK_FOR_DELETE,
   UNCHECK_FOR_DELETE,
@@ -20,6 +21,7 @@ const initialState = {
   newReport: null,
   loading: false,
   checkedForDelete: [],
+  currentTrack: null,
   error: null
 };
 
@@ -46,6 +48,12 @@ const reportReducer = (state = initialState, action) => {
       return {
         ...state,
         report: [...state.report, action.data],
+        loading: false
+      };
+    case GET_ONE_TRACK:
+      return {
+        ...state,
+        currentTrack: action.data,
         loading: false
       };
     case GET_REPORT_DETAILS:

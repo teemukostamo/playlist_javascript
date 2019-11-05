@@ -4,6 +4,7 @@ const Track = require('../models/Track');
 const Album = require('../models/Album');
 const Artist = require('../models/Artist');
 const Report_Track = require('../models/Report_Track');
+const db = require('../config/database');
 
 const getTokenFrom = req => {
   const authorization = req.get('authorization');
@@ -22,10 +23,21 @@ tracksRouter.get('/:id', async (req, res, next) => {
     if (!token || !decodedToken.id) {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
-    const track = await Track.findOne({ where: { id: req.params.id } });
+    const track = await db.query(
+      `SELECT t.name as track_title, ar.name as artist, al.name as album, t.id as track_id,
+    al.id as album_id, ar.id as artist_id, t.label as label, al.identifier as cat_id, t.length, t.side as disc_no,
+    t.track_no, t.people, t.isrc, al.year, t.comment, t.record_country, t.country
+    FROM playlist__artist as ar, playlist__album as al, playlist__track as t
+    WHERE t.id = ${req.params.id}
+    and t.album_id = al.id
+    and t.artist_id = ar.id`,
+      {
+        type: db.QueryTypes.SELECT
+      }
+    );
     if (track) {
       console.log('tracksrouter log', track);
-      res.json(track.toJSON());
+      res.json(track);
     } else {
       res.status(404).end();
     }
