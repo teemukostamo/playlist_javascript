@@ -591,3 +591,10 @@ console.log(filtered);
 //   console.log(index);
 // });
 // const newReport = report.filter(t => t.sortable_rank !== 1);
+
+const reportsList = [
+  {
+    user_id: 1,
+    id: 2
+  }
+];

@@ -327,102 +327,78 @@ const CreateNewReportForm = props => {
 
   return (
     <React.Fragment>
-      <Grid divided="vertically">
-        <Grid.Row columns={2}>
-          <Grid.Column>
-            <Container>
-              <Header>Luo uusi raportti</Header>
-              <Form>
-                <Form.Field>
-                  <label>Ohjelma</label>
-                  <Dropdown
-                    placeholder="Valitse ohjelma"
-                    openOnFocus
-                    selection
-                    search
-                    options={programOptions}
-                    onChange={getProgram}
-                  />{' '}
-                </Form.Field>
-                <Form.Field>
-                  <label>Ohjelmanumero</label>
-                  <Input
-                    type="number"
-                    value={programNumber}
-                    onChange={e => setProgramNumber(e.target.value)}
-                  />{' '}
-                </Form.Field>
-                <Form.Field>
-                  <label>DJ</label>
-                  <Input
-                    type="text"
-                    value={dj}
-                    onChange={e => setDj(e.target.value)}
-                  />{' '}
-                </Form.Field>
+      <Grid.Column>
+        <Container>
+          <Header>Luo uusi raportti</Header>
+          <Form>
+            <Form.Field>
+              <label>Ohjelma</label>
+              <Dropdown
+                placeholder="Valitse ohjelma"
+                openOnFocus
+                selection
+                search
+                options={programOptions}
+                onChange={getProgram}
+              />{' '}
+            </Form.Field>
+            <Form.Field>
+              <label>Ohjelmanumero</label>
+              <Input
+                type="number"
+                value={programNumber}
+                onChange={e => setProgramNumber(e.target.value)}
+              />{' '}
+            </Form.Field>
+            <Form.Field>
+              <label>DJ</label>
+              <Input
+                type="text"
+                value={dj}
+                onChange={e => setDj(e.target.value)}
+              />{' '}
+            </Form.Field>
 
-                <Form.Group widths="equal">
-                  <Form.Field>
-                    <label>Ohjelman päivä</label>
-                    <DatePicker
-                      selected={programDate}
-                      dateFormat="yyyy-MM-dd"
-                      onChange={date => setProgramDate(date)}
-                    />
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Alkaa kello</label>
-                    <Dropdown
-                      placeholder="hh:mm"
-                      openOnFocus
-                      selection
-                      search
-                      options={startTimeOptions}
-                      onChange={getStartTime}
-                    />{' '}
-                  </Form.Field>
-                  <Form.Field>
-                    <label>Päättyy kello</label>
-                    <Dropdown
-                      placeholder="hh:mm"
-                      openOnFocus
-                      selection
-                      search
-                      options={endTimeOptions}
-                      onChange={getEndTime}
-                    />{' '}
-                  </Form.Field>
-                </Form.Group>
-                <Form.Group widths="equal">
-                  <Button color="green" onClick={createReport}>
-                    Jatka
-                  </Button>
-                </Form.Group>
-              </Form>
-            </Container>
-          </Grid.Column>
-          <Grid.Column>
-            <Container>
-              <Header>Omat keskeneräiset raportit</Header>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam
-                explicabo delectus sint quisquam minima, fugit ut magni
-                voluptates ullam maiores quo, sit iure earum, iusto aut
-                dignissimos odit accusantium quam deleniti laborum numquam
-                mollitia. Laboriosam soluta asperiores maiores eum, culpa
-                temporibus iste modi ut in esse excepturi beatae repudiandae
-                alias cupiditate enim corrupti error repellendus accusantium
-                perferendis facilis optio. Odio repellat sed sequi similique
-                labore, necessitatibus repudiandae ratione voluptatibus autem
-                alias iure ipsam. Fugiat sunt quam sapiente dolore asperiores
-                sequi inventore, reiciendis, ullam magnam doloremque voluptas
-                quod esse, a qui fuga itaque sit nesciunt aspernatur tenetur
-                veritatis. Est, praesentium sit.
-              </p>
-            </Container>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+            <Form.Group widths="equal">
+              <Form.Field>
+                <label>Ohjelman päivä</label>
+                <DatePicker
+                  selected={programDate}
+                  dateFormat="yyyy-MM-dd"
+                  onChange={date => setProgramDate(date)}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Alkaa kello</label>
+                <Dropdown
+                  placeholder="hh:mm"
+                  openOnFocus
+                  selection
+                  search
+                  options={startTimeOptions}
+                  onChange={getStartTime}
+                />{' '}
+              </Form.Field>
+              <Form.Field>
+                <label>Päättyy kello</label>
+                <Dropdown
+                  placeholder="hh:mm"
+                  openOnFocus
+                  selection
+                  search
+                  options={endTimeOptions}
+                  onChange={getEndTime}
+                />{' '}
+              </Form.Field>
+            </Form.Group>
+            <Form.Group widths="equal">
+              <Button color="green" onClick={createReport}>
+                Jatka
+              </Button>
+            </Form.Group>
+          </Form>
+        </Container>
+      </Grid.Column>
     </React.Fragment>
   );
 };

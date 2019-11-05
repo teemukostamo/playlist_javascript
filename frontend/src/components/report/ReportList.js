@@ -12,7 +12,11 @@ import moment from 'moment';
 const ReportList = props => {
   // initial reports list
   useEffect(() => {
-    props.getAllReportsByDate(moment().format('YYYY-MM'));
+    if (props.reportsList.reportListDate === null) {
+      props.getAllReportsByDate(moment().format('YYYY-MM'));
+    } else {
+      props.getAllReportsByDate(props.reportsList.reportListDate);
+    }
     // eslint-disable-next-line
   }, []);
   console.log('Reportlist props', props);
@@ -42,6 +46,7 @@ const ReportList = props => {
     console.log('klikd show notification');
     props.setNotification('notification here', 'fail');
   };
+
   return (
     <Container>
       <Notification />

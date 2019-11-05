@@ -16,11 +16,23 @@ const getAllByDate = async date => {
   // notice baseurl is different here!
   console.log('getting reports from', date);
 
-  const request = await axios.get(`/api/reportslist/${date}`, config);
+  const request = await axios.get(`/api/reportslist/date/${date}`, config);
   console.log('reportservice get one report-track data', request.data);
   return request.data;
 };
 
+// get all in progress reports of one user
+const getAllInProgress = async id => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  // notice baseurl is different here!
+  console.log('getting reports from id', id);
+
+  const request = await axios.get(`/api/reportslist/user/${id}`, config);
+  console.log('reportservice get all in progress by user id', request.data);
+  return request.data;
+};
 // get a list of reports by user_id, date
 
 // get one report with tracks
@@ -147,6 +159,7 @@ export default {
   updateSortableRank,
   getOne,
   getAllByDate,
+  getAllInProgress,
   getAllTransfers,
   getReportDetails,
   createReport,

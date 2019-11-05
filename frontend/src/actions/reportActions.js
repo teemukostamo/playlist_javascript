@@ -185,3 +185,21 @@ export const deleteChecked = (
     console.log(error);
   }
 };
+
+export const updateSortableRank = (newOrder, report_id) => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const updateSortableRank = await reportService.updateSortableRank(newOrder);
+    console.log(updateSortableRank);
+    const report = await reportService.getOne(report_id);
+    console.log('reportactions', report);
+    dispatch({
+      type: GET_ONE_REPORT,
+      data: report
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

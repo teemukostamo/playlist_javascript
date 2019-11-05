@@ -42,3 +42,4 @@
 | 3.11.2019  | 2 (141) |                             notification, buttons colors                             |
 | 4.11.2019  |    4    |          useEffects on App.js render, generate report export from frontend           |
 | 4.11.2019  |    3    |     updating sortable rank after track deletion from report, draggable listview      |
+| 5.11.2019  |    3    |       dragged list order updates to db. in progress reports list on home page        |

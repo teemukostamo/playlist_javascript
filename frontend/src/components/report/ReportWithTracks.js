@@ -13,13 +13,14 @@ import {
 import {
   getOneReport,
   getReportDetails,
-  deleteChecked
+  deleteChecked,
+  updateSortableRank
 } from '../../actions/reportActions';
 import ReportWithTracksItem from './ReportWithTracksItem';
 import ReportDetails from './ReportDetails';
 
 const ReportWithTracks = props => {
-  const [dragState, setDragState] = useState();
+  const [dragState, setDragState] = useState(null);
   console.log(dragState);
   // get report tracks by report id
   useEffect(() => {
@@ -40,10 +41,19 @@ const ReportWithTracks = props => {
     } else {
       console.log('get details of report ', props.id);
       props.getReportDetails(props.id);
-      setDragState(props.report.report);
     }
     // eslint-disable-next-line
   }, []);
+
+  // fetch tracks after sorting changes
+  useEffect(() => {
+    console.log('array state changed', dragState);
+    props.updateSortableRank(dragState, props.id);
+    // eslint-disable-next-line
+  }, [dragState]);
+
+  const array = props.report.report;
+  console.log('array', array);
 
   const deleteChecked = () => {
     console.log('klikd delete checkd');
@@ -61,13 +71,12 @@ const ReportWithTracks = props => {
 
   const dragProps = {
     onDragEnd(fromIndex, toIndex) {
-      setDragState(props.report.report);
       console.log(dragState);
-      const item = dragState.splice(fromIndex, 1)[0];
+      const item = array.splice(fromIndex, 1)[0];
       console.log(item);
       console.log(dragState);
-      dragState.splice(toIndex, 0, item);
-      setDragState(dragState);
+      array.splice(toIndex, 0, item);
+      setDragState(array);
     },
     nodeSelector: 'tr',
     handleSelector: 'i.arrows'
@@ -120,7 +129,7 @@ const ReportWithTracks = props => {
           </Table.Header>
           <Table.Body>
             {props.report.report.map(track => (
-              <ReportWithTracksItem key={track.sortable_rank} track={track} />
+              <ReportWithTracksItem key={track.report_track_id} track={track} />
             ))}
           </Table.Body>
           <Table.Footer>
@@ -151,7 +160,7 @@ const mapStateToProps = state => {
 
 const connectedReportWithTracks = connect(
   mapStateToProps,
-  { getOneReport, getReportDetails, deleteChecked }
+  { getOneReport, getReportDetails, deleteChecked, updateSortableRank }
 )(ReportWithTracks);
 
 export default connectedReportWithTracks;

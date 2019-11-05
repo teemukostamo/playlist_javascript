@@ -3,22 +3,29 @@ import { connect } from 'react-redux';
 import { getOneReport } from '../../actions/reportActions';
 import {
   getAllReportsByDate,
-  sortByUserId
+  sortByUserId,
+  sortByStatus,
+  filterByText
 } from '../../actions/reportsListActions';
 import { Dropdown, Button, Form, Input } from 'semantic-ui-react';
 
 const ReportFilterForm = props => {
-  // const [startDate, setStartDate] = useState(new Date());
   const [reportMonth, setReportMonth] = useState('');
   const [reportYear, setReportYear] = useState('');
   const [userId, setUserId] = useState('');
   const [status, setStatus] = useState('');
   const [filterText, setFilterText] = useState('');
-  console.log(filterText);
+  // console.log(filterText);
 
   if (props.users.users === null) {
     return <div>loading</div>;
   }
+  // const teststatus = 0;
+
+  // const reports = props.reportsList.reportsList.filter(
+  //   r => r.status === teststatus
+  // );
+  // console.log(reports);
   // month options
   const monthOptions = [
     {
@@ -112,7 +119,7 @@ const ReportFilterForm = props => {
     {
       key: '2',
       text: 'Kaikki',
-      value: '2'
+      value: ''
     },
     {
       key: '0',
@@ -123,11 +130,6 @@ const ReportFilterForm = props => {
       key: '1',
       text: 'Valmis',
       value: '1'
-    },
-    {
-      key: '9',
-      text: 'Poistettu',
-      value: '9'
     }
   ];
 
@@ -142,6 +144,7 @@ const ReportFilterForm = props => {
   const getMonth = (event, { value }) => {
     event.preventDefault();
     setReportMonth(value);
+    console.log(reportMonth);
   };
 
   // get year from dropdown
@@ -158,8 +161,13 @@ const ReportFilterForm = props => {
   const getStatus = (event, { value }) => {
     event.preventDefault();
     setStatus(value);
-
     console.log('tila', status);
+    props.sortByStatus(status);
+  };
+  const getFilteredByText = (event, { value }) => {
+    event.preventDefault();
+    setFilterText(value);
+    props.filterByText(filterText);
   };
   return (
     <React.Fragment>
@@ -219,7 +227,7 @@ const ReportFilterForm = props => {
             <Input
               type="text"
               placeholder="Tekstisuodatus"
-              onChange={e => setFilterText(e.target.value)}
+              onChange={getFilteredByText}
             />
           </Form.Field>
         </Form.Group>
@@ -242,7 +250,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getOneReport,
   getAllReportsByDate,
-  sortByUserId
+  sortByUserId,
+  sortByStatus,
+  filterByText
 };
 
 const connectedReportFilterForm = connect(
