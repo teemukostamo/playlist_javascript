@@ -1,9 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Image } from 'semantic-ui-react';
+import { Menu, Image, Dropdown, Icon } from 'semantic-ui-react';
 import logo from '../../img/logo.png';
 
-const Navbar = () => {
+const Navbar = props => {
+  const handleLogoutClick = () => {
+    console.log('klikd logout');
+  };
+  const trigger = (
+    <span>
+      <Icon color="pink" name="user" /> {props.user}
+    </span>
+  );
+  const options = [
+    {
+      key: 'user',
+      text: 'Omat tiedot',
+      icon: 'user'
+    },
+    {
+      key: 'sign-out',
+      text: 'Kirjaudu ulos',
+      icon: 'sign out',
+      onClick: handleLogoutClick
+    }
+  ];
+
   return (
     <Menu pointing stackable inverted>
       <Menu.Item link>
@@ -42,10 +64,13 @@ const Navbar = () => {
           <h4>OHJELMAT</h4>
         </Link>
       </Menu.Item>
-      <Menu.Item link>
-        <Link to="/">
-          <h4>OMAT TIEDOT</h4>
-        </Link>
+      <Menu.Item style={{ align: 'right' }}>
+        <Dropdown
+          trigger={trigger}
+          options={options}
+          pointing="top left"
+          icon={null}
+        />
       </Menu.Item>
     </Menu>
   );

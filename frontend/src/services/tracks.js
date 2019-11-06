@@ -79,6 +79,14 @@ const addNewTrack = async trackToAdd => {
   return response.data;
 };
 
+const updateTrack = async trackToUpdate => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const response = await axios.put(baseUrl, trackToUpdate, config);
+  return response.data;
+};
+
 const getOneTrack = async id => {
   const config = {
     headers: { Authorization: token }
@@ -87,4 +95,10 @@ const getOneTrack = async id => {
   return response.data;
 };
 
-export default { setToken, checkDjonlineTracks, addNewTrack, getOneTrack };
+export default {
+  setToken,
+  checkDjonlineTracks,
+  addNewTrack,
+  updateTrack,
+  getOneTrack
+};

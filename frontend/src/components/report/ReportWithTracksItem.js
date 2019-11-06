@@ -77,7 +77,11 @@ const ReportWithTracksItem = props => {
           onClick={onEdit}
           name="edit"
         /> */}
-        <EditTrackModal id={props.track.track_id} />
+        <EditTrackModal
+          id={props.track.track_id}
+          sortable_rank={props.track.sortable_rank}
+          report_track_id={props.track.report_track_id}
+        />
       </Table.Cell>
     </Table.Row>
   );

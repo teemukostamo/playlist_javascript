@@ -40,7 +40,9 @@ export const SET_SEARCH_LOADING = 'SET_SEARCH_LOADING';
 
 // track actions
 export const ADD_NEW_TRACK = 'ADD_NEW_TRACK';
+export const UPDATE_TRACK = 'UPDATE_TRACK';
 export const GET_ONE_TRACK = 'GET_ONE_TRACK';
+export const REMOVE_CURRENT_TRACK = 'REMOVE_CURRENT_TRACK';
 
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';

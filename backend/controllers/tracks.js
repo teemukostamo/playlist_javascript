@@ -46,6 +46,100 @@ tracksRouter.get('/:id', async (req, res, next) => {
   }
 });
 
+// update track, album, artist
+tracksRouter.put('/', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    let {
+      artist_name,
+      album_name,
+      track_title,
+      track_id,
+      length,
+      country,
+      record_country,
+      people,
+      disc_no,
+      track_no,
+      year,
+      label,
+      cat_id,
+      isrc,
+      comment,
+      user_id,
+      artist_id,
+      album_id,
+      sortable_rank,
+      report_track_id
+    } = req.body;
+
+    const trackToUpDate = await Track.update(
+      {
+        name: track_title,
+        length,
+        country,
+        record_country,
+        people,
+        side: disc_no,
+        track_no,
+        label,
+        isrc,
+        comment,
+        user_id
+      },
+      { where: { id: track_id } }
+    );
+    const albumToUpdate = await Album.update(
+      {
+        name: album_name,
+        identifier: cat_id,
+        year,
+        user_id
+      },
+      { where: { id: album_id } }
+    );
+    const artistToUpdate = await Artist.update(
+      {
+        name: artist_name,
+        user_id
+      },
+      { where: { id: artist_id } }
+    );
+    const updatedTrack = {
+      artist_name,
+      album_name,
+      track_title,
+      track_id,
+      length,
+      country,
+      record_country,
+      people,
+      disc_no,
+      track_no,
+      year,
+      label,
+      cat_id,
+      isrc,
+      comment,
+      user_id,
+      artist_id,
+      album_id,
+      sortable_rank,
+      report_track_id
+    };
+    console.log('updated track info', trackToUpDate);
+    console.log('updated album info', albumToUpdate);
+    console.log('updated artist info', artistToUpdate);
+    res.status(200).json(updatedTrack);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 // save track and add it to current report
 tracksRouter.post('/', async (req, res, next) => {
   try {

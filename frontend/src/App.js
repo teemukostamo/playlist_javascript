@@ -37,12 +37,20 @@ const App = props => {
       </Container>
     );
   }
+  if (props.login.status === null) {
+    return (
+      <Container>
+        <div>Tunnukset hyllyllä. Ota yhteys ylläpitoon.</div>
+        <LoginForm />
+      </Container>
+    );
+  }
   return (
     <Router>
       <div>
         Logged in as {props.login.username}
         <button onClick={handleLogout}>logout</button>
-        <Navbar />
+        <Navbar user={props.login.username} />
       </div>
       <Switch>
         <Route exact path="/" component={Home} />

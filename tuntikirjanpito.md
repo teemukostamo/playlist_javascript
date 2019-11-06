@@ -45,3 +45,4 @@
 | 5.11.2019  |    3    |       dragged list order updates to db. in progress reports list on home page        |
 | 5.11.2019  |    2    |       in progress list delete, some new report form validation, notifications        |
 | 5.11.2019  |    2    |                                   edit track modal                                   |
+| 6.11.2019  |    3    |                    handle edit track backend, user icon to navbar                    |

@@ -1,8 +1,10 @@
 import {
   GET_DJONLINE_TRACKS,
   ADD_NEW_TRACK,
+  UPDATE_TRACK,
   SET_LOADING,
-  GET_ONE_TRACK
+  GET_ONE_TRACK,
+  REMOVE_CURRENT_TRACK
 } from './types';
 import trackService from '../services/tracks';
 
@@ -36,6 +38,21 @@ export const addNewTrack = trackToAdd => async dispatch => {
     console.log(error);
   }
 };
+export const updateTrack = trackToUpdate => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const updatedTrack = await trackService.updateTrack(trackToUpdate);
+    console.log(updatedTrack);
+    dispatch({
+      type: UPDATE_TRACK,
+      data: updatedTrack
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getOneTrack = id => async dispatch => {
   try {
@@ -50,4 +67,10 @@ export const getOneTrack = id => async dispatch => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const removeCurrentTrack = () => async dispatch => {
+  dispatch({
+    type: REMOVE_CURRENT_TRACK
+  });
 };

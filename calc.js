@@ -591,10 +591,9 @@ console.log(filtered);
 //   console.log(index);
 // });
 // const newReport = report.filter(t => t.sortable_rank !== 1);
+const length = 314;
+const minutes = Math.floor(length / 60);
+const seconds = length % 60;
 
-const reportsList = [
-  {
-    user_id: 1,
-    id: 2
-  }
-];
+console.log(minutes);
+console.log(seconds);

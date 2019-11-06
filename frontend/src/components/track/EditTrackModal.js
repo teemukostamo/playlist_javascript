@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getOneTrack } from '../../actions/trackActions';
+import {
+  getOneTrack,
+  removeCurrentTrack,
+  updateTrack
+} from '../../actions/trackActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import {
   Modal,
@@ -34,11 +38,62 @@ const EditTrackModal = props => {
 
   useEffect(() => {
     if (props.report.currentTrack !== null) {
-      setArtist(props.report.currentTrack.artist);
-      console.log(artist);
+      let minutes = Math.floor(props.report.currentTrack[0].length / 60);
+      let seconds = props.report.currentTrack[0].length % 60;
+      setArtist(props.report.currentTrack[0].artist);
+      setAlbum(props.report.currentTrack[0].album);
+      setTrack(props.report.currentTrack[0].track_title);
+      setMin(minutes);
+      setSec(seconds);
+      setCountry(props.report.currentTrack[0].country);
+      setRecordCountry(props.report.currentTrack[0].record_country);
+      setDiscNo(props.report.currentTrack[0].disc_no);
+      setTrackNo(props.report.currentTrack[0].track_no);
+      setYear(props.report.currentTrack[0].year);
+      setLabel(props.report.currentTrack[0].label);
+      setCatId(props.report.currentTrack[0].cat_id);
+      setIsrc(props.report.currentTrack[0].isrc);
+      setComment(props.report.currentTrack[0].comment);
+      setPeople(props.report.currentTrack[0].people);
     }
     // eslint-disable-next-line
-  }, [props.report.currentTrack, artist]);
+  }, [props.report.currentTrack]);
+  const handleOpen = () => {
+    props.getOneTrack(props.id);
+    setModalOpen(true);
+  };
+
+  if (props.report.currentTrack === null) {
+    return (
+      <Icon
+        style={{ cursor: 'pointer' }}
+        color="blue"
+        onClick={handleOpen}
+        name="edit"
+      />
+    );
+  }
+
+  if (props.report.loading) {
+    return (
+      <Modal
+        open={modalOpen}
+        closeIcon
+        trigger={
+          <Icon
+            style={{ cursor: 'pointer' }}
+            color="blue"
+            onClick={handleOpen}
+            name="edit"
+          />
+        }
+        onClose={handleClose}
+      >
+        <Header content="Muokkaa biisin tietoja" />
+        <Modal.Content>ladataan</Modal.Content>
+      </Modal>
+    );
+  }
 
   const submitTrack = () => {
     console.log('klikd submit track');
@@ -47,7 +102,7 @@ const EditTrackModal = props => {
       props.setNotification('Artisti on pakollinen tieto', 'fail');
     }
     let length = parseInt(min) * 60 + parseInt(sec);
-    const trackToAdd = {
+    const trackToEdit = {
       artist_name: artist,
       album_name: album,
       track_title: track,
@@ -62,13 +117,31 @@ const EditTrackModal = props => {
       cat_id: catId,
       isrc,
       comment,
-      report_id: props.report.reportDetails.id,
       user_id: props.login.id,
-      sortable_rank: props.report.report.length + 1
+      artist_id: props.report.currentTrack[0].artist_id,
+      album_id: props.report.currentTrack[0].album_id,
+      track_id: props.report.currentTrack[0].track_id,
+      sortable_rank: props.sortable_rank,
+      report_track_id: props.report_track_id
     };
-    console.log(trackToAdd);
-    // props.addNewTrack(trackToAdd);
+    console.log('updating track', trackToEdit);
+    props.updateTrack(trackToEdit);
     handleClose();
+    setArtist(null);
+    setAlbum(null);
+    setTrack(null);
+    setMin(null);
+    setSec(null);
+    setCountry(null);
+    setRecordCountry(null);
+    setDiscNo(null);
+    setTrackNo(null);
+    setYear(null);
+    setLabel(null);
+    setCatId(null);
+    setIsrc(null);
+    setComment(null);
+    setPeople(null);
   };
 
   const countryOptions = [
@@ -83,7 +156,7 @@ const EditTrackModal = props => {
       value: 2
     },
     {
-      key: 0,
+      key: null,
       text: 'Ei tietoa',
       value: null
     }
@@ -340,14 +413,16 @@ const EditTrackModal = props => {
     event.preventDefault();
     setRecordCountry(value);
   };
-  const handleOpen = () => {
-    props.getOneTrack(props.id);
-    setModalOpen(true);
-  };
+
   const handleClose = () => {
+    props.removeCurrentTrack();
+
     setModalOpen(false);
   };
-
+  let minutes = Math.floor(props.report.currentTrack[0].length / 60);
+  let seconds = props.report.currentTrack[0].length % 60;
+  console.log(minutes);
+  console.log(seconds);
   return (
     <Modal
       open={modalOpen}
@@ -368,7 +443,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Artisti</label>
             <Input
-              defaultValue={artist}
+              defaultValue={props.report.currentTrack[0].artist}
               // value={artist}
               type="text"
               placeholder={artist}
@@ -378,7 +453,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Albumi</label>
             <Input
-              value={album}
+              defaultValue={props.report.currentTrack[0].album}
               type="text"
               placeholder="Albumi..."
               onChange={e => setAlbum(e.target.value)}
@@ -387,7 +462,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Biisi</label>
             <Input
-              value={track}
+              defaultValue={props.report.currentTrack[0].track_title}
               type="text"
               placeholder="Biisi..."
               onChange={e => setTrack(e.target.value)}
@@ -398,7 +473,7 @@ const EditTrackModal = props => {
               <label>Kesto - minuutit</label>
               <Input
                 maxLength={4}
-                value={min}
+                defaultValue={minutes}
                 type="number"
                 placeholder="Minuuttia..."
                 onChange={e => setMin(e.target.value)}
@@ -407,7 +482,7 @@ const EditTrackModal = props => {
             <Form.Field required>
               <label>Kesto - sekunnit</label>
               <Input
-                value={sec}
+                defaultValue={seconds}
                 maxLength={2}
                 type="number"
                 placeholder="Sekuntia..."
@@ -420,7 +495,7 @@ const EditTrackModal = props => {
               <label>Levy#</label>
               <Input
                 maxLength={2}
-                value={discNo}
+                defaultValue={props.report.currentTrack[0].disc_no}
                 type="number"
                 placeholder="CD1=1, CD2=2, A1=1, A2=2..."
                 onChange={e => setDiscNo(e.target.value)}
@@ -429,7 +504,7 @@ const EditTrackModal = props => {
             <Form.Field required>
               <label>Biisi#</label>
               <Input
-                value={trackNo}
+                defaultValue={props.report.currentTrack[0].track_no}
                 maxLength={2}
                 type="number"
                 placeholder="Biisi #..."
@@ -440,17 +515,21 @@ const EditTrackModal = props => {
           <Form.Field>
             <label>Tekijät - max 5kpl, yksi per rivi, SUKUNIMI ETUNIMI</label>
             <TextArea
+              defaultValue={props.report.currentTrack[0].people}
               onChange={e => setPeople(e.target.value)}
               placeholder="Tekijät - max 5kpl"
             />
           </Form.Field>
           <Form.Group widths="equal">
-            <Form.Field required>
+            <Form.Field
+              defaultValue={props.report.currentTrack[0].country}
+              required
+            >
               <label>Säveltäjän kotimaa</label>
               <Dropdown
                 placeholder="Suomi, muu, ei tietoa..."
                 openOnFocus={false}
-                value={country}
+                defaultValue={props.report.currentTrack[0].country}
                 selection
                 options={countryOptions}
                 onChange={getCountry}
@@ -461,7 +540,7 @@ const EditTrackModal = props => {
               <Dropdown
                 placeholder="Valitse tallennusmaa..."
                 openOnFocus={false}
-                value={recordCountry}
+                defaultValue={props.report.currentTrack[0].record_country}
                 selection
                 search
                 options={recordCountryOptions}
@@ -472,7 +551,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Levymerkki</label>
             <Input
-              value={label}
+              defaultValue={props.report.currentTrack[0].label}
               type="text"
               placeholder="Levymerkki..."
               onChange={e => setLabel(e.target.value)}
@@ -481,7 +560,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Levykoodi</label>
             <Input
-              value={catId}
+              defaultValue={props.report.currentTrack[0].cat_id}
               type="text"
               placeholder="Levykoodi..."
               onChange={e => setCatId(e.target.value)}
@@ -490,7 +569,7 @@ const EditTrackModal = props => {
           <Form.Field>
             <label>ISRC</label>
             <Input
-              value={isrc}
+              defaultValue={props.report.currentTrack[0].isrc}
               maxLength={12}
               type="text"
               placeholder="ISRC..."
@@ -500,7 +579,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Vuosi</label>
             <Input
-              value={year}
+              defaultValue={props.report.currentTrack[0].year}
               maxLength={4}
               type="number"
               placeholder="Vuosi..."
@@ -510,23 +589,24 @@ const EditTrackModal = props => {
           <Form.Field>
             <label>Lisätietoa</label>
             <TextArea
+              defaultValue={props.report.currentTrack[0].comment}
               onChange={e => setComment(e.target.value)}
               placeholder="Lisätietoa..."
             />
           </Form.Field>
           <Button
-            disabled={
-              !artist ||
-              !album ||
-              !track ||
-              !trackNo ||
-              !discNo ||
-              !min ||
-              !sec ||
-              !label ||
-              !catId ||
-              !year
-            }
+            // disabled={
+            //   !artist ||
+            //   !album ||
+            //   !track ||
+            //   !trackNo ||
+            //   !discNo ||
+            //   !min ||
+            //   !sec ||
+            //   !label ||
+            //   !catId ||
+            //   !year
+            // }
             color="green"
             type="submit"
           >
@@ -547,7 +627,7 @@ const mapStateToProps = state => {
 };
 const connectedEditTrackModal = connect(
   mapStateToProps,
-  { setNotification, getOneTrack }
+  { setNotification, getOneTrack, removeCurrentTrack, updateTrack }
 )(EditTrackModal);
 
 export default connectedEditTrackModal;
