@@ -7,13 +7,14 @@ import Notification from '../layout/Notification';
 import { getAllInProgress } from '../../actions/reportsListActions';
 
 const Home = props => {
-  useEffect(() => {
-    props.getAllInProgress(props.login.id);
-    // eslint-disable-next-line
-  }, []);
+  console.log('home props', props);
+  // useEffect(() => {
+  //   props.getAllInProgress(props.login.id);
+  //   // eslint-disable-next-line
+  // }, []);
   if (
-    props.programs.allPrograms === null ||
-    props.reportsList.inProgress === null
+    props.programs.allPrograms === null
+    // props.reportsList.inProgress === null
   ) {
     return (
       <Container>

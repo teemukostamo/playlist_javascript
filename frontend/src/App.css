@@ -13,6 +13,11 @@
   src: url('fonts/FONTTI_rh_Pano-Bold.otf');
 }
 
+@font-face {
+  font-family: 'RHFont-condensed';
+  src: url('fonts/FONTTI_rh_DomaineDisplayCondensed-Medium.otf');
+}
+
 body {
   font-family: 'RHFont-semibold', sans-serif;
 }
@@ -21,5 +26,10 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'RHFont-bold';
+  font-family: 'RHFont-bold', sans-serif;
+}
+
+.rerun {
+  color: red;
+  font-style: italic;
 }

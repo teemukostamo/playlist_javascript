@@ -5,9 +5,11 @@ import {
   UPDATE_REPORT,
   CHECK_FOR_DELETE,
   UNCHECK_FOR_DELETE,
+  CREATE_NEW_PROGRAM,
   SET_LOADING
 } from '../actions/types';
 import reportService from '../services/reports';
+import programService from '../services/programs';
 
 // get one report with tracks by report id
 export const getOneReport = id => async dispatch => {
@@ -104,6 +106,28 @@ export const createReport = newReport => async dispatch => {
     dispatch({
       type: SET_LOADING
     });
+    if (newReport.program_id === '' && newReport.new_program_name !== '') {
+      const newProgram = {
+        name: newReport.new_program_name,
+        user_id: newReport.user_id
+      };
+      const program = await programService.createProgram(newProgram);
+      dispatch({
+        type: CREATE_NEW_PROGRAM,
+        data: program
+      });
+      const newReportWithNewProgram = {
+        ...newReport,
+        program_id: program.id,
+        display: 1
+      };
+      console.log('new report with new program', newReportWithNewProgram);
+      const report = await reportService.createReport(newReportWithNewProgram);
+      dispatch({
+        type: CREATE_REPORT,
+        data: report
+      });
+    }
     const report = await reportService.createReport(newReport);
     dispatch({
       type: CREATE_REPORT,
@@ -111,10 +135,6 @@ export const createReport = newReport => async dispatch => {
     });
   } catch (error) {
     console.log(error);
-    // dispatch({
-    //   type: REPORT_ERROR,
-    //   payload: error.response.data
-    // });
   }
 };
 

@@ -84,7 +84,7 @@ const ReportWithTracks = props => {
 
   console.log('report with tracks props', props);
 
-  if (props.report.report === null) {
+  if (props.report.report === null || props.report.reportDetails === null) {
     return (
       <Segment>
         <Dimmer active inverted>

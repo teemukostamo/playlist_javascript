@@ -27,4 +27,12 @@ const getOne = async id => {
   return request.data;
 };
 
-export default { getAll, getOne, setToken };
+const createProgram = async newProgram => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.post(baseUrl, newProgram, config);
+  return request.data;
+};
+
+export default { getAll, getOne, createProgram, setToken };

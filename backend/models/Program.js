@@ -13,10 +13,10 @@ const Program = db.define(
       type: Sequelize.INTEGER(11),
       allowNull: false
     },
-    // name: {
-    //   type: Sequelize.STRING(128),
-    //   allowNull: false
-    // },
+    name: {
+      type: Sequelize.STRING(128),
+      allowNull: false
+    },
     identifier: {
       type: Sequelize.STRING
     },

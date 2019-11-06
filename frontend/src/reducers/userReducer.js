@@ -30,7 +30,8 @@ const userReducer = (state = initialState, action) => {
     case SET_CURRENT:
       return {
         ...state,
-        current: action.payload
+        current: action.payload,
+        loading: false
       };
     case UPDATE_USER:
       return {

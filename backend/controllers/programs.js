@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const programsRouter = require('express').Router();
-// const Program = require('../models/Program');
+const Program = require('../models/Program');
 const db = require('../config/database');
 
 // getTokenFrom eristää tokenin authorization -headeristä
@@ -53,6 +53,28 @@ programsRouter.get('/:id', async (req, res, next) => {
       }
     );
     res.json(program);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// create new program
+programsRouter.post('/', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    console.log(req.body);
+    const savedProgram = await Program.create({
+      user_id: req.body.user_id,
+      name: req.body.name,
+      display: 1,
+      site: 1
+    });
+    console.log(savedProgram);
+    res.status(201).json(savedProgram);
   } catch (exception) {
     next(exception);
   }

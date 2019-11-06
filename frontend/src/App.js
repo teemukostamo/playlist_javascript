@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
-// import './App.css';
+import './App.css';
 import Navbar from './components/layout/Navbar';
 import Home from './components/layout/Home';
 import UserList from './components/user/UserList';
 import ReportList from './components/report/ReportList';
+import ProgramList from './components/program/ProgramList';
 import LoginForm from './components/login/LoginForm';
 import ReportTransferList from './components/report/ReportTransferList';
 import { Container } from 'semantic-ui-react';
@@ -48,9 +49,12 @@ const App = props => {
   return (
     <Router>
       <div>
-        Logged in as {props.login.username}
-        <button onClick={handleLogout}>logout</button>
-        <Navbar user={props.login.username} />
+        {/* Logged in as {props.login.username}
+        <button onClick={handleLogout}>logout</button> */}
+        <Navbar
+          first_name={props.login.first_name}
+          last_name={props.login.last_name}
+        />
       </div>
       <Switch>
         <Route exact path="/" component={Home} />
@@ -63,6 +67,7 @@ const App = props => {
             return <ReportWithTracks id={match.params.id} />;
           }}
         />
+        <Route exact path="/programs" component={ProgramList} />
         <Route exact path="/users" component={UserList} />
       </Switch>
     </Router>
@@ -72,6 +77,7 @@ const App = props => {
 const mapStateToProps = state => {
   console.log('app state', state);
   return {
+    report: state.report,
     reportsList: state.reportsList,
     login: state.login,
     users: state.users,

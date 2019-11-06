@@ -6,9 +6,10 @@ import { Table, Grid, Container, Header } from 'semantic-ui-react';
 
 const InProgressReportsList = props => {
   console.log(props);
-  // useEffect(() => {
-  //   props.getAllInProgress(props.login.id);
-  // }, []);
+  useEffect(() => {
+    props.getAllInProgress(props.login.id);
+    // eslint-disable-next-line
+  }, []);
 
   // if (props.reportsList.inProgress === null) {
   //   return <div>loading</div>;
@@ -16,6 +17,9 @@ const InProgressReportsList = props => {
   // if (props.reportsList.loading) {
   //   return <div>loading</div>;
   // }
+  if (props.reportsList.inProgress === null) {
+    return null;
+  }
   if (props.reportsList.inProgress.length === 0) {
     return (
       <Grid.Column>

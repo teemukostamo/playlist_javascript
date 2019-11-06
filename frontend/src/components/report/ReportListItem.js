@@ -6,6 +6,8 @@ import { getOneReport } from '../../actions/reportActions';
 
 const ReportListItem = props => {
   let reportStatusOutPrint;
+  let className;
+
   if (props.report.status === 1) {
     reportStatusOutPrint = 'Valmis';
   } else if (props.report.status === 0) {
@@ -14,12 +16,17 @@ const ReportListItem = props => {
     reportStatusOutPrint = 'Poistettu';
     return null;
   }
+  if (props.report.rerun === 1) {
+    className = 'rerun';
+  }
   return (
     <React.Fragment>
-      <Table.Row>
+      <Table.Row className={className}>
         <Table.Cell>{props.report.program_no}</Table.Cell>
         <Table.Cell>
-          <Link to={`reports/${props.report.id}`}>{props.report.name}</Link>
+          <Link className={className} to={`reports/${props.report.id}`}>
+            {props.report.name}
+          </Link>
         </Table.Cell>
         <Table.Cell>
           {props.report.program_date} {props.report.program_start_time} -{' '}

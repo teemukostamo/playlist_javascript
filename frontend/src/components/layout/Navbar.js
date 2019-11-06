@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/loginActions';
 import { Link } from 'react-router-dom';
 import { Menu, Image, Dropdown, Icon } from 'semantic-ui-react';
 import logo from '../../img/logo.png';
@@ -6,10 +8,12 @@ import logo from '../../img/logo.png';
 const Navbar = props => {
   const handleLogoutClick = () => {
     console.log('klikd logout');
+    props.logout();
   };
   const trigger = (
     <span>
-      <Icon color="pink" name="user" /> {props.user}
+      <Icon color="pink" name="user" size="large" /> {props.first_name}{' '}
+      {props.last_name}
     </span>
   );
   const options = [
@@ -60,7 +64,7 @@ const Navbar = props => {
         </Link>
       </Menu.Item>
       <Menu.Item link>
-        <Link to="/">
+        <Link to="/programs">
           <h4>OHJELMAT</h4>
         </Link>
       </Menu.Item>
@@ -76,4 +80,7 @@ const Navbar = props => {
   );
 };
 
-export default Navbar;
+export default connect(
+  null,
+  { logout }
+)(Navbar);

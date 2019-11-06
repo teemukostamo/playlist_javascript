@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { createReport } from '../../actions/reportActions';
 import { setNotification } from '../../reducers/notificationReducer';
+import Togglable from '../layout/Togglable';
 import {
   Header,
   Form,
@@ -21,6 +22,7 @@ const CreateNewReportForm = props => {
   const [dj, setDj] = useState(
     `${props.login.first_name} ${props.login.last_name}`
   );
+  const [newProgramName, setNewProgramName] = useState('');
   const [programDate, setProgramDate] = useState(new Date());
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
@@ -306,6 +308,7 @@ const CreateNewReportForm = props => {
     const newReport = {
       user_id: props.login.id,
       program_id: programId,
+      new_program_name: newProgramName,
       program_date: moment(programDate).format('YYYY-MM-DD'),
       program_start_time: programStartTime,
       program_end_time: programEndTime,
@@ -344,7 +347,9 @@ const CreateNewReportForm = props => {
           <Header>Luo uusi raportti</Header>
           <Form>
             <Form.Field>
-              <label>Ohjelma</label>
+              <label>
+                Ohjelma - jos ohjemasi ei löydy listalta, luo uusi ohjelma
+              </label>
               <Dropdown
                 placeholder="Valitse ohjelma"
                 openOnFocus
@@ -353,6 +358,20 @@ const CreateNewReportForm = props => {
                 options={programOptions}
                 onChange={getProgram}
               />{' '}
+              <Togglable
+                style={{ marginTop: '0.5rem' }}
+                size="tiny"
+                buttonLabel="Luo uusi ohjelma"
+              >
+                <Form.Field>
+                  <label>Uusi ohjelma</label>
+                  <Input
+                    type="text"
+                    value={newProgramName}
+                    onChange={e => setNewProgramName(e.target.value)}
+                  />{' '}
+                </Form.Field>
+              </Togglable>
             </Form.Field>
             <Form.Field>
               <label>Ohjelmanumero</label>
@@ -405,13 +424,13 @@ const CreateNewReportForm = props => {
             </Form.Group>
             <Form.Group widths="equal">
               <Button
-                disabled={
-                  !programId ||
-                  !programDate ||
-                  !programStartTime ||
-                  !programEndTime ||
-                  !dj
-                }
+                // disabled={
+                //   !programId ||
+                //   !programDate ||
+                //   !programStartTime ||
+                //   !programEndTime ||
+                //   !dj
+                // }
                 color="green"
                 onClick={createReport}
               >

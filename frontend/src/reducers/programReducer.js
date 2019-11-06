@@ -1,4 +1,8 @@
-import { GET_ONE_PROGRAM, GET_ALL_PROGRAMS } from '../actions/types';
+import {
+  GET_ONE_PROGRAM,
+  GET_ALL_PROGRAMS,
+  CREATE_NEW_PROGRAM
+} from '../actions/types';
 
 const initialState = {
   allPrograms: null,
@@ -18,6 +22,12 @@ const programReducer = (state = initialState, action) => {
       return {
         ...state,
         program: action.data,
+        loading: false
+      };
+    case CREATE_NEW_PROGRAM:
+      return {
+        ...state,
+        allPrograms: [...state.allPrograms, action.data],
         loading: false
       };
     default:

@@ -39,16 +39,10 @@ const ReportList = props => {
       </Container>
     );
   }
-  const showNotification = () => {
-    console.log('klikd show notification');
-    props.setNotification('notification here', 'fail');
-  };
 
   return (
     <Container>
       <Notification />
-      <button onClick={showNotification}>show notification</button>
-
       <ReportFilterForm />
       <Table striped>
         <Table.Header>

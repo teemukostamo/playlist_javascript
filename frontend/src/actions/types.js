@@ -33,6 +33,7 @@ export const FILTER_BY_TEXT = 'FILTER_BY_TEXT';
 // program actions
 export const GET_ALL_PROGRAMS = 'GET_ALL_PROGRAMS';
 export const GET_ONE_PROGRAM = 'GET_ONE_PROGRAM';
+export const CREATE_NEW_PROGRAM = 'CREATE_NEW_PROGRAM';
 
 // search actions
 export const AUTOCOMPLETE_RESULTS = 'AUTOCOMPLETE_RESULTS';

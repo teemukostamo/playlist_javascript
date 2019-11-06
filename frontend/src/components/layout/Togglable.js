@@ -15,13 +15,25 @@ const Togglable = props => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <Button color={props.color} onClick={toggleVisibility}>
+        <Button
+          size={props.size}
+          style={props.style}
+          color={props.color}
+          onClick={toggleVisibility}
+        >
           {props.buttonLabel}
         </Button>
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <Button onClick={toggleVisibility}>Piilota</Button>
+        <Button
+          size={props.size}
+          style={props.style}
+          color={props.color}
+          onClick={toggleVisibility}
+        >
+          Piilota
+        </Button>
       </div>
     </div>
   );
