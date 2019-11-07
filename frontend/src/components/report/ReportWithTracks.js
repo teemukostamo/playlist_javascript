@@ -86,20 +86,16 @@ const ReportWithTracks = props => {
 
   if (props.report.report === null || props.report.reportDetails === null) {
     return (
-      <Segment>
-        <Dimmer active inverted>
-          <Loader inverted content="Ladataan..." />
-        </Dimmer>
-      </Segment>
+      <Dimmer active inverted>
+        <Loader inverted content="Ladataan..." />
+      </Dimmer>
     );
   }
   if (props.report.loading) {
     return (
-      <Segment>
-        <Dimmer active inverted>
-          <Loader inverted content="Ladataan..." />
-        </Dimmer>
-      </Segment>
+      <Dimmer active inverted>
+        <Loader inverted content="Ladataan..." />
+      </Dimmer>
     );
   }
   if (props.report.report.length === 0) {

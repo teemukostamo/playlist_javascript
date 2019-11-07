@@ -28,9 +28,9 @@ const ReportListItem = props => {
             {props.report.name}
           </Link>
         </Table.Cell>
+        <Table.Cell>{props.report.program_date}</Table.Cell>
         <Table.Cell>
-          {props.report.program_date} {props.report.program_start_time} -{' '}
-          {props.report.program_end_time}
+          {props.report.program_start_time} - {props.report.program_end_time}
         </Table.Cell>
         <Table.Cell>{reportStatusOutPrint}</Table.Cell>
         <Table.Cell></Table.Cell>

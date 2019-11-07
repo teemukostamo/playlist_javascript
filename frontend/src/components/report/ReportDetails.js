@@ -53,7 +53,7 @@ const ReportDetails = props => {
     );
   }
 
-  let programOptions = props.programs.allPrograms.map(program => ({
+  let programOptions = props.programs.activePrograms.map(program => ({
     key: program.id,
     text: program.name,
     value: program.id
@@ -484,7 +484,7 @@ const ReportDetails = props => {
                   selection
                   options={statusOptions}
                   onChange={getStatus}
-                  value={status}
+                  defaultValue={status}
                 />{' '}
               </Form.Field>
               <Form.Field>

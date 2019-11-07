@@ -34,13 +34,21 @@ app.get('/', function(req, res) {
       res.status(500).send(err);
     }
   });
-
-  // res.sendFile(path.resolve(__dirname, 'build/index.html'), err => {
-  //   if (err) {
-  //     res.status(500).send(err);
-  //   }
-  // });
 });
+
+app.get('/reports*', (req, res) => {
+  console.log('hi from app.get');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
+
+// app.get('/reports', (req, res) => {
+//   console.log('hi from app.get');
+//   console.log(req);
+//   console.log(res);
+//   res.sendFile(path.resolve(__dirname + '/build/index.html'));
+// });
 
 app.use(bodyParser.json());
 app.use(cors());

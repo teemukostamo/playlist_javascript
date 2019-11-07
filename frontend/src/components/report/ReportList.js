@@ -23,11 +23,9 @@ const ReportList = props => {
 
   if (props.reportsList.reportsList === null || props.reportsList.loading) {
     return (
-      <Segment>
-        <Dimmer active inverted>
-          <Loader inverted content="Ladataan..." />
-        </Dimmer>
-      </Segment>
+      <Dimmer active inverted>
+        <Loader inverted content="Ladataan..." />
+      </Dimmer>
     );
   }
 
@@ -50,6 +48,7 @@ const ReportList = props => {
             <Table.Cell>Ohjelmanro</Table.Cell>
             <Table.Cell>Nimi</Table.Cell>
             <Table.Cell>Aika</Table.Cell>
+            <Table.Cell>Kello</Table.Cell>
             <Table.Cell>Tila</Table.Cell>
             <Table.Cell></Table.Cell>
           </Table.Row>

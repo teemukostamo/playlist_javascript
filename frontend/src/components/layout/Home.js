@@ -13,7 +13,7 @@ const Home = props => {
   //   // eslint-disable-next-line
   // }, []);
   if (
-    props.programs.allPrograms === null
+    props.programs.activePrograms === null
     // props.reportsList.inProgress === null
   ) {
     return (

@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import User from './User';
+import AddUserModal from './AddUserModal';
+import User from './UserListItem';
+import Notification from '../layout/Notification';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import { Table } from 'semantic-ui-react';
 
@@ -18,7 +20,11 @@ const UserList = props => {
   console.log('userlist props', props);
   return (
     <Container>
-      <h3>Käyttäjät</h3>
+      <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+        <h3 style={{ display: 'inline' }}>Käyttäjät</h3>
+        <AddUserModal />
+      </div>
+      <Notification />
       <Table striped>
         <Table.Header>
           <Table.Row>

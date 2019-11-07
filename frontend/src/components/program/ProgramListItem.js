@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import EditProgramModal from './EditProgramModal';
 import ModalNotification from '../layout/ModalNotification';
 import { setNotification } from '../../reducers/notificationReducer';
 import {
@@ -16,7 +17,6 @@ import {
 } from 'semantic-ui-react';
 
 const ProgramListItem = props => {
-  console.log('program list item props', props);
   const onDelete = () => {
     console.log('klikd delete');
   };
@@ -29,21 +29,27 @@ const ProgramListItem = props => {
       </Container>
     );
   }
+
+  let className;
+  if (props.program.display === 1) {
+    className = 'active-program';
+  }
+
   return (
-    <Table.Row>
+    <Table.Row className={className}>
       <Table.Cell>{props.program.id}</Table.Cell>
-      <Table.Cell>{props.program.name}</Table.Cell>
-      <Table.Cell>{props.program.identifier}</Table.Cell>
+      {/* <Table.Cell>{props.program.name}</Table.Cell> */}
       <Table.Cell>
-        <Icon color="red" onClick={onDelete} name="delete" />
+        <EditProgramModal program={props.program} />
       </Table.Cell>
+      <Table.Cell>{props.program.identifier}</Table.Cell>
     </Table.Row>
   );
 };
 
 const connectedProgramListItem = connect(
   null,
-  null
+  { setNotification }
 )(ProgramListItem);
 
 export default connectedProgramListItem;

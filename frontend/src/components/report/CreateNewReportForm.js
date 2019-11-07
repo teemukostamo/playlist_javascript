@@ -11,7 +11,9 @@ import {
   Input,
   Dropdown,
   Container,
-  Grid
+  Grid,
+  Popup,
+  Icon
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -35,7 +37,7 @@ const CreateNewReportForm = props => {
   console.log('create new report form props', props);
 
   // list of programoptions for select
-  let programOptions = props.programs.allPrograms.map(program => ({
+  let programOptions = props.programs.activePrograms.map(program => ({
     key: program.id,
     text: program.name,
     value: program.id
@@ -334,6 +336,13 @@ const CreateNewReportForm = props => {
     }
   };
 
+  const style = {
+    borderRadius: 0,
+    display: 'block',
+    opacity: 0.9,
+    padding: '2em'
+  };
+
   if (redirect && props.report.newReport !== null) {
     console.log('create new report for after submit props', props);
     console.log('redirecting to id', props.report.newReport.id);
@@ -344,11 +353,22 @@ const CreateNewReportForm = props => {
     <React.Fragment>
       <Grid.Column>
         <Container>
-          <Header>Luo uusi raportti</Header>
+          <Header as="h4">Luo uusi raportti</Header>
           <Form>
             <Form.Field>
               <label>
-                Ohjelma - jos ohjemasi ei löydy listalta, luo uusi ohjelma
+                Ohjelma{' '}
+                <Popup
+                  trigger={
+                    <Icon
+                      style={{ display: 'inline' }}
+                      name="question circle"
+                    />
+                  }
+                  content="Valitse ohjelma listalta. Jos ohjelmaasi ei löydy listalta niin klikkaa Luo uusi ohjelma, kirjoita ohjelmasi nimi ja jatka"
+                  style={style}
+                  inverted
+                />
               </label>
               <Dropdown
                 placeholder="Valitse ohjelma"

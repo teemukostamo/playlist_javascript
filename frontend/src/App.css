@@ -26,10 +26,15 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'RHFont-bold', sans-serif;
+  font-family: 'RHFont-semibold', sans-serif;
 }
 
 .rerun {
   color: red;
   font-style: italic;
+  padding-left: 1.5rem;
+}
+
+.active-program {
+  background-color: rgba(136, 247, 134, 0.3);
 }

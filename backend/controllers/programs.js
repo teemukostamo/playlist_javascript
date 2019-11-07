@@ -13,7 +13,7 @@ const getTokenFrom = req => {
 };
 
 // get all active programs
-programsRouter.get('/', async (req, res, next) => {
+programsRouter.get('/active', async (req, res, next) => {
   try {
     // see if token exists
     const token = getTokenFrom(req);
@@ -35,8 +35,31 @@ programsRouter.get('/', async (req, res, next) => {
   }
 });
 
+// get all programs
+programsRouter.get('/all', async (req, res, next) => {
+  try {
+    // see if token exists
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+
+    // const programs = await Program.findAll();
+    const programs = await db.query(
+      'SELECT * FROM playlist__program order by display desc, name asc',
+      {
+        type: db.QueryTypes.SELECT
+      }
+    );
+    res.json(programs);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 // get one program
-programsRouter.get('/:id', async (req, res, next) => {
+programsRouter.get('/getone/:id', async (req, res, next) => {
   try {
     // see if token exists
     const token = getTokenFrom(req);
@@ -69,12 +92,39 @@ programsRouter.post('/', async (req, res, next) => {
     console.log(req.body);
     const savedProgram = await Program.create({
       user_id: req.body.user_id,
+      identifier: req.body.identifier,
       name: req.body.name,
       display: 1,
       site: 1
     });
     console.log(savedProgram);
     res.status(201).json(savedProgram);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// update program
+programsRouter.put('/', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    let { id, name, identifier, site, display } = req.body;
+
+    const programToUpdate = await Program.update(
+      {
+        name,
+        identifier,
+        site,
+        display
+      },
+      { where: { id: id } }
+    );
+    console.log(programToUpdate);
+    res.status(200).json(programToUpdate);
   } catch (exception) {
     next(exception);
   }

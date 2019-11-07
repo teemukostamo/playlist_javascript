@@ -24,7 +24,7 @@ const InProgressReportsList = props => {
     return (
       <Grid.Column>
         <Container>
-          <Header>Omat keskeneräiset raportit</Header>
+          <h3>Omat keskeneräiset raportit</h3>
           ei keskeneräisiä raportteja
         </Container>
       </Grid.Column>
