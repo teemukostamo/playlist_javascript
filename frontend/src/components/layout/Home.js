@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Container, Grid, Dimmer, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import CreateNewReportForm from '../report/CreateNewReportForm';

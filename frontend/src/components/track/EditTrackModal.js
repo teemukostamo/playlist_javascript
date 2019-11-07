@@ -5,6 +5,10 @@ import {
   removeCurrentTrack,
   updateTrack
 } from '../../actions/trackActions';
+import {
+  getCatIdFromDiscogs,
+  clearDiscogsCatId
+} from '../../actions/searchActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import {
   Modal,
@@ -58,9 +62,20 @@ const EditTrackModal = props => {
     }
     // eslint-disable-next-line
   }, [props.report.currentTrack]);
+
+  useEffect(() => {
+    setCatId(props.search.discogsCatId);
+  }, [props.search.discogsCatId]);
+
   const handleOpen = () => {
     props.getOneTrack(props.id);
     setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    props.removeCurrentTrack();
+    props.clearDiscogsCatId();
+    setModalOpen(false);
   };
 
   if (props.report.currentTrack === null) {
@@ -414,15 +429,16 @@ const EditTrackModal = props => {
     setRecordCountry(value);
   };
 
-  const handleClose = () => {
-    props.removeCurrentTrack();
-
-    setModalOpen(false);
+  const getDiscogs = () => {
+    const query = {
+      artist,
+      album
+    };
+    props.getCatIdFromDiscogs(query);
   };
+
   let minutes = Math.floor(props.report.currentTrack[0].length / 60);
   let seconds = props.report.currentTrack[0].length % 60;
-  console.log(minutes);
-  console.log(seconds);
   return (
     <Modal
       open={modalOpen}
@@ -558,9 +574,17 @@ const EditTrackModal = props => {
             />
           </Form.Field>
           <Form.Field required>
-            <label>Levykoodi</label>
+            <label style={{ display: 'inline' }}>Levykoodi</label>
+            <Button
+              onClick={e => getDiscogs(e.preventDefault())}
+              size="mini"
+              floated="right"
+              style={{ marginBottom: '0.3rem' }}
+            >
+              Hae levykoodi Discogsista
+            </Button>
             <Input
-              defaultValue={props.report.currentTrack[0].cat_id}
+              defaultValue={catId}
               type="text"
               placeholder="Levykoodi..."
               onChange={e => setCatId(e.target.value)}
@@ -622,12 +646,20 @@ const mapStateToProps = state => {
   return {
     report: state.report,
     reportsList: state.reportsList,
-    login: state.login
+    login: state.login,
+    search: state.search
   };
 };
 const connectedEditTrackModal = connect(
   mapStateToProps,
-  { setNotification, getOneTrack, removeCurrentTrack, updateTrack }
+  {
+    setNotification,
+    getOneTrack,
+    removeCurrentTrack,
+    updateTrack,
+    getCatIdFromDiscogs,
+    clearDiscogsCatId
+  }
 )(EditTrackModal);
 
 export default connectedEditTrackModal;

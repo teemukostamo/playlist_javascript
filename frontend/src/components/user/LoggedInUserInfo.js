@@ -1,27 +1,17 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import ModalNotification from '../layout/ModalNotification';
 import { updateUser } from '../../actions/userActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import ModalNotification from '../layout/ModalNotification';
+import { Modal, Header, Form, Button, Input } from 'semantic-ui-react';
 
-import {
-  Modal,
-  Header,
-  Form,
-  Button,
-  Input,
-  Dropdown
-} from 'semantic-ui-react';
-
-const EditUserModal = props => {
+const LoggedInUserModal = props => {
   const [modalOpen, setModalOpen] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState(props.user.first_name);
-  const [lastName, setLastName] = useState(props.user.last_name);
-  const [email, setEmail] = useState(props.user.email);
-  const [level, setLevel] = useState(props.user.level);
-  const [status, setStatus] = useState(props.user.status);
+  const [firstName, setFirstName] = useState(props.login.first_name);
+  const [lastName, setLastName] = useState(props.login.last_name);
+  const [email, setEmail] = useState(props.login.email);
 
   const handleOpen = () => {
     setModalOpen(true);
@@ -35,17 +25,15 @@ const EditUserModal = props => {
       props.setNotification('Tarkasta salasanat!', 'fail');
     } else {
       const userToUpdate = {
-        id: props.user.id,
+        id: props.login.id,
         password,
         first_name: firstName,
         last_name: lastName,
-        email,
-        level,
-        status
+        email
       };
       console.log('updting info', userToUpdate);
-      handleClose();
-      props.updateUser(userToUpdate);
+      // handleClose();
+      // props.updateUser(userToUpdate);
     }
     // if (!firstName || !lastName) {
     //   props.setNotification(
@@ -53,64 +41,18 @@ const EditUserModal = props => {
     //     'fail'
     //   );
     // }
-
-    // props.updateUser(userToUpdate);
-  };
-
-  const levelOptions = [
-    {
-      key: 1,
-      text: 'DJ',
-      value: 1
-    },
-    {
-      key: 2,
-      text: 'Toimitus',
-      value: 2
-    },
-    {
-      key: 3,
-      text: 'Admin',
-      value: 3
-    }
-  ];
-  const getLevel = (event, { value }) => {
-    event.preventDefault();
-    setLevel(value);
-  };
-
-  const getStatus = () => {
-    console.log('getting status');
-    if (status === null) {
-      setStatus(1);
-    } else {
-      setStatus(null);
-    }
   };
 
   return (
     <Modal
-      trigger={
-        <a href="#!" onClick={handleOpen}>
-          {props.user.username}
-        </a>
-      }
+      trigger={<span onClick={handleOpen}>Omat tiedot</span>}
       closeIcon
       open={modalOpen}
       onClose={handleClose}
     >
-      <Header content="Muokkaa käyttäjän tietoja" />
+      <Header content="Muokkaa tietoja" />
       <Modal.Content>
         <Form onSubmit={updateUserClick}>
-          <Form.Field>
-            <label>Käyttäjätunnus</label>
-            <Input
-              defaultValue={props.user.username}
-              type="text"
-              placeholder="Käyttäjätunnus..."
-              disabled
-            />
-          </Form.Field>
           <Form.Field>
             <ModalNotification />
             <label>Salasana - syötä vaihtaaksesi</label>
@@ -161,32 +103,6 @@ const EditUserModal = props => {
               onChange={e => setEmail(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
-            <label>Taso</label>
-            <Dropdown
-              selection
-              defaultValue={props.user.level}
-              options={levelOptions}
-              onChange={getLevel}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Tunnus käytössä</label>
-            <Form.Checkbox
-              name="active"
-              onChange={getStatus}
-              checked={status ? true : false}
-            />
-          </Form.Field>
-          {/* <Form.Field>
-            <label>Tila</label>
-            <Dropdown
-              selection
-              defaultValue={props.user.status}
-              options={statusOptions}
-              onChange={getStatus}
-            />
-          </Form.Field> */}
           <Button
             color="green"
             type="submit"
@@ -201,9 +117,16 @@ const EditUserModal = props => {
   );
 };
 
-const connectedEditUserModal = connect(
-  null,
-  { setNotification, updateUser }
-)(EditUserModal);
+const mapStateToProps = state => {
+  console.log('app state', state);
+  return {
+    login: state.login
+  };
+};
 
-export default connectedEditUserModal;
+const connectedLoggedInUserModal = connect(
+  mapStateToProps,
+  { setNotification, updateUser }
+)(LoggedInUserModal);
+
+export default connectedLoggedInUserModal;

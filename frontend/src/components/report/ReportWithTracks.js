@@ -4,7 +4,6 @@ import ReactDragListView from 'react-drag-listview/lib/index.js';
 import {
   Container,
   Table,
-  Segment,
   Dimmer,
   Loader,
   Button,

@@ -18,4 +18,11 @@ const getTracksForSearch = async query => {
   return request.data;
 };
 
-export default { setToken, getTracksForSearch };
+const getCatIdFromDiscogs = async query => {
+  const request = await axios.get(
+    `https://api.discogs.com/database/search?artist=${query.artist}&release_title=${query.album}&token=${process.env.REACT_APP_DISCOGS_TOKEN}`
+  );
+  return request.data;
+};
+
+export default { setToken, getTracksForSearch, getCatIdFromDiscogs };

@@ -138,6 +138,35 @@ export const createReport = newReport => async dispatch => {
   }
 };
 
+export const copyReport = (
+  reportDetailsToCopy,
+  reportTracksToCopy
+) => async dispatch => {
+  dispatch({
+    type: SET_LOADING
+  });
+  const report = await reportService.createReport(reportDetailsToCopy);
+  dispatch({
+    type: CREATE_REPORT,
+    data: report
+  });
+  reportTracksToCopy.forEach(async track => {
+    const trackToAdd = {
+      ...track,
+      report_id: report.id,
+      report_track_id: null
+    };
+    let newTrack = await reportService.addTrackToReport(trackToAdd);
+    console.log('add track to report track', newTrack);
+  });
+  const newReport = await reportService.getOne(report.id);
+  console.log('reportactions', report);
+  dispatch({
+    type: GET_ONE_REPORT,
+    data: newReport
+  });
+};
+
 export const updateReport = updatedReport => async dispatch => {
   try {
     dispatch({

@@ -6,7 +6,7 @@ import Notification from '../layout/Notification';
 import { getOneReport } from '../../actions/reportActions';
 import { getAllReportsByDate } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { Container, Table, Dimmer, Segment, Loader } from 'semantic-ui-react';
+import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
 import moment from 'moment';
 
 const ReportList = props => {

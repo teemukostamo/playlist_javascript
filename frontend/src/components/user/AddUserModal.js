@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 // import { createUser } from '../../actions/userActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import {
-  Modal,
-  Header,
-  Form,
-  Button,
-  Input,
-  Popup,
-  Icon
-} from 'semantic-ui-react';
+import { Modal, Header, Form, Button, Input } from 'semantic-ui-react';
 
 const AddUserModal = props => {
   const [modalOpen, setModalOpen] = useState(false);

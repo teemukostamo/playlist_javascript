@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import {
+  getCatIdFromDiscogs,
+  clearDiscogsCatId
+} from '../../actions/searchActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import { addNewTrack } from '../../actions/trackActions';
 import {
@@ -30,6 +34,13 @@ const AddTrackModal = props => {
   const [catId, setCatId] = useState('');
   const [isrc, setIsrc] = useState('');
   const [comment, setComment] = useState('');
+  useEffect(() => {
+    if (props.search.discogsCatId === null) {
+      setCatId('');
+    } else {
+      setCatId(props.search.discogsCatId);
+    }
+  }, [props.search.discogsCatId]);
 
   const submitTrack = () => {
     console.log('klikd submit track');
@@ -337,6 +348,13 @@ const AddTrackModal = props => {
   const handleClose = () => {
     setModalOpen(false);
   };
+  const getDiscogs = () => {
+    const query = {
+      artist,
+      album
+    };
+    props.getCatIdFromDiscogs(query);
+  };
   return (
     <Modal
       open={modalOpen}
@@ -351,13 +369,8 @@ const AddTrackModal = props => {
       <Header content="Lisää uusi biisi" />
       <Modal.Content>
         <Form onSubmit={submitTrack}>
-          <Form.Field>
-            <label>
-              Artisti{' '}
-              <span style={{ color: 'red' }}>
-                <strong>*</strong>
-              </span>
-            </label>
+          <Form.Field required>
+            <label>Artisti </label>
             <Input
               value={artist}
               type="text"
@@ -365,13 +378,8 @@ const AddTrackModal = props => {
               onChange={e => setArtist(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
-            <label>
-              Albumi
-              <span style={{ color: 'red' }}>
-                <strong>*</strong>
-              </span>
-            </label>
+          <Form.Field required>
+            <label>Albumi</label>
             <Input
               value={album}
               type="text"
@@ -379,13 +387,8 @@ const AddTrackModal = props => {
               onChange={e => setAlbum(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
-            <label>
-              Biisi
-              <span style={{ color: 'red' }}>
-                <strong>*</strong>
-              </span>
-            </label>
+          <Form.Field required>
+            <label>Biisi</label>
             <Input
               value={track}
               type="text"
@@ -394,13 +397,8 @@ const AddTrackModal = props => {
             />
           </Form.Field>
           <Form.Group widths="equal">
-            <Form.Field>
-              <label>
-                Kesto - minuutit
-                <span style={{ color: 'red' }}>
-                  <strong>*</strong>
-                </span>
-              </label>
+            <Form.Field required>
+              <label>Kesto - minuutit</label>
               <Input
                 maxLength={4}
                 value={min}
@@ -409,13 +407,8 @@ const AddTrackModal = props => {
                 onChange={e => setMin(e.target.value)}
               />
             </Form.Field>
-            <Form.Field>
-              <label>
-                Kesto - sekunnit
-                <span style={{ color: 'red' }}>
-                  <strong>*</strong>
-                </span>
-              </label>
+            <Form.Field required>
+              <label>Kesto - sekunnit</label>
               <Input
                 value={sec}
                 maxLength={2}
@@ -426,13 +419,8 @@ const AddTrackModal = props => {
             </Form.Field>
           </Form.Group>
           <Form.Group widths="equal">
-            <Form.Field>
-              <label>
-                Levy#
-                <span style={{ color: 'red' }}>
-                  <strong>*</strong>
-                </span>
-              </label>
+            <Form.Field required>
+              <label>Levy#</label>
               <Input
                 maxLength={2}
                 value={discNo}
@@ -441,13 +429,8 @@ const AddTrackModal = props => {
                 onChange={e => setDiscNo(e.target.value)}
               />
             </Form.Field>
-            <Form.Field>
-              <label>
-                Biisi#
-                <span style={{ color: 'red' }}>
-                  <strong>*</strong>
-                </span>
-              </label>
+            <Form.Field required>
+              <label>Biisi#</label>
               <Input
                 value={trackNo}
                 maxLength={2}
@@ -508,13 +491,16 @@ const AddTrackModal = props => {
               onChange={e => setLabel(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
-            <label>
-              Levykoodi
-              <span style={{ color: 'red' }}>
-                <strong>*</strong>
-              </span>
-            </label>
+          <Form.Field required>
+            <label style={{ display: 'inline' }}>Levykoodi</label>
+            <Button
+              onClick={e => getDiscogs(e.preventDefault())}
+              size="mini"
+              floated="right"
+              style={{ marginBottom: '0.3rem' }}
+            >
+              Hae levykoodi Discogsista
+            </Button>
             <Input
               value={catId}
               type="text"
@@ -582,12 +568,13 @@ const mapStateToProps = state => {
   return {
     report: state.report,
     reportsList: state.reportsList,
-    login: state.login
+    login: state.login,
+    search: state.search
   };
 };
 const connectedAddTrackModal = connect(
   mapStateToProps,
-  { setNotification, addNewTrack }
+  { setNotification, addNewTrack, getCatIdFromDiscogs, clearDiscogsCatId }
 )(AddTrackModal);
 
 export default connectedAddTrackModal;

@@ -16,6 +16,7 @@ import SearchTrack from '../track/SearchTrack';
 import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
 import Togglable from '../layout/Togglable';
 import { updateReport } from '../../actions/reportActions';
+import { copyReport } from '../../actions/reportActions';
 
 const ReportDetails = props => {
   const [programId, setProgramId] = useState('');
@@ -392,6 +393,21 @@ const ReportDetails = props => {
   const copyReport = e => {
     e.preventDefault();
     console.log('klikd copy');
+    const reportDetailsToCopy = {
+      user_id: userId,
+      program_id: programId,
+      program_date: moment(programDate).format('YYYY-MM-DD'),
+      program_start_time: programStartTime,
+      program_end_time: programEndTime,
+      program_no: programNumber,
+      program_dj: dj,
+      status: status,
+      rerun: rerun
+    };
+    const reportTracksToCopy = props.report.report;
+    console.log(reportDetailsToCopy);
+    console.log(reportTracksToCopy);
+    props.copyReport(reportDetailsToCopy, reportTracksToCopy);
   };
   return (
     <div>
@@ -535,7 +551,7 @@ const mapStateToProps = state => {
 
 const connectedReportDetails = connect(
   mapStateToProps,
-  { updateReport }
+  { updateReport, copyReport }
 )(ReportDetails);
 
 export default connectedReportDetails;

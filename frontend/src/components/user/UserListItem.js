@@ -1,18 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import EditUserModal from './EditUserModal';
 import { setNotification } from '../../reducers/notificationReducer';
 import { setCurrent, updateUser } from '../../actions/userActions';
-import {
-  Table,
-  Modal,
-  Header,
-  Form,
-  Button,
-  Input,
-  Icon
-} from 'semantic-ui-react';
+import { Table, Icon } from 'semantic-ui-react';
 
 const UserListItem = props => {
   const onDelete = () => {

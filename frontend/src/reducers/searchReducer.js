@@ -1,4 +1,9 @@
-import { AUTOCOMPLETE_RESULTS, SET_SEARCH_LOADING } from '../actions/types';
+import {
+  AUTOCOMPLETE_RESULTS,
+  GET_DISCOGS_CATID,
+  CLEAR_DISCOGS_CATID,
+  SET_SEARCH_LOADING
+} from '../actions/types';
 
 const initialState = {
   searchResults: [],
@@ -6,6 +11,7 @@ const initialState = {
   artistResults: null,
   albumResults: null,
   loading: false,
+  discogsCatId: null,
   error: null
 };
 
@@ -25,6 +31,16 @@ const searchReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true
+      };
+    case GET_DISCOGS_CATID:
+      return {
+        ...state,
+        discogsCatId: action.data
+      };
+    case CLEAR_DISCOGS_CATID:
+      return {
+        ...state,
+        discogsCatId: null
       };
     default:
       return state;

@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import LoggedInUserInfo from '../user/LoggedInUserInfo';
 import { logout } from '../../actions/loginActions';
 import { Link } from 'react-router-dom';
 import { Menu, Image, Dropdown, Icon } from 'semantic-ui-react';
 import logo from '../../img/logo.png';
 
 const Navbar = props => {
+  const getLoggedInUserInfo = () => {
+    return <LoggedInUserInfo />;
+  };
   const handleLogoutClick = () => {
     console.log('klikd logout');
     props.logout();
@@ -19,8 +23,9 @@ const Navbar = props => {
   const options = [
     {
       key: 'user',
-      text: 'Omat tiedot',
-      icon: 'user'
+      text: <LoggedInUserInfo />,
+      icon: 'user',
+      onClick: getLoggedInUserInfo
     },
     {
       key: 'sign-out',

@@ -40,6 +40,8 @@ export const UPDATE_PROGRAM = 'UPDATE_PROGRAM';
 // search actions
 export const AUTOCOMPLETE_RESULTS = 'AUTOCOMPLETE_RESULTS';
 export const SET_SEARCH_LOADING = 'SET_SEARCH_LOADING';
+export const GET_DISCOGS_CATID = 'GET_DISCOGS_CATID';
+export const CLEAR_DISCOGS_CATID = 'CLEAR_DISCOGS_CATID';
 
 // track actions
 export const ADD_NEW_TRACK = 'ADD_NEW_TRACK';

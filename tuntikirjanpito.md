@@ -48,4 +48,5 @@
 | 6.11.2019  |    3    |                    handle edit track backend, user icon to navbar                    |
 | 6.11.2019  | 2 (160) |               fonts, programs list, add new program to new report form               |
 | 6.11.2019  |    2    |    styles to distinquish in progress/finished/reruns, new program updates to list    |
-| 7.11.2019  |    4    |                add & edit program modals, refactoring edit user modal                |
+| 7.11.2019  |    5    |                add & edit program modals, refactoring edit user modal                |
+| 7.11.2019  |    3    |                         get catid from discogs, copy report                          |

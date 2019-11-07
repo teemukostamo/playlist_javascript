@@ -22,6 +22,8 @@ const LoginForm = ({ newLogin }) => {
   };
   return (
     <div>
+      <h1>RADIO HELSINKI - TEOSTORAPORTOINTI</h1>
+      <h3>Kirjaudu sisään</h3>
       <Notification />
       <Form onSubmit={handleLogin}>
         <Form.Field>

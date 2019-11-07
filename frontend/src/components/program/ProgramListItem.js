@@ -1,25 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import EditProgramModal from './EditProgramModal';
-import ModalNotification from '../layout/ModalNotification';
 import { setNotification } from '../../reducers/notificationReducer';
-import {
-  Table,
-  Container,
-  Dimmer,
-  Loader,
-  Modal,
-  Header,
-  Form,
-  Button,
-  Input,
-  Icon
-} from 'semantic-ui-react';
+import { Table, Container, Dimmer, Loader } from 'semantic-ui-react';
 
 const ProgramListItem = props => {
-  const onDelete = () => {
-    console.log('klikd delete');
-  };
   if (props.program === null) {
     return (
       <Container>

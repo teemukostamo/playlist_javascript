@@ -26,9 +26,9 @@ const App = props => {
   }, [props.login.token]);
 
   // handle logout redux
-  const handleLogout = () => {
-    props.logout();
-  };
+  // const handleLogout = () => {
+  //   props.logout();
+  // };
 
   console.log('app 74', props);
   if (props.login.user === null) {
