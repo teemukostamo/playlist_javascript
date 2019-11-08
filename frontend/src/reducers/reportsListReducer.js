@@ -3,8 +3,8 @@ import {
   GET_ALL_IN_PROGRESS,
   GET_ALL_REPORT_TRANSFERS,
   GENERATE_REPORT_TRANSFER,
-  SORT_BY_USER_ID,
-  SORT_BY_STATUS,
+  FILTER_BY_USER_ID,
+  FILTER_BY_STATUS,
   FILTER_BY_TEXT,
   SET_LOADING,
   REPORT_ERROR
@@ -19,7 +19,7 @@ const initialState = {
   loading: false,
   filterStatusValue: null,
   filterUserValue: null,
-  filterByText: null,
+  filterByText: '',
   error: null
 };
 
@@ -55,28 +55,32 @@ const reportListReducer = (state = initialState, action) => {
         lastTransfer: action.data,
         loading: false
       };
-    case SORT_BY_USER_ID:
+    case FILTER_BY_USER_ID:
       console.log('action id', action.data);
-      console.log('report list reducer state after sort by id action', state);
+      console.log('report list reducer state after FILTER by id action', state);
       return {
         ...state,
-        filterUserValue: action.data,
-        filterStatusValue: null
+        filterUserValue: action.data
       };
-    case SORT_BY_STATUS:
+    case FILTER_BY_STATUS:
       console.log('action id', action.data);
-      console.log('report list reducer state after sort by id action', state);
+      console.log('report list reducer state after FILTER by id action', state);
       return {
         ...state,
-        filterUserValue: null,
         filterStatusValue: action.data
       };
-    case FILTER_BY_TEXT: {
+    case FILTER_BY_TEXT:
       return {
         ...state,
+        // reportsToShow:
+        //   action.data.length === 0
+        //     ? state.reportsList
+        //     : state.reportsList.filter(r =>
+        //         r.name.toLowerCase().includes(action.data.toLowerCase())
+        //       ),
+
         filterByText: action.data
       };
-    }
     case SET_LOADING:
       return {
         ...state,

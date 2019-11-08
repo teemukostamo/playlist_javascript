@@ -38,10 +38,33 @@ const ReportList = props => {
     );
   }
 
+  let reportsToShow = props.reportsList.reportsList;
+
+  reportsToShow =
+    props.reportsList.filterByText === 0
+      ? (reportsToShow = reportsToShow)
+      : (reportsToShow = reportsToShow.filter(report =>
+          report.name
+            .toLowerCase()
+            .includes(props.reportsList.filterByText.toLowerCase())
+        ));
+  reportsToShow =
+    props.reportsList.filterUserValue === null
+      ? (reportsToShow = reportsToShow)
+      : (reportsToShow = reportsToShow.filter(
+          report => report.user_id === props.reportsList.filterUserValue
+        ));
+  reportsToShow =
+    props.reportsList.filterStatusValue === null
+      ? (reportsToShow = reportsToShow)
+      : (reportsToShow = reportsToShow.filter(
+          report => report.status === props.reportsList.filterStatusValue
+        ));
+
   return (
     <Container>
-      <Notification />
       <ReportFilterForm />
+      <Notification />
       <Table striped>
         <Table.Header>
           <Table.Row>
@@ -54,7 +77,7 @@ const ReportList = props => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {props.reportsList.reportsList.map(r => (
+          {reportsToShow.map(r => (
             <ReportListItem key={r.id} report={r} />
           ))}
         </Table.Body>

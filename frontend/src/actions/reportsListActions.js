@@ -3,8 +3,8 @@ import {
   GET_ALL_IN_PROGRESS,
   SET_LOADING,
   CLEAR_CURRENT_REPORT,
-  SORT_BY_USER_ID,
-  SORT_BY_STATUS,
+  FILTER_BY_USER_ID,
+  FILTER_BY_STATUS,
   FILTER_BY_TEXT
 } from './types';
 import reportService from '../services/reports';
@@ -67,18 +67,18 @@ export const deleteInProgressReport = params => async dispatch => {
   }
 };
 
-export const sortByUserId = id => dispatch => {
+export const filterByUserId = id => dispatch => {
   console.log('id to filter', id);
   dispatch({
-    type: SORT_BY_USER_ID,
+    type: FILTER_BY_USER_ID,
     data: id
   });
 };
 
-export const sortByStatus = status => dispatch => {
+export const filterByStatus = status => dispatch => {
   console.log('status to filter', status);
   dispatch({
-    type: SORT_BY_STATUS,
+    type: FILTER_BY_STATUS,
     data: status
   });
 };

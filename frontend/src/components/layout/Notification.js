@@ -10,6 +10,7 @@ const Notification = ({ notification }) => {
   if (notification.type === 'success') {
     return (
       <Message
+        floating
         success
         header={notification.message}
         // content="You may now log-in with the username you have chosen"
@@ -20,6 +21,7 @@ const Notification = ({ notification }) => {
   if (notification.type === 'fail') {
     return (
       <Message
+        floating
         negative
         header={notification.message}
         // content="You may now log-in with the username you have chosen"

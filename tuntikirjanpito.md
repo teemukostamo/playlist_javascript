@@ -50,3 +50,4 @@
 | 6.11.2019  |    2    |    styles to distinquish in progress/finished/reruns, new program updates to list    |
 | 7.11.2019  |    5    |                add & edit program modals, refactoring edit user modal                |
 | 7.11.2019  |    3    |                         get catid from discogs, copy report                          |
+| 8.11.2019  |    3    |                       report list filters, delete report popup                       |

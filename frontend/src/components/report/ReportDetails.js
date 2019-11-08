@@ -15,8 +15,10 @@ import moment from 'moment';
 import SearchTrack from '../track/SearchTrack';
 import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
 import Togglable from '../layout/Togglable';
+import Notification from '../layout/Notification';
 import { updateReport } from '../../actions/reportActions';
 import { copyReport } from '../../actions/reportActions';
+import { setNotification } from '../../reducers/notificationReducer';
 
 const ReportDetails = props => {
   const [programId, setProgramId] = useState('');
@@ -408,6 +410,12 @@ const ReportDetails = props => {
     console.log(reportDetailsToCopy);
     console.log(reportTracksToCopy);
     props.copyReport(reportDetailsToCopy, reportTracksToCopy);
+    props.setNotification(
+      `Raportti monistettu ajankohtaan ${moment(programDate).format(
+        'YYYY-MM-DD'
+      )}`,
+      'success'
+    );
   };
   return (
     <div>
@@ -463,6 +471,7 @@ const ReportDetails = props => {
 
                   <DatePicker
                     selected={programDate}
+                    disabledKeyboardNavigation={true}
                     dateFormat="yyyy-MM-dd"
                     onChange={date => setProgramDate(date)}
                   />
@@ -551,7 +560,7 @@ const mapStateToProps = state => {
 
 const connectedReportDetails = connect(
   mapStateToProps,
-  { updateReport, copyReport }
+  { updateReport, copyReport, setNotification }
 )(ReportDetails);
 
 export default connectedReportDetails;

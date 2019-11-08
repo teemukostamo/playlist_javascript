@@ -11,6 +11,7 @@ const GetDjOnlineTracks = props => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
 
+  console.log(endTime);
   const getStudioId = (e, { value }) => {
     e.preventDefault();
     setStudioId(value);
