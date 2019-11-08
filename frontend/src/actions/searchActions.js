@@ -71,7 +71,8 @@ export const getTop100 = query => async dispatch => {
     const results = await searchService.getTop100(query);
     dispatch({
       type: TOP_100,
-      data: results
+      data: results,
+      query
     });
   } catch (error) {
     console.log(error);

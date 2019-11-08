@@ -44,6 +44,7 @@ export const SET_SEARCH_LOADING = 'SET_SEARCH_LOADING';
 export const GET_DISCOGS_CATID = 'GET_DISCOGS_CATID';
 export const CLEAR_DISCOGS_CATID = 'CLEAR_DISCOGS_CATID';
 export const TOP_100 = 'TOP_100';
+export const TOP_100_QUERY = 'TOP_100_QUERY';
 
 // track actions
 export const ADD_NEW_TRACK = 'ADD_NEW_TRACK';

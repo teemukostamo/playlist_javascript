@@ -9,6 +9,7 @@ import {
 const initialState = {
   searchResults: [],
   top100: null,
+  top100Query: null,
   trackResults: null,
   artistResults: null,
   albumResults: null,
@@ -38,6 +39,7 @@ const searchReducer = (state = initialState, action) => {
       return {
         ...state,
         top100: action.data,
+        top100Query: action.query,
         loading: false
       };
     case GET_DISCOGS_CATID:

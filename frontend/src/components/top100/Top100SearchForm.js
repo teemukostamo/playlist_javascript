@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getTop100 } from '../../actions/searchActions';
-import {
-  Header,
-  Form,
-  Button,
-  Dropdown,
-  Segment,
-  Grid,
-  Dimmer,
-  Loader
-} from 'semantic-ui-react';
+import { Form, Button, Dropdown } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
 const Top100SearchForm = props => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(Date.now() - 7 * 24 * 3600 * 1000);
   const [endDate, setEndDate] = useState(new Date());
-  const [list, setList] = useState('');
+  const [list, setList] = useState('artist_id');
+  useEffect(() => {
+    const query = {
+      list,
+      start_date: moment()
+        .subtract(7, 'd')
+        .format('YYYY-MM-DD'),
+      end_date: moment(endDate).format('YYYY-MM-DD')
+    };
+    console.log(query);
+    props.getTop100(query);
+    // eslint-disable-next-line
+  }, []);
+  console.log('start date', startDate);
 
   const handleSearch = () => {
     const query = {
@@ -59,7 +63,7 @@ const Top100SearchForm = props => {
           <Dropdown
             openOnFocus
             selection
-            defaultValue={'artist_id'}
+            defaultValue={list}
             options={listOptions}
             onChange={getListOptions}
           />{' '}

@@ -54,7 +54,7 @@ const Navbar = props => {
         </Link>
       </Menu.Item>
       <Menu.Item link>
-        <Link to="/">
+        <Link to="/search">
           <h4>HAKU</h4>
         </Link>
       </Menu.Item>
