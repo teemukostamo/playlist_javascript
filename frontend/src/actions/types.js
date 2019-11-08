@@ -29,6 +29,7 @@ export const DOWNLOAD_REPORT = 'DOWNLOAD_REPORT';
 export const FILTER_BY_USER_ID = 'FILTER_BY_USER_ID';
 export const FILTER_BY_STATUS = 'FILTER_BY_STATUS';
 export const FILTER_BY_TEXT = 'FILTER_BY_TEXT';
+export const SET_EDIT_TRACK_ID = 'SET_EDIT_TRACK_ID';
 
 // program actions
 export const GET_ALL_PROGRAMS = 'GET_ALL_PROGRAMS';
@@ -42,6 +43,7 @@ export const AUTOCOMPLETE_RESULTS = 'AUTOCOMPLETE_RESULTS';
 export const SET_SEARCH_LOADING = 'SET_SEARCH_LOADING';
 export const GET_DISCOGS_CATID = 'GET_DISCOGS_CATID';
 export const CLEAR_DISCOGS_CATID = 'CLEAR_DISCOGS_CATID';
+export const TOP_100 = 'TOP_100';
 
 // track actions
 export const ADD_NEW_TRACK = 'ADD_NEW_TRACK';

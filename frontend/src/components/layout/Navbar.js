@@ -49,7 +49,7 @@ const Navbar = props => {
         </Link>
       </Menu.Item>
       <Menu.Item link>
-        <Link to="/">
+        <Link to="/top100">
           <h4>TOP 100</h4>
         </Link>
       </Menu.Item>

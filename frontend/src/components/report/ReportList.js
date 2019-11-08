@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ReportFilterForm from './ReportFilterForm';
+import FilterReportList from './FilterReportList';
 import ReportListItem from './ReportListItem';
 import Notification from '../layout/Notification';
 import { getOneReport } from '../../actions/reportActions';
@@ -38,6 +39,15 @@ const ReportList = props => {
     );
   }
 
+  let reportListTimeDate;
+  if (props.reportsList.reportListDate === null) {
+    reportListTimeDate = moment().format('MMMM YYYY');
+  } else {
+    reportListTimeDate = moment(props.reportsList.reportListDate).format(
+      'MMMM YYYY'
+    );
+  }
+
   let reportsToShow = props.reportsList.reportsList;
 
   reportsToShow =
@@ -65,6 +75,8 @@ const ReportList = props => {
     <Container>
       <ReportFilterForm />
       <Notification />
+      <h3>Raportit {reportListTimeDate}</h3>
+      <FilterReportList />
       <Table striped>
         <Table.Header>
           <Table.Row>

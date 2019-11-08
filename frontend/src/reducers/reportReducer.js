@@ -4,6 +4,7 @@ import {
   GET_DJONLINE_TRACKS,
   ADD_NEW_TRACK,
   UPDATE_TRACK,
+  SET_EDIT_TRACK_ID,
   GET_ONE_TRACK,
   REMOVE_CURRENT_TRACK,
   DELETE_TRACK_FROM_REPORT,
@@ -19,6 +20,7 @@ import {
 const initialState = {
   report: [],
   djonline: null,
+  editTrackId: null,
   reportDetails: null,
   newReport: null,
   loading: false,
@@ -59,6 +61,11 @@ const reportReducer = (state = initialState, action) => {
           track.track_id === action.data.track_id ? action.data : track
         ),
         loading: false
+      };
+    case SET_EDIT_TRACK_ID:
+      return {
+        ...state,
+        editTrackId: action.data
       };
     case GET_ONE_TRACK:
       return {

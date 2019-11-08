@@ -353,7 +353,7 @@ const CreateNewReportForm = props => {
     <React.Fragment>
       <Grid.Column>
         <Container>
-          <Header as="h4">Luo uusi raportti</Header>
+          <h3>Luo uusi raportti</h3>
           <Form>
             <Form.Field>
               <label>
@@ -444,13 +444,13 @@ const CreateNewReportForm = props => {
             </Form.Group>
             <Form.Group widths="equal">
               <Button
-                // disabled={
-                //   !programId ||
-                //   !programDate ||
-                //   !programStartTime ||
-                //   !programEndTime ||
-                //   !dj
-                // }
+                disabled={
+                  !programId ||
+                  !programDate ||
+                  !programStartTime ||
+                  !programEndTime ||
+                  !dj
+                }
                 color="green"
                 onClick={createReport}
               >

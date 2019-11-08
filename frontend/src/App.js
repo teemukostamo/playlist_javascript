@@ -10,6 +10,7 @@ import ReportList from './components/report/ReportList';
 import ProgramList from './components/program/ProgramList';
 import LoginForm from './components/login/LoginForm';
 import ReportTransferList from './components/report/ReportTransferList';
+import Top100List from './components/top100/Top100List';
 import { Container } from 'semantic-ui-react';
 import { initializeUser, logout } from './actions/loginActions';
 import { initializeUsers } from './actions/userActions';
@@ -68,6 +69,7 @@ const App = props => {
           }}
         />
         <Route exact path="/programs" component={ProgramList} />
+        <Route exact path="/top100" component={Top100List} />
         <Route exact path="/users" component={UserList} />
       </Switch>
     </Router>

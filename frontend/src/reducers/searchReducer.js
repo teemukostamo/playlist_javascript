@@ -2,11 +2,13 @@ import {
   AUTOCOMPLETE_RESULTS,
   GET_DISCOGS_CATID,
   CLEAR_DISCOGS_CATID,
+  TOP_100,
   SET_SEARCH_LOADING
 } from '../actions/types';
 
 const initialState = {
   searchResults: [],
+  top100: null,
   trackResults: null,
   artistResults: null,
   albumResults: null,
@@ -31,6 +33,12 @@ const searchReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true
+      };
+    case TOP_100:
+      return {
+        ...state,
+        top100: action.data,
+        loading: false
       };
     case GET_DISCOGS_CATID:
       return {

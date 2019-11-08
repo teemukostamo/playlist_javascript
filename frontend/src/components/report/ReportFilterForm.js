@@ -16,17 +16,6 @@ const ReportFilterForm = props => {
   const [status, setStatus] = useState(null);
   const [filterText, setFilterText] = useState('');
 
-  useEffect(() => {
-    props.filterByUserId(userId);
-    props.filterByStatus(status);
-    props.filterByText(filterText);
-    console.log('user id', userId);
-    console.log('filterText', filterText);
-    console.log('status', status);
-    // eslint-disable-next-line
-  }, [userId, status, filterText]);
-  // console.log(filterText);
-
   if (props.users.users === null) {
     return <div>loading</div>;
   }
@@ -112,37 +101,7 @@ const ReportFilterForm = props => {
     value: option
   }));
   yearOptions = yearOptions.reverse();
-  const userOptions = props.users.users.map(user => ({
-    key: user.id,
-    text: `${user.first_name} ${user.last_name}`,
-    value: user.id
-  }));
-  const addAllToUserOptions = [
-    {
-      key: 0,
-      text: 'Kaikki',
-      value: null
-    },
-    ...userOptions
-  ];
-  // status options
-  const statusOptions = [
-    {
-      key: '2',
-      text: 'Kaikki',
-      value: null
-    },
-    {
-      key: '0',
-      text: 'Keskeneräinen',
-      value: 0
-    },
-    {
-      key: '1',
-      text: 'Valmis',
-      value: 1
-    }
-  ];
+
   const getReportsByMonth = () => {
     const date = reportYear + '-' + reportMonth;
     console.log(date);
@@ -162,23 +121,7 @@ const ReportFilterForm = props => {
     event.preventDefault();
     setReportYear(value);
   };
-  const getUser = (e, { value }) => {
-    e.preventDefault();
-    setUserId(value);
-    // console.log('user id', userId);
-    // props.filterByUserId(userId);
-  };
-  const getStatus = (event, { value }) => {
-    event.preventDefault();
-    setStatus(value);
-    console.log('tila', status);
-    props.filterByStatus(status);
-  };
-  const getFilteredByText = (event, { value }) => {
-    event.preventDefault();
-    setFilterText(value);
-    props.filterByText(filterText);
-  };
+
   return (
     <React.Fragment>
       <Form>
@@ -202,42 +145,10 @@ const ReportFilterForm = props => {
               onChange={getYear}
             />{' '}
           </Form.Field>
-          <Form.Field></Form.Field>
-          <Form.Field></Form.Field>
-        </Form.Group>
-
-        <Form.Field>
-          <Button color="blue" onClick={() => getReportsByMonth()}>
-            HAE
-          </Button>
-        </Form.Field>
-        <Form.Group widths="equal">
           <Form.Field>
-            <Input
-              type="text"
-              placeholder="Tekstisuodatus"
-              onChange={getFilteredByText}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Dropdown
-              placeholder="Käyttäjä"
-              openOnFocus
-              search
-              selection
-              options={addAllToUserOptions}
-              onChange={getUser}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Dropdown
-              placeholder="Tila"
-              openOnFocus
-              selection
-              search
-              options={statusOptions}
-              onChange={getStatus}
-            />{' '}
+            <Button color="blue" onClick={() => getReportsByMonth()}>
+              HAE
+            </Button>
           </Form.Field>
           <Form.Field></Form.Field>
         </Form.Group>

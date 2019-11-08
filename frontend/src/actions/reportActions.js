@@ -1,6 +1,7 @@
 import {
   GET_ONE_REPORT,
   GET_REPORT_DETAILS,
+  SET_EDIT_TRACK_ID,
   CREATE_REPORT,
   UPDATE_REPORT,
   CHECK_FOR_DELETE,
@@ -31,6 +32,13 @@ export const getOneReport = id => async dispatch => {
     //   payload: error.response.data
     // });
   }
+};
+
+export const setEditTrackId = id => async dispatch => {
+  dispatch({
+    type: SET_EDIT_TRACK_ID,
+    data: id
+  });
 };
 
 // add track to a report

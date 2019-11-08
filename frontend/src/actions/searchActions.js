@@ -1,6 +1,7 @@
 import {
   AUTOCOMPLETE_RESULTS,
   SET_SEARCH_LOADING,
+  TOP_100,
   GET_DISCOGS_CATID,
   CLEAR_DISCOGS_CATID
 } from './types';
@@ -56,6 +57,21 @@ export const clearDiscogsCatId = () => async dispatch => {
   try {
     dispatch({
       type: CLEAR_DISCOGS_CATID
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getTop100 = query => async dispatch => {
+  try {
+    dispatch({
+      type: SET_SEARCH_LOADING
+    });
+    const results = await searchService.getTop100(query);
+    dispatch({
+      type: TOP_100,
+      data: results
     });
   } catch (error) {
     console.log(error);

@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteInProgressReport } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { Table, Icon, Loader, Dimmer } from 'semantic-ui-react';
+import { Table, Icon, Loader, Dimmer, Confirm } from 'semantic-ui-react';
 
-const inProgressReportListItem = ({
+const InProgressReportListItem = ({
   report,
   reportsList,
   login,
   deleteInProgressReport,
   setNotification
 }) => {
+  const [open, setOpen] = useState(false);
   if (reportsList.loading === true) {
     return (
       <Dimmer active inverted>
@@ -19,18 +20,25 @@ const inProgressReportListItem = ({
       </Dimmer>
     );
   }
-  const onDelete = () => {
+
+  const cancelDelete = () => {
+    setOpen(false);
+  };
+  const confirmDelete = () => {
+    setOpen(false);
     const params = {
       report_id: report.id,
       user_id: login.id
     };
     console.log(`klikd delete on report`, params);
     deleteInProgressReport(params);
+    console.log('clikd delete on report', report.id);
     setNotification(
-      `Raportti ${report.name} ${report.program_date} poistettu`,
+      `${report.name} ${report.program_date} poistettu!`,
       'success'
     );
   };
+
   console.log(report, login, reportsList);
   return (
     <React.Fragment>
@@ -42,7 +50,13 @@ const inProgressReportListItem = ({
         <Table.Cell>{report.program_no}</Table.Cell>
         <Table.Cell>
           {' '}
-          <Icon color="red" onClick={onDelete} name="delete" />
+          <Icon color="red" onClick={() => setOpen(true)} name="delete" />
+          <Confirm
+            content={`Haluatko varmasti poistaa raportin ${report.name} ${report.program_date}`}
+            open={open}
+            onCancel={cancelDelete}
+            onConfirm={confirmDelete}
+          />
         </Table.Cell>
       </Table.Row>
     </React.Fragment>
@@ -59,6 +73,6 @@ const mapStateToProps = state => {
 const connectedInProgressReportListItem = connect(
   mapStateToProps,
   { deleteInProgressReport, setNotification }
-)(inProgressReportListItem);
+)(InProgressReportListItem);
 
 export default connectedInProgressReportListItem;

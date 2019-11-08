@@ -15,6 +15,7 @@ import {
   deleteChecked,
   updateSortableRank
 } from '../../actions/reportActions';
+import { getOneTrack } from '../../actions/trackActions';
 import ReportWithTracksItem from './ReportWithTracksItem';
 import ReportDetails from './ReportDetails';
 
@@ -50,6 +51,11 @@ const ReportWithTracks = props => {
     props.updateSortableRank(dragState, props.id);
     // eslint-disable-next-line
   }, [dragState]);
+
+  // get track details after edit click
+  // useEffect(() => {
+  //   props.getOneTrack(props.report.editTrackId);
+  // }, [props.report.editTrackId]);
 
   const array = props.report.report;
   console.log('array', array);
@@ -155,7 +161,13 @@ const mapStateToProps = state => {
 
 const connectedReportWithTracks = connect(
   mapStateToProps,
-  { getOneReport, getReportDetails, deleteChecked, updateSortableRank }
+  {
+    getOneReport,
+    getReportDetails,
+    getOneTrack,
+    deleteChecked,
+    updateSortableRank
+  }
 )(ReportWithTracks);
 
 export default connectedReportWithTracks;

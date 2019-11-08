@@ -13,6 +13,7 @@ const reportDetailsRouter = require('./controllers/reportdetails');
 const reportTransferRouter = require('./controllers/reporttransfer');
 const programsRouter = require('./controllers/programs');
 const searchRouter = require('./controllers/search');
+const top100Router = require('./controllers/top100');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 const middleware = require('./config/middleware');
@@ -64,6 +65,7 @@ app.use('/api/reportdetails', reportDetailsRouter);
 app.use('/api/reporttransfer', reportTransferRouter);
 app.use('/api/programs', programsRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/top100', top100Router);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 

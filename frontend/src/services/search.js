@@ -25,4 +25,15 @@ const getCatIdFromDiscogs = async query => {
   return request.data;
 };
 
-export default { setToken, getTracksForSearch, getCatIdFromDiscogs };
+const getTop100 = async query => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.get(
+    `/api/top100?list=${query.list}&start_date=${query.start_date}&end_date=${query.end_date}`,
+    config
+  );
+  return request.data;
+};
+
+export default { setToken, getTracksForSearch, getCatIdFromDiscogs, getTop100 };
