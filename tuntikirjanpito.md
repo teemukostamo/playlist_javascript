@@ -53,3 +53,4 @@
 | 8.11.2019  |    3    |                       report list filters, delete report popup                       |
 | 8.11.2019  |    3    |                                       top 100                                        |
 | 8.11.2019  |    2    |                               top 100, search frontend                               |
+| 11.11.2019 |    4    |                   refactoring edit user modal, artist details page                   |

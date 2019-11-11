@@ -2,6 +2,7 @@ import {
   INIT_USERS_LIST,
   SET_LOADING,
   SET_CURRENT,
+  CREATE_USER,
   UPDATE_USER
 } from '../actions/types';
 
@@ -31,6 +32,12 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         current: action.payload,
+        loading: false
+      };
+    case CREATE_USER:
+      return {
+        ...state,
+        users: [...state.users, action.data],
         loading: false
       };
     case UPDATE_USER:

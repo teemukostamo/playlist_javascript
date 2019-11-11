@@ -43,9 +43,7 @@ const Top100List = props => {
             {props.search.top100.map(t => (
               <Table.Row key={t.track_id}>
                 <Table.Cell>
-                  <Link to="#" onClick={() => handleArtistModal(t.artist_id)}>
-                    {t.artist}
-                  </Link>
+                  <Link to={`/artist/${t.artist_id}`}>{t.artist}</Link>
                 </Table.Cell>
                 <Table.Cell>{t.count}</Table.Cell>
               </Table.Row>

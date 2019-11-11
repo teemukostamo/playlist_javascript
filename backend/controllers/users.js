@@ -115,15 +115,36 @@ usersRouter.put('/:id', async (req, res, next) => {
     if (!token || !decodedToken.id) {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
-
     const body = req.body;
-
     let { first_name, last_name, email, status, level, last_seen } = body;
 
     // req body password is empty string, only update other info
-    if (req.body.password === '') {
+    if (
+      req.body.password === undefined ||
+      req.body.password === null ||
+      req.body.password === ''
+    ) {
       const updatedUser = await User.update(
         {
+          first_name,
+          last_name,
+          email,
+          status,
+          level,
+          last_seen
+        },
+        { where: { id: req.body.id } }
+      );
+      console.log(updatedUser);
+      res.status(200).json(`${updatedUser[0]} rows affected`);
+    } else {
+      // hash password
+      const saltRounds = 10;
+      const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
+
+      const updatedUser = await User.update(
+        {
+          password: passwordHash,
           first_name,
           last_name,
           email,
@@ -136,25 +157,6 @@ usersRouter.put('/:id', async (req, res, next) => {
       console.log(updatedUser);
       res.status(200).json(`${updatedUser[0]} rows affected`);
     }
-    // hash password
-
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
-
-    const updatedUser = await User.update(
-      {
-        password: passwordHash,
-        first_name,
-        last_name,
-        email,
-        status,
-        level,
-        last_seen
-      },
-      { where: { id: req.params.id } }
-    );
-    console.log(updatedUser);
-    res.status(200).json(`${updatedUser[0]} rows affected`);
   } catch (exception) {
     next(exception);
   }

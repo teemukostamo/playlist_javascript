@@ -8,6 +8,7 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const INIT_USERS_LIST = 'INIT_USERS_LIST';
 export const USER_ERROR = 'USER_ERROR';
 export const SET_CURRENT = 'SET_CURRENT';
+export const CREATE_USER = 'CREATE_USER';
 export const UPDATE_USER = 'UPDATE_USER';
 
 // report actions
@@ -51,6 +52,9 @@ export const ADD_NEW_TRACK = 'ADD_NEW_TRACK';
 export const UPDATE_TRACK = 'UPDATE_TRACK';
 export const GET_ONE_TRACK = 'GET_ONE_TRACK';
 export const REMOVE_CURRENT_TRACK = 'REMOVE_CURRENT_TRACK';
+
+// artist actions
+export const GET_ONE_ARTIST = 'GET_ONE_ARTIST';
 
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';

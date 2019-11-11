@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+import artistReducer from './reducers/artistReducer';
 import loginReducer from './reducers/loginReducer';
 import notificationReducer from './reducers/notificationReducer';
 import reportReducer from './reducers/reportReducer';
@@ -11,6 +12,7 @@ import programReducer from './reducers/programReducer';
 import searchReducer from './reducers/searchReducer';
 
 const reducer = combineReducers({
+  artist: artistReducer,
   login: loginReducer,
   notification: notificationReducer,
   report: reportReducer,

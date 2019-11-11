@@ -21,7 +21,16 @@ const LoggedInUserModal = props => {
   };
 
   const updateUserClick = () => {
-    if (password !== confirmPassword || password.length <= 3) {
+    if (password.length === 0 && confirmPassword.length === 0) {
+      const userToUpdate = {
+        id: props.login.id,
+        first_name: firstName,
+        last_name: lastName,
+        email
+      };
+      console.log('updting info', userToUpdate);
+      props.updateUser(userToUpdate);
+    } else if (password !== confirmPassword || password.length <= 3) {
       props.setNotification('Tarkasta salasanat!', 'fail');
     } else {
       const userToUpdate = {
@@ -32,8 +41,8 @@ const LoggedInUserModal = props => {
         email
       };
       console.log('updting info', userToUpdate);
-      // handleClose();
-      // props.updateUser(userToUpdate);
+      handleClose();
+      props.updateUser(userToUpdate);
     }
     // if (!firstName || !lastName) {
     //   props.setNotification(

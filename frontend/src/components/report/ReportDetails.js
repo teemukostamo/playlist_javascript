@@ -453,7 +453,7 @@ const ReportDetails = props => {
               <Form.Field>
                 <label>Ohjelmanumero</label>
                 <Form.Input
-                  value={programNumber}
+                  defaultValue={programNumber}
                   onChange={e => setProgramNumber(e.target.value)}
                 />{' '}
               </Form.Field>

@@ -31,7 +31,19 @@ const EditUserModal = props => {
   };
 
   const updateUserClick = () => {
-    if (password !== confirmPassword || password.length <= 3) {
+    if (password.length === 0 && confirmPassword.length === 0) {
+      const userToUpdate = {
+        id: props.user.id,
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        level,
+        status
+      };
+      console.log('updting info', userToUpdate);
+      props.updateUser(userToUpdate);
+      handleClose();
+    } else if (password !== confirmPassword || password.length <= 3) {
       props.setNotification('Tarkasta salasanat!', 'fail');
     } else {
       const userToUpdate = {
@@ -44,8 +56,8 @@ const EditUserModal = props => {
         status
       };
       console.log('updting info', userToUpdate);
-      handleClose();
       props.updateUser(userToUpdate);
+      handleClose();
     }
     // if (!firstName || !lastName) {
     //   props.setNotification(
@@ -201,8 +213,15 @@ const EditUserModal = props => {
   );
 };
 
+const mapStateToProps = state => {
+  console.log('app state', state);
+  return {
+    login: state.login
+  };
+};
+
 const connectedEditUserModal = connect(
-  null,
+  mapStateToProps,
   { setNotification, updateUser }
 )(EditUserModal);
 

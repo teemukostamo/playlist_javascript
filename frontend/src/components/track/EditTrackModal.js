@@ -22,74 +22,82 @@ import {
 } from 'semantic-ui-react';
 
 const EditTrackModal = props => {
-  console.log(props);
   const [modalOpen, setModalOpen] = useState(false);
-  const [artist, setArtist] = useState('');
-  const [album, setAlbum] = useState('');
-  const [track, setTrack] = useState('');
-  const [min, setMin] = useState('');
-  const [sec, setSec] = useState('');
-  const [country, setCountry] = useState('');
-  const [recordCountry, setRecordCountry] = useState('');
-  const [people, setPeople] = useState('');
-  const [discNo, setDiscNo] = useState('');
-  const [trackNo, setTrackNo] = useState('');
-  const [year, setYear] = useState('');
-  const [label, setLabel] = useState('');
-  const [catId, setCatId] = useState('');
-  const [isrc, setIsrc] = useState('');
-  const [comment, setComment] = useState('');
+  const [artist, setArtist] = useState(props.track.artist_name);
+  const [album, setAlbum] = useState(props.track.album_name);
+  const [track, setTrack] = useState(props.track.track_title);
+  const [min, setMin] = useState(Math.floor(props.track.length / 60));
+  const [sec, setSec] = useState(props.track.length % 60);
+  const [country, setCountry] = useState(props.track.country);
+  const [recordCountry, setRecordCountry] = useState(
+    props.track.record_country
+  );
+  const [people, setPeople] = useState(props.track.people);
+  const [discNo, setDiscNo] = useState(props.track.disc_no);
+  const [trackNo, setTrackNo] = useState(props.track.track_no);
+  const [year, setYear] = useState(props.track.year);
+  const [label, setLabel] = useState(props.track.label);
+  const [catId, setCatId] = useState(props.track.cat_id);
+  console.log(props.track.cat_id);
+  console.log(catId);
+  const [isrc, setIsrc] = useState(props.track.isrc);
+  const [comment, setComment] = useState(props.track.comment);
+
+  // useEffect(() => {
+  //   if (props.report.currentTrack !== null) {
+  //     let minutes = Math.floor(props.report.currentTrack[0].length / 60);
+  //     let seconds = props.report.currentTrack[0].length % 60;
+  //     setArtist(props.report.currentTrack[0].artist);
+  //     setAlbum(props.report.currentTrack[0].album);
+  //     setTrack(props.report.currentTrack[0].track_title);
+  //     setMin(minutes);
+  //     setSec(seconds);
+  //     setCountry(props.report.currentTrack[0].country);
+  //     setRecordCountry(props.report.currentTrack[0].record_country);
+  //     setDiscNo(props.report.currentTrack[0].disc_no);
+  //     setTrackNo(props.report.currentTrack[0].track_no);
+  //     setYear(props.report.currentTrack[0].year);
+  //     setLabel(props.report.currentTrack[0].label);
+  //     setCatId(props.report.currentTrack[0].cat_id);
+  //     setIsrc(props.report.currentTrack[0].isrc);
+  //     setComment(props.report.currentTrack[0].comment);
+  //     setPeople(props.report.currentTrack[0].people);
+  //   }
+  //   // eslint-disable-next-line
+  // }, [props.report.currentTrack]);
+
+  //
 
   useEffect(() => {
-    if (props.report.currentTrack !== null) {
-      let minutes = Math.floor(props.report.currentTrack[0].length / 60);
-      let seconds = props.report.currentTrack[0].length % 60;
-      setArtist(props.report.currentTrack[0].artist);
-      setAlbum(props.report.currentTrack[0].album);
-      setTrack(props.report.currentTrack[0].track_title);
-      setMin(minutes);
-      setSec(seconds);
-      setCountry(props.report.currentTrack[0].country);
-      setRecordCountry(props.report.currentTrack[0].record_country);
-      setDiscNo(props.report.currentTrack[0].disc_no);
-      setTrackNo(props.report.currentTrack[0].track_no);
-      setYear(props.report.currentTrack[0].year);
-      setLabel(props.report.currentTrack[0].label);
-      setCatId(props.report.currentTrack[0].cat_id);
-      setIsrc(props.report.currentTrack[0].isrc);
-      setComment(props.report.currentTrack[0].comment);
-      setPeople(props.report.currentTrack[0].people);
+    if (catId === null) {
+      setCatId(props.search.discogsCatId);
     }
-    // eslint-disable-next-line
-  }, [props.report.currentTrack]);
-
-  useEffect(() => {
-    setCatId(props.search.discogsCatId);
   }, [props.search.discogsCatId]);
 
   const handleOpen = () => {
-    props.getOneTrack(props.id);
+    // props.getOneTrack(props.id);
     setModalOpen(true);
+    console.log(modalOpen);
   };
 
   const handleClose = () => {
-    props.removeCurrentTrack();
+    // props.removeCurrentTrack();
     props.clearDiscogsCatId();
     setModalOpen(false);
   };
 
-  if (props.report.currentTrack === null) {
-    return (
-      <Icon
-        style={{ cursor: 'pointer' }}
-        color="blue"
-        onClick={handleOpen}
-        name="edit"
-      />
-    );
-  }
+  // if (props.report.currentTrack === null) {
+  //   return (
+  //     <Icon
+  //       style={{ cursor: 'pointer' }}
+  //       color="blue"
+  //       onClick={handleOpen}
+  //       name="edit"
+  //     />
+  //   );
+  // }
 
-  if (props.report.loading) {
+  if (props.report.loading || !modalOpen) {
     return (
       <Modal
         open={modalOpen}
@@ -133,30 +141,30 @@ const EditTrackModal = props => {
       isrc,
       comment,
       user_id: props.login.id,
-      artist_id: props.report.currentTrack[0].artist_id,
-      album_id: props.report.currentTrack[0].album_id,
-      track_id: props.report.currentTrack[0].track_id,
+      artist_id: props.track.artist_id,
+      album_id: props.track.album_id,
+      track_id: props.track.track_id,
       sortable_rank: props.sortable_rank,
       report_track_id: props.report_track_id
     };
     console.log('updating track', trackToEdit);
     props.updateTrack(trackToEdit);
     handleClose();
-    setArtist(null);
-    setAlbum(null);
-    setTrack(null);
-    setMin(null);
-    setSec(null);
-    setCountry(null);
-    setRecordCountry(null);
-    setDiscNo(null);
-    setTrackNo(null);
-    setYear(null);
-    setLabel(null);
-    setCatId(null);
-    setIsrc(null);
-    setComment(null);
-    setPeople(null);
+    // setArtist(null);
+    // setAlbum(null);
+    // setTrack(null);
+    // setMin(null);
+    // setSec(null);
+    // setCountry(null);
+    // setRecordCountry(null);
+    // setDiscNo(null);
+    // setTrackNo(null);
+    // setYear(null);
+    // setLabel(null);
+    // setCatId(null);
+    // setIsrc(null);
+    // setComment(null);
+    // setPeople(null);
   };
 
   const countryOptions = [
@@ -429,16 +437,17 @@ const EditTrackModal = props => {
     setRecordCountry(value);
   };
 
-  const getDiscogs = () => {
+  const getDiscogs = async () => {
     const query = {
       artist,
       album
     };
-    props.getCatIdFromDiscogs(query);
+    await props.getCatIdFromDiscogs(query);
+    setCatId(props.search.discogsCatId);
   };
 
-  let minutes = Math.floor(props.report.currentTrack[0].length / 60);
-  let seconds = props.report.currentTrack[0].length % 60;
+  // let minutes = Math.floor(props.report.currentTrack[0].length / 60);
+  // let seconds = props.report.currentTrack[0].length % 60;
   return (
     <Modal
       open={modalOpen}
@@ -459,7 +468,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Artisti</label>
             <Input
-              defaultValue={props.report.currentTrack[0].artist}
+              defaultValue={artist}
               // value={artist}
               type="text"
               placeholder={artist}
@@ -469,7 +478,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Albumi</label>
             <Input
-              defaultValue={props.report.currentTrack[0].album}
+              defaultValue={album}
               type="text"
               placeholder="Albumi..."
               onChange={e => setAlbum(e.target.value)}
@@ -478,7 +487,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Biisi</label>
             <Input
-              defaultValue={props.report.currentTrack[0].track_title}
+              defaultValue={track}
               type="text"
               placeholder="Biisi..."
               onChange={e => setTrack(e.target.value)}
@@ -489,7 +498,7 @@ const EditTrackModal = props => {
               <label>Kesto - minuutit</label>
               <Input
                 maxLength={4}
-                defaultValue={minutes}
+                defaultValue={min}
                 type="number"
                 placeholder="Minuuttia..."
                 onChange={e => setMin(e.target.value)}
@@ -498,7 +507,7 @@ const EditTrackModal = props => {
             <Form.Field required>
               <label>Kesto - sekunnit</label>
               <Input
-                defaultValue={seconds}
+                defaultValue={sec}
                 maxLength={2}
                 type="number"
                 placeholder="Sekuntia..."
@@ -511,7 +520,7 @@ const EditTrackModal = props => {
               <label>Levy#</label>
               <Input
                 maxLength={2}
-                defaultValue={props.report.currentTrack[0].disc_no}
+                defaultValue={discNo}
                 type="number"
                 placeholder="CD1=1, CD2=2, A1=1, A2=2..."
                 onChange={e => setDiscNo(e.target.value)}
@@ -520,7 +529,7 @@ const EditTrackModal = props => {
             <Form.Field required>
               <label>Biisi#</label>
               <Input
-                defaultValue={props.report.currentTrack[0].track_no}
+                defaultValue={trackNo}
                 maxLength={2}
                 type="number"
                 placeholder="Biisi #..."
@@ -531,21 +540,18 @@ const EditTrackModal = props => {
           <Form.Field>
             <label>Tekijät - max 5kpl, yksi per rivi, SUKUNIMI ETUNIMI</label>
             <TextArea
-              defaultValue={props.report.currentTrack[0].people}
+              defaultValue={people}
               onChange={e => setPeople(e.target.value)}
               placeholder="Tekijät - max 5kpl"
             />
           </Form.Field>
           <Form.Group widths="equal">
-            <Form.Field
-              defaultValue={props.report.currentTrack[0].country}
-              required
-            >
+            <Form.Field required>
               <label>Säveltäjän kotimaa</label>
               <Dropdown
                 placeholder="Suomi, muu, ei tietoa..."
                 openOnFocus={false}
-                defaultValue={props.report.currentTrack[0].country}
+                defaultValue={country}
                 selection
                 options={countryOptions}
                 onChange={getCountry}
@@ -556,7 +562,7 @@ const EditTrackModal = props => {
               <Dropdown
                 placeholder="Valitse tallennusmaa..."
                 openOnFocus={false}
-                defaultValue={props.report.currentTrack[0].record_country}
+                defaultValue={recordCountry}
                 selection
                 search
                 options={recordCountryOptions}
@@ -567,7 +573,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Levymerkki</label>
             <Input
-              defaultValue={props.report.currentTrack[0].label}
+              defaultValue={label}
               type="text"
               placeholder="Levymerkki..."
               onChange={e => setLabel(e.target.value)}
@@ -593,7 +599,7 @@ const EditTrackModal = props => {
           <Form.Field>
             <label>ISRC</label>
             <Input
-              defaultValue={props.report.currentTrack[0].isrc}
+              defaultValue={isrc}
               maxLength={12}
               type="text"
               placeholder="ISRC..."
@@ -603,7 +609,7 @@ const EditTrackModal = props => {
           <Form.Field required>
             <label>Vuosi</label>
             <Input
-              defaultValue={props.report.currentTrack[0].year}
+              defaultValue={year}
               maxLength={4}
               type="number"
               placeholder="Vuosi..."
@@ -613,7 +619,7 @@ const EditTrackModal = props => {
           <Form.Field>
             <label>Lisätietoa</label>
             <TextArea
-              defaultValue={props.report.currentTrack[0].comment}
+              defaultValue={comment}
               onChange={e => setComment(e.target.value)}
               placeholder="Lisätietoa..."
             />

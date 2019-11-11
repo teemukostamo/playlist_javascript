@@ -18,7 +18,7 @@
   src: url('fonts/FONTTI_rh_DomaineDisplayCondensed-Medium.otf');
 }
 
-body {
+/* body {
   font-family: 'RHFont-semibold', sans-serif;
 }
 
@@ -27,7 +27,7 @@ h2,
 h3,
 h4 {
   font-family: 'RHFont-semibold', sans-serif;
-}
+} */
 
 .button {
   font-family: 'RHFont-bold', sans-serif;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-// import { createUser } from '../../actions/userActions';
+import { createUser } from '../../actions/userActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { Modal, Header, Form, Button, Input } from 'semantic-ui-react';
+import { Modal, Header, Form, Button, Input, Icon } from 'semantic-ui-react';
 
 const AddUserModal = props => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,7 +36,7 @@ const AddUserModal = props => {
       status
     };
     console.log('klikd create user', userToAdd);
-    // props.createUser(userToAdd);
+    props.createUser(userToAdd);
     props.setNotification(`${userToAdd.username} lisätty!`, 'success');
     handleClose();
   };
@@ -44,8 +44,14 @@ const AddUserModal = props => {
   return (
     <Modal
       trigger={
-        <Button onClick={handleOpen} floated="right" color="green">
-          Luo uusi käyttäjä
+        <Button
+          style={{ marginBottom: '0.5rem' }}
+          onClick={handleOpen}
+          floated="right"
+          color="green"
+        >
+          <Icon name="add" />
+          LUO UUSI KÄYTTÄJÄ
         </Button>
       }
       closeIcon
@@ -147,7 +153,7 @@ const AddUserModal = props => {
 
 const connectedAddUserModal = connect(
   null,
-  { setNotification }
+  { setNotification, createUser }
 )(AddUserModal);
 
 export default connectedAddUserModal;

@@ -83,7 +83,9 @@ const updateTrack = async trackToUpdate => {
   const config = {
     headers: { Authorization: token }
   };
+  console.log('trackservices updated track', trackToUpdate);
   const response = await axios.put(baseUrl, trackToUpdate, config);
+  console.log(response.data);
   return response.data;
 };
 

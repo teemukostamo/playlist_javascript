@@ -12,8 +12,15 @@ const getAll = async () => {
     headers: { Authorization: token }
   };
   const req = await axios.get(baseUrl, config);
-  console.log(typeof req.date);
   return req.data;
+};
+
+const createUser = async userToAdd => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.post(baseUrl, userToAdd, config);
+  return request.data;
 };
 
 const updateUser = async userToUpdate => {
@@ -28,4 +35,4 @@ const updateUser = async userToUpdate => {
   return response.data;
 };
 
-export default { getAll, setToken, updateUser };
+export default { getAll, setToken, createUser, updateUser };

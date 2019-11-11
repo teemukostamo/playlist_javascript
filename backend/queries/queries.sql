@@ -80,3 +80,42 @@ and re.status = 1
 and re.program_date like "2018-10%"
 order by program_date asc, program_start_time asc
 limit 10000
+
+-- get top 100 tracks
+SELECT COUNT(*) as count, rt.track_id, tr.name as track_title, al.name as album, ar.name as artist,
+al.id as album_id, ar.id as artist_id
+FROM playlist__artist as ar, playlist__album as al, playlist__track as tr, 
+playlist__report_track as rt, playlist__report as re
+WHERE re.id = rt.report_id and tr.id = rt.track_id
+and ar.id = tr.artist_id and al.id = tr.album_id
+and tr.id = rt.track_id and re.status = 1
+and re.program_date between "2019-01-01" and "2019-02-31"
+GROUP BY rt.track_id
+ORDER BY COUNT(*) DESC
+limit 100
+
+-- get top100 artists
+SELECT COUNT(ar.name) as count, ar.name as artist,
+ar.id as artist_id
+FROM playlist__artist as ar, playlist__album as al, playlist__track as tr, 
+playlist__report_track as rt, playlist__report as re
+WHERE re.id = rt.report_id and tr.id = rt.track_id
+and ar.id = tr.artist_id and al.id = tr.album_id
+and tr.id = rt.track_id and re.status = 1
+and re.program_date between "2019-01-01" and "2019-02-31"
+GROUP BY ar.id
+ORDER BY COUNT(*) DESC
+limit 100
+
+-- get top100 albums
+SELECT COUNT(*) as count, al.name as album, ar.name as artist,
+al.id as album_id, ar.id as artist_id
+FROM playlist__artist as ar, playlist__album as al, playlist__track as tr, 
+playlist__report_track as rt, playlist__report as re
+WHERE re.id = rt.report_id and tr.id = rt.track_id
+and ar.id = tr.artist_id and al.id = tr.album_id
+and tr.id = rt.track_id and re.status = 1
+and re.program_date between "2018-01-01" and "2018-02-31"
+GROUP BY al.id
+ORDER BY COUNT(*) DESC
+limit 100

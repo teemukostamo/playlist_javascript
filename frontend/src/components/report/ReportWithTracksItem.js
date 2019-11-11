@@ -9,6 +9,7 @@ import {
 } from '../../actions/reportActions';
 
 const ReportWithTracksItem = props => {
+  console.log('track to modal', props.track);
   const [checked, setChecked] = useState(false);
   // console.log('report with tracks item props', props);
   const onDelete = () => {
@@ -81,6 +82,7 @@ const ReportWithTracksItem = props => {
           id={props.track.track_id}
           sortable_rank={props.track.sortable_rank}
           report_track_id={props.track.report_track_id}
+          track={props.track}
         />
       </Table.Cell>
     </Table.Row>
