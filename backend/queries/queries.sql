@@ -7,7 +7,20 @@ WHERE t.id = 123441
 and t.album_id = al.id
 and t.artist_id = ar.id
 
--- get single album by albumid
+-- get one album details
+SELECT al.name as album_name
+ , al.id as album_id
+ , al.label
+ , al.identifier as cat_id
+ , al.spotify_id
+ , al.year
+ , ar.name as artist_name
+ , ar.id as artist_id
+FROM playlist__artist as ar
+INNER JOIN playlist__album as al ON al.artist_id = ar.id
+WHERE al.id = 135826
+
+-- get single album with tracks by albumid
 SELECT t.name as track_title, ar.name as artist, al.name as album, t.id as track_id,
 al.id as album_id, ar.id as artist_id, t.label as label
 FROM playlist__artist as ar, playlist__album as al, playlist__track as t
@@ -119,3 +132,41 @@ and re.program_date between "2018-01-01" and "2018-02-31"
 GROUP BY al.id
 ORDER BY COUNT(*) DESC
 limit 100
+
+-- get album id, name, cat_id, track count, report occurrence count by artist id
+SELECT al.id as album_id, al.name, al.identifier, count(distinct tr.id) as track_count, count(rt.track_id) as report_occurrence
+FROM playlist__album as al, playlist__artist as ar, playlist__track as tr,
+playlist__report_track as rt
+WHERE al.artist_id = ar.id
+and tr.album_id = al.id
+and rt.track_id = tr.id
+and ar.id = 39887
+group by album_id
+-- same with joins
+SELECT al.id as album_id
+ , al.name
+ , al.identifier
+ , count(distinct tr.id) as track_count
+ , count(rt.track_id) as report_occurrence
+FROM playlist__album as al
+INNER JOIN  playlist__artist as ar ON al.artist_id = ar.id
+INNER JOIN  playlist__track as tr ON tr.album_id = al.id
+INNER JOIN  playlist__report_track as rt ON  rt.track_id = tr.id
+WHERE ar.id = 39887
+group by album_id
+
+-- get all tracks and report occurrences of one album
+SELECT tr.id as track_id
+ , tr.isrc
+ , tr.side as disc_no
+ , tr.track_no
+ , tr.name as track_title
+ , ar.name as artist_name
+ , count(rt.track_id) as report_occurrence
+FROM playlist__album as al
+INNER JOIN  playlist__artist as ar ON al.artist_id = ar.id
+INNER JOIN  playlist__track as tr ON tr.album_id = al.id
+INNER JOIN  playlist__report_track as rt ON  rt.track_id = tr.id
+WHERE al.id = 135826
+group by track_id
+order by track_no asc, track_title asc

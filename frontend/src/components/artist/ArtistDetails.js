@@ -1,37 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Container, Form, Input, Button, Grid } from 'semantic-ui-react';
+import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import { getOneArtist } from '../../actions/artistActions';
 import AlbumsByArtist from './AlbumsByArtist';
+import ArtistDetailsForm from './ArtistDetailsForm';
 
 const ArtistDetails = props => {
   console.log('artist detail props', props);
-  const [artist, setArtist] = useState('');
+
   useEffect(() => {
     props.getOneArtist(props.id);
-  }, []);
+  }, [props.id]);
 
   if (props.artist.currentArtist === null) {
-    return <div>loading</div>;
+    return (
+      <Container>
+        <Dimmer>
+          <Loader>Ladataan...</Loader>
+        </Dimmer>
+      </Container>
+    );
   }
+
   return (
     <Container>
-      <Grid columns={2}>
-        <Grid.Column>
-          <h2>Artistin tiedot</h2>
-          <Form>
-            <Form.Field>
-              <label>Artistin nimi</label>
-              <Input
-                type="text"
-                defaultValue={props.artist.currentArtist.name}
-                onChange={e => setArtist(e.target.value)}
-              />
-            </Form.Field>
-          </Form>
-        </Grid.Column>
-      </Grid>
-      <AlbumsByArtist />
+      <ArtistDetailsForm currentArtist={props.artist.currentArtist} />
+      <AlbumsByArtist albumList={props.artist.albumList} />
     </Container>
   );
 };

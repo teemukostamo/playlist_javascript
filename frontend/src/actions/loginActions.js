@@ -1,5 +1,6 @@
 import loginService from '../services/login';
 import artistService from '../services/artists';
+import albumService from '../services/albums';
 import programService from '../services/programs';
 import reportService from '../services/reports';
 import searchService from '../services/search';
@@ -28,6 +29,7 @@ export const initializeUser = () => async dispatch => {
       searchService.setToken(user.token);
       trackService.setToken(user.token);
       artistService.setToken(user.token);
+      albumService.setToken(user.token);
       dispatch({
         type: INIT_USER,
         data: user

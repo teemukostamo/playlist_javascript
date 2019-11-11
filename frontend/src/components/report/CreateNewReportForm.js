@@ -394,7 +394,20 @@ const CreateNewReportForm = props => {
               </Togglable>
             </Form.Field>
             <Form.Field>
-              <label>Ohjelmanumero</label>
+              <label>
+                Ohjelmanumero{' '}
+                <Popup
+                  trigger={
+                    <Icon
+                      style={{ display: 'inline' }}
+                      name="question circle"
+                    />
+                  }
+                  content="Tsekkaa ohjelmasi numero viikon ohjelmakartasta."
+                  style={style}
+                  inverted
+                />
+              </label>
               <Input
                 type="number"
                 value={programNumber}

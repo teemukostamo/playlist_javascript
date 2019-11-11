@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = '/api/artists';
+const baseUrl = '/api/albums';
 
 let token = null;
 
@@ -7,31 +7,30 @@ const setToken = newToken => {
   token = `bearer ${newToken}`;
 };
 
-// get artist details
-const getOneArtist = async id => {
+const getOneAlbum = async id => {
   const config = {
     headers: { Authorization: token }
   };
-  const response = await axios.get(`${baseUrl}/details/${id}`, config);
+  const response = await axios.get(`${baseUrl}/albumdetails/${id}`, config);
   return response.data;
 };
 
-const getAlbumsByArtist = async id => {
+const getTracklistOfAlbum = async id => {
   const config = {
     headers: { Authorization: token }
   };
-  const response = await axios.get(`${baseUrl}/albumsby/${id}`, config);
+  const response = await axios.get(`${baseUrl}/tracklist/${id}`, config);
   return response.data;
 };
 
-const updateArtist = async artistToUpdate => {
+const updateAlbum = async albumToUpdate => {
   const config = {
     headers: { Authorization: token }
   };
-  console.log('artistservice updated track', artistToUpdate);
+  console.log('albumservice updated album', albumToUpdate);
   const response = await axios.put(
-    `${baseUrl}/${artistToUpdate.id}`,
-    artistToUpdate,
+    `${baseUrl}/${albumToUpdate.id}`,
+    albumToUpdate,
     config
   );
   console.log(response.data);
@@ -40,7 +39,7 @@ const updateArtist = async artistToUpdate => {
 
 export default {
   setToken,
-  updateArtist,
-  getOneArtist,
-  getAlbumsByArtist
+  updateAlbum,
+  getOneAlbum,
+  getTracklistOfAlbum
 };

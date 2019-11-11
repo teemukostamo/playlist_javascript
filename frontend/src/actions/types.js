@@ -55,6 +55,13 @@ export const REMOVE_CURRENT_TRACK = 'REMOVE_CURRENT_TRACK';
 
 // artist actions
 export const GET_ONE_ARTIST = 'GET_ONE_ARTIST';
+export const GET_ALBUM_LIST_BY_ARTIST = 'GET_ALBUM_LIST_BY_ARTIST';
+export const CLEAR_CURRENT_ARTIST = 'CLEAR_CURRENT_ARTIST';
+
+// album actions
+export const GET_ONE_ALBUM = 'GET_ONE_ALBUM';
+export const GET_TRACKLIST_OF_ALBUM = 'GET_TRACKLIST_OF_ALBUM';
+export const CLEAR_CURRENT_ALBUM = 'CLEAR_CURRENT_ALBUM';
 
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';

@@ -9,6 +9,7 @@ import UserList from './components/user/UserList';
 import ReportList from './components/report/ReportList';
 import ProgramList from './components/program/ProgramList';
 import ArtistDetails from './components/artist/ArtistDetails';
+import AlbumDetails from './components/album/AlbumDetails';
 import LoginForm from './components/login/LoginForm';
 import ReportTransferList from './components/report/ReportTransferList';
 import Search from './components/layout/Search';
@@ -75,6 +76,13 @@ const App = props => {
           render={({ match }) => {
             console.log('*');
             return <ArtistDetails id={match.params.id} />;
+          }}
+        />
+        <Route
+          path="/album/:id"
+          render={({ match }) => {
+            console.log('*');
+            return <AlbumDetails id={match.params.id} />;
           }}
         />
         <Route exact path="/programs" component={ProgramList} />

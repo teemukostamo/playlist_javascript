@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import artistReducer from './reducers/artistReducer';
+import albumReducer from './reducers/albumReducer';
 import loginReducer from './reducers/loginReducer';
 import notificationReducer from './reducers/notificationReducer';
 import reportReducer from './reducers/reportReducer';
@@ -13,6 +14,7 @@ import searchReducer from './reducers/searchReducer';
 
 const reducer = combineReducers({
   artist: artistReducer,
+  album: albumReducer,
   login: loginReducer,
   notification: notificationReducer,
   report: reportReducer,
