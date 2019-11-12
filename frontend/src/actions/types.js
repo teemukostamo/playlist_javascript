@@ -51,6 +51,8 @@ export const TOP_100_QUERY = 'TOP_100_QUERY';
 export const ADD_NEW_TRACK = 'ADD_NEW_TRACK';
 export const UPDATE_TRACK = 'UPDATE_TRACK';
 export const GET_ONE_TRACK = 'GET_ONE_TRACK';
+export const GET_ONE_TRACK_HISTORY = 'GET_ONE_TRACK_HISTORY';
+export const CLEAR_CURRENT_TRACK = 'CLEAR_CURRENT_TRACK';
 export const REMOVE_CURRENT_TRACK = 'REMOVE_CURRENT_TRACK';
 
 // artist actions

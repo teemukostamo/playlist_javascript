@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import artistReducer from './reducers/artistReducer';
 import albumReducer from './reducers/albumReducer';
+import trackReducer from './reducers/trackReducer';
 import loginReducer from './reducers/loginReducer';
 import notificationReducer from './reducers/notificationReducer';
 import reportReducer from './reducers/reportReducer';
@@ -15,6 +16,7 @@ import searchReducer from './reducers/searchReducer';
 const reducer = combineReducers({
   artist: artistReducer,
   album: albumReducer,
+  track: trackReducer,
   login: loginReducer,
   notification: notificationReducer,
   report: reportReducer,

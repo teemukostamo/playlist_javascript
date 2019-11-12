@@ -4,6 +4,8 @@ import {
   UPDATE_TRACK,
   SET_LOADING,
   GET_ONE_TRACK,
+  GET_ONE_TRACK_HISTORY,
+  CLEAR_CURRENT_TRACK,
   REMOVE_CURRENT_TRACK
 } from './types';
 import trackService from '../services/tracks';
@@ -56,13 +58,31 @@ export const updateTrack = trackToUpdate => async dispatch => {
 
 export const getOneTrack = id => async dispatch => {
   try {
-    // dispatch({
-    //   type: SET_LOADING
-    // });
+    dispatch({
+      type: SET_LOADING
+    });
     const track = await trackService.getOneTrack(id);
     dispatch({
       type: GET_ONE_TRACK,
       data: track
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getOneTrackHistory = id => async dispatch => {
+  try {
+    dispatch({
+      type: CLEAR_CURRENT_TRACK
+    });
+    dispatch({
+      type: SET_LOADING
+    });
+    const history = await trackService.getOneTrackHistory(id);
+    dispatch({
+      type: GET_ONE_TRACK_HISTORY,
+      data: history
     });
   } catch (error) {
     console.log(error);

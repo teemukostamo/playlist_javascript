@@ -30,7 +30,7 @@ const updateArtist = async artistToUpdate => {
   };
   console.log('artistservice updated track', artistToUpdate);
   const response = await axios.put(
-    `${baseUrl}/${artistToUpdate.id}`,
+    `${baseUrl}/details/${artistToUpdate.id}`,
     artistToUpdate,
     config
   );

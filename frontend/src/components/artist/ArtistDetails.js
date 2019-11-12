@@ -10,6 +10,7 @@ const ArtistDetails = props => {
 
   useEffect(() => {
     props.getOneArtist(props.id);
+    // eslint-disable-next-line
   }, [props.id]);
 
   if (props.artist.currentArtist === null) {

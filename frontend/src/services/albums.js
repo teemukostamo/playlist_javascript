@@ -28,8 +28,9 @@ const updateAlbum = async albumToUpdate => {
     headers: { Authorization: token }
   };
   console.log('albumservice updated album', albumToUpdate);
+  console.log('album to update', albumToUpdate);
   const response = await axios.put(
-    `${baseUrl}/${albumToUpdate.id}`,
+    `${baseUrl}/albumdetails/${albumToUpdate.id}`,
     albumToUpdate,
     config
   );

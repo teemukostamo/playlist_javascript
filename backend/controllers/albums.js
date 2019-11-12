@@ -90,6 +90,35 @@ albumsRouter.get('/tracklist/:id', async (req, res, next) => {
   }
 });
 
-// add album
+// update album
+albumsRouter.put('/albumdetails/:id', async (req, res, next) => {
+  try {
+    // see if token is valid
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    let { name, label, cat_id, year, spotify_id } = req.body;
 
+    const updatedAlbum = await Album.update(
+      {
+        name,
+        label,
+        cat_id,
+        year,
+        spotify_id
+      },
+      { where: { id: req.params.id } }
+    );
+    if (updatedAlbum) {
+      console.log('update album log', updatedAlbum);
+      res.json(updatedAlbum);
+    } else {
+      res.status(404).end();
+    }
+  } catch (exception) {
+    next(exception);
+  }
+});
 module.exports = albumsRouter;

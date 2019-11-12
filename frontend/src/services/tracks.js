@@ -93,7 +93,15 @@ const getOneTrack = async id => {
   const config = {
     headers: { Authorization: token }
   };
-  const response = await axios.get(`${baseUrl}/${id}`, config);
+  const response = await axios.get(`${baseUrl}/details/${id}`, config);
+  return response.data;
+};
+
+const getOneTrackHistory = async id => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const response = await axios.get(`${baseUrl}/history/${id}`, config);
   return response.data;
 };
 
@@ -102,5 +110,6 @@ export default {
   checkDjonlineTracks,
   addNewTrack,
   updateTrack,
-  getOneTrack
+  getOneTrack,
+  getOneTrackHistory
 };

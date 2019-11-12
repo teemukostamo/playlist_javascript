@@ -52,7 +52,7 @@ const ReportList = props => {
 
   reportsToShow =
     props.reportsList.filterByText === 0
-      ? (reportsToShow = reportsToShow)
+      ? reportsToShow
       : (reportsToShow = reportsToShow.filter(report =>
           report.name
             .toLowerCase()
@@ -60,13 +60,13 @@ const ReportList = props => {
         ));
   reportsToShow =
     props.reportsList.filterUserValue === null
-      ? (reportsToShow = reportsToShow)
+      ? reportsToShow
       : (reportsToShow = reportsToShow.filter(
           report => report.user_id === props.reportsList.filterUserValue
         ));
   reportsToShow =
     props.reportsList.filterStatusValue === null
-      ? (reportsToShow = reportsToShow)
+      ? reportsToShow
       : (reportsToShow = reportsToShow.filter(
           report => report.status === props.reportsList.filterStatusValue
         ));

@@ -69,4 +69,33 @@ artistsRouter.get('/albumsby/:id', async (req, res, next) => {
   }
 });
 
+// update artist
+artistsRouter.put('/details/:id', async (req, res, next) => {
+  try {
+    // see if token is valid
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    let { name, spotify_id } = req.body;
+
+    const updatedArtist = await Artist.update(
+      {
+        name,
+        spotify_id
+      },
+      { where: { id: req.params.id } }
+    );
+    if (updatedArtist) {
+      console.log('artistrouter log', updatedArtist);
+      res.json(updatedArtist);
+    } else {
+      res.status(404).end();
+    }
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 module.exports = artistsRouter;

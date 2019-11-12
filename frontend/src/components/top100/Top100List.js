@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Container, Dimmer, Loader } from 'semantic-ui-react';
+import { Table, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Top100SearchForm from './Top100SearchForm';
 

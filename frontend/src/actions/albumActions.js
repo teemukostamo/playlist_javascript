@@ -28,3 +28,17 @@ export const getOneAlbum = id => async dispatch => {
     console.log(error);
   }
 };
+
+export const updateAlbum = albumToUpdate => async dispatch => {
+  dispatch({
+    type: SET_LOADING
+  });
+  console.log('artist to update', albumToUpdate);
+  const updateAlbum = await albumService.updateAlbum(albumToUpdate);
+  console.log(updateAlbum);
+  const updatedAlbum = await albumService.getOneAlbum(albumToUpdate.id);
+  dispatch({
+    type: GET_ONE_ALBUM,
+    data: updatedAlbum
+  });
+};

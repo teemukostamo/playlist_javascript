@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { getOneReport } from '../../actions/reportActions';
 import {
@@ -7,14 +7,11 @@ import {
   filterByStatus,
   filterByText
 } from '../../actions/reportsListActions';
-import { Dropdown, Button, Form, Input } from 'semantic-ui-react';
+import { Dropdown, Button, Form } from 'semantic-ui-react';
 
 const ReportFilterForm = props => {
   const [reportMonth, setReportMonth] = useState('');
   const [reportYear, setReportYear] = useState('');
-  const [userId, setUserId] = useState(null);
-  const [status, setStatus] = useState(null);
-  const [filterText, setFilterText] = useState('');
 
   if (props.users.users === null) {
     return <div>loading</div>;

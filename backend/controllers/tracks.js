@@ -15,7 +15,7 @@ const getTokenFrom = req => {
 };
 
 // get one track
-tracksRouter.get('/:id', async (req, res, next) => {
+tracksRouter.get('/details/:id', async (req, res, next) => {
   try {
     // see if token is valid
     const token = getTokenFrom(req);
@@ -31,6 +31,44 @@ tracksRouter.get('/:id', async (req, res, next) => {
     WHERE t.id = ${req.params.id}
     and t.album_id = al.id
     and t.artist_id = ar.id`,
+      {
+        type: db.QueryTypes.SELECT
+      }
+    );
+    if (track) {
+      console.log('tracksrouter log', track);
+      res.json(track);
+    } else {
+      res.status(404).end();
+    }
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// get track play history by track_id
+tracksRouter.get('/history/:id', async (req, res, next) => {
+  try {
+    // see if token is valid
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    const track = await db.query(
+      `
+      SELECT pr.name as program_name
+      , pr.id as program_id
+      , re.id as report_id
+      , re.program_date
+      , rt.track_id
+      FROM playlist__program as pr
+      INNER JOIN playlist__report as re ON re.program_id = pr.id
+      INNER JOIN playlist__report_track as rt ON rt.report_id = re.id
+      WHERE rt.track_id = ${req.params.id}
+      GROUP BY re.id
+      ORDER BY program_date desc
+      `,
       {
         type: db.QueryTypes.SELECT
       }

@@ -1,173 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
-  getOneTrack,
-  removeCurrentTrack,
-  updateTrack
-} from '../../actions/trackActions';
-import {
-  getCatIdFromDiscogs,
-  clearDiscogsCatId
-} from '../../actions/searchActions';
-import { setNotification } from '../../reducers/notificationReducer';
-import {
-  Modal,
-  Header,
   Form,
-  Button,
   Input,
+  Button,
+  Grid,
+  Dimmer,
+  Loader,
   TextArea,
-  Dropdown,
-  Icon
+  Dropdown
 } from 'semantic-ui-react';
+import { updateTrack } from '../../actions/trackActions';
+import { setNotification } from '../../reducers/notificationReducer';
+import Notification from '../layout/Notification';
 
-const EditTrackModal = props => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [artist, setArtist] = useState(props.track.artist_name);
-  const [album, setAlbum] = useState(props.track.album_name);
-  const [track, setTrack] = useState(props.track.track_title);
-  const [min, setMin] = useState(Math.floor(props.track.length / 60));
-  const [sec, setSec] = useState(props.track.length % 60);
-  const [country, setCountry] = useState(props.track.country);
+const TrackDetailsForm = props => {
+  console.log('track details form props', props);
+  const [artist, setArtist] = useState(props.currentTrack.artist);
+  const [album, setAlbum] = useState(props.currentTrack.album);
+  const [track, setTrack] = useState(props.currentTrack.track_title);
+  const [min, setMin] = useState(Math.floor(props.currentTrack.length / 60));
+  const [sec, setSec] = useState(props.currentTrack.length % 60);
+  const [country, setCountry] = useState(props.currentTrack.country);
   const [recordCountry, setRecordCountry] = useState(
-    props.track.record_country
+    props.currentTrack.record_country
   );
-  const [people, setPeople] = useState(props.track.people);
-  const [discNo, setDiscNo] = useState(props.track.disc_no);
-  const [trackNo, setTrackNo] = useState(props.track.track_no);
-  const [year, setYear] = useState(props.track.year);
-  const [label, setLabel] = useState(props.track.label);
-  const [catId, setCatId] = useState(props.track.cat_id);
-  console.log(props.track.cat_id);
-  console.log(catId);
-  const [isrc, setIsrc] = useState(props.track.isrc);
-  const [comment, setComment] = useState(props.track.comment);
-
-  // useEffect(() => {
-  //   if (props.report.currentTrack !== null) {
-  //     let minutes = Math.floor(props.report.currentTrack[0].length / 60);
-  //     let seconds = props.report.currentTrack[0].length % 60;
-  //     setArtist(props.report.currentTrack[0].artist);
-  //     setAlbum(props.report.currentTrack[0].album);
-  //     setTrack(props.report.currentTrack[0].track_title);
-  //     setMin(minutes);
-  //     setSec(seconds);
-  //     setCountry(props.report.currentTrack[0].country);
-  //     setRecordCountry(props.report.currentTrack[0].record_country);
-  //     setDiscNo(props.report.currentTrack[0].disc_no);
-  //     setTrackNo(props.report.currentTrack[0].track_no);
-  //     setYear(props.report.currentTrack[0].year);
-  //     setLabel(props.report.currentTrack[0].label);
-  //     setCatId(props.report.currentTrack[0].cat_id);
-  //     setIsrc(props.report.currentTrack[0].isrc);
-  //     setComment(props.report.currentTrack[0].comment);
-  //     setPeople(props.report.currentTrack[0].people);
-  //   }
-  //   // eslint-disable-next-line
-  // }, [props.report.currentTrack]);
-
-  //
-
-  useEffect(() => {
-    if (catId === null) {
-      setCatId(props.search.discogsCatId);
-    }
-    // eslint-disable-next-line
-  }, [props.search.discogsCatId]);
-
-  const handleOpen = () => {
-    // props.getOneTrack(props.id);
-    setModalOpen(true);
-    console.log(modalOpen);
-  };
-
-  const handleClose = () => {
-    // props.removeCurrentTrack();
-    props.clearDiscogsCatId();
-    setModalOpen(false);
-  };
-
-  // if (props.report.currentTrack === null) {
-  //   return (
-  //     <Icon
-  //       style={{ cursor: 'pointer' }}
-  //       color="blue"
-  //       onClick={handleOpen}
-  //       name="edit"
-  //     />
-  //   );
-  // }
-
-  if (props.report.loading || !modalOpen) {
-    return (
-      <Modal
-        open={modalOpen}
-        closeIcon
-        trigger={
-          <Icon
-            style={{ cursor: 'pointer' }}
-            color="blue"
-            onClick={handleOpen}
-            name="edit"
-          />
-        }
-        onClose={handleClose}
-      >
-        <Header content="Muokkaa biisin tietoja" />
-        <Modal.Content>ladataan</Modal.Content>
-      </Modal>
-    );
-  }
-
-  const submitTrack = () => {
-    console.log('klikd submit track');
-    // artist name validation
-    if (artist === null) {
-      props.setNotification('Artisti on pakollinen tieto', 'fail');
-    }
-    let length = parseInt(min) * 60 + parseInt(sec);
-    const trackToEdit = {
-      artist_name: artist,
-      album_name: album,
-      track_title: track,
-      length,
-      country,
-      record_country: recordCountry,
-      people,
-      disc_no: discNo,
-      track_no: trackNo,
-      year,
-      label,
-      cat_id: catId,
-      isrc,
-      comment,
-      user_id: props.login.id,
-      artist_id: props.track.artist_id,
-      album_id: props.track.album_id,
-      track_id: props.track.track_id,
-      sortable_rank: props.sortable_rank,
-      report_track_id: props.report_track_id
-    };
-    console.log('updating track', trackToEdit);
-    props.updateTrack(trackToEdit);
-    handleClose();
-    // setArtist(null);
-    // setAlbum(null);
-    // setTrack(null);
-    // setMin(null);
-    // setSec(null);
-    // setCountry(null);
-    // setRecordCountry(null);
-    // setDiscNo(null);
-    // setTrackNo(null);
-    // setYear(null);
-    // setLabel(null);
-    // setCatId(null);
-    // setIsrc(null);
-    // setComment(null);
-    // setPeople(null);
-  };
-
+  const [people, setPeople] = useState(props.currentTrack.people);
+  const [discNo, setDiscNo] = useState(props.currentTrack.disc_no);
+  const [trackNo, setTrackNo] = useState(props.currentTrack.track_no);
+  const [year, setYear] = useState(parseInt(props.currentTrack.year));
+  console.log(year);
+  const [isrc, setIsrc] = useState(props.currentTrack.isrc);
+  const [comment, setComment] = useState(props.currentTrack.comment);
   const countryOptions = [
     {
       key: 1,
@@ -180,7 +45,7 @@ const EditTrackModal = props => {
       value: 2
     },
     {
-      key: null,
+      key: 0,
       text: 'Ei tietoa',
       value: null
     }
@@ -437,53 +302,80 @@ const EditTrackModal = props => {
     event.preventDefault();
     setRecordCountry(value);
   };
-
-  const getDiscogs = async () => {
-    const query = {
-      artist,
-      album
+  const submitTrack = () => {
+    console.log('klikd submit track');
+    // artist name validation
+    if (artist === null) {
+      props.setNotification('Artisti on pakollinen tieto', 'fail');
+    }
+    let length = parseInt(min) * 60 + parseInt(sec);
+    const trackToUpdate = {
+      artist_name: artist,
+      album_name: album,
+      artist_id: props.currentTrack.artist_id,
+      album_id: props.currentTrack.album_id,
+      track_id: props.currentTrack.track_id,
+      track_title: track,
+      length,
+      country,
+      record_country: recordCountry,
+      people,
+      disc_no: discNo,
+      track_no: trackNo,
+      year,
+      isrc,
+      comment
     };
-    await props.getCatIdFromDiscogs(query);
-    setCatId(props.search.discogsCatId);
+    console.log(trackToUpdate);
+    props.updateTrack(trackToUpdate);
+    props.setNotification(
+      `Biisin ${trackToUpdate.track_title} tiedot päivitetty!`,
+      'success'
+    );
   };
+  if (props.currentAlbum === null) {
+    return (
+      <Dimmer>
+        <Loader>Ladataan...</Loader>
+      </Dimmer>
+    );
+  }
 
-  // let minutes = Math.floor(props.report.currentTrack[0].length / 60);
-  // let seconds = props.report.currentTrack[0].length % 60;
   return (
-    <Modal
-      open={modalOpen}
-      closeIcon
-      trigger={
-        <Icon
-          style={{ cursor: 'pointer' }}
-          color="blue"
-          onClick={handleOpen}
-          name="edit"
-        />
-      }
-      onClose={handleClose}
-    >
-      <Header content="Muokkaa biisin tietoja" />
-      <Modal.Content>
+    <Grid columns={2}>
+      <Grid.Column>
+        <h2>Biisin tiedot</h2>
+        <Notification />
         <Form onSubmit={submitTrack}>
           <Form.Field required>
             <label>Artisti</label>
             <Input
+              disabled
               defaultValue={artist}
-              // value={artist}
               type="text"
               placeholder={artist}
               onChange={e => setArtist(e.target.value)}
             />
+            <span>
+              <Link to={`../artist/${props.currentTrack.artist_id}`}>
+                Muokkaa artistin tietoja
+              </Link>
+            </span>
           </Form.Field>
           <Form.Field required>
             <label>Albumi</label>
             <Input
+              disabled
               defaultValue={album}
               type="text"
               placeholder="Albumi..."
               onChange={e => setAlbum(e.target.value)}
             />
+            <span>
+              <Link to={`../album/${props.currentTrack.album_id}`}>
+                Muokkaa albumin tietoja
+              </Link>
+            </span>
           </Form.Field>
           <Form.Field required>
             <label>Biisi</label>
@@ -571,32 +463,6 @@ const EditTrackModal = props => {
               />
             </Form.Field>
           </Form.Group>
-          <Form.Field required>
-            <label>Levymerkki</label>
-            <Input
-              defaultValue={label}
-              type="text"
-              placeholder="Levymerkki..."
-              onChange={e => setLabel(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label style={{ display: 'inline' }}>Levykoodi</label>
-            <Button
-              onClick={e => getDiscogs(e.preventDefault())}
-              size="mini"
-              floated="right"
-              style={{ marginBottom: '0.3rem' }}
-            >
-              Hae levykoodi Discogsista
-            </Button>
-            <Input
-              defaultValue={catId}
-              type="text"
-              placeholder="Levykoodi..."
-              onChange={e => setCatId(e.target.value)}
-            />
-          </Form.Field>
           <Form.Field>
             <label>ISRC</label>
             <Input
@@ -641,32 +507,17 @@ const EditTrackModal = props => {
             color="green"
             type="submit"
           >
-            Tallenna tiedot
+            Tallenna muutokset
           </Button>
         </Form>
-      </Modal.Content>
-    </Modal>
+      </Grid.Column>
+    </Grid>
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    report: state.report,
-    reportsList: state.reportsList,
-    login: state.login,
-    search: state.search
-  };
-};
-const connectedEditTrackModal = connect(
-  mapStateToProps,
-  {
-    setNotification,
-    getOneTrack,
-    removeCurrentTrack,
-    updateTrack,
-    getCatIdFromDiscogs,
-    clearDiscogsCatId
-  }
-)(EditTrackModal);
+const connectedTrackDetailsForm = connect(
+  null,
+  { setNotification, updateTrack }
+)(TrackDetailsForm);
 
-export default connectedEditTrackModal;
+export default connectedTrackDetailsForm;

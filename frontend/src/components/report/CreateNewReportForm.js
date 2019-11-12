@@ -5,7 +5,6 @@ import { createReport } from '../../actions/reportActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import Togglable from '../layout/Togglable';
 import {
-  Header,
   Form,
   Button,
   Input,
@@ -379,7 +378,7 @@ const CreateNewReportForm = props => {
                 onChange={getProgram}
               />{' '}
               <Togglable
-                style={{ marginTop: '0.5rem' }}
+                style={{ marginTop: '0.5rem', float: 'right' }}
                 size="tiny"
                 buttonLabel="Luo uusi ohjelma"
               >

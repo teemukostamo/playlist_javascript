@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Grid, Dimmer, Loader } from 'semantic-ui-react';
+import Notification from '../layout/Notification';
 import { updateArtist } from '../../actions/artistActions';
+import { setNotification } from '../../reducers/notificationReducer';
 
 const ArtistDetailsForm = props => {
   console.log(props);
@@ -23,11 +25,17 @@ const ArtistDetailsForm = props => {
       spotify_id: spotifyId
     };
     console.log(artistToUpdate);
+    props.updateArtist(artistToUpdate);
+    props.setNotification(
+      `Artistin ${artistToUpdate.name} tiedot päivitetty!`,
+      'success'
+    );
   };
   return (
     <Grid columns={2}>
       <Grid.Column>
         <h2>Artistin tiedot</h2>
+        <Notification />
         <Form>
           <Form.Field>
             <label>Artistin nimi</label>
@@ -58,7 +66,7 @@ const ArtistDetailsForm = props => {
 
 const connectedArtistDetailsForm = connect(
   null,
-  null
+  { updateArtist, setNotification }
 )(ArtistDetailsForm);
 
 export default connectedArtistDetailsForm;

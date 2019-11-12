@@ -5,7 +5,7 @@ import {
   filterByStatus,
   filterByText
 } from '../../actions/reportsListActions';
-import { Dropdown, Button, Form, Input } from 'semantic-ui-react';
+import { Dropdown, Form, Input } from 'semantic-ui-react';
 
 const FilterReportList = props => {
   const [userId, setUserId] = useState(null);

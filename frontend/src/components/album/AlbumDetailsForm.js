@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Grid, Dimmer, Loader } from 'semantic-ui-react';
-// import { updateAlbum } from '../../actions/artistActions';
+import { Link } from 'react-router-dom';
+import Notification from '../layout/Notification';
+import { updateAlbum } from '../../actions/albumActions';
+import { setNotification } from '../../reducers/notificationReducer';
 
 const AlbumDetailsForm = props => {
   console.log(props);
   const [name, setName] = useState(props.currentAlbum[0].album_name);
   const [label, setLabel] = useState(props.currentAlbum[0].label);
   const [catId, setCatId] = useState(props.currentAlbum[0].cat_id);
-  const [year, setYear] = useState(props.currentAlbum[0].year);
+  const [year, setYear] = useState(parseInt(props.currentAlbum[0].year));
   const [spotifyId, setSpotifyId] = useState(props.currentAlbum[0].spotify_id);
   if (props.currentAlbum === null) {
     return (
@@ -21,19 +24,25 @@ const AlbumDetailsForm = props => {
   const saveChanges = () => {
     console.log('klikd save album');
     const albumToUpdate = {
-      id: props.currentAlbum.album_id,
+      id: props.album_id,
       name,
       label,
       cat_id: catId,
       year,
       spotify_id: spotifyId
     };
-    console.log(albumToUpdate);
+    console.log('album details form albumtoupdate', albumToUpdate);
+    props.updateAlbum(albumToUpdate);
+    props.setNotification(
+      `Albumin ${albumToUpdate.name} tiedot päivitetty!`,
+      'success'
+    );
   };
   return (
     <Grid columns={2}>
       <Grid.Column>
         <h2>Albumin tiedot</h2>
+        <Notification />
         <Form>
           <Form.Field>
             <label>Artistin nimi</label>
@@ -42,6 +51,12 @@ const AlbumDetailsForm = props => {
               type="text"
               defaultValue={props.currentAlbum[0].artist_name}
             />
+            <span>
+              <a href="!#">Vaihda esittäjää</a> {'  '}
+              <Link to={`../artist/${props.currentAlbum[0].artist_id}`}>
+                Muokkaa esittäjän tietoja
+              </Link>
+            </span>
           </Form.Field>
           <Form.Field>
             <label>Albumi</label>
@@ -70,7 +85,7 @@ const AlbumDetailsForm = props => {
           <Form.Field>
             <label>Vuosi</label>
             <Input
-              type="text"
+              type="number"
               defaultValue={year}
               onChange={e => setYear(e.target.value)}
             />
@@ -96,7 +111,7 @@ const AlbumDetailsForm = props => {
 
 const connectedAlbumDetailsForm = connect(
   null,
-  null
+  { updateAlbum, setNotification }
 )(AlbumDetailsForm);
 
 export default connectedAlbumDetailsForm;
