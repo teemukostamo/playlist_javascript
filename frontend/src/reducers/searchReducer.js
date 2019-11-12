@@ -1,5 +1,6 @@
 import {
   AUTOCOMPLETE_RESULTS,
+  ADVANCED_RESULTS,
   GET_DISCOGS_CATID,
   CLEAR_DISCOGS_CATID,
   TOP_100,
@@ -10,9 +11,7 @@ const initialState = {
   searchResults: [],
   top100: null,
   top100Query: null,
-  trackResults: null,
-  artistResults: null,
-  albumResults: null,
+  advancedResults: null,
   loading: false,
   discogsCatId: null,
   error: null
@@ -28,6 +27,12 @@ const searchReducer = (state = initialState, action) => {
       return {
         ...state,
         searchResults: action.data,
+        loading: false
+      };
+    case ADVANCED_RESULTS:
+      return {
+        ...state,
+        advancedResults: action.data,
         loading: false
       };
     case SET_SEARCH_LOADING:

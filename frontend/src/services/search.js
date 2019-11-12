@@ -13,7 +13,7 @@ const getTracksForSearch = async query => {
   };
 
   console.log('autocomplete search query', query);
-  const request = await axios.get(`${baseUrl}/tracks/${query}`, config);
+  const request = await axios.get(`${baseUrl}/autocomplete/${query}`, config);
   console.log('search service get autocomplete tracks req data', request.data);
   return request.data;
 };
@@ -36,4 +36,21 @@ const getTop100 = async query => {
   return request.data;
 };
 
-export default { setToken, getTracksForSearch, getCatIdFromDiscogs, getTop100 };
+const advancedSearch = async searchParams => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.get(
+    `${baseUrl}/advanced?kind=${searchParams.kind}&query=${searchParams.query}`,
+    config
+  );
+  return request.data;
+};
+
+export default {
+  setToken,
+  getTracksForSearch,
+  advancedSearch,
+  getCatIdFromDiscogs,
+  getTop100
+};

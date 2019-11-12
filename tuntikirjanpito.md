@@ -56,3 +56,4 @@
 | 11.11.2019 | 3 181  |                   refactoring edit user modal, artist details page                   |
 | 11.11.2019 |   4    |                  album details, track listing and play counts pages                  |
 | 11.11.2019 |   3    |              album, artist, track details pages, updating edited infos               |
+| 11.11.2019 |   3    |                                   search overflow                                    |

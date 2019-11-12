@@ -170,3 +170,35 @@ INNER JOIN  playlist__report_track as rt ON  rt.track_id = tr.id
 WHERE al.id = 135826
 group by track_id
 order by track_no asc, track_title asc
+
+-- get playhistory of one track
+SELECT pr.name as program_name
+ , pr.id as program_id
+ , re.id as report_id
+ , re.program_date
+ , rt.track_id
+FROM playlist__program as pr
+INNER JOIN playlist__report as re ON re.program_id = pr.id
+INNER JOIN playlist__report_track as rt ON rt.report_id = re.id
+WHERE rt.track_id = 97975
+GROUP BY re.id
+ORDER BY program_date desc
+
+-- get search results by query
+SELECT ar.name as artist_name
+ , ar.id as artist_id
+ , al.name as album_name
+ , al.id as album_id
+ , tr.name as track_title
+ , tr.id as track_id
+ , MAX(re.program_date) as program_date
+ , MAX(re.id) as report_id
+FROM playlist__program as pr
+INNER JOIN playlist__report as re ON re.program_id = pr.id
+INNER JOIN playlist__report_track as rt ON rt.report_id = re.id
+INNER JOIN playlist__track as tr ON rt.track_id = tr.id
+INNER JOIN playlist__album as al ON tr.album_id = al.id
+INNER JOIN playlist__artist as ar ON tr.artist_id = ar.id AND al.artist_id = ar.id
+WHERE al.name like "%mellon collie%"
+GROUP BY tr.id
+ORDER BY program_date desc

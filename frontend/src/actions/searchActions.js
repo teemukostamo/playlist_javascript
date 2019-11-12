@@ -3,7 +3,8 @@ import {
   SET_SEARCH_LOADING,
   TOP_100,
   GET_DISCOGS_CATID,
-  CLEAR_DISCOGS_CATID
+  CLEAR_DISCOGS_CATID,
+  ADVANCED_RESULTS
 } from './types';
 import searchService from '../services/search';
 
@@ -16,6 +17,22 @@ export const getAutocompleteResults = query => async dispatch => {
     console.log(results);
     dispatch({
       type: AUTOCOMPLETE_RESULTS,
+      data: results
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const advancedSearch = searchParams => async dispatch => {
+  try {
+    dispatch({
+      type: SET_SEARCH_LOADING
+    });
+    const results = await searchService.advancedSearch(searchParams);
+    console.log(results);
+    dispatch({
+      type: ADVANCED_RESULTS,
       data: results
     });
   } catch (error) {
