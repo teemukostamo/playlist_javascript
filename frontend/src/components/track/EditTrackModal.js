@@ -35,7 +35,7 @@ const EditTrackModal = props => {
   const [people, setPeople] = useState(props.track.people);
   const [discNo, setDiscNo] = useState(props.track.disc_no);
   const [trackNo, setTrackNo] = useState(props.track.track_no);
-  const [year, setYear] = useState(props.track.year);
+  const [year, setYear] = useState(parseInt(props.track.year));
   const [label, setLabel] = useState(props.track.label);
   const [catId, setCatId] = useState(props.track.cat_id);
   console.log(props.track.cat_id);

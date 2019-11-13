@@ -1,12 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
+import MergeAlbumTracksModal from './MergeAlbumTracksModal';
 
 const TracksInAnAlbumItem = props => {
   console.log(props);
   return (
     <Table.Row>
-      <Table.Cell>{props.track.track_id}</Table.Cell>
+      <Table.Cell>
+        <MergeAlbumTracksModal
+          track_id={props.track.track_id}
+          track_title={props.track.track_title}
+        />
+      </Table.Cell>
       <Table.Cell>
         <Link to={`/track/${props.track.track_id}`}>
           {props.track.artist_name} - {props.track.track_title}{' '}

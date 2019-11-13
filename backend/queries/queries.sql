@@ -202,3 +202,22 @@ INNER JOIN playlist__artist as ar ON tr.artist_id = ar.id AND al.artist_id = ar.
 WHERE al.name like "%mellon collie%"
 GROUP BY tr.id
 ORDER BY program_date desc
+
+-- merge two tracks
+START TRANSACTION;
+UPDATE playlist__report_track SET track_id=409314 WHERE track_id=409444;
+DELETE FROM playlist__track WHERE id=409444;
+COMMIT;
+
+-- merge two artists
+START TRANSACTION;
+UPDATE playlist__album SET artist_id=29024 WHERE artist_id=83177;
+UPDATE playlist__track SET artist_id=29024 WHERE artist_id=83177;
+DELETE FROM playlist__artist WHERE id=83177;
+COMMIT;
+
+-- merge two albums
+START TRANSACTION;
+UPDATE playlist__track SET album_id=4025 WHERE album_id=134978;
+DELETE FROM playlist__album WHERE id=134978;
+COMMIT;

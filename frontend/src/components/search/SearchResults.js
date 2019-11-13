@@ -10,7 +10,7 @@ const SearchResults = props => {
   }
   if (props.search.loading === true) {
     return (
-      <Dimmer>
+      <Dimmer active>
         <Loader>ladataan...</Loader>
       </Dimmer>
     );
