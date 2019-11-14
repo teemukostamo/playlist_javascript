@@ -56,11 +56,29 @@ const merge = async mergeParams => {
   return request.data;
 };
 
+const changeArtistOptions = async query => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.get(`${baseUrl}/changeartist/${query}`, config);
+  return request.data;
+};
+
+const changeAlbumOptions = async query => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.get(`${baseUrl}/changealbum/${query}`, config);
+  return request.data;
+};
+
 export default {
   setToken,
   getTracksForSearch,
   advancedSearch,
   getCatIdFromDiscogs,
   getTop100,
-  merge
+  merge,
+  changeArtistOptions,
+  changeAlbumOptions
 };

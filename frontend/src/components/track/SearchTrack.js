@@ -1,31 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Form, Search, Button, Grid, Header } from 'semantic-ui-react';
 import { getAutocompleteResults } from '../../actions/searchActions';
 import { addTrackToReport } from '../../actions/reportActions';
 import AddTrackModal from './AddTrackModal';
+import { useSearchTracksHook } from '../../hooks/searchTracksHook';
 
-const SearchTrack = ({
-  search,
-  report,
-  getAutocompleteResults,
-  addTrackToReport
-}) => {
-  console.log('search track props', search);
-  const [searchQuery, setSearchQuery] = useState('');
+const SearchTrack = ({ report, addTrackToReport }) => {
   const [trackToSave, setTrackToSave] = useState(null);
-
-  useEffect(() => {
-    if (searchQuery.length >= 3) {
-      let timeout = null;
-      console.log('fire when typed to search', searchQuery);
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        getAutocompleteResults(searchQuery);
-      }, 1000);
-    }
-    // eslint-disable-next-line
-  }, [searchQuery]);
+  const { inputText, setInputText, search } = useSearchTracksHook();
 
   const handleResultSelect = (e, { result }) => {
     const trackToSave = {
@@ -41,25 +24,24 @@ const SearchTrack = ({
   const saveClick = () => {
     console.log('klikd save', trackToSave);
     addTrackToReport(trackToSave);
-    setSearchQuery('');
     setTrackToSave(null);
   };
 
-  const onSearchChange = (e, { value }) => {
-    setSearchQuery(value);
-    // if (searchQuery.length >= 3) {
-    //   setTimeout(() => {
-    //     getAutocompleteResults(searchQuery);
-    //   }, 300);
-    // }
-  };
-
-  let results = search.searchResults.map(result => ({
-    key: result.track_id,
-    title: result.track_title + ' ' + result.artist,
-    length: result.length,
-    value: result.track_id
-  }));
+  // const onSearchChange = (e, { value }) => {
+  //   setInputText(value);
+  // };
+  let results;
+  if (search.result === undefined) {
+    results = [];
+  } else {
+    results = search.result.map(result => ({
+      key: result.track_id,
+      title: result.track_title,
+      description: `${result.artist}: ${result.album}`,
+      length: result.length,
+      value: result.track_id
+    }));
+  }
 
   return (
     <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
@@ -72,11 +54,10 @@ const SearchTrack = ({
                 <Search
                   loading={search.loading}
                   onResultSelect={handleResultSelect}
-                  onSearchChange={onSearchChange}
+                  onSearchChange={e => setInputText(e.target.value)}
                   onSelectionChange={handleResultSelect}
                   results={results}
-
-                  // value={value}
+                  style={{ cursor: 'pointer' }}
                 />
               </Form.Field>
               <Form.Field>

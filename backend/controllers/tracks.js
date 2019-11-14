@@ -84,6 +84,28 @@ tracksRouter.get('/history/:id', async (req, res, next) => {
   }
 });
 
+// update album
+tracksRouter.put('/updatealbum', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    let { track_id, album_id } = req.body;
+    const updateAlbum = await Track.update(
+      {
+        album_id: album_id
+      },
+      { where: { id: track_id } }
+    );
+    console.log(updateAlbum);
+    res.status(200).json('one row affected');
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 // update track, album, artist
 tracksRouter.put('/', async (req, res, next) => {
   try {

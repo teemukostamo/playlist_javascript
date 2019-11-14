@@ -53,9 +53,11 @@
 | 8.11.2019  |   3    |                       report list filters, delete report popup                       |
 | 8.11.2019  |   3    |                                       top 100                                        |
 | 8.11.2019  |   2    |                               top 100, search frontend                               |
-| 11.11.2019 | 3 181  |                   refactoring edit user modal, artist details page                   |
+| 11.11.2019 |   3    |                   refactoring edit user modal, artist details page                   |
 | 11.11.2019 |   4    |                  album details, track listing and play counts pages                  |
 | 12.11.2019 |   3    |              album, artist, track details pages, updating edited infos               |
 | 12.11.2019 |   3    |                                   search overflow                                    |
 | 13.11.2019 |   2    |                                     merge modals                                     |
 | 13.11.2019 |   1    |                                    merge queries                                     |
+| 14.11.2019 |   3    |                                    merge backend                                     |
+| 14.11.2019 | 3 200  |                                     search hook                                      |

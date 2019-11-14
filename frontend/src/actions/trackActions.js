@@ -6,7 +6,8 @@ import {
   GET_ONE_TRACK,
   GET_ONE_TRACK_HISTORY,
   CLEAR_CURRENT_TRACK,
-  REMOVE_CURRENT_TRACK
+  REMOVE_CURRENT_TRACK,
+  CHANGE_ALBUM
 } from './types';
 import trackService from '../services/tracks';
 import searchService from '../services/search';
@@ -112,6 +113,22 @@ export const mergeTrackFunction = mergeParams => async dispatch => {
     dispatch({
       type: GET_ONE_TRACK_HISTORY,
       data: history
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const changeAlbumId = albumToUpdate => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const updateAlbum = await trackService.updateAlbumId(albumToUpdate);
+    console.log(updateAlbum);
+    dispatch({
+      type: CHANGE_ALBUM,
+      data: albumToUpdate.album_id
     });
   } catch (error) {
     console.log(error);

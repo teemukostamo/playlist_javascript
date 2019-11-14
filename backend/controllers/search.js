@@ -95,6 +95,7 @@ searchRouter.get('/advanced', async (req, res, next) => {
   }
 });
 
+// merge tracks, albums or artists
 searchRouter.put('/advanced', async (req, res, next) => {
   try {
     const token = getTokenFrom(req);
@@ -158,6 +159,56 @@ searchRouter.put('/advanced', async (req, res, next) => {
     } else {
       res.status(404).end();
     }
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// change artist options
+searchRouter.get('/changeartist/:query', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    const results = await db.query(
+      `
+    SELECT name as artist_name, id as artist_id
+    FROM playlist__artist
+    WHERE name like "%${req.params.query}%"
+    `,
+      {
+        type: db.QueryTypes.SELECT
+      }
+    );
+    res.status(200).json(results);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// change album options
+searchRouter.get('/changealbum/:query', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    const results = await db.query(
+      `
+    SELECT al.name as album_name, al.id as album_id, al.identifier as cat_id, ar.name as artist_name
+    FROM playlist__album as al
+    INNER JOIN playlist__artist as ar ON al.artist_id = ar.id
+    WHERE al.name like "%${req.params.query}%"
+    ORDER BY album_name asc
+    `,
+      {
+        type: db.QueryTypes.SELECT
+      }
+    );
+    res.status(200).json(results);
   } catch (exception) {
     next(exception);
   }

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import './App.css';
 import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 import Home from './components/layout/Home';
 import UserList from './components/user/UserList';
 import ReportList from './components/report/ReportList';
@@ -104,6 +105,9 @@ const App = props => {
         <Route exact path="/top100" component={Top100List} />
         <Route exact path="/users" component={UserList} />
       </Switch>
+      <div>
+        <Footer />
+      </div>
     </Router>
   );
 };

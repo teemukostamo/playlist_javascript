@@ -14,6 +14,8 @@ import {
 import { updateTrack } from '../../actions/trackActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import Notification from '../layout/Notification';
+import ChangeAlbumModal from './ChangeAlbumModal';
+import ChangeArtistModal from './ChangeArtistModal';
 
 const TrackDetailsForm = props => {
   console.log('track details form props', props);
@@ -346,7 +348,7 @@ const TrackDetailsForm = props => {
       <Grid.Column>
         <h2>Biisin tiedot</h2>
         <Notification />
-        <Form onSubmit={submitTrack}>
+        <Form>
           <Form.Field required>
             <label>Artisti</label>
             <Input
@@ -357,9 +359,20 @@ const TrackDetailsForm = props => {
               onChange={e => setArtist(e.target.value)}
             />
             <span>
-              <Link to={`../artist/${props.currentTrack.artist_id}`}>
+              <Link
+                style={{
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                  color: 'teal',
+                  marginRight: '1rem'
+                }}
+                to={`../artist/${props.currentTrack.artist_id}`}
+              >
                 Muokkaa artistin tietoja
               </Link>
+            </span>
+            <span>
+              <ChangeArtistModal currentTrack={props.currentTrack} />
             </span>
           </Form.Field>
           <Form.Field required>
@@ -372,9 +385,20 @@ const TrackDetailsForm = props => {
               onChange={e => setAlbum(e.target.value)}
             />
             <span>
-              <Link to={`../album/${props.currentTrack.album_id}`}>
+              <Link
+                style={{
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                  color: 'teal',
+                  marginRight: '1rem'
+                }}
+                to={`../album/${props.currentTrack.album_id}`}
+              >
                 Muokkaa albumin tietoja
               </Link>
+            </span>
+            <span>
+              <ChangeAlbumModal currentTrack={props.currentTrack} />
             </span>
           </Form.Field>
           <Form.Field required>
@@ -505,7 +529,7 @@ const TrackDetailsForm = props => {
             //   !year
             // }
             color="green"
-            type="submit"
+            onClick={submitTrack}
           >
             Tallenna muutokset
           </Button>

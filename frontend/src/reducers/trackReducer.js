@@ -2,7 +2,8 @@ import {
   GET_ONE_TRACK,
   GET_ONE_TRACK_HISTORY,
   CLEAR_CURRENT_TRACK,
-  SET_LOADING
+  SET_LOADING,
+  CHANGE_ALBUM
 } from '../actions/types';
 
 const initialState = {
@@ -33,6 +34,15 @@ const trackReducer = (state = initialState, action) => {
         ...state,
         playhistory: null,
         currentTrack: null
+      };
+    case CHANGE_ALBUM:
+      return {
+        ...state,
+        currentTrack: {
+          ...state.currentTrack,
+          album_id: action.data
+        },
+        loading: false
       };
     case SET_LOADING:
       return {

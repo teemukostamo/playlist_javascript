@@ -4,7 +4,11 @@ import {
   TOP_100,
   GET_DISCOGS_CATID,
   CLEAR_DISCOGS_CATID,
-  ADVANCED_RESULTS
+  ADVANCED_RESULTS,
+  GET_CHANGE_ALBUM_OPTIONS,
+  GET_CHANGE_ARTIST_OPTIONS,
+  RESET_CHANGE_ARTIST_OPTIONS,
+  RESET_CHANGE_ALBUM_OPTIONS
 } from './types';
 import searchService from '../services/search';
 
@@ -90,6 +94,42 @@ export const getTop100 = query => async dispatch => {
       type: TOP_100,
       data: results,
       query
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getChangeAlbumOptions = query => async dispatch => {
+  try {
+    dispatch({
+      type: RESET_CHANGE_ALBUM_OPTIONS
+    });
+    dispatch({
+      type: SET_SEARCH_LOADING
+    });
+    const results = await searchService.changeAlbumOptions(query);
+    dispatch({
+      type: GET_CHANGE_ALBUM_OPTIONS,
+      data: results
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getChangeArtistOptions = query => async dispatch => {
+  try {
+    dispatch({
+      type: RESET_CHANGE_ARTIST_OPTIONS
+    });
+    dispatch({
+      type: SET_SEARCH_LOADING
+    });
+    const results = await searchService.changeArtistOptions(query);
+    dispatch({
+      type: GET_CHANGE_ARTIST_OPTIONS,
+      data: results
     });
   } catch (error) {
     console.log(error);

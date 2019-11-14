@@ -4,7 +4,11 @@ import {
   GET_DISCOGS_CATID,
   CLEAR_DISCOGS_CATID,
   TOP_100,
-  SET_SEARCH_LOADING
+  SET_SEARCH_LOADING,
+  GET_CHANGE_ALBUM_OPTIONS,
+  GET_CHANGE_ARTIST_OPTIONS,
+  RESET_CHANGE_ALBUM_OPTIONS,
+  RESET_CHANGE_ARTIST_OPTIONS
 } from '../actions/types';
 
 const initialState = {
@@ -12,6 +16,8 @@ const initialState = {
   top100: null,
   top100Query: null,
   advancedResults: null,
+  changeArtistOptions: null,
+  changeAlbumOptions: null,
   loading: false,
   discogsCatId: null,
   error: null
@@ -56,6 +62,28 @@ const searchReducer = (state = initialState, action) => {
       return {
         ...state,
         discogsCatId: null
+      };
+    case GET_CHANGE_ALBUM_OPTIONS:
+      return {
+        ...state,
+        changeAlbumOptions: action.data,
+        loading: false
+      };
+    case GET_CHANGE_ARTIST_OPTIONS:
+      return {
+        ...state,
+        changeArtistOptions: action.data,
+        loading: false
+      };
+    case RESET_CHANGE_ALBUM_OPTIONS:
+      return {
+        ...state,
+        changeAlbumOptions: null
+      };
+    case RESET_CHANGE_ARTIST_OPTIONS:
+      return {
+        ...state,
+        changeArtistOptions: null
       };
     default:
       return state;

@@ -5,9 +5,14 @@ import CreateNewReportForm from '../report/CreateNewReportForm';
 import InProgressReportsList from '../report/InProgressReportsList';
 import Notification from '../layout/Notification';
 import { getAllInProgress } from '../../actions/reportsListActions';
+import { useSearchTracksHook } from '../../hooks/searchTracksHook';
 
 const Home = props => {
   console.log('home props', props);
+  const { inputText, setInputText, search } = useSearchTracksHook();
+  console.log(search);
+  console.log(search);
+
   // useEffect(() => {
   //   props.getAllInProgress(props.login.id);
   //   // eslint-disable-next-line
@@ -35,6 +40,23 @@ const Home = props => {
           <InProgressReportsList />
         </Grid.Row>
       </Grid>
+      <div>
+        <input value={inputText} onChange={e => setInputText(e.target.value)} />
+        <div>
+          {search.loading && <div>...</div>}
+          {search.error && <div>Error: {search.error.message}</div>}
+          {search.result && (
+            <div>
+              <div>Results: {search.result.length}</div>
+              <ul>
+                {search.result.map(result => (
+                  <li key={result.track_id}>{result.track_title}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
     </Container>
   );
 };
@@ -53,7 +75,7 @@ const mapStateToProps = state => {
 
 const connectedHome = connect(
   mapStateToProps,
-  { getAllInProgress }
+  { getAllInProgress, useSearchTracksHook }
 )(Home);
 
 export default connectedHome;
