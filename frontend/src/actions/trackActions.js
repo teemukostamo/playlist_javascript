@@ -9,6 +9,7 @@ import {
   REMOVE_CURRENT_TRACK
 } from './types';
 import trackService from '../services/tracks';
+import searchService from '../services/search';
 
 export const getDjonlineTracks = searchParams => async dispatch => {
   try {
@@ -93,4 +94,26 @@ export const removeCurrentTrack = () => async dispatch => {
   dispatch({
     type: REMOVE_CURRENT_TRACK
   });
+};
+
+export const mergeTrackFunction = mergeParams => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const mergeAction = await searchService.merge(mergeParams);
+    console.log(mergeAction);
+    const track = await trackService.getOneTrack(mergeParams.mergeTo);
+    dispatch({
+      type: GET_ONE_TRACK,
+      data: track
+    });
+    const history = await trackService.getOneTrackHistory(mergeParams.mergeTo);
+    dispatch({
+      type: GET_ONE_TRACK_HISTORY,
+      data: history
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

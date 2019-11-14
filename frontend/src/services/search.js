@@ -47,10 +47,20 @@ const advancedSearch = async searchParams => {
   return request.data;
 };
 
+const merge = async mergeParams => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  console.log(mergeParams);
+  const request = await axios.put(`${baseUrl}/advanced`, mergeParams, config);
+  return request.data;
+};
+
 export default {
   setToken,
   getTracksForSearch,
   advancedSearch,
   getCatIdFromDiscogs,
-  getTop100
+  getTop100,
+  merge
 };

@@ -11,7 +11,7 @@ const AlbumDetails = props => {
   useEffect(() => {
     props.getOneAlbum(props.id);
     // eslint-disable-next-line
-  }, []);
+  }, [props.id]);
 
   if (props.album.currentAlbum === null) {
     return (

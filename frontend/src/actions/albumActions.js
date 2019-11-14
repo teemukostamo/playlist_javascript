@@ -5,6 +5,7 @@ import {
   SET_LOADING
 } from './types';
 import albumService from '../services/albums';
+import searchService from '../services/search';
 
 export const getOneAlbum = id => async dispatch => {
   try {
@@ -41,4 +42,28 @@ export const updateAlbum = albumToUpdate => async dispatch => {
     type: GET_ONE_ALBUM,
     data: updatedAlbum
   });
+};
+
+export const mergeAlbumFunction = mergeParams => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const mergeAction = await searchService.merge(mergeParams);
+    console.log(mergeAction);
+    const album = await albumService.getOneAlbum(mergeParams.mergeTo);
+    dispatch({
+      type: GET_ONE_ALBUM,
+      data: album
+    });
+    const tracklist = await albumService.getTracklistOfAlbum(
+      mergeParams.mergeTo
+    );
+    dispatch({
+      type: GET_TRACKLIST_OF_ALBUM,
+      data: tracklist
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown, Icon } from 'semantic-ui-react';
+import { mergeTrackFunction } from '../../actions/trackActions';
 
 const MergeAlbumTracksModal = props => {
   console.log('merge album tracks modal props', props);
@@ -15,8 +16,12 @@ const MergeAlbumTracksModal = props => {
   };
 
   const onSubmit = () => {
-    const mergeInto = props.track_id;
-    console.log('merging', trackToMerge, 'into', mergeInto);
+    const mergeParams = {
+      type: 'track',
+      merge: trackToMerge,
+      mergeTo: props.track_id
+    };
+    mergeTrackFunction(mergeParams);
   };
 
   const mergeOptions = props.album.tracklist.map(track => ({
@@ -76,7 +81,7 @@ const mapStateToProps = state => {
 
 const connectedMergeAlbumTracksModal = connect(
   mapStateToProps,
-  null
+  { mergeTrackFunction }
 )(MergeAlbumTracksModal);
 
 export default connectedMergeAlbumTracksModal;

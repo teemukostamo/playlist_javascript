@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Modal, Header, Form, Button, Dropdown, Icon } from 'semantic-ui-react';
+import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
+import { mergeTrackFunction } from '../../actions/trackActions';
 
 const MergeTracks = props => {
   console.log('merge track tracks modal props', props);
@@ -14,8 +15,13 @@ const MergeTracks = props => {
   };
 
   const onSubmit = () => {
-    const mergeInto = props.track_id;
-    console.log('merging track', trackToMerge, 'into track', mergeInto);
+    const mergeParams = {
+      type: 'track',
+      merge: trackToMerge,
+      mergeTo: props.track_id
+    };
+    console.log(mergeParams);
+    props.mergeTrackFunction(mergeParams);
   };
 
   const mergeOptions = props.search.advancedResults.map(track => ({
@@ -77,7 +83,7 @@ const mapStateToProps = state => {
 
 const connectedMergeTracks = connect(
   mapStateToProps,
-  null
+  { mergeTrackFunction }
 )(MergeTracks);
 
 export default connectedMergeTracks;

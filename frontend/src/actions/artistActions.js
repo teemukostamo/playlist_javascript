@@ -5,6 +5,7 @@ import {
   CLEAR_CURRENT_ARTIST
 } from './types';
 import artistService from '../services/artists';
+import searchService from '../services/search';
 
 export const getOneArtist = id => async dispatch => {
   try {
@@ -41,4 +42,28 @@ export const updateArtist = artistToUpdate => async dispatch => {
     type: GET_ONE_ARTIST,
     data: updatedArtist
   });
+};
+
+export const mergeArtistFunction = mergeParams => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const mergeAction = await searchService.merge(mergeParams);
+    console.log(mergeAction);
+    const artist = await artistService.getOneArtist(mergeParams.mergeTo);
+    dispatch({
+      type: GET_ONE_ARTIST,
+      data: artist
+    });
+    const albumList = await artistService.getAlbumsByArtist(
+      mergeParams.mergeTo
+    );
+    dispatch({
+      type: GET_ALBUM_LIST_BY_ARTIST,
+      data: albumList
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };

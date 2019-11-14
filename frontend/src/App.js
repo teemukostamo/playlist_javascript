@@ -51,6 +51,12 @@ const App = props => {
       </Container>
     );
   }
+
+  // return dj
+
+  // return toimitus
+
+  // return admin
   return (
     <Router>
       <div>

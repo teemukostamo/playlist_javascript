@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown, Icon } from 'semantic-ui-react';
+import { mergeAlbumFunction } from '../../actions/albumActions';
 
 const MergeAlbumsModal = props => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -14,8 +15,13 @@ const MergeAlbumsModal = props => {
   };
 
   const onSubmit = () => {
-    const mergeInto = props.album_id;
-    console.log('merging', albumToMerge, 'into', mergeInto);
+    const mergeParams = {
+      type: 'album',
+      merge: albumToMerge,
+      mergeTo: props.album_id
+    };
+    console.log(mergeParams);
+    props.mergeAlbumFunction(mergeParams);
   };
 
   const mergeOptions = props.artist.albumList.map(album => ({
@@ -73,6 +79,9 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedMergeAlbumsModal = connect(mapStateToProps)(MergeAlbumsModal);
+const connectedMergeAlbumsModal = connect(
+  mapStateToProps,
+  { mergeAlbumFunction }
+)(MergeAlbumsModal);
 
 export default connectedMergeAlbumsModal;

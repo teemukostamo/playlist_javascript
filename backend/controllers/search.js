@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
 const searchRouter = require('express').Router();
 const db = require('../config/database');
+const Track = require('../models/Track');
+const Artist = require('../models/Artist');
+const Album = require('../models/Album');
+const Report_Track = require('../models/Report_Track');
 
 const getTokenFrom = req => {
   const authorization = req.get('authorization');
@@ -88,6 +92,74 @@ searchRouter.get('/advanced', async (req, res, next) => {
     res.json(results);
   } catch (error) {
     next(error);
+  }
+});
+
+searchRouter.put('/advanced', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    let { type, merge, mergeTo } = req.body;
+
+    if (type === 'track') {
+      let transaction;
+      try {
+        transaction = await db.transaction();
+        await Report_Track.update(
+          {
+            track_id: mergeTo
+          },
+          { where: { track_id: merge } }
+        );
+        await Track.destroy({ where: { id: merge } });
+        res.status(200).json('1 table affected');
+      } catch (err) {
+        if (transaction) await transaction.rollback();
+      }
+    } else if (type === 'album') {
+      let transaction;
+      try {
+        transaction = await db.transaction();
+        await Track.update(
+          {
+            album_id: mergeTo
+          },
+          { where: { album_id: merge } }
+        );
+        await Album.destroy({ where: { id: merge } });
+        res.status(200).json('1 table affected');
+      } catch (err) {
+        if (transaction) await transaction.rollback();
+      }
+    } else if (type === 'artist') {
+      let transaction;
+      try {
+        transaction = await db.transaction();
+        await Album.update(
+          {
+            artist_id: mergeTo
+          },
+          { where: { artist_id: merge } }
+        );
+        await Track.update(
+          {
+            artist_id: mergeTo
+          },
+          { where: { artist_id: merge } }
+        );
+        await Artist.destroy({ where: { id: merge } });
+        res.status(200).json('2 tables affected');
+      } catch (err) {
+        if (transaction) await transaction.rollback();
+      }
+    } else {
+      res.status(404).end();
+    }
+  } catch (exception) {
+    next(exception);
   }
 });
 
