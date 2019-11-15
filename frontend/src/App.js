@@ -16,11 +16,12 @@ import LoginForm from './components/login/LoginForm';
 import ReportTransferList from './components/report/ReportTransferList';
 import Search from './components/search/Search';
 import Top100List from './components/top100/Top100List';
+import ReportWithTracks from './components/report/ReportWithTracks';
+import Notification from './components/layout/Notification';
 import { Container } from 'semantic-ui-react';
 import { initializeUser, logout } from './actions/loginActions';
 import { initializeUsers } from './actions/userActions';
 import { initializePrograms } from './actions/programActions';
-import ReportWithTracks from './components/report/ReportWithTracks';
 
 const App = props => {
   // initial logged in user, programs list, users list
@@ -67,6 +68,9 @@ const App = props => {
           first_name={props.login.first_name}
           last_name={props.login.last_name}
         />
+      </div>
+      <div>
+        <Notification />
       </div>
       <Switch>
         <Route exact path="/" component={Home} />

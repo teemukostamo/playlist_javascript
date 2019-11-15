@@ -9,7 +9,11 @@ const Footer = () => {
       <em>
         {' '}
         &copy; {new Date().getFullYear()}{' '}
-        <a href="https://www.radiohelsinki.fi" target="_blank">
+        <a
+          href="https://www.radiohelsinki.fi"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {' '}
           Radio Helsinki{' '}
         </a>{' '}

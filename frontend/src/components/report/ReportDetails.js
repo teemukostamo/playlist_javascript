@@ -15,7 +15,6 @@ import moment from 'moment';
 import SearchTrack from '../track/SearchTrack';
 import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
 import Togglable from '../layout/Togglable';
-import Notification from '../layout/Notification';
 import { updateReport } from '../../actions/reportActions';
 import { copyReport } from '../../actions/reportActions';
 import { setNotification } from '../../reducers/notificationReducer';

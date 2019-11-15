@@ -3,6 +3,7 @@ import {
   GET_ALL_IN_PROGRESS,
   SET_LOADING,
   CLEAR_CURRENT_REPORT,
+  DELETE_REPORT,
   FILTER_BY_USER_ID,
   FILTER_BY_STATUS,
   FILTER_BY_TEXT
@@ -61,6 +62,22 @@ export const deleteInProgressReport = params => async dispatch => {
     dispatch({
       type: GET_ALL_IN_PROGRESS,
       data: reports
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteReport = id => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const deletedReport = await reportService.deleteReport(id);
+    console.log(deletedReport);
+    dispatch({
+      type: DELETE_REPORT,
+      data: id
     });
   } catch (error) {
     console.log(error);

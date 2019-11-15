@@ -61,3 +61,4 @@
 | 13.11.2019 |   1    |                                    merge queries                                     |
 | 14.11.2019 |   3    |                                    merge backend                                     |
 | 14.11.2019 | 3 200  |                                     search hook                                      |
+| 15.11.2019 |   5    |                         fixing merge modals, delete report,                          |

@@ -12,7 +12,7 @@ const getTokenFrom = req => {
 };
 
 // get one report details
-reportDetailsRouter.get('/:id', async (req, res, next) => {
+reportDetailsRouter.get('/details/:id', async (req, res, next) => {
   try {
     const token = getTokenFrom(req);
     const decodedToken = jwt.verify(token, process.env.SECRET);
@@ -82,7 +82,7 @@ reportDetailsRouter.post('/', async (req, res, next) => {
 });
 
 // update existing report details
-reportDetailsRouter.put('/:id', async (req, res, next) => {
+reportDetailsRouter.put('/update/:id', async (req, res, next) => {
   try {
     const token = getTokenFrom(req);
     const decodedToken = jwt.verify(token, process.env.SECRET);
@@ -118,8 +118,8 @@ reportDetailsRouter.put('/:id', async (req, res, next) => {
     );
     console.log(updatedReport);
     res.status(201).json(updatedReport);
-  } catch (error) {
-    next(error);
+  } catch (exception) {
+    next(exception);
   }
 });
 

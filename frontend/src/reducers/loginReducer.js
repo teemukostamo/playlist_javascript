@@ -3,6 +3,7 @@ import {
   LOGIN,
   LOGOUT,
   LOGIN_ERROR,
+  UPDATE_CURRENT_USER,
   SET_LOADING
 } from '../actions/types';
 
@@ -31,6 +32,13 @@ const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload
+      };
+    case UPDATE_CURRENT_USER:
+      return {
+        ...state,
+        first_name: action.data.first_name,
+        last_name: action.data.last_name,
+        email: action.data.email
       };
 
     case SET_LOADING:

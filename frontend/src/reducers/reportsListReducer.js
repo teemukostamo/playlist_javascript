@@ -6,6 +6,7 @@ import {
   FILTER_BY_USER_ID,
   FILTER_BY_STATUS,
   FILTER_BY_TEXT,
+  DELETE_REPORT,
   SET_LOADING,
   REPORT_ERROR
 } from '../actions/types';
@@ -53,6 +54,14 @@ const reportListReducer = (state = initialState, action) => {
       return {
         ...state,
         lastTransfer: action.data,
+        loading: false
+      };
+    case DELETE_REPORT:
+      return {
+        ...state,
+        reportsList: state.reportsList.filter(
+          report => report.id !== action.data
+        ),
         loading: false
       };
     case FILTER_BY_USER_ID:

@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { Form, Search, Button, Grid, Header } from 'semantic-ui-react';
 import { getAutocompleteResults } from '../../actions/searchActions';
 import { addTrackToReport } from '../../actions/reportActions';
+import { setNotification } from '../../reducers/notificationReducer';
 import AddTrackModal from './AddTrackModal';
 import { useSearchTracksHook } from '../../hooks/searchTracksHook';
 
-const SearchTrack = ({ report, addTrackToReport }) => {
+const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
   const [trackToSave, setTrackToSave] = useState(null);
-  const { inputText, setInputText, search } = useSearchTracksHook();
+  const { setInputText, search } = useSearchTracksHook();
 
   const handleResultSelect = (e, { result }) => {
     const trackToSave = {
@@ -22,9 +23,13 @@ const SearchTrack = ({ report, addTrackToReport }) => {
   };
 
   const saveClick = () => {
-    console.log('klikd save', trackToSave);
-    addTrackToReport(trackToSave);
-    setTrackToSave(null);
+    if (!trackToSave) {
+      setNotification('Valitse biisi!', 'fail');
+    } else {
+      console.log('klikd save', trackToSave);
+      addTrackToReport(trackToSave);
+      setTrackToSave(null);
+    }
   };
 
   // const onSearchChange = (e, { value }) => {
@@ -37,7 +42,8 @@ const SearchTrack = ({ report, addTrackToReport }) => {
     results = search.result.map(result => ({
       key: result.track_id,
       title: result.track_title,
-      description: `${result.artist}: ${result.album}`,
+      description: `${result.artist}:
+                    ${result.album}`,
       length: result.length,
       value: result.track_id
     }));
@@ -92,7 +98,7 @@ const mapStateToProps = state => {
 };
 const connectedSearchTrack = connect(
   mapStateToProps,
-  { getAutocompleteResults, addTrackToReport }
+  { getAutocompleteResults, addTrackToReport, setNotification }
 )(SearchTrack);
 
 export default connectedSearchTrack;

@@ -1,106 +1,105 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Search } from 'semantic-ui-react';
-import { getChangeAlbumOptions } from '../../actions/searchActions';
 import { changeAlbumId } from '../../actions/trackActions';
+import { setNotification } from '../../reducers/notificationReducer';
+import { useChangeAlbumOptionsHook } from '../../hooks/changeAlbumOptionsHook';
 
 const ChangeAlbumModal = props => {
   console.log('change album modal props', props);
+  const { setInputText, search } = useChangeAlbumOptionsHook();
+  console.log(search);
   const [modalOpen, setModalOpen] = useState(false);
   const [albumToChange, setAlbumToChange] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  useEffect(() => {
-    if (searchQuery.length >= 3) {
-      let timeout = null;
-      console.log('fire when typed to search', searchQuery);
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        props.getChangeAlbumOptions(searchQuery);
-      }, 1000);
-    }
-    // eslint-disable-next-line
-  }, [searchQuery]);
-  let results = [];
-  if (props.search.changeAlbumOptions) {
-    results = props.search.changeAlbumOptions.map(result => ({
-      key: result.album_id,
-      title: `Albumi: ${result.album_name}, album_id: ${result.album_id}, ${result.artist_name}`,
-      value: result.album_id
-    }));
-  }
-
   const handleOpen = () => {
     setModalOpen(true);
   };
   const handleClose = () => {
     setModalOpen(false);
   };
-  const onSubmit = () => {
-    console.log('klikd submit change album');
-    console.log(
-      'inserting into track id ',
-      props.currentTrack.track_id,
-      'album id',
-      albumToChange.value
+  if (!modalOpen) {
+    return (
+      <button className="link-btn" onClick={handleOpen}>
+        Vaihda albumi
+      </button>
     );
-    const changedAlbum = {
-      track_id: props.currentTrack.track_id,
-      album_id: albumToChange.value
+  } else {
+    let results = [];
+    if (search.result === undefined) {
+      results = [];
+    } else {
+      results = search.result.map(result => ({
+        key: result.album_id,
+        title: `#${result.album_id}: ${result.album_name}`,
+        description: result.artist_name,
+        length: result.length,
+        value: result.album_id,
+        album_name: result.album_name
+      }));
+    }
+    const onSubmit = () => {
+      console.log('klikd submit change album');
+      console.log(
+        'inserting into track id ',
+        props.currentTrack.track_id,
+        'album id',
+        albumToChange.value,
+        albumToChange.album_name
+      );
+      const changedAlbum = {
+        track_id: props.currentTrack.track_id,
+        album_id: albumToChange.value,
+        album_name: albumToChange.album_name
+      };
+      console.log(changedAlbum);
+      props.changeAlbumId(changedAlbum);
+      props.setNotification(
+        `${props.currentTrack.track_title} -biisin albumi vaihdettu!`,
+        'success'
+      );
+      handleClose();
     };
-    props.changeAlbumId(changedAlbum);
-    handleClose();
-  };
 
-  const handleResultSelect = (e, { result }) => {
-    e.preventDefault();
-    setAlbumToChange(result);
-  };
-  const onSearchChange = (e, { value }) => {
-    setSearchQuery(value);
-    // if (searchQuery.length >= 3) {
-    //   setTimeout(() => {
-    //     getAutocompleteResults(searchQuery);
-    //   }, 300);
-    // }
-  };
+    const handleResultSelect = (e, { result }) => {
+      e.preventDefault();
+      setAlbumToChange(result);
+    };
 
-  return (
-    <Modal
-      open={modalOpen}
-      closeIcon
-      onClose={handleClose}
-      trigger={
-        <a
-          style={{
-            cursor: 'pointer',
-            fontSize: '0.8rem',
-            color: 'teal'
-          }}
-          onClick={handleOpen}
-        >
-          Vaihda albumi
-        </a>
-      }
-    >
-      <Header>Vaihda biisin {props.currentTrack.track_title} albumiks:</Header>
-      <Modal.Content>
-        <Form.Field>
-          <Search
-            loading={props.search.loading}
-            onResultSelect={handleResultSelect}
-            onSearchChange={onSearchChange}
-            onSelectionChange={handleResultSelect}
-            results={results}
+    return (
+      <Modal
+        open={modalOpen}
+        closeIcon
+        onClose={handleClose}
+        trigger={
+          <button className="link-btn" onClick={handleOpen}>
+            Vaihda albumi
+          </button>
+        }
+      >
+        <Header>
+          Vaihda biisin {props.currentTrack.track_title} albumiksi:
+        </Header>
+        <Modal.Content>
+          <Form.Field>
+            <div className="searchResults">
+              <Search
+                loading={search.loading}
+                onResultSelect={handleResultSelect}
+                onSearchChange={e => setInputText(e.target.value)}
+                onSelectionChange={handleResultSelect}
+                results={results}
 
-            // value={value}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Button onClick={onSubmit}>Yhdistä</Button>
-        </Form.Field>
-      </Modal.Content>
-    </Modal>
-  );
+                // value={value}
+              />
+            </div>
+          </Form.Field>
+          <Form.Field>
+            <Button onClick={onSubmit}>Vaihda</Button>
+          </Form.Field>
+        </Modal.Content>
+      </Modal>
+    );
+  }
 };
 
 const mapStateToProps = state => {
@@ -112,7 +111,7 @@ const mapStateToProps = state => {
 
 const connectedChangeAlbumModal = connect(
   mapStateToProps,
-  { getChangeAlbumOptions, changeAlbumId }
+  { changeAlbumId, setNotification }
 )(ChangeAlbumModal);
 
 export default connectedChangeAlbumModal;

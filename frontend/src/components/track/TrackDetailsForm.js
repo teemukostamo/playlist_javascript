@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -13,7 +13,6 @@ import {
 } from 'semantic-ui-react';
 import { updateTrack } from '../../actions/trackActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import Notification from '../layout/Notification';
 import ChangeAlbumModal from './ChangeAlbumModal';
 import ChangeArtistModal from './ChangeArtistModal';
 
@@ -31,10 +30,17 @@ const TrackDetailsForm = props => {
   const [people, setPeople] = useState(props.currentTrack.people);
   const [discNo, setDiscNo] = useState(props.currentTrack.disc_no);
   const [trackNo, setTrackNo] = useState(props.currentTrack.track_no);
-  const [year, setYear] = useState(parseInt(props.currentTrack.year));
-  console.log(year);
+  const [year, setYear] = useState(null);
   const [isrc, setIsrc] = useState(props.currentTrack.isrc);
   const [comment, setComment] = useState(props.currentTrack.comment);
+  useEffect(() => {
+    if (props.currentTrack.year === null) {
+      setYear(null);
+    } else {
+      setYear(parseInt(props.currentTrack.year));
+    }
+  }, [props.currentTrack.year]);
+
   const countryOptions = [
     {
       key: 1,
@@ -347,13 +353,12 @@ const TrackDetailsForm = props => {
     <Grid columns={2}>
       <Grid.Column>
         <h2>Biisin tiedot</h2>
-        <Notification />
         <Form>
           <Form.Field required>
             <label>Artisti</label>
             <Input
               disabled
-              defaultValue={artist}
+              value={props.track.currentTrack[0].artist}
               type="text"
               placeholder={artist}
               onChange={e => setArtist(e.target.value)}
@@ -379,7 +384,7 @@ const TrackDetailsForm = props => {
             <label>Albumi</label>
             <Input
               disabled
-              defaultValue={album}
+              value={props.track.currentTrack[0].album}
               type="text"
               placeholder="Albumi..."
               onChange={e => setAlbum(e.target.value)}
@@ -539,8 +544,14 @@ const TrackDetailsForm = props => {
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    track: state.track
+  };
+};
+
 const connectedTrackDetailsForm = connect(
-  null,
+  mapStateToProps,
   { setNotification, updateTrack }
 )(TrackDetailsForm);
 

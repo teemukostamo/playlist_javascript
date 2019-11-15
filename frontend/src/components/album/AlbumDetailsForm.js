@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Grid, Dimmer, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
@@ -11,8 +11,15 @@ const AlbumDetailsForm = props => {
   const [name, setName] = useState(props.currentAlbum[0].album_name);
   const [label, setLabel] = useState(props.currentAlbum[0].label);
   const [catId, setCatId] = useState(props.currentAlbum[0].cat_id);
-  const [year, setYear] = useState(parseInt(props.currentAlbum[0].year));
+  const [year, setYear] = useState(null);
   const [spotifyId, setSpotifyId] = useState(props.currentAlbum[0].spotify_id);
+  useEffect(() => {
+    if (props.currentAlbum[0].year === null) {
+      setYear(null);
+    } else {
+      setYear(parseInt(props.currentAlbum[0].year));
+    }
+  }, [props.currentAlbum[0].year]);
   if (props.currentAlbum === null) {
     return (
       <Dimmer>

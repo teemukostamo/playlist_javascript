@@ -3,7 +3,8 @@ import {
   GET_ONE_TRACK_HISTORY,
   CLEAR_CURRENT_TRACK,
   SET_LOADING,
-  CHANGE_ALBUM
+  CHANGE_ALBUM,
+  CHANGE_ARTIST
 } from '../actions/types';
 
 const initialState = {
@@ -38,10 +39,25 @@ const trackReducer = (state = initialState, action) => {
     case CHANGE_ALBUM:
       return {
         ...state,
-        currentTrack: {
-          ...state.currentTrack,
-          album_id: action.data
-        },
+        currentTrack: [
+          {
+            ...state.currentTrack[0],
+            album_id: action.data.album_id,
+            album: action.data.album_name
+          }
+        ],
+        loading: false
+      };
+    case CHANGE_ARTIST:
+      return {
+        ...state,
+        currentTrack: [
+          {
+            ...state.currentTrack[0],
+            artist_id: action.data.artist_id,
+            artist: action.data.artist_name
+          }
+        ],
         loading: false
       };
     case SET_LOADING:

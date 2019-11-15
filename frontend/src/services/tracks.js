@@ -101,6 +101,18 @@ const updateAlbumId = async albumToUpdate => {
   return response.data;
 };
 
+const updateArtistId = async artistToUpdate => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const response = await axios.put(
+    `/api/tracks/updateartist`,
+    artistToUpdate,
+    config
+  );
+  return response.data;
+};
+
 const getOneTrack = async id => {
   const config = {
     headers: { Authorization: token }
@@ -124,5 +136,6 @@ export default {
   updateTrack,
   getOneTrack,
   getOneTrackHistory,
-  updateAlbumId
+  updateAlbumId,
+  updateArtistId
 };

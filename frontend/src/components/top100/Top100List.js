@@ -13,6 +13,15 @@ const Top100List = props => {
       </Container>
     );
   }
+  if (props.search.loading) {
+    return (
+      <Container>
+        <h1>Top 100</h1>
+        <Top100SearchForm />
+        <div>Loading</div>
+      </Container>
+    );
+  }
   if (props.search.top100Query.list === 'artist_id')
     return (
       <Container>

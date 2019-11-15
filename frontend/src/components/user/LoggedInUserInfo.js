@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import ModalNotification from '../layout/ModalNotification';
 import { updateUser } from '../../actions/userActions';
+import { updateCurrentUser } from '../../actions/loginActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import { Modal, Header, Form, Button, Input } from 'semantic-ui-react';
 
@@ -29,7 +30,10 @@ const LoggedInUserModal = props => {
         email
       };
       console.log('updting info', userToUpdate);
+      props.updateCurrentUser(userToUpdate);
       props.updateUser(userToUpdate);
+      props.setNotification('Omat tiedot päivitetty!', 'success');
+      handleClose();
     } else if (password !== confirmPassword || password.length <= 3) {
       props.setNotification('Tarkasta salasanat!', 'fail');
     } else {
@@ -42,14 +46,10 @@ const LoggedInUserModal = props => {
       };
       console.log('updting info', userToUpdate);
       handleClose();
+      props.updateCurrentUser(userToUpdate);
       props.updateUser(userToUpdate);
+      props.setNotification('Omat tiedot päivitetty!', 'success');
     }
-    // if (!firstName || !lastName) {
-    //   props.setNotification(
-    //     'Etunimi ja sukunimi ovat pakollisia tietoja',
-    //     'fail'
-    //   );
-    // }
   };
 
   return (
@@ -135,7 +135,7 @@ const mapStateToProps = state => {
 
 const connectedLoggedInUserModal = connect(
   mapStateToProps,
-  { setNotification, updateUser }
+  { setNotification, updateUser, updateCurrentUser }
 )(LoggedInUserModal);
 
 export default connectedLoggedInUserModal;

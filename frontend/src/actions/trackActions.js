@@ -7,7 +7,8 @@ import {
   GET_ONE_TRACK_HISTORY,
   CLEAR_CURRENT_TRACK,
   REMOVE_CURRENT_TRACK,
-  CHANGE_ALBUM
+  CHANGE_ALBUM,
+  CHANGE_ARTIST
 } from './types';
 import trackService from '../services/tracks';
 import searchService from '../services/search';
@@ -128,7 +129,23 @@ export const changeAlbumId = albumToUpdate => async dispatch => {
     console.log(updateAlbum);
     dispatch({
       type: CHANGE_ALBUM,
-      data: albumToUpdate.album_id
+      data: albumToUpdate
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const changeArtistId = artistToUpdate => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const updateArtist = await trackService.updateArtistId(artistToUpdate);
+    console.log(updateArtist);
+    dispatch({
+      type: CHANGE_ARTIST,
+      data: artistToUpdate
     });
   } catch (error) {
     console.log(error);

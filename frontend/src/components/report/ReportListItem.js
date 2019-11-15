@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Table, Icon, Confirm } from 'semantic-ui-react';
 import { getOneReport } from '../../actions/reportActions';
+import { deleteReport } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import moment from 'moment';
 
@@ -14,6 +15,7 @@ const ReportListItem = props => {
   const confirmDelete = () => {
     setOpen(false);
     console.log('clikd delete on report', props.report.id);
+    props.deleteReport(props.report.id);
     props.setNotification(
       `${props.report.name} ${props.report.program_date} poistettu!`,
       'success'
@@ -73,7 +75,7 @@ const ReportListItem = props => {
 
 const connectedReportListItem = connect(
   null,
-  { getOneReport, setNotification }
+  { getOneReport, deleteReport, setNotification }
 )(ReportListItem);
 
 export default connectedReportListItem;

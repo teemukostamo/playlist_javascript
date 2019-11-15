@@ -11,6 +11,7 @@ import {
   LOGIN,
   LOGOUT,
   LOGIN_ERROR,
+  UPDATE_CURRENT_USER,
   SET_LOADING
 } from '../actions/types';
 
@@ -71,6 +72,17 @@ export const newLogin = user => async dispatch => {
         type: 'CLEAR_NOTIFICATION'
       });
     }, 3000);
+  }
+};
+
+export const updateCurrentUser = userToUpdate => async dispatch => {
+  try {
+    dispatch({
+      type: UPDATE_CURRENT_USER,
+      data: userToUpdate
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 

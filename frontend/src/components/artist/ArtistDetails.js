@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import { getOneArtist } from '../../actions/artistActions';

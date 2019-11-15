@@ -103,7 +103,7 @@ const getReportDetails = async id => {
     headers: { Authorization: token }
   };
   console.log('reportdetails req id ', id);
-  const request = await axios.get(`/api/reportdetails/${id}`, config);
+  const request = await axios.get(`/api/reportdetails/details/${id}`, config);
   console.log('reportservice get report details res data', request.data);
   return request.data;
 };
@@ -127,7 +127,7 @@ const updateReport = async updatedReport => {
 
   console.log('reportservice report to update', updatedReport);
   const request = axios.put(
-    `/api/reportdetails/${updatedReport.id}`,
+    `/api/reportdetails/update/${updatedReport.id}`,
     updatedReport,
     config
   );

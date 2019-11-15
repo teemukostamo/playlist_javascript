@@ -1,36 +1,35 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Message, Ref, Sticky } from 'semantic-ui-react';
+import { Message } from 'semantic-ui-react';
 
 const Notification = ({ notification }) => {
-  const contextRef = createRef();
   if (notification.message === null) {
     return null;
   }
 
   if (notification.type === 'success') {
     return (
-      <Ref innerRef={contextRef}>
-        <Sticky context={contextRef}>
-          <Message
-            floating
-            success
-            header={notification.message}
-            // content="You may now log-in with the username you have chosen"
-          />
-        </Sticky>
-      </Ref>
+      <div className="fixedTop">
+        <Message
+          floating
+          success
+          header={notification.message}
+          // content="You may now log-in with the username you have chosen"
+        />
+      </div>
     );
   }
 
   if (notification.type === 'fail') {
     return (
-      <Message
-        floating
-        negative
-        header={notification.message}
-        // content="You may now log-in with the username you have chosen"
-      />
+      <div className="fixedTop">
+        <Message
+          floating
+          negative
+          header={notification.message}
+          // content="You may now log-in with the username you have chosen"
+        />
+      </div>
     );
   }
 
