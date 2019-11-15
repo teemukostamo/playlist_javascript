@@ -27,12 +27,13 @@ const TrackDetailsForm = props => {
   const [recordCountry, setRecordCountry] = useState(
     props.currentTrack.record_country
   );
-  const [people, setPeople] = useState(props.currentTrack.people);
+  const [people, setPeople] = useState(null);
   const [discNo, setDiscNo] = useState(props.currentTrack.disc_no);
   const [trackNo, setTrackNo] = useState(props.currentTrack.track_no);
   const [year, setYear] = useState(null);
   const [isrc, setIsrc] = useState(props.currentTrack.isrc);
   const [comment, setComment] = useState(props.currentTrack.comment);
+
   useEffect(() => {
     if (props.currentTrack.year === null) {
       setYear(null);
@@ -40,6 +41,19 @@ const TrackDetailsForm = props => {
       setYear(parseInt(props.currentTrack.year));
     }
   }, [props.currentTrack.year]);
+
+  useEffect(() => {
+    if (props.currentTrack.people === null) {
+      setPeople(null);
+    } else {
+      setPeople(
+        props.currentTrack.people
+          .replace(/\| /, '')
+          .replace(/\| /g, '\n')
+          .replace(/ \|/, '')
+      );
+    }
+  }, [props.currentTrack.people]);
 
   const countryOptions = [
     {
@@ -327,7 +341,7 @@ const TrackDetailsForm = props => {
       length,
       country,
       record_country: recordCountry,
-      people,
+      people: `| ${people.replace(/\n/g, ' | ')} |`,
       disc_no: discNo,
       track_no: trackNo,
       year,
@@ -341,14 +355,15 @@ const TrackDetailsForm = props => {
       'success'
     );
   };
-  if (props.currentAlbum === null) {
+  if (props.currentTrack === null) {
     return (
       <Dimmer>
         <Loader>Ladataan...</Loader>
       </Dimmer>
     );
   }
-
+  console.log(people);
+  console.log(year);
   return (
     <Grid columns={2}>
       <Grid.Column>
@@ -462,7 +477,7 @@ const TrackDetailsForm = props => {
           <Form.Field>
             <label>Tekijät - max 5kpl, yksi per rivi, SUKUNIMI ETUNIMI</label>
             <TextArea
-              defaultValue={people}
+              value={people}
               onChange={e => setPeople(e.target.value)}
               placeholder="Tekijät - max 5kpl"
             />

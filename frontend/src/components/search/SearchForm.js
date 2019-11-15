@@ -6,7 +6,7 @@ import AddTrackModal from '../track/AddTrackModal';
 
 const SearchForm = props => {
   const [searchString, setSearchString] = useState('');
-  const [searchTarget, setSearchTarget] = useState('track_title');
+  const [searchTarget, setSearchTarget] = useState('ar');
   const [sortBy, setSortBy] = useState('track_title');
 
   const searchTargetOptions = [

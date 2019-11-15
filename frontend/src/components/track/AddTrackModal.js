@@ -56,7 +56,7 @@ const AddTrackModal = props => {
       length,
       country,
       record_country: recordCountry,
-      people,
+      people: `| ${people.replace(/\n/g, ' | ')} |`,
       disc_no: discNo,
       track_no: trackNo,
       year,

@@ -581,19 +581,33 @@ const report = [
 
 // console.log(filtered);
 
-var filtered = report.filter(function(e) {
-  return this.indexOf(e.sortable_rank) < 0;
-}, ids);
-console.log(filtered);
+// var filtered = report.filter(function(e) {
+//   return this.indexOf(e.sortable_rank) < 0;
+// }, ids);
+// console.log(filtered);
 
 // report.forEach((item, index) => {
 //   console.log(item);
 //   console.log(index);
 // });
 // const newReport = report.filter(t => t.sortable_rank !== 1);
-const length = 314;
-const minutes = Math.floor(length / 60);
-const seconds = length % 60;
+// const length = 314;
+// const minutes = Math.floor(length / 60);
+// const seconds = length % 60;
 
-console.log(minutes);
-console.log(seconds);
+// console.log(minutes);
+// console.log(seconds);
+
+let people2 = '| Robin inch Finck |';
+
+let linebroken = people2.replace(/\| /g, '\n').replace(/ \|/g, '');
+console.log(linebroken);
+
+console.log(linebroken.replace(/\n/g, '| ') + ' |');
+
+// people2= people.replace(/\| /g, '\n');
+// people = people.substring(2, people.length - 2);
+
+// let pipedPeople = people.replace(/\n/g, '| ');
+// pipedPeople = `| ${pipedPeople} |`;
+// console.log(pipedPeople);
