@@ -38,12 +38,59 @@ app.get('/', function(req, res) {
 });
 
 app.get('/reports*', (req, res) => {
+  console.log('hi from app.get reports');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
+app.get('/top100*', (req, res) => {
   console.log('hi from app.get');
   console.log(req);
   console.log(res);
   res.sendFile(path.resolve(__dirname + '/build/index.html'));
 });
-
+app.get('/search*', (req, res) => {
+  console.log('hi from app.get');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
+app.get('/transfer*', (req, res) => {
+  console.log('hi from app.get');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
+app.get('/users*', (req, res) => {
+  console.log('hi from app.get');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
+app.get('/propgrams*', (req, res) => {
+  console.log('hi from app.get');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
+app.get('/artist*', (req, res) => {
+  console.log('hi from app.get');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
+app.get('/album*', (req, res) => {
+  console.log('hi from app.get');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
+app.get('/track*', (req, res) => {
+  console.log('hi from app.get');
+  console.log(req);
+  console.log(res);
+  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+});
 // app.get('/reports', (req, res) => {
 //   console.log('hi from app.get');
 //   console.log(req);
