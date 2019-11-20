@@ -504,7 +504,7 @@ const TrackDetailsForm = props => {
           <Form.Field>
             <label>Tekijät - max 5kpl, yksi per rivi, SUKUNIMI ETUNIMI</label>
             <TextArea
-              value={people}
+              defaultValue={people}
               onChange={e => setPeople(e.target.value)}
               placeholder="Tekijät - max 5kpl"
             />

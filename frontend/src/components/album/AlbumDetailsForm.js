@@ -116,9 +116,9 @@ const AlbumDetailsForm = props => {
   );
 };
 
-const connectedAlbumDetailsForm = connect(
-  null,
-  { updateAlbum, setNotification }
-)(AlbumDetailsForm);
+const connectedAlbumDetailsForm = connect(null, {
+  updateAlbum,
+  setNotification
+})(AlbumDetailsForm);
 
 export default connectedAlbumDetailsForm;

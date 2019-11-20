@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Form, Search, Button, Grid, Header } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 import { getAutocompleteResults } from '../../actions/searchActions';
 import { addTrackToReport } from '../../actions/reportActions';
 import { setNotification } from '../../reducers/notificationReducer';
@@ -9,6 +10,7 @@ import { useSearchTracksHook } from '../../hooks/searchTracksHook';
 
 const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
   const [trackToSave, setTrackToSave] = useState(null);
+  const [redirect, setRedirect] = useState(false);
   const { setInputText, search } = useSearchTracksHook();
 
   const handleResultSelect = (e, { result }) => {
@@ -32,9 +34,10 @@ const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
     }
   };
 
-  // const onSearchChange = (e, { value }) => {
-  //   setInputText(value);
-  // };
+  const goToAdvancedSearch = () => {
+    setRedirect(true);
+  };
+
   let results;
   if (search.result === undefined) {
     results = [];
@@ -47,6 +50,10 @@ const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
       length: result.length,
       value: result.track_id
     }));
+  }
+
+  if (redirect) {
+    return <Redirect to={`/search`} />;
   }
 
   return (
@@ -75,7 +82,9 @@ const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
             <Form.Group widths="equal">
               <Form.Field>
                 {' '}
-                <Button color="blue">Tarkennettu haku</Button>
+                <Button onClick={goToAdvancedSearch} color="blue">
+                  Tarkennettu haku
+                </Button>
               </Form.Field>
               <Form.Field>
                 {' '}
@@ -96,9 +105,10 @@ const mapStateToProps = state => {
     report: state.report
   };
 };
-const connectedSearchTrack = connect(
-  mapStateToProps,
-  { getAutocompleteResults, addTrackToReport, setNotification }
-)(SearchTrack);
+const connectedSearchTrack = connect(mapStateToProps, {
+  getAutocompleteResults,
+  addTrackToReport,
+  setNotification
+})(SearchTrack);
 
 export default connectedSearchTrack;

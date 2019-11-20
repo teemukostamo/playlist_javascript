@@ -81,6 +81,7 @@ searchRouter.get('/advanced', async (req, res, next) => {
       , al.id as album_id
       , tr.name as track_title
       , tr.id as track_id
+      , tr.length
       , MAX(re.program_date) as program_date
       , MAX(re.id) as report_id
       FROM playlist__program as pr

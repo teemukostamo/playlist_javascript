@@ -45,10 +45,11 @@ const ReportListItem = props => {
           </Link>
         </Table.Cell>
         <Table.Cell>
-          {moment(props.report.program_date).format('DD-MM-YYYY')}
+          {moment(props.report.program_date).format('DD.MM.YYYY')}
         </Table.Cell>
         <Table.Cell>
-          {props.report.program_start_time} - {props.report.program_end_time}
+          {props.report.program_start_time.slice(0, -3)} -{' '}
+          {props.report.program_end_time.slice(0, -3)}
         </Table.Cell>
         <Table.Cell>{reportStatusOutPrint}</Table.Cell>
         <Table.Cell>
@@ -73,9 +74,10 @@ const ReportListItem = props => {
 //   report: state.report
 // });
 
-const connectedReportListItem = connect(
-  null,
-  { getOneReport, deleteReport, setNotification }
-)(ReportListItem);
+const connectedReportListItem = connect(null, {
+  getOneReport,
+  deleteReport,
+  setNotification
+})(ReportListItem);
 
 export default connectedReportListItem;

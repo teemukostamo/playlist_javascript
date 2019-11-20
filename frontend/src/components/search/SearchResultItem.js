@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import MergeArtists from './MergeArtists';
 import MergeAlbums from './MergeAlbums';
 import MergeTracks from './MergeTracks';
+import AddToCurrentReport from '../track/AddToCurrentReport';
 
 const SearchResultItem = props => {
   if (props.result === null) {
@@ -42,6 +43,13 @@ const SearchResultItem = props => {
         <Link to={`../reports/${props.result.report_id}`}>
           {props.result.program_date}
         </Link>
+      </Table.Cell>
+      <Table.Cell>
+        <AddToCurrentReport
+          track_title={props.result.track_title}
+          track_id={props.result.track_id}
+          length={props.result.length}
+        />
       </Table.Cell>
     </Table.Row>
   );

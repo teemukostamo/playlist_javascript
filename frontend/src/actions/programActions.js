@@ -94,3 +94,20 @@ export const updateProgram = updatedProgram => async dispatch => {
     console.log(error);
   }
 };
+
+export const mergePrograms = mergeParams => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    const mergeAction = await programService.mergePrograms(mergeParams);
+    console.log(mergeAction);
+    const programs = await programService.getAll();
+    dispatch({
+      type: GET_ALL_PROGRAMS,
+      data: programs
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

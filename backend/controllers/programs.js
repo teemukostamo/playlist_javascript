@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const programsRouter = require('express').Router();
 const Program = require('../models/Program');
+const Report = require('../models/Report');
 const db = require('../config/database');
 
 // getTokenFrom eristää tokenin authorization -headeristä
@@ -105,7 +106,7 @@ programsRouter.post('/', async (req, res, next) => {
 });
 
 // update program
-programsRouter.put('/', async (req, res, next) => {
+programsRouter.put('/update', async (req, res, next) => {
   try {
     const token = getTokenFrom(req);
     const decodedToken = jwt.verify(token, process.env.SECRET);
@@ -125,6 +126,34 @@ programsRouter.put('/', async (req, res, next) => {
     );
     console.log(programToUpdate);
     res.status(200).json(programToUpdate);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+// merge two programs
+programsRouter.put('/merge', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    let { merge, mergeTo } = req.body;
+    let transaction;
+    try {
+      transaction = await db.transaction();
+      await Report.update(
+        {
+          program_id: mergeTo
+        },
+        { where: { program_id: merge } }
+      );
+      await Program.destroy({ where: { id: merge } });
+      res.status(200).json('1 table affected');
+    } catch (err) {
+      if (transaction) await transaction.rollback();
+    }
   } catch (exception) {
     next(exception);
   }

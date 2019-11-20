@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { getTop100 } from '../../actions/searchActions';
 import { Form, Button, Dropdown } from 'semantic-ui-react';
@@ -97,9 +97,8 @@ const Top100SearchForm = props => {
   );
 };
 
-const connectedTop100SearchForm = connect(
-  null,
-  { getTop100 }
-)(Top100SearchForm);
+const connectedTop100SearchForm = connect(null, { getTop100 })(
+  Top100SearchForm
+);
 
 export default connectedTop100SearchForm;

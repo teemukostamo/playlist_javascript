@@ -48,7 +48,16 @@ const updateProgram = async updatedProgram => {
   const config = {
     headers: { Authorization: token }
   };
-  const request = await axios.put(baseUrl, updatedProgram, config);
+  const request = await axios.put(`${baseUrl}/update`, updatedProgram, config);
+  return request.data;
+};
+
+const mergePrograms = async mergeParams => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  console.log(mergeParams);
+  const request = await axios.put(`${baseUrl}/merge`, mergeParams, config);
   return request.data;
 };
 
@@ -58,5 +67,6 @@ export default {
   getOne,
   createProgram,
   updateProgram,
+  mergePrograms,
   setToken
 };

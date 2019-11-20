@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LoggedInUserInfo from '../user/LoggedInUserInfo';
+import CurrentReport from '../report/CurrentReport';
 import { logout } from '../../actions/loginActions';
 import { Link } from 'react-router-dom';
 import { Menu, Image, Dropdown, Icon } from 'semantic-ui-react';
@@ -82,12 +83,10 @@ const Navbar = props => {
             icon={null}
           />
         </Menu.Item>
+        <CurrentReport />
       </Menu>
     </div>
   );
 };
 
-export default connect(
-  null,
-  { logout }
-)(Navbar);
+export default connect(null, { logout })(Navbar);
