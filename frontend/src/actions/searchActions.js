@@ -5,6 +5,7 @@ import {
   GET_DISCOGS_CATID,
   CLEAR_DISCOGS_CATID,
   ADVANCED_RESULTS,
+  SORT_ADVANCED_RESULTS,
   GET_CHANGE_ALBUM_OPTIONS,
   GET_CHANGE_ARTIST_OPTIONS,
   RESET_CHANGE_ARTIST_OPTIONS,
@@ -38,6 +39,18 @@ export const advancedSearch = searchParams => async dispatch => {
     dispatch({
       type: ADVANCED_RESULTS,
       data: results
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const sortAdvancedResults = sortBy => async dispatch => {
+  try {
+    console.log('sort advanced search results by', sortBy);
+    dispatch({
+      type: SORT_ADVANCED_RESULTS,
+      data: sortBy
     });
   } catch (error) {
     console.log(error);

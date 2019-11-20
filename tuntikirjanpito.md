@@ -63,3 +63,4 @@
 | 14.11.2019 | 3 200  |                                     search hook                                      |
 | 15.11.2019 |   5    |                          fixing merge modals, delete report                          |
 | 15.11.2019 |   2    |                     regexing pipes in and out of people textarea                     |
+| 20.11.2019 |   3    |               refactored queries to use inner joins instead of commas                |

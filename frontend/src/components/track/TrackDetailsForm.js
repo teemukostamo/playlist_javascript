@@ -330,30 +330,57 @@ const TrackDetailsForm = props => {
     if (artist === null) {
       props.setNotification('Artisti on pakollinen tieto', 'fail');
     }
-    let length = parseInt(min) * 60 + parseInt(sec);
-    const trackToUpdate = {
-      artist_name: artist,
-      album_name: album,
-      artist_id: props.currentTrack.artist_id,
-      album_id: props.currentTrack.album_id,
-      track_id: props.currentTrack.track_id,
-      track_title: track,
-      length,
-      country,
-      record_country: recordCountry,
-      people: `| ${people.replace(/\n/g, ' | ')} |`,
-      disc_no: discNo,
-      track_no: trackNo,
-      year,
-      isrc,
-      comment
-    };
-    console.log(trackToUpdate);
-    props.updateTrack(trackToUpdate);
-    props.setNotification(
-      `Biisin ${trackToUpdate.track_title} tiedot päivitetty!`,
-      'success'
-    );
+    if (people === null) {
+      let length = parseInt(min) * 60 + parseInt(sec);
+      const trackToUpdate = {
+        artist_name: artist,
+        album_name: album,
+        artist_id: props.currentTrack.artist_id,
+        album_id: props.currentTrack.album_id,
+        track_id: props.currentTrack.track_id,
+        track_title: track,
+        length,
+        country,
+        record_country: recordCountry,
+        people,
+        disc_no: discNo,
+        track_no: trackNo,
+        year,
+        isrc,
+        comment
+      };
+      console.log(trackToUpdate);
+      props.updateTrack(trackToUpdate);
+      props.setNotification(
+        `Biisin ${trackToUpdate.track_title} tiedot päivitetty!`,
+        'success'
+      );
+    } else {
+      let length = parseInt(min) * 60 + parseInt(sec);
+      const trackToUpdate = {
+        artist_name: artist,
+        album_name: album,
+        artist_id: props.currentTrack.artist_id,
+        album_id: props.currentTrack.album_id,
+        track_id: props.currentTrack.track_id,
+        track_title: track,
+        length,
+        country,
+        record_country: recordCountry,
+        people: `| ${people.replace(/\n/g, ' | ')} |`,
+        disc_no: discNo,
+        track_no: trackNo,
+        year,
+        isrc,
+        comment
+      };
+      console.log(trackToUpdate);
+      props.updateTrack(trackToUpdate);
+      props.setNotification(
+        `Biisin ${trackToUpdate.track_title} tiedot päivitetty!`,
+        'success'
+      );
+    }
   };
   if (props.currentTrack === null) {
     return (
@@ -565,9 +592,9 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedTrackDetailsForm = connect(
-  mapStateToProps,
-  { setNotification, updateTrack }
-)(TrackDetailsForm);
+const connectedTrackDetailsForm = connect(mapStateToProps, {
+  setNotification,
+  updateTrack
+})(TrackDetailsForm);
 
 export default connectedTrackDetailsForm;

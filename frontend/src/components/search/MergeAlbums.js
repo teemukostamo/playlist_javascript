@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
 import { mergeAlbumFunction } from '../../actions/albumActions';
 const MergeAlbums = props => {
-  console.log('merge album tracks modal props', props);
+  // console.log('merge album tracks modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
   const [albumToMerge, setAlbumToMerge] = useState(null);
   const handleOpen = () => {
@@ -27,6 +27,7 @@ const MergeAlbums = props => {
       };
       console.log(mergeParams);
       props.mergeAlbumFunction(mergeParams);
+      handleClose();
     };
 
     const mergeOptions = Array.from(
@@ -80,15 +81,14 @@ const MergeAlbums = props => {
 };
 
 const mapStateToProps = state => {
-  console.log('MergeAlbums state', state);
+  // console.log('MergeAlbums state', state);
   return {
     search: state.search
   };
 };
 
-const connectedMergeAlbums = connect(
-  mapStateToProps,
-  { mergeAlbumFunction }
-)(MergeAlbums);
+const connectedMergeAlbums = connect(mapStateToProps, { mergeAlbumFunction })(
+  MergeAlbums
+);
 
 export default connectedMergeAlbums;

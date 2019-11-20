@@ -151,32 +151,69 @@ const EditTrackModal = props => {
       if (artist === null) {
         props.setNotification('Artisti on pakollinen tieto', 'fail');
       }
-      let length = parseInt(min) * 60 + parseInt(sec);
-      const trackToEdit = {
-        artist_name: artist,
-        album_name: album,
-        track_title: track,
-        length,
-        country,
-        record_country: recordCountry,
-        people: `| ${people.replace(/\n/g, ' | ')} |`,
-        disc_no: discNo,
-        track_no: trackNo,
-        year,
-        label,
-        cat_id: catId,
-        isrc,
-        comment,
-        user_id: props.login.id,
-        artist_id: props.track.artist_id,
-        album_id: props.track.album_id,
-        track_id: props.track.track_id,
-        sortable_rank: props.sortable_rank,
-        report_track_id: props.report_track_id
-      };
-      console.log('updating track', trackToEdit);
-      props.updateTrack(trackToEdit);
-      handleClose();
+      if (people === null) {
+        let length = parseInt(min) * 60 + parseInt(sec);
+        const trackToEdit = {
+          artist_name: artist,
+          album_name: album,
+          track_title: track,
+          length,
+          country,
+          record_country: recordCountry,
+          people,
+          disc_no: discNo,
+          track_no: trackNo,
+          year,
+          label,
+          cat_id: catId,
+          isrc,
+          comment,
+          user_id: props.login.id,
+          artist_id: props.track.artist_id,
+          album_id: props.track.album_id,
+          track_id: props.track.track_id,
+          sortable_rank: props.sortable_rank,
+          report_track_id: props.report_track_id
+        };
+        console.log('updating track', trackToEdit);
+        props.updateTrack(trackToEdit);
+        props.setNotification(
+          `Biisin ${trackToEdit.track_title} tiedot päivitetty!`,
+          'success'
+        );
+        handleClose();
+      } else {
+        let length = parseInt(min) * 60 + parseInt(sec);
+        const trackToEdit = {
+          artist_name: artist,
+          album_name: album,
+          track_title: track,
+          length,
+          country,
+          record_country: recordCountry,
+          people: `| ${people.replace(/\n/g, ' | ')} |`,
+          disc_no: discNo,
+          track_no: trackNo,
+          year,
+          label,
+          cat_id: catId,
+          isrc,
+          comment,
+          user_id: props.login.id,
+          artist_id: props.track.artist_id,
+          album_id: props.track.album_id,
+          track_id: props.track.track_id,
+          sortable_rank: props.sortable_rank,
+          report_track_id: props.report_track_id
+        };
+        console.log('updating track', trackToEdit);
+        props.updateTrack(trackToEdit);
+        props.setNotification(
+          `Biisin ${trackToEdit.track_title} tiedot päivitetty!`,
+          'success'
+        );
+        handleClose();
+      }
     };
 
     const countryOptions = [
@@ -670,16 +707,13 @@ const mapStateToProps = state => {
     search: state.search
   };
 };
-const connectedEditTrackModal = connect(
-  mapStateToProps,
-  {
-    setNotification,
-    getOneTrack,
-    removeCurrentTrack,
-    updateTrack,
-    getCatIdFromDiscogs,
-    clearDiscogsCatId
-  }
-)(EditTrackModal);
+const connectedEditTrackModal = connect(mapStateToProps, {
+  setNotification,
+  getOneTrack,
+  removeCurrentTrack,
+  updateTrack,
+  getCatIdFromDiscogs,
+  clearDiscogsCatId
+})(EditTrackModal);
 
 export default connectedEditTrackModal;

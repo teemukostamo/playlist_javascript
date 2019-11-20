@@ -30,13 +30,22 @@ searchRouter.get('/autocomplete/:query', async (req, res, next) => {
       return res.status(400).json({ error: 'query too short' });
     }
     const results = await db.query(
-      `SELECT t.name as track_title, ar.name as artist, al.name as album, t.id as track_id, t.length,
-      al.id as album_id, ar.id as artist_id, t.label as label
-      FROM playlist__artist as ar, playlist__album as al, playlist__track as t
-      WHERE t.album_id = al.id
-      and t.artist_id = ar.id
-      and (t.name like "%${searchString}%" or ar.name like "%${searchString}%")
-      order by t.name asc limit 100`,
+      `
+      SELECT t.name as track_title
+      , ar.name as artist
+      , al.name as album
+      , t.id as track_id
+      , t.length
+      , al.id as album_id
+      , ar.id as artist_id
+      , t.label as label
+     FROM playlist__track as t
+     INNER JOIN playlist__artist as ar ON t.artist_id = ar.id
+     INNER JOIN playlist__album as al ON t.album_id = al.id
+     WHERE (t.name like "%${searchString}%" or ar.name like "%${searchString}%")
+     ORDER BY t.name ASC 
+     LIMIT 100
+      `,
       {
         type: db.QueryTypes.SELECT
       }
@@ -82,7 +91,8 @@ searchRouter.get('/advanced', async (req, res, next) => {
       INNER JOIN playlist__artist as ar ON tr.artist_id = ar.id AND al.artist_id = ar.id
       WHERE ${kind}.name like "%${searchString}%"
       GROUP BY tr.id
-      ORDER BY program_date desc
+      ORDER BY track_title asc
+      LIMIT 1000
       `,
       {
         type: db.QueryTypes.SELECT

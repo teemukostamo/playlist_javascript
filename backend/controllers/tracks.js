@@ -24,13 +24,27 @@ tracksRouter.get('/details/:id', async (req, res, next) => {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
     const track = await db.query(
-      `SELECT t.name as track_title, ar.name as artist, al.name as album, t.id as track_id,
-    al.id as album_id, ar.id as artist_id, t.label as label, al.identifier as cat_id, t.length, t.side as disc_no,
-    t.track_no, t.people, t.isrc, al.year, t.comment, t.record_country, t.country
-    FROM playlist__artist as ar, playlist__album as al, playlist__track as t
-    WHERE t.id = ${req.params.id}
-    and t.album_id = al.id
-    and t.artist_id = ar.id`,
+      `SELECT t.name as track_title
+      , ar.name as artist
+      , al.name as album
+      , t.id as track_id
+      , al.id as album_id
+      , ar.id as artist_id
+      , t.label as label
+      , al.identifier as cat_id
+      , t.length
+      , t.side as disc_no
+      , t.track_no
+      , t.people
+      , t.isrc
+      , al.year
+      , t.comment
+      , t.record_country
+      , t.country
+     FROM playlist__track as t
+     INNER JOIN playlist__artist as ar ON t.artist_id = ar.id
+     INNER JOIN playlist__album as al ON t.album_id = al.id
+     WHERE t.id = ${req.params.id}`,
       {
         type: db.QueryTypes.SELECT
       }

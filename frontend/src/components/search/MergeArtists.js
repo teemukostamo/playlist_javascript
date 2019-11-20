@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
 import { mergeArtistFunction } from '../../actions/artistActions';
 const MergeArtists = props => {
-  console.log('merge album tracks modal props', props);
+  // console.log('merge album tracks modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
   const [artistToMerge, setArtistToMerge] = useState(null);
   const handleOpen = () => {
@@ -82,15 +82,14 @@ const MergeArtists = props => {
 };
 
 const mapStateToProps = state => {
-  console.log('MergeArtists state', state);
+  // console.log('MergeArtists state', state);
   return {
     search: state.search
   };
 };
 
-const connectedMergeArtists = connect(
-  mapStateToProps,
-  { mergeArtistFunction }
-)(MergeArtists);
+const connectedMergeArtists = connect(mapStateToProps, { mergeArtistFunction })(
+  MergeArtists
+);
 
 export default connectedMergeArtists;

@@ -20,13 +20,26 @@ reportDetailsRouter.get('/details/:id', async (req, res, next) => {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
     const report = await db.query(
-      `SELECT pr.name as program_name, re.program_no, re.program_dj, re.program_date, re.program_start_time, 
-      re.program_end_time, re.id, pr.id as program_id, re.rerun, re.status,
-      re.user_id, us.username, us.first_name, us.last_name
-      FROM playlist__program as pr, playlist__report as re, playlist__user as us
-      WHERE re.id = ${req.params.id}
-      and pr.id = re.program_id
-      and re.user_id = us.id`,
+      `
+      SELECT pr.name as program_name
+      , re.program_no
+      , re.program_dj
+      , re.program_date
+      , re.program_start_time
+      , re.program_end_time
+      , re.id
+      , pr.id as program_id
+      , re.rerun
+      , re.status
+      , re.user_id
+      , us.username
+      , us.first_name
+      , us.last_name
+     FROM playlist__program as pr
+     INNER JOIN playlist__report as re ON pr.id = re.program_id
+     INNER JOIN playlist__user as us ON re.user_id = us.id
+     WHERE re.id = ${req.params.id}
+      `,
       {
         type: db.QueryTypes.SELECT
       }

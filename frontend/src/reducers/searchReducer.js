@@ -1,6 +1,7 @@
 import {
   AUTOCOMPLETE_RESULTS,
   ADVANCED_RESULTS,
+  SORT_ADVANCED_RESULTS,
   GET_DISCOGS_CATID,
   CLEAR_DISCOGS_CATID,
   TOP_100,
@@ -16,6 +17,7 @@ const initialState = {
   top100: null,
   top100Query: null,
   advancedResults: null,
+  sortAdvancedResults: null,
   changeArtistOptions: null,
   changeAlbumOptions: null,
   loading: false,
@@ -40,6 +42,11 @@ const searchReducer = (state = initialState, action) => {
         ...state,
         advancedResults: action.data,
         loading: false
+      };
+    case SORT_ADVANCED_RESULTS:
+      return {
+        ...state,
+        sortAdvancedResults: action.data
       };
     case SET_SEARCH_LOADING:
       return {

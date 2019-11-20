@@ -24,7 +24,22 @@ reportslistRouter.get('/date/:date', async (req, res, next) => {
     console.log('date from backend route', date);
     console.log('typeof date from backend route', typeof date);
     let reports = await db.query(
-      `SELECT re.program_no, pr.name, re.program_date, re.program_start_time, re.program_end_time, re.status, re.rerun, re.program_dj, re.id, re.user_id FROM playlist__program as pr, playlist__report as re where re.program_date like "${date}%" and pr.id = re.program_id order by program_date asc, program_start_time asc`,
+      `
+      SELECT re.program_no
+      , pr.name
+      , re.program_date
+      , re.program_start_time
+      , re.program_end_time
+      , re.status
+      , re.rerun
+      , re.program_dj
+      , re.id
+      , re.user_id 
+     FROM playlist__program as pr
+     INNER JOIN playlist__report as re ON pr.id = re.program_id
+     WHERE re.program_date like "${date}%"
+     ORDER BY program_date ASC, program_start_time ASC
+      `,
       {
         type: db.QueryTypes.SELECT
       }
@@ -49,12 +64,22 @@ reportslistRouter.get('/user/:id', async (req, res, next) => {
     console.log('id from backend route', id);
     console.log('typeof id from backend route', typeof id);
     let reports = await db.query(
-      `SELECT re.program_no, pr.name, re.program_date, re.program_start_time, re.program_end_time, 
-      re.status, re.rerun, re.program_dj, re.id, re.user_id 
-      FROM playlist__program as pr, playlist__report as re 
-      where re.user_id="${id}" and re.status="0" 
-      and pr.id = re.program_id 
-      order by program_date asc, program_start_time asc`,
+      `
+      SELECT re.program_no
+      , pr.name
+      , re.program_date
+      , re.program_start_time
+      , re.program_end_time
+      , re.status
+      , re.rerun
+      , re.program_dj
+      , re.id
+      , re.user_id 
+     FROM playlist__program as pr
+     INNER JOIN playlist__report as re ON pr.id = re.program_id
+     WHERE re.user_id="${id}" AND re.status="0"
+     ORDER BY program_date ASC, program_start_time ASC
+      `,
       {
         type: db.QueryTypes.SELECT
       }
@@ -88,27 +113,3 @@ reportslistRouter.delete('/:id', async (req, res, next) => {
 });
 
 module.exports = reportslistRouter;
-
-// get all reports by month
-// reportsRouter.get('/list/?date=:date', async (req, res, next) => {
-//   try {
-//     let date = req.params.date + '%';
-//     console.log('date from backend route', date);
-//     // date = date + '%';
-//     // console.log(date);
-//     // let testDate = '2019-10%';
-
-//     // date value replacing still not working
-//     let reports = await db.query(
-//       'SELECT re.program_no, pr.name, re.program_date, re.program_start_time, re.program_end_time, re.status, re.rerun, re.program_dj, re.id FROM playlist__program as pr, playlist__report as re where re.program_date like :date and pr.id = re.program_id order by program_date asc',
-//       {
-//         replacements: { date: date },
-//         type: db.QueryTypes.SELECT
-//       }
-//     );
-//     console.log('results from reports route', reports);
-//     res.json(reports);
-//   } catch (exception) {
-//     next(exception);
-//   }
-// });

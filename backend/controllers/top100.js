@@ -19,18 +19,24 @@ top100Router.get('/', async (req, res, next) => {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
     const result = await db.query(
-      `
-        SELECT COUNT(*) as count, rt.track_id, tr.name as track_title, al.name as album, ar.name as artist,
-        al.id as album_id, ar.id as artist_id
-        FROM playlist__artist as ar, playlist__album as al, playlist__track as tr, 
-        playlist__report_track as rt, playlist__report as re
-        WHERE re.id = rt.report_id and tr.id = rt.track_id
-        and ar.id = tr.artist_id and al.id = tr.album_id
-        and tr.id = rt.track_id and re.status = 1
-        and re.program_date between "${req.query.start_date}" and "${req.query.end_date}"
+      ` 
+        SELECT COUNT(*) as count
+        , rt.track_id
+        , tr.name as track_title
+        , al.name as album
+        , ar.name as artist
+        , al.id as album_id
+        , ar.id as artist_id
+        FROM playlist__report as re
+        INNER JOIN playlist__report_track as rt ON re.id = rt.report_id
+        INNER JOIN playlist__track as tr ON tr.id = rt.track_id
+        INNER JOIN playlist__artist as ar ON ar.id = tr.artist_id
+        INNER JOIN playlist__album as al ON al.id = tr.album_id
+        WHERE re.status = 1
+        AND re.program_date BETWEEN "${req.query.start_date}" AND "${req.query.end_date}"
         GROUP BY ${req.query.list}
         ORDER BY COUNT(*) DESC
-        limit 100
+        LIMIT 100
         `,
       {
         type: db.QueryTypes.SELECT

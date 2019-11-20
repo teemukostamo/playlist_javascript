@@ -87,7 +87,6 @@ const FilterReportList = props => {
           <Dropdown
             placeholder="Käyttäjä"
             openOnFocus
-            search
             selection
             options={addAllToUserOptions}
             onChange={getUser}
@@ -98,7 +97,6 @@ const FilterReportList = props => {
             placeholder="Tila"
             openOnFocus
             selection
-            search
             options={statusOptions}
             onChange={getStatus}
           />{' '}

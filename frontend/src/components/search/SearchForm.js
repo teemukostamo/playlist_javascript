@@ -7,7 +7,6 @@ import AddTrackModal from '../track/AddTrackModal';
 const SearchForm = props => {
   const [searchString, setSearchString] = useState('');
   const [searchTarget, setSearchTarget] = useState('ar');
-  const [sortBy, setSortBy] = useState('track_title');
 
   const searchTargetOptions = [
     {
@@ -29,32 +28,6 @@ const SearchForm = props => {
   const getSearchTarget = (e, { value }) => {
     e.preventDefault();
     setSearchTarget(value);
-  };
-  const sortOptions = [
-    {
-      key: 1,
-      text: 'Biisin nimen mukaan',
-      value: 'track_title'
-    },
-    {
-      key: 2,
-      text: 'Artistin mukaan',
-      value: 'artist_name'
-    },
-    {
-      key: 3,
-      text: 'Luontipäivän mukaan',
-      value: 'created_at'
-    },
-    {
-      key: 4,
-      text: 'Muokkauspäivän mukaan',
-      value: 'updated_at'
-    }
-  ];
-  const getSortOptions = (e, { value }) => {
-    e.preventDefault();
-    setSortBy(value);
   };
 
   const handleSearch = () => {
@@ -79,24 +52,13 @@ const SearchForm = props => {
             />
           </Form.Field>
           <Form.Field>
-            <label>Biisi / Artisti / Albumi</label>
+            <label>Hae Biisin / Artistin / Albumin nimellä:</label>
             <Dropdown
               openOnFocus
               selection
               defaultValue={searchTarget}
               options={searchTargetOptions}
               onChange={getSearchTarget}
-            />{' '}
-          </Form.Field>
-
-          <Form.Field>
-            <label>Järjestä tulokset</label>
-            <Dropdown
-              openOnFocus
-              selection
-              defaultValue={sortBy}
-              options={sortOptions}
-              onChange={getSortOptions}
             />{' '}
           </Form.Field>
           <Button color="blue" onClick={handleSearch}>
@@ -113,9 +75,6 @@ const SearchForm = props => {
   );
 };
 
-const connectedSearchForm = connect(
-  null,
-  { advancedSearch }
-)(SearchForm);
+const connectedSearchForm = connect(null, { advancedSearch })(SearchForm);
 
 export default connectedSearchForm;

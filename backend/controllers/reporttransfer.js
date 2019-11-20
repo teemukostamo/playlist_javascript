@@ -22,7 +22,21 @@ reportTransferRouter.get('/', async (req, res, next) => {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
     const transfers = await db.query(
-      'SELECT rt.id, rt.user_id, us.username, us.first_name, us.last_name, rt.status, rt.filename, rt.period, rt.created_at, rt.updated_at FROM playlist__report_transfer as rt, playlist__user as us WHERE rt.user_id = us.id order by created_at desc',
+      `
+      SELECT rt.id
+      , rt.user_id
+      , us.username
+      , us.first_name
+      , us.last_name
+      , rt.status
+      , rt.filename
+      , rt.period
+      , rt.created_at
+      , rt.updated_at 
+     FROM playlist__report_transfer as rt
+     INNER JOIN playlist__user as us ON rt.user_id = us.id
+     ORDER BY created_at DESC
+      `,
       {
         type: db.QueryTypes.SELECT
       }
@@ -59,22 +73,34 @@ reportTransferRouter.post('/', async (req, res, next) => {
     }
     let { user_id, status, filename, period } = req.body;
     const arrayWithTracks = await db.query(
-      `SELECT re.program_date, re.program_start_time, re.program_end_time,
-    pr.name as program_name, ar.name as artist_name, tr.name as track_title,
-    tr.length, tr.people as copyright_holders, tr.country, tr.record_country, al.label,
-    al.identifier as cat_id, tr.isrc, tr.side as disc_no, tr.track_no, al.year
-    FROM playlist__report as re, playlist__program as pr, playlist__artist as ar,
-    playlist__report_track as rt, playlist__track as tr, playlist__album as al
-    WHERE re.program_id = pr.id
-    and rt.track_id = tr.id
-    and rt.report_id = re.id
-    and tr.artist_id = ar.id
-    and al.artist_id = ar.id
-    and tr.album_id = al.id
-    and re.status = 1
-    and re.program_date like "${period}%"
-    order by program_date asc, program_start_time asc
-    limit 30000`,
+      `
+      SELECT re.program_date
+      , re.program_start_time
+      , re.program_end_time
+      , pr.name as program_name
+      , ar.name as artist_name
+      , tr.name as track_title
+      , tr.length
+      , tr.people as copyright_holders
+      , tr.country
+      , tr.record_country
+      , al.label
+      , al.identifier as cat_id
+      , tr.isrc
+      , tr.side as disc_no
+      , tr.track_no
+      , al.year
+      FROM playlist__report as re 
+      INNER JOIN playlist__program as pr ON re.program_id = pr.id
+      INNER JOIN playlist__report_track as rt ON rt.report_id = re.id
+      INNER JOIN playlist__track as tr ON rt.track_id = tr.id
+      INNER JOIN playlist__artist as ar ON tr.artist_id = ar.id
+      INNER JOIN playlist__album as al ON al.artist_id = ar.id AND tr.album_id = al.id
+      WHERE re.status = 1
+      AND re.program_date like "${period}%"
+      ORDER BY program_date ASC, program_start_time ASC
+      LIMIT 30000
+      `,
       {
         type: db.QueryTypes.SELECT
       }
@@ -517,3 +543,21 @@ reportTransferRouter.post('/', async (req, res, next) => {
 });
 
 module.exports = reportTransferRouter;
+
+// old query with commas
+// `SELECT re.program_date, re.program_start_time, re.program_end_time,
+// pr.name as program_name, ar.name as artist_name, tr.name as track_title,
+// tr.length, tr.people as copyright_holders, tr.country, tr.record_country, al.label,
+// al.identifier as cat_id, tr.isrc, tr.side as disc_no, tr.track_no, al.year
+// FROM playlist__report as re, playlist__program as pr, playlist__artist as ar,
+// playlist__report_track as rt, playlist__track as tr, playlist__album as al
+// WHERE re.program_id = pr.id
+// and rt.track_id = tr.id
+// and rt.report_id = re.id
+// and tr.artist_id = ar.id
+// and al.artist_id = ar.id
+// and tr.album_id = al.id
+// and re.status = 1
+// and re.program_date like "${period}%"
+// order by program_date asc, program_start_time asc
+// limit 30000`

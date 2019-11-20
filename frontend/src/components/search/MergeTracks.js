@@ -4,7 +4,7 @@ import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
 import { mergeTrackFunction } from '../../actions/trackActions';
 
 const MergeTracks = props => {
-  console.log('merge track tracks modal props', props);
+  // console.log('merge track tracks modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
   const [trackToMerge, setTrackToMerge] = useState(null);
   const handleOpen = () => {
@@ -74,15 +74,14 @@ const MergeTracks = props => {
 };
 
 const mapStateToProps = state => {
-  console.log('MergeTracks state', state);
+  // console.log('MergeTracks state', state);
   return {
     search: state.search
   };
 };
 
-const connectedMergeTracks = connect(
-  mapStateToProps,
-  { mergeTrackFunction }
-)(MergeTracks);
+const connectedMergeTracks = connect(mapStateToProps, { mergeTrackFunction })(
+  MergeTracks
+);
 
 export default connectedMergeTracks;

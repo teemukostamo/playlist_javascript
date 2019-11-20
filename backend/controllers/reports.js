@@ -20,33 +20,33 @@ reportsRouter.get('/:id', async (req, res, next) => {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
     console.log('req params id at reports controller', req.params.id);
-    // let report = await db.query(
-    //   `SELECT rt.sortable_rank, ar.name as artist_name, tr.name as track_title, tr.length as length,
-    //   tr.id as track_id, ar.id as artist_id, rt.id as report_track_id
-    //   FROM playlist__track as tr, playlist__artist as ar, playlist__report_track as rt
-    //   WHERE rt.report_id = ${req.params.id}
-    //   and ar.id = tr.artist_id
-    //   and rt.track_id = tr.id
-    //   order by sortable_rank asc`,
-    //   {
-    //     type: db.QueryTypes.SELECT
-    //   }
-    //   // {
-    //   //   replacements: { report_id: req.params.id },
-    //   //   type: db.QueryTypes.SELECT
-    //   // }
-    // );
     let report = await db.query(
-      `SELECT rt.sortable_rank, ar.name as artist_name, tr.name as track_title, tr.length as length,
-      tr.id as track_id, ar.id as artist_id, al.id as album_id, al.name as album_name, tr.side as disc_no, tr.track_no,
-      al.identifier as cat_id, tr.country, tr.isrc, al.label, tr.people, tr.record_country, al.year, rt.id as report_track_id
-      FROM playlist__track as tr, playlist__artist as ar, playlist__report_track as rt,
-      playlist__album as al
-      WHERE rt.report_id = ${req.params.id}
-      and ar.id = tr.artist_id
-      and rt.track_id = tr.id
-      and tr.album_id = al.id
-      order by sortable_rank asc`,
+      `
+      SELECT rt.sortable_rank
+      , ar.name as artist_name
+      , tr.name as track_title
+      , tr.length as length
+      , tr.id as track_id
+      , ar.id as artist_id
+      , al.id as album_id
+      , al.name as album_name
+      , tr.side as disc_no
+      , tr.track_no
+      , al.identifier as cat_id
+      , tr.country
+      , tr.isrc
+      , al.label
+      , tr.people
+      , tr.record_country
+      , al.year
+      , rt.id as report_track_id
+     FROM playlist__track as tr
+     INNER JOIN playlist__artist as ar ON ar.id = tr.artist_id
+     INNER JOIN playlist__report_track as rt ON rt.track_id = tr.id
+     INNER JOIN playlist__album as al ON tr.album_id = al.id
+     WHERE rt.report_id = ${req.params.id}
+     ORDER BY sortable_rank asc
+      `,
       {
         type: db.QueryTypes.SELECT
       }
