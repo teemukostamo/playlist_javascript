@@ -28,6 +28,7 @@ export const getDjonlineTracks = searchParams => async dispatch => {
   }
 };
 
+// add a new track and save it to current report
 export const addNewTrack = trackToAdd => async dispatch => {
   try {
     dispatch({
@@ -43,6 +44,17 @@ export const addNewTrack = trackToAdd => async dispatch => {
     console.log(error);
   }
 };
+
+// add a new track to db - not in a report
+export const addTrackToDb = trackToAdd => async dispatch => {
+  try {
+    const track = await trackService.addTrackToDb(trackToAdd);
+    console.log(track);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const updateTrack = trackToUpdate => async dispatch => {
   try {
     dispatch({

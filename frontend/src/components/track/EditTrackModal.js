@@ -38,8 +38,6 @@ const EditTrackModal = props => {
   const [year, setYear] = useState(parseInt(props.track.year));
   const [label, setLabel] = useState(props.track.label);
   const [catId, setCatId] = useState(props.track.cat_id);
-  console.log(props.track.cat_id);
-  console.log(catId);
   const [isrc, setIsrc] = useState(props.track.isrc);
   const [comment, setComment] = useState(props.track.comment);
   useEffect(() => {
@@ -54,13 +52,6 @@ const EditTrackModal = props => {
     if (props.track.people === null) {
       setPeople(null);
     } else {
-      // let removePipes = props.track.people.substring(
-      //   2,
-      //   props.track.people.length - 2
-      // );
-      // console.log(removePipes);
-      // removePipes = removePipes.replace(/\|/g, '\n');
-      // console.log(removePipes);
       setPeople(
         props.track.people
           .replace(/\| /, '')

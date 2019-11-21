@@ -598,12 +598,12 @@ const report = [
 // console.log(minutes);
 // console.log(seconds);
 
-let people2 = '| Robin inch Finck |';
+// let people2 = '| Robin inch Finck |';
 
-let linebroken = people2.replace(/\| /g, '\n').replace(/ \|/g, '');
-console.log(linebroken);
+// let linebroken = people2.replace(/\| /g, '\n').replace(/ \|/g, '');
+// console.log(linebroken);
 
-console.log(linebroken.replace(/\n/g, '| ') + ' |');
+// console.log(linebroken.replace(/\n/g, '| ') + ' |');
 
 // people2= people.replace(/\| /g, '\n');
 // people = people.substring(2, people.length - 2);
@@ -611,3 +611,8 @@ console.log(linebroken.replace(/\n/g, '| ') + ' |');
 // let pipedPeople = people.replace(/\n/g, '| ');
 // pipedPeople = `| ${pipedPeople} |`;
 // console.log(pipedPeople);
+
+const time2 = '00:00:00';
+const time3 = '02:00:00';
+
+console.log(parseInt(time3) < parseInt(time2));

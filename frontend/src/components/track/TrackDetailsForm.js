@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   Form,
@@ -13,11 +13,13 @@ import {
 } from 'semantic-ui-react';
 import { updateTrack } from '../../actions/trackActions';
 import { setNotification } from '../../reducers/notificationReducer';
+import { addTrackToReport } from '../../actions/reportActions';
 import ChangeAlbumModal from './ChangeAlbumModal';
 import ChangeArtistModal from './ChangeArtistModal';
 
 const TrackDetailsForm = props => {
   console.log('track details form props', props);
+  const [redirect, setRedirect] = useState(false);
   const [artist, setArtist] = useState(props.currentTrack.artist);
   const [album, setAlbum] = useState(props.currentTrack.album);
   const [track, setTrack] = useState(props.currentTrack.track_title);
@@ -382,6 +384,35 @@ const TrackDetailsForm = props => {
       );
     }
   };
+  const addToReport = () => {
+    console.log('klikd add to report', props.currentTrack.track_id);
+    const trackToSave = {
+      track_id: props.currentTrack.track_id,
+      report_id: props.report.reportDetails.id,
+      length: props.currentTrack.length,
+      sortable_rank: props.report.report.length + 1
+    };
+    console.log('track to save', trackToSave);
+    props.addTrackToReport(trackToSave);
+    props.setNotification(
+      `${props.currentTrack.track_title} lisätty raporttiin ${props.report.reportDetails.program_name}`,
+      'success'
+    );
+    setRedirect(true);
+  };
+  // save and add to report button - render if current report exists
+  const addToReportButton = () => {
+    if (props.report.reportDetails === null) {
+      return null;
+    } else {
+      return (
+        <Button onClick={addToReport} color="blue">
+          Lisää raporttiin
+        </Button>
+      );
+    }
+  };
+
   if (props.currentTrack === null) {
     return (
       <Dimmer>
@@ -389,8 +420,9 @@ const TrackDetailsForm = props => {
       </Dimmer>
     );
   }
-  console.log(people);
-  console.log(year);
+  if (redirect) {
+    return <Redirect to={`/reports/${props.report.reportDetails.id}`} />;
+  }
   return (
     <Grid columns={2}>
       <Grid.Column>
@@ -580,6 +612,7 @@ const TrackDetailsForm = props => {
           >
             Tallenna muutokset
           </Button>
+          {addToReportButton()}
         </Form>
       </Grid.Column>
     </Grid>
@@ -588,13 +621,15 @@ const TrackDetailsForm = props => {
 
 const mapStateToProps = state => {
   return {
-    track: state.track
+    track: state.track,
+    report: state.report
   };
 };
 
 const connectedTrackDetailsForm = connect(mapStateToProps, {
   setNotification,
-  updateTrack
+  updateTrack,
+  addTrackToReport
 })(TrackDetailsForm);
 
 export default connectedTrackDetailsForm;

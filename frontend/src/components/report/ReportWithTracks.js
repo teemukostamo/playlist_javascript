@@ -111,63 +111,70 @@ const ReportWithTracks = props => {
       </Container>
     );
   }
+  if (
+    props.login.level === 1 &&
+    props.login.id !== props.report.reportDetails.user_id
+  ) {
+    return null;
+  } else {
+    return (
+      <Container>
+        <h3>Raportti</h3>
+        <ReactDragListView {...dragProps}>
+          <Table striped>
+            <Table.Header>
+              <Table.Row>
+                <Table.Cell></Table.Cell>
+                <Table.Cell>#</Table.Cell>
+                <Table.Cell>Artisti</Table.Cell>
+                <Table.Cell>Biisi</Table.Cell>
+                <Table.Cell>Kesto</Table.Cell>
+                <Table.Cell></Table.Cell>
+                <Table.Cell></Table.Cell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {props.report.report.map(track => (
+                <ReportWithTracksItem
+                  key={track.report_track_id}
+                  track={track}
+                />
+              ))}
+            </Table.Body>
+            <Table.Footer>
+              <Table.Row></Table.Row>
+            </Table.Footer>
+          </Table>
+        </ReactDragListView>
 
-  return (
-    <Container>
-      <h3>Raportti</h3>
-      <ReactDragListView {...dragProps}>
-        <Table striped>
-          <Table.Header>
-            <Table.Row>
-              <Table.Cell></Table.Cell>
-              <Table.Cell>#</Table.Cell>
-              <Table.Cell>Artisti</Table.Cell>
-              <Table.Cell>Biisi</Table.Cell>
-              <Table.Cell>Kesto</Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {props.report.report.map(track => (
-              <ReportWithTracksItem key={track.report_track_id} track={track} />
-            ))}
-          </Table.Body>
-          <Table.Footer>
-            <Table.Row></Table.Row>
-          </Table.Footer>
-        </Table>
-      </ReactDragListView>
-
-      <Button
-        color="red"
-        onClick={deleteChecked}
-        style={{ marginLeft: '1rem', marginBottom: '1rem' }}
-      >
-        Poista valitut
-      </Button>
-      <ReportDetails report={props.report.reportDetails} />
-    </Container>
-  );
+        <Button
+          color="red"
+          onClick={deleteChecked}
+          style={{ marginLeft: '1rem', marginBottom: '1rem' }}
+        >
+          Poista valitut
+        </Button>
+        <ReportDetails report={props.report.reportDetails} />
+      </Container>
+    );
+  }
 };
 
 const mapStateToProps = state => {
   console.log('reportwithtracks state', state);
   return {
     report: state.report,
-    reportsList: state.reportsList
+    reportsList: state.reportsList,
+    login: state.login
   };
 };
 
-const connectedReportWithTracks = connect(
-  mapStateToProps,
-  {
-    getOneReport,
-    getReportDetails,
-    getOneTrack,
-    deleteChecked,
-    updateSortableRank
-  }
-)(ReportWithTracks);
+const connectedReportWithTracks = connect(mapStateToProps, {
+  getOneReport,
+  getReportDetails,
+  getOneTrack,
+  deleteChecked,
+  updateSortableRank
+})(ReportWithTracks);
 
 export default connectedReportWithTracks;

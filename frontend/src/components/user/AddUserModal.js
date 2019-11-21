@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createUser } from '../../actions/userActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { Modal, Header, Form, Button, Input, Icon } from 'semantic-ui-react';
+import {
+  Modal,
+  Header,
+  Form,
+  Button,
+  Input,
+  Icon,
+  Dropdown
+} from 'semantic-ui-react';
 
 const AddUserModal = props => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -12,8 +20,8 @@ const AddUserModal = props => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [level, setLevel] = useState('');
-  const [status, setStatus] = useState('');
+  const [level, setLevel] = useState(1);
+  const [status, setStatus] = useState(null);
 
   const handleOpen = () => {
     setModalOpen(true);
@@ -39,6 +47,37 @@ const AddUserModal = props => {
     props.createUser(userToAdd);
     props.setNotification(`${userToAdd.username} lisätty!`, 'success');
     handleClose();
+  };
+
+  const levelOptions = [
+    {
+      key: 1,
+      text: 'DJ',
+      value: 1
+    },
+    {
+      key: 2,
+      text: 'Toimitus',
+      value: 2
+    },
+    {
+      key: 3,
+      text: 'Admin',
+      value: 3
+    }
+  ];
+  const getLevel = (event, { value }) => {
+    event.preventDefault();
+    setLevel(value);
+  };
+
+  const getStatus = () => {
+    console.log('getting status');
+    if (status === null) {
+      setStatus(1);
+    } else {
+      setStatus(null);
+    }
   };
 
   return (
@@ -114,22 +153,22 @@ const AddUserModal = props => {
               onChange={e => setEmail(e.target.value)}
             />
           </Form.Field>
-          <Form.Field
-            label="Taso"
-            control="select"
-            onChange={e => setLevel(e.target.value)}
-          >
-            <option value="1">DJ</option>
-            <option value="2">Toimitus</option>
-            <option value="3">Admin</option>
+          <Form.Field>
+            <label>Taso</label>
+            <Dropdown
+              selection
+              defaultValue={level}
+              options={levelOptions}
+              onChange={getLevel}
+            />
           </Form.Field>
-          <Form.Field
-            label="Tila"
-            control="select"
-            onChange={e => setStatus(e.target.value)}
-          >
-            <option value="1">Käytössä</option>
-            <option value={null}>Hyllyllä</option>
+          <Form.Field>
+            <label>Tunnus käytössä</label>
+            <Form.Checkbox
+              name="active"
+              onChange={getStatus}
+              checked={status ? true : false}
+            />
           </Form.Field>
           <Button
             color="green"
@@ -151,9 +190,8 @@ const AddUserModal = props => {
   );
 };
 
-const connectedAddUserModal = connect(
-  null,
-  { setNotification, createUser }
-)(AddUserModal);
+const connectedAddUserModal = connect(null, { setNotification, createUser })(
+  AddUserModal
+);
 
 export default connectedAddUserModal;

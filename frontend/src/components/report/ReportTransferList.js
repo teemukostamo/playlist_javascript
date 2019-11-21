@@ -21,28 +21,31 @@ const ReportTransferList = props => {
       </Container>
     );
   }
-
-  return (
-    <Container>
-      <h1>Siirtotiedostot</h1>
-      <ReportTransferOptions />
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.Cell>Luontipäivämäärä</Table.Cell>
-            <Table.Cell>Käyttäjä</Table.Cell>
-            <Table.Cell>Raportin ajankohta</Table.Cell>
-            <Table.Cell>Siirtotiedosto</Table.Cell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {props.reportsList.reportTransferList.map(item => (
-            <ReportTransferListItem key={item.id} item={item} />
-          ))}
-        </Table.Body>
-      </Table>
-    </Container>
-  );
+  if (props.login.level === 3) {
+    return (
+      <Container>
+        <h1>Siirtotiedostot</h1>
+        <ReportTransferOptions />
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.Cell>Luontipäivämäärä</Table.Cell>
+              <Table.Cell>Käyttäjä</Table.Cell>
+              <Table.Cell>Raportin ajankohta</Table.Cell>
+              <Table.Cell>Siirtotiedosto</Table.Cell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {props.reportsList.reportTransferList.map(item => (
+              <ReportTransferListItem key={item.id} item={item} />
+            ))}
+          </Table.Body>
+        </Table>
+      </Container>
+    );
+  } else {
+    return null;
+  }
 };
 
 const mapStateToProps = state => {

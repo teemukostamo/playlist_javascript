@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteInProgressReport } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { Table, Icon, Loader, Dimmer, Confirm } from 'semantic-ui-react';
+import { Table, Icon, Confirm } from 'semantic-ui-react';
+import moment from 'moment';
 
 const InProgressReportListItem = ({
   report,
@@ -14,11 +15,7 @@ const InProgressReportListItem = ({
 }) => {
   const [open, setOpen] = useState(false);
   if (reportsList.loading === true) {
-    return (
-      <Dimmer active inverted>
-        <Loader inverted />
-      </Dimmer>
-    );
+    return <React.Fragment>ladataan...</React.Fragment>;
   }
 
   const cancelDelete = () => {
@@ -46,7 +43,9 @@ const InProgressReportListItem = ({
         <Table.Cell>
           <Link to={`reports/${report.id}`}>{report.name}</Link>
         </Table.Cell>
-        <Table.Cell>{report.program_date}</Table.Cell>
+        <Table.Cell>
+          {moment(report.program_date).format('DD.MM.YYYY')}
+        </Table.Cell>
         <Table.Cell>{report.program_no}</Table.Cell>
         <Table.Cell>
           {' '}
@@ -70,9 +69,9 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedInProgressReportListItem = connect(
-  mapStateToProps,
-  { deleteInProgressReport, setNotification }
-)(InProgressReportListItem);
+const connectedInProgressReportListItem = connect(mapStateToProps, {
+  deleteInProgressReport,
+  setNotification
+})(InProgressReportListItem);
 
 export default connectedInProgressReportListItem;

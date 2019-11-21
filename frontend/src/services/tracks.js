@@ -70,11 +70,26 @@ const checkDjonlineTracks = async searchParams => {
   return returnArr;
 };
 
+// add new track and save it to a report
 const addNewTrack = async trackToAdd => {
   const config = {
     headers: { Authorization: token }
   };
-  const response = await axios.post(baseUrl, trackToAdd, config);
+  const response = await axios.post(
+    `${baseUrl}/addandreport`,
+    trackToAdd,
+    config
+  );
+  console.log(response.data);
+  return response.data;
+};
+
+// add new track without saving to report
+const addTrackToDb = async trackToAdd => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const response = await axios.post(`${baseUrl}/addtodb`, trackToAdd, config);
   console.log(response.data);
   return response.data;
 };
@@ -137,5 +152,6 @@ export default {
   getOneTrack,
   getOneTrackHistory,
   updateAlbumId,
-  updateArtistId
+  updateArtistId,
+  addTrackToDb
 };

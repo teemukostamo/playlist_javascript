@@ -18,32 +18,36 @@ const UserList = props => {
   }
 
   console.log('userlist props', props);
-  return (
-    <Container>
-      <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
-        <h3 style={{ display: 'inline' }}>Käyttäjät</h3>
-        <AddUserModal />
-      </div>
-      <Notification />
-      <Table striped>
-        <Table.Header>
-          <Table.Row>
-            <Table.Cell>Käyttäjätunnus</Table.Cell>
-            <Table.Cell>Nimi</Table.Cell>
-            <Table.Cell>Viimeisin kirjautuminen</Table.Cell>
-            <Table.Cell>Tila</Table.Cell>
-            <Table.Cell>Taso</Table.Cell>
-          </Table.Row>
-        </Table.Header>
+  if (props.login.level === 3) {
+    return (
+      <Container>
+        <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+          <h3 style={{ display: 'inline' }}>Käyttäjät</h3>
+          <AddUserModal />
+        </div>
+        <Notification />
+        <Table striped>
+          <Table.Header>
+            <Table.Row>
+              <Table.Cell>Käyttäjätunnus</Table.Cell>
+              <Table.Cell>Nimi</Table.Cell>
+              <Table.Cell>Viimeisin kirjautuminen</Table.Cell>
+              <Table.Cell>Tila</Table.Cell>
+              <Table.Cell>Taso</Table.Cell>
+            </Table.Row>
+          </Table.Header>
 
-        <Table.Body>
-          {props.users.users.map(user => (
-            <User user={user} key={user.id} />
-          ))}
-        </Table.Body>
-      </Table>
-    </Container>
-  );
+          <Table.Body>
+            {props.users.users.map(user => (
+              <User user={user} key={user.id} />
+            ))}
+          </Table.Body>
+        </Table>
+      </Container>
+    );
+  } else {
+    return null;
+  }
 };
 
 const mapStateToProps = state => ({
@@ -51,9 +55,6 @@ const mapStateToProps = state => ({
   login: state.login
 });
 
-const connectedUserList = connect(
-  mapStateToProps,
-  null
-)(UserList);
+const connectedUserList = connect(mapStateToProps, null)(UserList);
 
 export default connectedUserList;

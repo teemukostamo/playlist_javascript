@@ -11,6 +11,50 @@ const getTokenFrom = req => {
   return null;
 };
 
+// get all reports by month by current user
+reportslistRouter.get('/all', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+    console.log('got request');
+    const date = req.query.date;
+    const user = req.query.user;
+    console.log('date from backend route', date);
+    console.log('user from backend route', user);
+    console.log('typeof date from backend route', typeof date);
+
+    let reports = await db.query(
+      `
+      SELECT re.program_no
+      , pr.name
+      , re.program_date
+      , re.program_start_time
+      , re.program_end_time
+      , re.status
+      , re.rerun
+      , re.program_dj
+      , re.id
+      , re.user_id 
+     FROM playlist__program as pr
+     INNER JOIN playlist__report as re ON pr.id = re.program_id
+     WHERE re.program_date like "${date}%"
+     AND re.user_id = ${user}
+     ORDER BY program_date ASC, program_start_time ASC
+      `,
+      {
+        type: db.QueryTypes.SELECT
+      }
+    );
+    // console.log('results from reports route', reports);
+    res.json(reports);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 // get all reports of a month
 reportslistRouter.get('/date/:date', async (req, res, next) => {
   try {

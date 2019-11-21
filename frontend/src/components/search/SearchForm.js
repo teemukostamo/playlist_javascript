@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Dropdown, Grid } from 'semantic-ui-react';
+import AddTrackBtn from './AddTrackBtn';
 import { advancedSearch } from '../../actions/searchActions';
-import AddTrackModal from '../track/AddTrackModal';
 
 const SearchForm = props => {
   const [searchString, setSearchString] = useState('');
@@ -68,7 +68,7 @@ const SearchForm = props => {
       </Grid.Column>
       <Grid.Column>
         <span style={{ float: 'right' }}>
-          <AddTrackModal />
+          <AddTrackBtn />
         </span>
       </Grid.Column>
     </Grid>

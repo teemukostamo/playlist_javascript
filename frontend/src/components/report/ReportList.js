@@ -5,7 +5,10 @@ import FilterReportList from './FilterReportList';
 import ReportListItem from './ReportListItem';
 import Notification from '../layout/Notification';
 import { getOneReport } from '../../actions/reportActions';
-import { getAllReportsByDate } from '../../actions/reportsListActions';
+import {
+  getAllReportsByDate,
+  getAllReportsByDateByUser
+} from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
 import moment from 'moment';
@@ -13,11 +16,26 @@ import moment from 'moment';
 const ReportList = props => {
   // initial reports list
   useEffect(() => {
-    if (props.reportsList.reportListDate === null) {
-      props.getAllReportsByDate(moment().format('YYYY-MM'));
+    if (props.login.level === 1) {
+      if (props.reportsList.reportListDate === null) {
+        props.getAllReportsByDateByUser(
+          moment().format('YYYY-MM'),
+          props.login.id
+        );
+      } else {
+        props.getAllReportsByDateByUser(
+          props.reportsList.reportListDate,
+          props.login.id
+        );
+      }
     } else {
-      props.getAllReportsByDate(props.reportsList.reportListDate);
+      if (props.reportsList.reportListDate === null) {
+        props.getAllReportsByDate(moment().format('YYYY-MM'));
+      } else {
+        props.getAllReportsByDate(props.reportsList.reportListDate);
+      }
     }
+
     // eslint-disable-next-line
   }, []);
   console.log('Reportlist props', props);
@@ -110,6 +128,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getAllReportsByDate,
+  getAllReportsByDateByUser,
   getOneReport,
   setNotification
 };

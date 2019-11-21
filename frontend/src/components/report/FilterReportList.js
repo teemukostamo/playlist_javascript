@@ -73,6 +73,24 @@ const FilterReportList = props => {
     props.filterByText(filterText);
   };
 
+  const filterByUser = () => {
+    if (props.login.level === 1) {
+      return null;
+    } else {
+      return (
+        <Form.Field>
+          <Dropdown
+            placeholder="Käyttäjä"
+            openOnFocus
+            selection
+            options={addAllToUserOptions}
+            onChange={getUser}
+          />
+        </Form.Field>
+      );
+    }
+  };
+
   return (
     <Form>
       <Form.Group widths="equal">
@@ -83,15 +101,7 @@ const FilterReportList = props => {
             onChange={getFilteredByText}
           />
         </Form.Field>
-        <Form.Field>
-          <Dropdown
-            placeholder="Käyttäjä"
-            openOnFocus
-            selection
-            options={addAllToUserOptions}
-            onChange={getUser}
-          />
-        </Form.Field>
+        {filterByUser()}
         <Form.Field>
           <Dropdown
             placeholder="Tila"

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getOneReport } from '../../actions/reportActions';
 import {
   getAllReportsByDate,
+  getAllReportsByDateByUser,
   filterByUserId,
   filterByStatus,
   filterByText
@@ -103,7 +104,11 @@ const ReportFilterForm = props => {
     const date = reportYear + '-' + reportMonth;
     console.log(date);
     console.log('klik');
-    props.getAllReportsByDate(date);
+    if (props.login.level === 1) {
+      props.getAllReportsByDateByUser(date, props.login.id);
+    } else {
+      props.getAllReportsByDate(date);
+    }
   };
 
   // get month from dropdown
@@ -168,6 +173,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getOneReport,
   getAllReportsByDate,
+  getAllReportsByDateByUser,
   filterByUserId,
   filterByStatus,
   filterByText

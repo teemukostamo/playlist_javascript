@@ -12,6 +12,7 @@ import DatePicker from 'react-datepicker';
 import { getAllReportsByDate } from '../../actions/reportsListActions';
 import { generateReportTransfer } from '../../actions/reportTransferActions';
 import moment from 'moment';
+import fi from 'date-fns/locale/fi';
 
 const ReportTransferOptions = props => {
   console.log('report transfer options props', props);
@@ -66,6 +67,7 @@ const ReportTransferOptions = props => {
             dateFormat="MMMM yyyy"
             onChange={date => setPickerDate(date)}
             showMonthYearPicker
+            locale={fi}
           />
         </Form.Field>
         <Form.Field>
@@ -90,9 +92,9 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedReportTransferOptions = connect(
-  mapStateToProps,
-  { getAllReportsByDate, generateReportTransfer }
-)(ReportTransferOptions);
+const connectedReportTransferOptions = connect(mapStateToProps, {
+  getAllReportsByDate,
+  generateReportTransfer
+})(ReportTransferOptions);
 
 export default connectedReportTransferOptions;

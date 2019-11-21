@@ -5,7 +5,7 @@ import {
   clearDiscogsCatId
 } from '../../actions/searchActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { addNewTrack } from '../../actions/trackActions';
+import { addTrackToDb, addNewTrack } from '../../actions/trackActions';
 import {
   Modal,
   Header,
@@ -16,8 +16,8 @@ import {
   Dropdown
 } from 'semantic-ui-react';
 
-const AddTrackModal = props => {
-  console.log('add track modal props', props);
+const AddTrackBtn = props => {
+  console.log('search form add track button', props);
   const [modalOpen, setModalOpen] = useState(false);
   const [artist, setArtist] = useState('');
   const [album, setAlbum] = useState('');
@@ -65,12 +65,70 @@ const AddTrackModal = props => {
         cat_id: catId,
         isrc,
         comment,
+        user_id: props.login.id
+      };
+      console.log(trackToAdd);
+      props.addTrackToDb(trackToAdd);
+      props.setNotification(`${trackToAdd.track_title} lisätty!`, 'success');
+      handleClose();
+    } else {
+      const trackToAdd = {
+        artist_name: artist,
+        album_name: album,
+        track_title: track,
+        length,
+        country,
+        record_country: recordCountry,
+        people: `| ${people.replace(/\n/g, ' | ')} |`,
+        disc_no: discNo,
+        track_no: trackNo,
+        year,
+        label,
+        cat_id: catId,
+        isrc,
+        comment,
+        user_id: props.login.id
+      };
+      console.log(trackToAdd);
+      props.addTrackToDb(trackToAdd);
+      props.setNotification(`${trackToAdd.track_title} lisätty!`, 'success');
+      handleClose();
+    }
+  };
+
+  const saveAndAddToReport = () => {
+    console.log('klikd submit track');
+    // artist name validation
+    if (artist === null) {
+      props.setNotification('Artisti on pakollinen tieto', 'fail');
+    }
+    let length = parseInt(min) * 60 + parseInt(sec);
+    if (people === null) {
+      const trackToAdd = {
+        artist_name: artist,
+        album_name: album,
+        track_title: track,
+        length,
+        country,
+        record_country: recordCountry,
+        people,
+        disc_no: discNo,
+        track_no: trackNo,
+        year,
+        label,
+        cat_id: catId,
+        isrc,
+        comment,
         report_id: props.report.reportDetails.id,
         user_id: props.login.id,
         sortable_rank: props.report.report.length + 1
       };
       console.log(trackToAdd);
       props.addNewTrack(trackToAdd);
+      props.setNotification(
+        `${trackToAdd.track_title} lisätty ja tallennettu raporttiin ${props.report.reportDetails.program_name}!`,
+        'success'
+      );
       handleClose();
     } else {
       const trackToAdd = {
@@ -94,7 +152,39 @@ const AddTrackModal = props => {
       };
       console.log(trackToAdd);
       props.addNewTrack(trackToAdd);
+      props.setNotification(
+        `${trackToAdd.track_title} lisätty ja tallennettu raporttiin ${props.report.reportDetails.program_name}!`,
+        'success'
+      );
       handleClose();
+    }
+  };
+
+  // save and add to report button - render if current report exists
+  const saveAndAddToReportButton = () => {
+    if (props.report.reportDetails === null) {
+      return null;
+    } else {
+      return (
+        <Button
+          disabled={
+            !artist ||
+            !album ||
+            !track ||
+            !trackNo ||
+            !discNo ||
+            !min ||
+            !sec ||
+            !label ||
+            !catId ||
+            !year
+          }
+          onClick={saveAndAddToReport}
+          color="green"
+        >
+          Tallenna ja lisää raporttiin
+        </Button>
+      );
     }
   };
 
@@ -578,11 +668,12 @@ const AddTrackModal = props => {
               !catId ||
               !year
             }
-            color="green"
+            color="blue"
             type="submit"
           >
-            Tallenna ja lisää raporttiin
+            Tallenna
           </Button>
+          {saveAndAddToReportButton()}
         </Form>
       </Modal.Content>
     </Modal>
@@ -597,11 +688,12 @@ const mapStateToProps = state => {
     search: state.search
   };
 };
-const connectedAddTrackModal = connect(mapStateToProps, {
+const connectedAddTrackBtn = connect(mapStateToProps, {
   setNotification,
+  addTrackToDb,
   addNewTrack,
   getCatIdFromDiscogs,
   clearDiscogsCatId
-})(AddTrackModal);
+})(AddTrackBtn);
 
-export default connectedAddTrackModal;
+export default connectedAddTrackBtn;

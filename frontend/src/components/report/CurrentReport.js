@@ -14,7 +14,7 @@ const CurrentReport = props => {
           color: 'white',
           float: 'right',
           marginTop: 'auto',
-          marginLeft: 'auto',
+          // marginLeft: 'auto',
           marginRight: '0.6rem',
           marginBottom: '0.7rem'
         }}

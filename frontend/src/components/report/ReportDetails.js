@@ -11,6 +11,7 @@ import {
   Loader
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
+import fi from 'date-fns/locale/fi';
 import moment from 'moment';
 import SearchTrack from '../track/SearchTrack';
 import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
@@ -76,124 +77,124 @@ const ReportDetails = props => {
   // list of program start time options
   const startTimeOptions = [
     {
-      key: '00:00',
+      key: 0,
       text: '00:00',
-      value: '00:00'
+      value: '00:00:00'
     },
     {
-      key: '01:00',
+      key: 1,
       text: '01:00',
-      value: '01:00'
+      value: '01:00:00'
     },
     {
-      key: '02:00',
+      key: 2,
       text: '02:00',
-      value: '02:00'
+      value: '02:00:00'
     },
     {
-      key: '03:00',
+      key: 3,
       text: '03:00',
-      value: '03:00'
+      value: '03:00:00'
     },
     {
-      key: '04:00',
+      key: 4,
       text: '04:00',
-      value: '04:00'
+      value: '04:00:00'
     },
     {
-      key: '05:00',
+      key: 5,
       text: '05:00',
-      value: '05:00'
+      value: '05:00:00'
     },
     {
-      key: '06:00',
+      key: 6,
       text: '06:00',
-      value: '06:00'
+      value: '06:00:00'
     },
     {
-      key: '07:00',
+      key: 7,
       text: '07:00',
-      value: '07:00'
+      value: '07:00:00'
     },
     {
-      key: '08:00',
+      key: 8,
       text: '08:00',
-      value: '08:00'
+      value: '08:00:00'
     },
     {
-      key: '09:00',
+      key: 9,
       text: '09:00',
-      value: '09:00'
+      value: '09:00:00'
     },
     {
-      key: '10:00',
+      key: 10,
       text: '10:00',
-      value: '10:00'
+      value: '10:00:00'
     },
     {
-      key: '11:00',
+      key: 11,
       text: '11:00',
-      value: '11:00'
+      value: '11:00:00'
     },
     {
-      key: '12:00',
+      key: 12,
       text: '12:00',
-      value: '12:00'
+      value: '12:00:00'
     },
     {
-      key: '13:00',
+      key: 13,
       text: '13:00',
-      value: '13:00'
+      value: '13:00:00'
     },
     {
-      key: '14:00',
+      key: 14,
       text: '14:00',
-      value: '14:00'
+      value: '14:00:00'
     },
     {
-      key: '15:00',
+      key: 15,
       text: '15:00',
-      value: '15:00'
+      value: '15:00:00'
     },
     {
-      key: '16:00',
+      key: 16,
       text: '16:00',
-      value: '16:00'
+      value: '16:00:00'
     },
     {
-      key: '17:00',
+      key: 17,
       text: '17:00',
-      value: '17:00'
+      value: '17:00:00'
     },
     {
-      key: '18:00',
+      key: 18,
       text: '18:00',
-      value: '18:00'
+      value: '18:00:00'
     },
     {
-      key: '19:00',
+      key: 19,
       text: '19:00',
-      value: '19:00'
+      value: '19:00:00'
     },
     {
-      key: '20:00',
+      key: 20,
       text: '20:00',
-      value: '20:00'
+      value: '20:00:00'
     },
     {
-      key: '21:00',
+      key: 21,
       text: '21:00',
-      value: '21:00'
+      value: '21:00:00'
     },
     {
-      key: '22:00',
+      key: 22,
       text: '22:00',
-      value: '22:00'
+      value: '22:00:00'
     },
     {
-      key: '23:00',
+      key: 23,
       text: '23:00',
-      value: '23:00'
+      value: '23:00:00'
     }
   ];
   const getStartTime = (event, { value }) => {
@@ -204,124 +205,124 @@ const ReportDetails = props => {
   // list of program end time options
   const endTimeOptions = [
     {
-      key: '01:00',
+      key: 0,
       text: '01:00',
-      value: '01:00'
+      value: '01:00:00'
     },
     {
-      key: '02:00',
+      key: 1,
       text: '02:00',
-      value: '02:00'
+      value: '02:00:00'
     },
     {
-      key: '03:00',
+      key: 2,
       text: '03:00',
-      value: '03:00'
+      value: '03:00:00'
     },
     {
-      key: '04:00',
+      key: 3,
       text: '04:00',
-      value: '04:00'
+      value: '04:00:00'
     },
     {
-      key: '05:00',
+      key: 4,
       text: '05:00',
-      value: '05:00'
+      value: '05:00:00'
     },
     {
-      key: '06:00',
+      key: 5,
       text: '06:00',
-      value: '06:00'
+      value: '06:00:00'
     },
     {
-      key: '07:00',
+      key: 6,
       text: '07:00',
-      value: '07:00'
+      value: '07:00:00'
     },
     {
-      key: '08:00',
+      key: 7,
       text: '08:00',
-      value: '08:00'
+      value: '08:00:00'
     },
     {
-      key: '09:00',
+      key: 8,
       text: '09:00',
-      value: '09:00'
+      value: '09:00:00'
     },
     {
-      key: '10:00',
+      key: 9,
       text: '10:00',
-      value: '10:00'
+      value: '10:00:00'
     },
     {
-      key: '11:00',
+      key: 10,
       text: '11:00',
-      value: '11:00'
+      value: '11:00:00'
     },
     {
-      key: '12:00',
+      key: 11,
       text: '12:00',
-      value: '12:00'
+      value: '12:00:00'
     },
     {
-      key: '13:00',
+      key: 12,
       text: '13:00',
-      value: '13:00'
+      value: '13:00:00'
     },
     {
-      key: '14:00',
+      key: 13,
       text: '14:00',
-      value: '14:00'
+      value: '14:00:00'
     },
     {
-      key: '15:00',
+      key: 14,
       text: '15:00',
-      value: '15:00'
+      value: '15:00:00'
     },
     {
-      key: '16:00',
+      key: 15,
       text: '16:00',
-      value: '16:00'
+      value: '16:00:00'
     },
     {
-      key: '17:00',
+      key: 16,
       text: '17:00',
-      value: '17:00'
+      value: '17:00:00'
     },
     {
-      key: '18:00',
+      key: 17,
       text: '18:00',
-      value: '18:00'
+      value: '18:00:00'
     },
     {
-      key: '19:00',
+      key: 18,
       text: '19:00',
-      value: '19:00'
+      value: '19:00:00'
     },
     {
-      key: '20:00',
+      key: 19,
       text: '20:00',
-      value: '20:00'
+      value: '20:00:00'
     },
     {
-      key: '21:00',
+      key: 20,
       text: '21:00',
-      value: '21:00'
+      value: '21:00:00'
     },
     {
-      key: '22:00',
+      key: 21,
       text: '22:00',
-      value: '22:00'
+      value: '22:00:00'
     },
     {
-      key: '23:00',
+      key: 22,
       text: '23:00',
-      value: '23:00'
+      value: '23:00:00'
     },
     {
-      key: '23:59',
+      key: 23,
       text: '23:59',
-      value: '23:59'
+      value: '23:59:59'
     }
   ];
   const getEndTime = (event, { value }) => {
@@ -332,35 +333,25 @@ const ReportDetails = props => {
   // list of program status options
   const statusOptions = [
     {
-      key: '0',
+      key: 0,
       text: 'Keskeneräinen',
-      value: '0'
+      value: 0
     },
     {
-      key: '1',
+      key: 1,
       text: 'Valmis',
-      value: '1'
+      value: 1
     },
     {
-      key: '9',
+      key: 9,
       text: 'Poistettu',
-      value: '9'
+      value: 9
     }
   ];
   const getStatus = (event, { value }) => {
     event.preventDefault();
     setStatus(value);
   };
-
-  // status placeholder
-  let statusPlaceholder;
-  if (status === 0) {
-    statusPlaceholder = 'Keskeneräinen';
-  } else if (status === 1) {
-    statusPlaceholder = 'Valmis';
-  } else if (statusPlaceholder === 9) {
-    statusPlaceholder = 'Poistettu';
-  }
 
   const getRerun = () => {
     console.log('getting rerun');
@@ -386,8 +377,16 @@ const ReportDetails = props => {
       status: status,
       rerun: rerun
     };
-    console.log('saving changes...', updatedReportDetails);
-    props.updateReport(updatedReportDetails);
+    if (
+      parseInt(updatedReportDetails.program_start_time) >
+      parseInt(updatedReportDetails.program_end_time)
+    ) {
+      props.setNotification('Tarkasta aloitus- ja lopetusaika!', 'fail');
+    } else {
+      console.log('saving changes...', updatedReportDetails);
+      props.setNotification('Muutokset tallennettu!', 'success');
+      props.updateReport(updatedReportDetails);
+    }
   };
 
   // copy report for rerun
@@ -471,15 +470,16 @@ const ReportDetails = props => {
                   <DatePicker
                     selected={programDate}
                     disabledKeyboardNavigation={true}
-                    dateFormat="yyyy-MM-dd"
+                    dateFormat="dd.MM.yyyy"
                     onChange={date => setProgramDate(date)}
+                    locale={fi}
                   />
                 </Form.Field>
 
                 <Form.Field>
                   <label>Alkaa kello</label>
                   <Dropdown
-                    placeholder={programStartTime}
+                    value={programStartTime}
                     openOnFocus
                     selection
                     search
@@ -491,7 +491,7 @@ const ReportDetails = props => {
                 <Form.Field>
                   <label>Päättyy kello</label>
                   <Dropdown
-                    placeholder={programEndTime}
+                    value={programEndTime}
                     openOnFocus
                     selection
                     search
@@ -503,12 +503,11 @@ const ReportDetails = props => {
               <Form.Field>
                 <label>Raportin tila</label>
                 <Dropdown
-                  placeholder={statusPlaceholder}
                   openOnFocus
                   selection
                   options={statusOptions}
                   onChange={getStatus}
-                  defaultValue={status}
+                  value={status}
                 />{' '}
               </Form.Field>
               <Form.Field>
@@ -557,9 +556,10 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedReportDetails = connect(
-  mapStateToProps,
-  { updateReport, copyReport, setNotification }
-)(ReportDetails);
+const connectedReportDetails = connect(mapStateToProps, {
+  updateReport,
+  copyReport,
+  setNotification
+})(ReportDetails);
 
 export default connectedReportDetails;

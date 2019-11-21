@@ -21,6 +21,22 @@ const getAllByDate = async date => {
   return request.data;
 };
 
+// get all by month and by user
+const getAllByDateByUser = async (date, user) => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  // notice baseurl is different here!
+  console.log('getting reports from', date, 'by user ', user);
+
+  const request = await axios.get(
+    `/api/reportslist/all?date=${date}&user=${user}`,
+    config
+  );
+  console.log('reportservice get one report-track data', request.data);
+  return request.data;
+};
+
 // get all in progress reports of one user
 const getAllInProgress = async id => {
   const config = {
@@ -169,6 +185,7 @@ export default {
   updateSortableRank,
   getOne,
   getAllByDate,
+  getAllByDateByUser,
   getAllInProgress,
   getAllTransfers,
   getReportDetails,

@@ -4,6 +4,7 @@ import { getTop100 } from '../../actions/searchActions';
 import { Form, Button, Dropdown } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import fi from 'date-fns/locale/fi';
 
 const Top100SearchForm = props => {
   const [startDate, setStartDate] = useState(Date.now() - 7 * 24 * 3600 * 1000);
@@ -73,8 +74,9 @@ const Top100SearchForm = props => {
           <DatePicker
             selected={startDate}
             disabledKeyboardNavigation={true}
-            dateFormat="yyyy-MM-dd"
+            dateFormat="dd.MM.yyyy"
             onChange={date => setStartDate(date)}
+            locale={fi}
           />
         </Form.Field>
         <Form.Field>
@@ -82,8 +84,9 @@ const Top100SearchForm = props => {
           <DatePicker
             selected={endDate}
             disabledKeyboardNavigation={true}
-            dateFormat="yyyy-MM-dd"
+            dateFormat="dd.MM.yyyy"
             onChange={date => setEndDate(date)}
+            locale={fi}
           />
         </Form.Field>
         <Form.Field></Form.Field>

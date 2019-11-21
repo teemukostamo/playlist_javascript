@@ -69,3 +69,9 @@ i {
   font-size: 0.8rem;
   color: teal;
 }
+
+.userinfo {
+  text-align: justify;
+  width: auto;
+  float: right !important;
+}

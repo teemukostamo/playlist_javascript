@@ -21,31 +21,35 @@ const ProgramList = props => {
       </Container>
     );
   }
-  return (
-    <Container>
-      <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
-        <h3 style={{ display: 'inline' }}>Ohjelmat</h3>
-        <AddProgramModal />
-      </div>
+  if (props.login.level === 3 || props.login.level === 2) {
+    return (
+      <Container>
+        <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
+          <h3 style={{ display: 'inline' }}>Ohjelmat</h3>
+          <AddProgramModal />
+        </div>
 
-      <Notification />
-      <Table>
-        <Table.Header>
-          <Table.Row>
-            <Table.Cell>ID</Table.Cell>
-            <Table.Cell>Nimi</Table.Cell>
-            <Table.Cell>Tarkenne</Table.Cell>
-          </Table.Row>
-        </Table.Header>
+        <Notification />
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.Cell>ID</Table.Cell>
+              <Table.Cell>Nimi</Table.Cell>
+              <Table.Cell>Tarkenne</Table.Cell>
+            </Table.Row>
+          </Table.Header>
 
-        <Table.Body>
-          {props.programs.allPrograms.map(program => (
-            <ProgramListItem program={program} key={program.id} />
-          ))}
-        </Table.Body>
-      </Table>
-    </Container>
-  );
+          <Table.Body>
+            {props.programs.allPrograms.map(program => (
+              <ProgramListItem program={program} key={program.id} />
+            ))}
+          </Table.Body>
+        </Table>
+      </Container>
+    );
+  } else {
+    return null;
+  }
 };
 
 const mapStateToProps = state => ({
@@ -53,9 +57,8 @@ const mapStateToProps = state => ({
   login: state.login
 });
 
-const connectedProgramList = connect(
-  mapStateToProps,
-  { getAllPrograms }
-)(ProgramList);
+const connectedProgramList = connect(mapStateToProps, { getAllPrograms })(
+  ProgramList
+);
 
 export default connectedProgramList;
