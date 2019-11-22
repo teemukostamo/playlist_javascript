@@ -3,7 +3,8 @@ import {
   SET_LOADING,
   SET_CURRENT,
   CREATE_USER,
-  UPDATE_USER
+  UPDATE_USER,
+  DELETE_USER
 } from '../actions/types';
 
 const initialState = {
@@ -44,6 +45,13 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         users: action.data,
+        loading: false
+      };
+    case DELETE_USER:
+      console.log('removing user id from user reducer', action.data);
+      return {
+        ...state,
+        users: state.users.filter(user => user.id !== action.data),
         loading: false
       };
     default:

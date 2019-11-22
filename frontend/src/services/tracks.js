@@ -22,7 +22,9 @@ const checkDjonlineTracks = async searchParams => {
     let hours = track.date.charAt(11) + track.date.charAt(12);
     hours = parseInt(hours);
     let a = track.length.split(':');
+    console.log('trackservice time after splitting :', a);
     let seconds = parseInt(a[0]) * 60 + parseInt(a[1]);
+    console.log('trackservice length as seconds', seconds);
     // make loop skip the songs not matching the start time - end time -window
     if (
       hours < parseInt(searchParams.startTime) ||

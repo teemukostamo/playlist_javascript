@@ -51,6 +51,8 @@ const EditTrackModal = props => {
   useEffect(() => {
     if (props.track.people === null) {
       setPeople(null);
+    } else if (props.track.people === undefined) {
+      setPeople(null);
     } else {
       setPeople(
         props.track.people
@@ -61,37 +63,13 @@ const EditTrackModal = props => {
     }
   }, [props.track.people]);
 
-  // useEffect(() => {
-  //   if (props.report.currentTrack !== null) {
-  //     let minutes = Math.floor(props.report.currentTrack[0].length / 60);
-  //     let seconds = props.report.currentTrack[0].length % 60;
-  //     setArtist(props.report.currentTrack[0].artist);
-  //     setAlbum(props.report.currentTrack[0].album);
-  //     setTrack(props.report.currentTrack[0].track_title);
-  //     setMin(minutes);
-  //     setSec(seconds);
-  //     setCountry(props.report.currentTrack[0].country);
-  //     setRecordCountry(props.report.currentTrack[0].record_country);
-  //     setDiscNo(props.report.currentTrack[0].disc_no);
-  //     setTrackNo(props.report.currentTrack[0].track_no);
-  //     setYear(props.report.currentTrack[0].year);
-  //     setLabel(props.report.currentTrack[0].label);
-  //     setCatId(props.report.currentTrack[0].cat_id);
-  //     setIsrc(props.report.currentTrack[0].isrc);
-  //     setComment(props.report.currentTrack[0].comment);
-  //     setPeople(props.report.currentTrack[0].people);
-  //   }
-  //   // eslint-disable-next-line
-  // }, [props.report.currentTrack]);
-
-  //
-
   useEffect(() => {
     if (catId === null) {
       setCatId(props.search.discogsCatId);
     }
+    setCatId(props.search.discogsCatId);
     // eslint-disable-next-line
-  }, [props.search.discogsCatId]);
+  }, [catId]);
 
   const handleOpen = () => {
     // props.getOneTrack(props.id);

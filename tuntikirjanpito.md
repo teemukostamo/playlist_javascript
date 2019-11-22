@@ -66,3 +66,4 @@
 | 20.11.2019 |   3    |     refactored queries to use inner joins instead of commas, sort search results     |
 | 20.11.2019 |   3    |                 adding tracks to current report from advanced search                 |
 | 21.11.2019 |   6    |          add to report on track detail page, user access control, date-fns           |
+| 22.11.2019 |   3    |                         delete user, user level on userlist                          |

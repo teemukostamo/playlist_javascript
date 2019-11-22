@@ -75,3 +75,12 @@ i {
   width: auto;
   float: right !important;
 }
+
+.inactive-user {
+  background-color: rgba(236, 37, 37, 0.397);
+  font-style: italic;
+}
+
+.active-user {
+  background-color: rgba(136, 247, 134, 0.623);
+}

@@ -378,7 +378,7 @@ const ReportDetails = props => {
       rerun: rerun
     };
     if (
-      parseInt(updatedReportDetails.program_start_time) >
+      parseInt(updatedReportDetails.program_start_time) >=
       parseInt(updatedReportDetails.program_end_time)
     ) {
       props.setNotification('Tarkasta aloitus- ja lopetusaika!', 'fail');

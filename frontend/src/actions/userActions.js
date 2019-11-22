@@ -3,7 +3,8 @@ import {
   SET_LOADING,
   SET_CURRENT,
   CREATE_USER,
-  UPDATE_USER
+  UPDATE_USER,
+  DELETE_USER
 } from '../actions/types';
 import userService from '../services/users';
 
@@ -57,6 +58,22 @@ export const updateUser = userToUpdate => async dispatch => {
       type: UPDATE_USER,
       data: users
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteUser = id => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    dispatch({
+      type: DELETE_USER,
+      data: id
+    });
+    const deleted = await userService.deleteUser(id);
+    console.log(deleted);
   } catch (error) {
     console.log(error);
   }

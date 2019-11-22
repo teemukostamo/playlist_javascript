@@ -55,6 +55,8 @@ const InProgressReportListItem = ({
             open={open}
             onCancel={cancelDelete}
             onConfirm={confirmDelete}
+            cancelButton="En sittenkään"
+            confirmButton="Joo kyl"
           />
         </Table.Cell>
       </Table.Row>

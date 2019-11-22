@@ -162,4 +162,22 @@ usersRouter.put('/:id', async (req, res, next) => {
   }
 });
 
+// delete user
+usersRouter.delete('/:id', async (req, res, next) => {
+  try {
+    const token = getTokenFrom(req);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' });
+    }
+
+    const deleteUser = await User.destroy({
+      where: { id: req.params.id }
+    });
+    console.log('deleted user', deleteUser);
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 module.exports = usersRouter;

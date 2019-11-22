@@ -4,12 +4,19 @@ import { connect } from 'react-redux';
 import { Form, Button, Dropdown, Grid, Header } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { parseISO } from 'date-fns';
 
 const GetDjOnlineTracks = props => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(
+    parseISO(props.report.reportDetails.program_date)
+  );
   const [studioId, setStudioId] = useState('928');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startTime, setStartTime] = useState(
+    props.report.reportDetails.program_start_time.slice(0, 2)
+  );
+  const [endTime, setEndTime] = useState(
+    props.report.reportDetails.program_end_time.slice(0, 2)
+  );
 
   console.log(endTime);
   const getStudioId = (e, { value }) => {
@@ -309,7 +316,7 @@ const GetDjOnlineTracks = props => {
                 <label>Valitse päivä</label>
                 <DatePicker
                   selected={date}
-                  dateFormat="yyyy-MM-dd"
+                  dateFormat="dd.MM.yyyy"
                   onChange={date => setDate(date)}
                 />
               </Form.Field>
@@ -321,6 +328,7 @@ const GetDjOnlineTracks = props => {
                   selection
                   options={studioOptions}
                   onChange={getStudioId}
+                  defaultValue={studioId}
                 />{' '}
               </Form.Field>
             </Form.Group>
@@ -334,6 +342,7 @@ const GetDjOnlineTracks = props => {
                   search
                   options={startTimeOptions}
                   onChange={getStartTime}
+                  defaultValue={startTime}
                 />{' '}
               </Form.Field>
               <Form.Field>
@@ -345,6 +354,7 @@ const GetDjOnlineTracks = props => {
                   search
                   options={endTimeOptions}
                   onChange={getEndTime}
+                  defaultValue={endTime}
                 />{' '}
               </Form.Field>
             </Form.Group>
@@ -370,9 +380,8 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedGetDjOnlineTracks = connect(
-  mapStateToProps,
-  { getDjonlineTracks }
-)(GetDjOnlineTracks);
+const connectedGetDjOnlineTracks = connect(mapStateToProps, {
+  getDjonlineTracks
+})(GetDjOnlineTracks);
 
 export default connectedGetDjOnlineTracks;
