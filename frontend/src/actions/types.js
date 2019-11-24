@@ -75,6 +75,7 @@ export const CLEAR_CURRENT_ARTIST = 'CLEAR_CURRENT_ARTIST';
 export const GET_ONE_ALBUM = 'GET_ONE_ALBUM';
 export const GET_TRACKLIST_OF_ALBUM = 'GET_TRACKLIST_OF_ALBUM';
 export const CLEAR_CURRENT_ALBUM = 'CLEAR_CURRENT_ALBUM';
+export const MERGE_ALBUMS = 'MERGE_ALBUMS';
 
 // preloader actions
 export const SET_LOADING = 'SET_LOADING';

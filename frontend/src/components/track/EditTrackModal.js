@@ -64,12 +64,12 @@ const EditTrackModal = props => {
   }, [props.track.people]);
 
   useEffect(() => {
-    if (catId === null) {
+    if (props.search.discogsCatId === null) {
+      setCatId(props.track.cat_id);
+    } else {
       setCatId(props.search.discogsCatId);
     }
-    setCatId(props.search.discogsCatId);
-    // eslint-disable-next-line
-  }, [catId]);
+  }, [props.search.discogsCatId]);
 
   const handleOpen = () => {
     // props.getOneTrack(props.id);
@@ -455,13 +455,12 @@ const EditTrackModal = props => {
       setRecordCountry(value);
     };
 
-    const getDiscogs = async () => {
+    const getDiscogs = () => {
       const query = {
         artist,
         album
       };
-      await props.getCatIdFromDiscogs(query);
-      setCatId(props.search.discogsCatId);
+      props.getCatIdFromDiscogs(query);
     };
 
     // let minutes = Math.floor(props.report.currentTrack[0].length / 60);
@@ -609,7 +608,7 @@ const EditTrackModal = props => {
                 Hae levykoodi Discogsista
               </Button>
               <Input
-                defaultValue={catId}
+                value={catId}
                 type="text"
                 placeholder="Levykoodi..."
                 onChange={e => setCatId(e.target.value)}

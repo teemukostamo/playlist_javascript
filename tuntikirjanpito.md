@@ -60,10 +60,10 @@
 | 13.11.2019 |   2    |                                     merge modals                                     |
 | 13.11.2019 |   1    |                                    merge queries                                     |
 | 14.11.2019 |   3    |                                    merge backend                                     |
-| 14.11.2019 | 3 200  |                                     search hook                                      |
+| 14.11.2019 |   3    |                                     search hook                                      |
 | 15.11.2019 |   5    |                          fixing merge modals, delete report                          |
 | 15.11.2019 |   2    |                     regexing pipes in and out of people textarea                     |
 | 20.11.2019 |   3    |     refactored queries to use inner joins instead of commas, sort search results     |
 | 20.11.2019 |   3    |                 adding tracks to current report from advanced search                 |
 | 21.11.2019 |   6    |          add to report on track detail page, user access control, date-fns           |
-| 22.11.2019 |   3    |                         delete user, user level on userlist                          |
+| 22.11.2019 | 3 222  |                         delete user, user level on userlist                          |

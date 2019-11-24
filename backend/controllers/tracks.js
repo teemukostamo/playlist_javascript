@@ -668,7 +668,7 @@ tracksRouter.post('/addtodb', async (req, res, next) => {
         const track = await Track.findOne({
           where: { artist_id: artist.id, album_id: album.id, name: track_title }
         });
-
+        console.log(track);
         if (track) {
           const trackToReturn = {
             id: track.id,
@@ -693,50 +693,50 @@ tracksRouter.post('/addtodb', async (req, res, next) => {
           };
           console.log('track to return', trackToReturn);
           return res.status(200).json(trackToReturn);
+        } else {
+          // create new track
+          const newTrack = await Track.create({
+            artist_id: artist.id,
+            album_id: album.id,
+            identifier: cat_id,
+            label,
+            name: track_title,
+            disc_no,
+            track_no,
+            length,
+            country,
+            record_country,
+            people,
+            comment,
+            user_id,
+            isrc
+          });
+          console.log('created new track', newTrack);
+
+          const trackToReturn = {
+            id: newTrack.id,
+            artist_id: newTrack.artist_id,
+            album_id: newTrack.album_id,
+            track_title: newTrack.name,
+            artist_name,
+            album_name,
+            label,
+            cat_id,
+            year,
+            disc_no,
+            track_no,
+            length,
+            country: newTrack.country,
+            record_country,
+            people: newTrack.people,
+            comment,
+            isrc,
+            user_id: newTrack.user_id,
+            spotify_id: newTrack.spotify_id
+          };
+          console.log('track to return', trackToReturn);
+          res.status(201).json(trackToReturn);
         }
-
-        // create new track
-        const newTrack = await Track.create({
-          artist_id: artist.id,
-          album_id: album.id,
-          identifier: cat_id,
-          label,
-          name: track_title,
-          disc_no,
-          track_no,
-          length,
-          country,
-          record_country,
-          people,
-          comment,
-          user_id,
-          isrc
-        });
-        console.log('created new track', newTrack);
-
-        const trackToReturn = {
-          id: newTrack.id,
-          artist_id: newTrack.artist_id,
-          album_id: newTrack.album_id,
-          track_title: newTrack.name,
-          artist_name,
-          album_name,
-          label,
-          cat_id,
-          year,
-          disc_no,
-          track_no,
-          length,
-          country: newTrack.country,
-          record_country,
-          people: newTrack.people,
-          comment,
-          isrc,
-          user_id: newTrack.user_id,
-          spotify_id: newTrack.spotify_id
-        };
-        console.log('track to return', trackToReturn);
-        res.status(201).json(trackToReturn);
       }
     }
   } catch (exception) {

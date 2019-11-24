@@ -9,7 +9,8 @@ import {
   GET_CHANGE_ALBUM_OPTIONS,
   GET_CHANGE_ARTIST_OPTIONS,
   RESET_CHANGE_ALBUM_OPTIONS,
-  RESET_CHANGE_ARTIST_OPTIONS
+  RESET_CHANGE_ARTIST_OPTIONS,
+  MERGE_ALBUMS
 } from '../actions/types';
 
 const initialState = {
@@ -92,6 +93,11 @@ const searchReducer = (state = initialState, action) => {
         ...state,
         changeArtistOptions: null
       };
+    // case MERGE_ALBUMS:
+    //   return {
+    //     ...state,
+    //     advancedResults: state.advancedResults.map(result => result.album_id === action.data.merge)
+    //   }
     default:
       return state;
   }

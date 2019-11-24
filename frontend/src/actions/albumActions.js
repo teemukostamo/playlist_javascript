@@ -2,6 +2,7 @@ import {
   GET_ONE_ALBUM,
   GET_TRACKLIST_OF_ALBUM,
   CLEAR_CURRENT_ALBUM,
+  MERGE_ALBUMS,
   SET_LOADING
 } from './types';
 import albumService from '../services/albums';
@@ -62,6 +63,10 @@ export const mergeAlbumFunction = mergeParams => async dispatch => {
     dispatch({
       type: GET_TRACKLIST_OF_ALBUM,
       data: tracklist
+    });
+    dispatch({
+      type: MERGE_ALBUMS,
+      data: mergeParams
     });
   } catch (error) {
     console.log(error);

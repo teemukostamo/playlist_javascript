@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteInProgressReport } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { Table, Icon, Confirm } from 'semantic-ui-react';
+import { Table, Icon, Confirm, Dimmer, Loader } from 'semantic-ui-react';
 import moment from 'moment';
 
 const InProgressReportListItem = ({
@@ -15,7 +15,11 @@ const InProgressReportListItem = ({
 }) => {
   const [open, setOpen] = useState(false);
   if (reportsList.loading === true) {
-    return <React.Fragment>ladataan...</React.Fragment>;
+    return (
+      <Dimmer active inverted>
+        <Loader inverted content="Ladataan..." />
+      </Dimmer>
+    );
   }
 
   const cancelDelete = () => {

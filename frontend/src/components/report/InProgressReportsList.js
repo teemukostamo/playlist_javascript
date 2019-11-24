@@ -11,12 +11,6 @@ const InProgressReportsList = props => {
     // eslint-disable-next-line
   }, []);
 
-  // if (props.reportsList.inProgress === null) {
-  //   return <div>loading</div>;
-  // }
-  // if (props.reportsList.loading) {
-  //   return <div>loading</div>;
-  // }
   if (props.reportsList.inProgress === null) {
     return null;
   }
@@ -63,9 +57,8 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedInProgressReportsList = connect(
-  mapStateToProps,
-  { getAllInProgress }
-)(InProgressReportsList);
+const connectedInProgressReportsList = connect(mapStateToProps, {
+  getAllInProgress
+})(InProgressReportsList);
 
 export default connectedInProgressReportsList;

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
 import { mergeAlbumFunction } from '../../actions/albumActions';
+import { setNotification } from '../../reducers/notificationReducer';
+
 const MergeAlbums = props => {
   // console.log('merge album tracks modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,6 +29,7 @@ const MergeAlbums = props => {
       };
       console.log(mergeParams);
       props.mergeAlbumFunction(mergeParams);
+      props.setNotification('Tiedot päivitetty!', 'success');
       handleClose();
     };
 
@@ -87,8 +90,9 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedMergeAlbums = connect(mapStateToProps, { mergeAlbumFunction })(
-  MergeAlbums
-);
+const connectedMergeAlbums = connect(mapStateToProps, {
+  mergeAlbumFunction,
+  setNotification
+})(MergeAlbums);
 
 export default connectedMergeAlbums;
