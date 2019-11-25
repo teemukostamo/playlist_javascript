@@ -45,6 +45,7 @@ const MergeAlbums = props => {
         value: album_id
       };
     });
+
     const getalbumToMerge = (e, { value }) => {
       e.preventDefault();
       setAlbumToMerge(value);

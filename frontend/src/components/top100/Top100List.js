@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Table, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Top100SearchForm from './Top100SearchForm';
+import AddToCurrentReport from '../track/AddToCurrentReport';
 
 const Top100List = props => {
   if (props.search.top100Query === null) {
@@ -92,6 +93,7 @@ const Top100List = props => {
               <Table.Cell>Albumi</Table.Cell>
               <Table.Cell>Biisi</Table.Cell>
               <Table.Cell>Soittokerrat</Table.Cell>
+              <Table.Cell></Table.Cell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -107,6 +109,13 @@ const Top100List = props => {
                   <Link to={`/track/${t.track_id}`}>{t.track_title}</Link>
                 </Table.Cell>
                 <Table.Cell>{t.count}</Table.Cell>
+                <Table.Cell>
+                  <AddToCurrentReport
+                    track_title={t.track_title}
+                    track_id={t.track_id}
+                    length={t.length}
+                  />
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
@@ -122,9 +131,6 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedTop100List = connect(
-  mapStateToProps,
-  null
-)(Top100List);
+const connectedTop100List = connect(mapStateToProps, null)(Top100List);
 
 export default connectedTop100List;

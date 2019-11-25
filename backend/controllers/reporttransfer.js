@@ -245,7 +245,7 @@ reportTransferRouter.post('/', async (req, res, next) => {
 
         // get record country
         let new_record_country;
-        if (track.record_country === null) {
+        if (track.record_country === null || track.record_country === '') {
           new_record_country = '   ';
         } else {
           new_record_country = track.record_country + ' ';

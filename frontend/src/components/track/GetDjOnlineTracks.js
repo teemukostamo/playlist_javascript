@@ -3,6 +3,7 @@ import { getDjonlineTracks } from '../../actions/trackActions';
 import { connect } from 'react-redux';
 import { Form, Button, Dropdown, Grid, Header } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
+import fi from 'date-fns/locale/fi';
 import moment from 'moment';
 import { parseISO } from 'date-fns';
 
@@ -317,6 +318,7 @@ const GetDjOnlineTracks = props => {
                 <DatePicker
                   selected={date}
                   dateFormat="dd.MM.yyyy"
+                  locale={fi}
                   onChange={date => setDate(date)}
                 />
               </Form.Field>

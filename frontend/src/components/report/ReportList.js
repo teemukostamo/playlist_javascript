@@ -12,6 +12,8 @@ import {
 import { setNotification } from '../../reducers/notificationReducer';
 import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
 import moment from 'moment';
+moment.locale('fi');
+console.log(moment.locale());
 
 const ReportList = props => {
   // initial reports list

@@ -35,6 +35,11 @@ const ReportListItem = props => {
   if (props.report.rerun === 1) {
     className = 'rerun';
   }
+
+  if (props.login.level === 1 && props.report.rerun === 1) {
+    return null;
+  }
+
   return (
     <React.Fragment>
       <Table.Row className={className}>
@@ -70,11 +75,11 @@ const ReportListItem = props => {
   );
 };
 
-// const mapStateToProps = state => ({
-//   report: state.report
-// });
+const mapStateToProps = state => ({
+  login: state.login
+});
 
-const connectedReportListItem = connect(null, {
+const connectedReportListItem = connect(mapStateToProps, {
   getOneReport,
   deleteReport,
   setNotification

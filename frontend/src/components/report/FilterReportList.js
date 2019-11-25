@@ -83,6 +83,7 @@ const FilterReportList = props => {
             placeholder="Käyttäjä"
             openOnFocus
             selection
+            search
             options={addAllToUserOptions}
             onChange={getUser}
           />

@@ -8,14 +8,18 @@ import {
   filterByStatus,
   filterByText
 } from '../../actions/reportsListActions';
-import { Dropdown, Button, Form } from 'semantic-ui-react';
+import { Dropdown, Button, Form, Dimmer, Loader } from 'semantic-ui-react';
 
 const ReportFilterForm = props => {
   const [reportMonth, setReportMonth] = useState('');
   const [reportYear, setReportYear] = useState('');
 
   if (props.users.users === null) {
-    return <div>loading</div>;
+    return (
+      <Dimmer active inverted>
+        <Loader inverted content="Ladataan..." />
+      </Dimmer>
+    );
   }
 
   // const teststatus = 0;
@@ -136,6 +140,7 @@ const ReportFilterForm = props => {
               selection
               options={monthOptions}
               onChange={getMonth}
+              value={reportMonth}
             />
           </Form.Field>
           <Form.Field>
@@ -145,6 +150,7 @@ const ReportFilterForm = props => {
               selection
               options={yearOptions}
               onChange={getYear}
+              value={reportYear}
             />{' '}
           </Form.Field>
           <Form.Field>

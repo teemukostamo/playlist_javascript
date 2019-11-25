@@ -85,13 +85,14 @@ const reportReducer = (state = initialState, action) => {
         newReport: null
         // loading: false
       };
-    case CREATE_REPORT: {
+    case CREATE_REPORT:
       return {
         ...state,
         newReport: action.data,
+        reportDetails: action.data,
         loading: false
       };
-    }
+
     case UPDATE_REPORT:
       return {
         ...state,

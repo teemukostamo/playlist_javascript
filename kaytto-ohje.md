@@ -2,7 +2,7 @@
 
 Käyttäjä kirjautuu sisään sovelluksen etusivulla. Onnistuneen kirjautumisen jälkeen etusivulla voi luoda uuden raportin. Myös käyttäjän omat keskeneräiset raportit näkyvät etusivulla.
 
-# Uuden raportin luominen
+## Uuden raportin luominen
 
 Uuteen raporttiin täytetään seuraavat tiedot:
 
@@ -15,7 +15,7 @@ Uuteen raporttiin täytetään seuraavat tiedot:
 
 Jos ohjelmaa ei löydy aktiivisten ohjelmien listalta, "Lisää uusi ohjelma" -painikkeella käyttäjä voi lisätä uuden ohjelman. Kun tarvittavat tiedot on täytetty, klikkamalla "Jatka" -painiketta käyttäjä pääsee lisäämään kappaleita raporttiin.
 
-# Kappaleiden lisääminen raporttiin
+## Kappaleiden lisääminen raporttiin
 
 Kappaleita on mahdollista hakea raporttiin studion playout-softan soittologista (Hae kappaleet DJOnlinesta -nappi). Syöttämällä päivämäärän ja kellonajan raporttiin voi lisätä biisit, jotka ovat soineet playout-softasta kyseiseen aikaan. Mikäli ohjelma on äänitetty ennakkoon 2.studiossa, niin haku on tehtävä siltä ajalta jolloin ennakkoäänitys tehtiin.
 
@@ -27,25 +27,25 @@ Listan vasemmassa reunassa olevilla tick boxeilla voi valita kappaleita poistett
 
 Kun kaikki kappaleet on syötetty, raportin tilaksi vaihdetaan valmis ja tallennetaan. Raporttiin lisätyt kappaleet tallentuvat automaattisesti. Tallenna -napin klikkaaminen on tarpeen ainoastaan silloin, kun raportin tietoja (päivämäärä, ohjelman nimi, tila) muutetaan.
 
-# Raportit
+## Raportit
 
 Raportit -näkymässä käyttäjä pääsee selaamaan tekemiään raportteja per kuukausi. Raportit on mahdollista suodattaa tekstisuodatuksella, sekä tilan (valmis/keskeneräinen) mukaan. Klikkaamalla punaista ruksia kyseinen raportti poistetaan. Punaisella tekstillä merkityt raportit ovat uusintaohjelmien raportteja. Sinisellä tekstillä merkityt ovat uusien ohjelmien raportteja.
 
-# Aktiivinen raportti
+## Aktiivinen raportti
 
 Viimeisin avattu raportti on aktiivinen raportti. Ko. raportin ohjelman nimi ja päivämäärä näkyvät navigointipalkin oikeassa reunassa. Top100- ja Haku -näkymien kautta lisätyt kappaleet päätyvät tähän raporttiin.
 
-# Haku
+## Haku
 
-Haku -näkymässä käyttäjä voi hakea artisteja, albumeja tai kappaleita sanahaulla. Klikkaamalla artistin, albumin tai kappaleen nimeä pääsee muokkaamaan niiden tietoja. Klikkaamalla vihreää + -symbolia hakutuloksen oikeassa reunassa ko. kappale lisätään aktiiviseen raporttiin.
+Haku -näkymässä käyttäjä voi hakea artisteja, albumeja tai kappaleita sanahaulla. Klikkaamalla artistin, albumin tai kappaleen nimeä voidaan niiden tietoja muokata. Klikkaamalla vihreää + -symbolia hakutuloksen oikeassa reunassa ko. kappale lisätään aktiiviseen raporttiin.
 
 Sekä artistin, albumin ja biisin nimen perässä lukee vihreällä id-numero. Mikäli tuloksissa on duplikaatteja, klikkaamalla id-numeroa artistin, biisin tai albumin voi yhdistää toiseen ja näin poistaa duplikaatin tietokannasta.
 
-# Top100
+## Top100
 
 Top100 -näkymässä näkee sata eniten soinutta artistia, albumia tai kappaletta tietyllä aikavälillä. Klikkaamalla vihreää + -symbolia hakutuloksen oikeassa reunassa ko. kappale lisätään aktiiviseen raporttiin.
 
-# Omat tiedot ja ulos kirjautuminen
+## Omat tiedot ja uloskirjautuminen
 
 Klikkamalla omaa nimeään navigointipalkissa käyttäjä voi muokata omia tietojaan, vaihtaa salasanan ja kirjautua ulos.
 
@@ -59,28 +59,30 @@ Sovelluksessa on kolme eri käyttäjätasoa:
 
 ## DJ
 
-Peruskäyttäjällä eli DJ:llä on oikeus luoda raportteja, selata omia raporttejaan, hakea biisejä tietokannasta ja selata top100-listoja
+Peruskäyttäjällä eli DJ:llä on oikeus luoda raportteja, selata omia raporttejaan, hakea biisejä tietokannasta ja selata top100-listoja.
 
 ## Toimitus
 
 Toimitus-käyttäjällä on samat oikeudet kuin DJ-käyttäjällä, sekä:
 
-### Kaikkien käyttäjien raportit ja raporttien monistaminen
+#### Kaikkien käyttäjien raportit ja raporttien monistaminen
 
-Toimitus -käyttäjä voi selata kaikkien käyttäjien kaikkia raportteja. Mikäli ohjelma lähetetään uusintana, niin tällöin alkuperäisen lähetyksen raporttiin vaihdetaan uusinnan lähetyspäivä ja kellonaika. "Monista" -napilla raportti monistetaan uuteen ajankohtaan.
+Toimitus -käyttäjä voi selata kaikkien käyttäjien kaikkia raportteja. Mikäli ohjelma lähetetään uusintana, niin tällöin alkuperäisen lähetyksen raporttiin vaihdetaan uusinnan lähetyspäivä ja kellonaika. Uusinta -checkbox valitaan ja Monista-napilla raportti monistetaan uuteen ajankohtaan.
 
-### Ohjelmat
+Uusinnat näkyvät Raportit -sivulla punaisella tekstillä ja kursivoituna.
+
+#### Ohjelmat
 
 Ohjelmat -sivulla käyttäjä voi muokata ohjelman tietoja. Aktiiviset ohjelmat näkyvät vihreällä pohjalla. Vaihtamalla ohjelman tilaksi aktiivinen ko. ohjelma saadaan näkyviin listalla josta valitaan uuden raportin ohjelma. Klikkaamalla listan vasemmassa reunassa olevaa ID-numeroa duplikaattiohjelma voidaan yhdistää toiseen ohjelmaan. Luo uusi ohjelma -painikkeella luodaan uusi ohjelma.
 
 ## Admin
 
-Admin-käyttäjillä on samat oikeudet kuin Toimitus-käyttäjillä, sekä kaksi muuta näkymää:
+Admin-käyttäjillä on samat oikeudet kuin Toimitus-käyttäjillä, sekä:
 
-### Käyttäjät
+#### Käyttäjät
 
 Käyttäjät -sivulla on lista sovelluksen käyttäjistä. Klikkaamalla käyttäjänimeä voi muokata käyttäjän tietoja. Hyllyllä olevilla käyttäjillä ei ole pääsyä sovellukseen. Punaisesta ruksista käyttäjä voidaan poistaa. Lisää uusi käyttäjä -napilla luodaan uusi käyttäjä.
 
-### Siirtotiedostot
+#### Siirtotiedostot
 
 Siirtotiedostot -sivulla koostetaan tekijänoikeusjärjestöille lähetettävä raportti kuukauden soittotapahtumista. Käyttäjä valitsee kuukauden ja klikkaa HAE-nappia. Kun raportti on valmis, linkki tekstitiedostoon ilmestyy alla olevaan listaan. Listalla näkee ko. raportin luontipäivämäärän, raportin luoneen käyttäjän, raportin ajankohtan (MM/YYYY) ja linkin itse tiedostoon.

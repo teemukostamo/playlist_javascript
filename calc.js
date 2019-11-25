@@ -612,7 +612,42 @@ const report = [
 // pipedPeople = `| ${pipedPeople} |`;
 // console.log(pipedPeople);
 
-const time2 = '00:00:00';
-const time3 = '02:00:00';
+let results = [
+  {
+    artist_name: 'NINE INCH NAILS',
+    artist_id: 33174,
+    album_name: 'The Slip',
+    album_id: 146106,
+    track_title: '1,000,000',
+    track_id: 385539,
+    length: 236,
+    program_date: '2018-08-21',
+    report_id: 66277
+  },
+  {
+    artist_name: 'NINE INCH NAILS',
+    artist_id: 33174,
+    album_name: 'The Slip',
+    album_id: 146106,
+    track_title: 'Discipline',
+    track_id: 385539,
+    length: 236,
+    program_date: '2018-08-21',
+    report_id: 66277
+  },
+  {
+    artist_name: 'NINE INCH NAILS',
+    artist_id: 33174,
+    album_name: 'The Slip',
+    album_id: 146101,
+    track_title: 'Echoplex',
+    track_id: 385539,
+    length: 236,
+    program_date: '2018-08-21',
+    report_id: 66277
+  }
+];
 
-console.log(parseInt(time3) < parseInt(time2));
+let filteredResult = new Set(results.map(r => r.album_id));
+
+console.log(filteredResult);

@@ -374,6 +374,7 @@ const ReportDetails = props => {
       program_end_time: programEndTime,
       program_no: programNumber,
       program_dj: dj,
+      program_name: props.report.reportDetails.program_name,
       status: status,
       rerun: rerun
     };
@@ -400,6 +401,7 @@ const ReportDetails = props => {
       program_start_time: programStartTime,
       program_end_time: programEndTime,
       program_no: programNumber,
+      program_name: props.report.reportDetails.program_name,
       program_dj: dj,
       status: status,
       rerun: rerun
@@ -415,6 +417,32 @@ const ReportDetails = props => {
       'success'
     );
   };
+
+  const rerunCheckBox = () => {
+    if (props.login.level === 1) {
+      return null;
+    } else {
+      return (
+        <Form.Field>
+          <label>Uusinta</label>
+          <Form.Checkbox
+            name="rerun"
+            onChange={getRerun}
+            checked={rerun ? true : false}
+          />
+        </Form.Field>
+      );
+    }
+  };
+
+  const duplicateBtn = () => {
+    if (props.login.level === 1) {
+      return null;
+    } else {
+      return <Button onClick={copyReport}>Monista</Button>;
+    }
+  };
+
   return (
     <div>
       <Header>Lisää biisi raporttiin:</Header>
@@ -522,19 +550,12 @@ const ReportDetails = props => {
                   onChange={getUser}
                 />
               </Form.Field>
-              <Form.Field>
-                <label>Uusinta</label>
-                <Form.Checkbox
-                  name="rerun"
-                  onChange={getRerun}
-                  checked={rerun ? true : false}
-                />
-              </Form.Field>
+              {rerunCheckBox()}
               <Form.Group widths="equal">
                 <Button color="green" onClick={saveChanges}>
                   Tallenna
                 </Button>
-                <Button onClick={copyReport}>Monista</Button>
+                {duplicateBtn()}
               </Form.Group>
             </Form>
           </Grid.Column>

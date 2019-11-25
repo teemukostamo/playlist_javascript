@@ -181,9 +181,10 @@ export const updateReport = updatedReport => async dispatch => {
       type: SET_LOADING
     });
     const report = await reportService.updateReport(updatedReport);
+    console.log('updated report details', report);
     dispatch({
       type: UPDATE_REPORT,
-      data: report
+      data: updatedReport
     });
   } catch (error) {
     console.log(error);

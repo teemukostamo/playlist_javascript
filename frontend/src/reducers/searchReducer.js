@@ -94,10 +94,18 @@ const searchReducer = (state = initialState, action) => {
         changeArtistOptions: null
       };
     // case MERGE_ALBUMS:
+    //   const album_id = action.data;
+    //   console.log(album_id);
+    //   const resultToChange = state.advancedResults.find(
+    //     result => result.album_id === album_id
+    //   );
+    //   console.log(resultToChange);
     //   return {
     //     ...state,
-    //     advancedResults: state.advancedResults.map(result => result.album_id === action.data.merge)
-    //   }
+    //     advancedResults: state.advancedResults.map(result =>
+    //       result.album_id !== action.data.album_id ? result : action.data
+    //     )
+    //   };
     default:
       return state;
   }

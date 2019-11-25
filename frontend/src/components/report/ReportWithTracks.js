@@ -150,7 +150,11 @@ const ReportWithTracks = props => {
         <Button
           color="red"
           onClick={deleteChecked}
-          style={{ marginLeft: '1rem', marginBottom: '1rem' }}
+          style={{
+            marginLeft: '1rem',
+            marginBottom: '1rem',
+            marginTop: '1rem'
+          }}
         >
           Poista valitut
         </Button>
