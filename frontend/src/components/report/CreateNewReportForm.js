@@ -349,6 +349,15 @@ const CreateNewReportForm = props => {
     return <Redirect to={`reports/${props.report.newReport.id}`} />;
   }
 
+  let disabled;
+  if (!programDate || !programStartTime || !programEndTime || !dj) {
+    disabled = true;
+  } else if (!programId && newProgramName === '') {
+    disabled = true;
+  } else {
+    disabled = false;
+  }
+
   return (
     <React.Fragment>
       <Grid.Column>
@@ -457,17 +466,7 @@ const CreateNewReportForm = props => {
               </Form.Field>
             </Form.Group>
             <Form.Group widths="equal">
-              <Button
-                disabled={
-                  !programId ||
-                  !programDate ||
-                  !programStartTime ||
-                  !programEndTime ||
-                  !dj
-                }
-                color="green"
-                onClick={createReport}
-              >
+              <Button disabled={disabled} color="green" onClick={createReport}>
                 Jatka
               </Button>
             </Form.Group>

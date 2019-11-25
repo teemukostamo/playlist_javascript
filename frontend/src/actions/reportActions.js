@@ -6,7 +6,7 @@ import {
   UPDATE_REPORT,
   CHECK_FOR_DELETE,
   UNCHECK_FOR_DELETE,
-  CREATE_NEW_PROGRAM,
+  CREATE_NEW_PROGRAM_ON_NEW_REPORT,
   SET_LOADING
 } from '../actions/types';
 import reportService from '../services/reports';
@@ -121,7 +121,7 @@ export const createReport = newReport => async dispatch => {
       };
       const program = await programService.createProgram(newProgram);
       dispatch({
-        type: CREATE_NEW_PROGRAM,
+        type: CREATE_NEW_PROGRAM_ON_NEW_REPORT,
         data: program
       });
       const newReportWithNewProgram = {
@@ -135,12 +135,13 @@ export const createReport = newReport => async dispatch => {
         type: CREATE_REPORT,
         data: report
       });
+    } else {
+      const report = await reportService.createReport(newReport);
+      dispatch({
+        type: CREATE_REPORT,
+        data: report
+      });
     }
-    const report = await reportService.createReport(newReport);
-    dispatch({
-      type: CREATE_REPORT,
-      data: report
-    });
   } catch (error) {
     console.log(error);
   }

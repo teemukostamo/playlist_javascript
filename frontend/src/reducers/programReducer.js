@@ -3,6 +3,7 @@ import {
   GET_ALL_PROGRAMS,
   GET_ALL_ACTIVE_PROGRAMS,
   CREATE_NEW_PROGRAM,
+  CREATE_NEW_PROGRAM_ON_NEW_REPORT,
   UPDATE_PROGRAM
 } from '../actions/types';
 
@@ -37,6 +38,12 @@ const programReducer = (state = initialState, action) => {
       return {
         ...state,
         allPrograms: [...state.allPrograms, action.data],
+        loading: false
+      };
+    case CREATE_NEW_PROGRAM_ON_NEW_REPORT:
+      return {
+        ...state,
+        activePrograms: [...state.activePrograms, action.data],
         loading: false
       };
     case UPDATE_PROGRAM:
