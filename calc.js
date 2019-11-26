@@ -638,9 +638,20 @@ let results = [
   {
     artist_name: 'NINE INCH NAILS',
     artist_id: 33174,
-    album_name: 'The Slip',
+    album_name: 'The Slippers',
     album_id: 146101,
     track_title: 'Echoplex',
+    track_id: 385539,
+    length: 236,
+    program_date: '2018-08-21',
+    report_id: 66277
+  },
+  {
+    artist_name: 'NINE INCH NAILS',
+    artist_id: 33174,
+    album_name: 'The Slippers',
+    album_id: 146101,
+    track_title: 'Demon seed',
     track_id: 385539,
     length: 236,
     program_date: '2018-08-21',
@@ -648,6 +659,20 @@ let results = [
   }
 ];
 
-let filteredResult = new Set(results.map(r => r.album_id));
+// get the albums that need name and id changing
+const filteredAlbums = results.filter(r => r.album_id === 146101);
+// update the names and ids of those albums
+const renamedAlbums = filteredAlbums.map(result => ({
+  ...result,
+  album_id: 146106,
+  album_name: 'The Slip'
+}));
+// remove albums with old ids from advancedResults
+const removeMergedAlbums = results.filter(r => r.album_id !== 146101);
+//
+const newResults = [...renamedAlbums, ...removeMergedAlbums];
 
-console.log(filteredResult);
+console.log(results);
+console.log(removeMergedAlbums);
+console.log(renamedAlbums);
+console.log(newResults);

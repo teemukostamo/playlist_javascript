@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
-import { mergeAlbumFunction } from '../../actions/albumActions';
+import {
+  mergeAlbumFunction,
+  updateAlbumState
+} from '../../actions/albumActions';
+import ModalNotification from '../layout/ModalNotification';
+
 import { setNotification } from '../../reducers/notificationReducer';
 
 const MergeAlbums = props => {
@@ -25,12 +30,18 @@ const MergeAlbums = props => {
       const mergeParams = {
         type: 'album',
         merge: albumToMerge,
-        mergeTo: props.album_id
+        mergeTo: props.album_id,
+        newName: props.album_name
       };
       console.log(mergeParams);
-      props.mergeAlbumFunction(mergeParams);
-      props.setNotification('Tiedot päivitetty!', 'success');
-      handleClose();
+      if (mergeParams.merge === mergeParams.mergeTo) {
+        props.setNotification('Tarkista albumi', 'fail');
+      } else {
+        props.updateAlbumState(mergeParams);
+        props.mergeAlbumFunction(mergeParams);
+        props.setNotification('Tiedot päivitetty!', 'success');
+        handleClose();
+      }
     };
 
     const mergeOptions = Array.from(
@@ -65,6 +76,8 @@ const MergeAlbums = props => {
           Yhdistä albumiin {props.album_id} - {props.album_name} tiedot
         </Header>
         <Modal.Content>
+          <ModalNotification />
+
           <Form onSubmit={onSubmit}>
             <Form.Field>
               <Dropdown
@@ -93,6 +106,7 @@ const mapStateToProps = state => {
 
 const connectedMergeAlbums = connect(mapStateToProps, {
   mergeAlbumFunction,
+  updateAlbumState,
   setNotification
 })(MergeAlbums);
 

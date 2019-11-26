@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
-import { mergeArtistFunction } from '../../actions/artistActions';
+import {
+  mergeArtistFunction,
+  updateArtistState
+} from '../../actions/artistActions';
+import { setNotification } from '../../reducers/notificationReducer';
+import ModalNotification from '../layout/ModalNotification';
 const MergeArtists = props => {
   // console.log('merge album tracks modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
@@ -25,10 +30,18 @@ const MergeArtists = props => {
       const mergeParams = {
         type: 'artist',
         mergeTo: props.artist_id,
-        merge: artistToMerge
+        merge: artistToMerge,
+        newName: props.artist_name
       };
-      props.mergeArtistFunction(mergeParams);
-      console.log(mergeParams);
+      if (mergeParams.merge === mergeParams.mergeTo) {
+        props.setNotification('Tarkista artisti', 'fail');
+      } else {
+        props.mergeArtistFunction(mergeParams);
+        props.updateArtistState(mergeParams);
+        props.setNotification('Tiedot päivitetty!', 'success');
+        handleClose();
+        console.log(mergeParams);
+      }
     };
 
     const mergeOptions = Array.from(
@@ -62,6 +75,7 @@ const MergeArtists = props => {
           Yhdistä artistiin {props.artist_id} - {props.artist_name} tiedot
         </Header>
         <Modal.Content>
+          <ModalNotification />
           <Form onSubmit={onSubmit}>
             <Form.Field>
               <Dropdown
@@ -88,8 +102,10 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedMergeArtists = connect(mapStateToProps, { mergeArtistFunction })(
-  MergeArtists
-);
+const connectedMergeArtists = connect(mapStateToProps, {
+  mergeArtistFunction,
+  updateArtistState,
+  setNotification
+})(MergeArtists);
 
 export default connectedMergeArtists;

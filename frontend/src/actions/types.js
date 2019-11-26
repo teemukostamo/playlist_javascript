@@ -68,11 +68,13 @@ export const CLEAR_CURRENT_TRACK = 'CLEAR_CURRENT_TRACK';
 export const REMOVE_CURRENT_TRACK = 'REMOVE_CURRENT_TRACK';
 export const CHANGE_ALBUM = 'CHANGE_ALBUM';
 export const CHANGE_ARTIST = 'CHANGE_ARTIST';
+export const MERGE_TRACKS = 'MERGE_TRACKS';
 
 // artist actions
 export const GET_ONE_ARTIST = 'GET_ONE_ARTIST';
 export const GET_ALBUM_LIST_BY_ARTIST = 'GET_ALBUM_LIST_BY_ARTIST';
 export const CLEAR_CURRENT_ARTIST = 'CLEAR_CURRENT_ARTIST';
+export const MERGE_ARTISTS = 'MERGE_ARTISTS';
 
 // album actions
 export const GET_ONE_ALBUM = 'GET_ONE_ALBUM';

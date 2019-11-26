@@ -19,6 +19,7 @@ const AlbumDetailsForm = props => {
     } else {
       setYear(parseInt(props.currentAlbum[0].year));
     }
+    // eslint-disable-next-line
   }, [props.currentAlbum[0].year]);
   if (props.currentAlbum === null) {
     return (

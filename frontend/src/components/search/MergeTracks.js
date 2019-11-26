@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
-import { mergeTrackFunction } from '../../actions/trackActions';
+import {
+  mergeTrackFunction,
+  updateTrackState
+} from '../../actions/trackActions';
+import ModalNotification from '../layout/ModalNotification';
+import { setNotification } from '../../reducers/notificationReducer';
 
 const MergeTracks = props => {
   // console.log('merge track tracks modal props', props);
@@ -24,10 +29,18 @@ const MergeTracks = props => {
       const mergeParams = {
         type: 'track',
         merge: trackToMerge,
-        mergeTo: props.track_id
+        mergeTo: props.track_id,
+        newName: props.track_title
       };
       console.log(mergeParams);
-      props.mergeTrackFunction(mergeParams);
+      if (mergeParams.merge === mergeParams.mergeTo) {
+        props.setNotification('Tarkista biisi', 'fail');
+      } else {
+        props.mergeTrackFunction(mergeParams);
+        props.updateTrackState(mergeParams);
+        props.setNotification('Tiedot päivitetty!', 'success');
+        handleClose();
+      }
     };
 
     const mergeOptions = props.search.advancedResults.map(track => ({
@@ -54,6 +67,8 @@ const MergeTracks = props => {
           Yhdistä biisiin {props.track_id} - {props.track_title} tiedot:
         </Header>
         <Modal.Content>
+          <ModalNotification />
+
           <Form onSubmit={onSubmit}>
             <Form.Field>
               <Dropdown
@@ -80,8 +95,10 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedMergeTracks = connect(mapStateToProps, { mergeTrackFunction })(
-  MergeTracks
-);
+const connectedMergeTracks = connect(mapStateToProps, {
+  mergeTrackFunction,
+  updateTrackState,
+  setNotification
+})(MergeTracks);
 
 export default connectedMergeTracks;

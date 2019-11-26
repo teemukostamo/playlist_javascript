@@ -68,4 +68,5 @@
 | 21.11.2019 |   6    |          add to report on track detail page, user access control, date-fns           |
 | 22.11.2019 |   3    |                         delete user, user level on userlist                          |
 | 25.11.2019 |   4    |                                 manual, little fixes                                 |
-|  yhteensä  |  226   |                                                                                      |
+| 26.11.2019 |   3    |          fixed warnings & updating views after track, artist or album merge          |
+|  yhteensä  |  229   |                                                                                      |

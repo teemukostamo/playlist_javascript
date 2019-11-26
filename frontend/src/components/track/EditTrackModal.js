@@ -69,6 +69,7 @@ const EditTrackModal = props => {
     } else {
       setCatId(props.search.discogsCatId);
     }
+    // eslint-disable-next-line
   }, [props.search.discogsCatId]);
 
   const handleOpen = () => {

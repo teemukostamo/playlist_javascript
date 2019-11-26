@@ -2,7 +2,8 @@ import {
   GET_ONE_ARTIST,
   SET_LOADING,
   GET_ALBUM_LIST_BY_ARTIST,
-  CLEAR_CURRENT_ARTIST
+  CLEAR_CURRENT_ARTIST,
+  MERGE_ARTISTS
 } from './types';
 import artistService from '../services/artists';
 import searchService from '../services/search';
@@ -66,4 +67,11 @@ export const mergeArtistFunction = mergeParams => async dispatch => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const updateArtistState = mergeParams => async dispatch => {
+  dispatch({
+    type: MERGE_ARTISTS,
+    data: mergeParams
+  });
 };

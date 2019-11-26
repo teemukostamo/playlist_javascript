@@ -64,11 +64,14 @@ export const mergeAlbumFunction = mergeParams => async dispatch => {
       type: GET_TRACKLIST_OF_ALBUM,
       data: tracklist
     });
-    dispatch({
-      type: MERGE_ALBUMS,
-      data: mergeParams
-    });
   } catch (error) {
     console.log(error);
   }
+};
+
+export const updateAlbumState = mergeParams => async dispatch => {
+  dispatch({
+    type: MERGE_ALBUMS,
+    data: mergeParams
+  });
 };

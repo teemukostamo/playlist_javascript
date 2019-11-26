@@ -8,7 +8,8 @@ import {
   CLEAR_CURRENT_TRACK,
   REMOVE_CURRENT_TRACK,
   CHANGE_ALBUM,
-  CHANGE_ARTIST
+  CHANGE_ARTIST,
+  MERGE_TRACKS
 } from './types';
 import trackService from '../services/tracks';
 import searchService from '../services/search';
@@ -162,4 +163,11 @@ export const changeArtistId = artistToUpdate => async dispatch => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const updateTrackState = mergeParams => async dispatch => {
+  dispatch({
+    type: MERGE_TRACKS,
+    data: mergeParams
+  });
 };
