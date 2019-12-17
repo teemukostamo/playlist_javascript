@@ -784,7 +784,15 @@ tracksRouter.post('/djonline', async (req, res, next) => {
     }
 
     // see if artist exists
-    const artist = await Artist.findOne({ where: { name: artist_name } });
+    // const artist = await Artist.findOne({ where: { name: artist_name } });
+    const artist = await Artist.findOne({
+      where: db.where(
+        db.fn('lower', db.col('name')),
+        db.fn('lower', artist_name)
+      )
+    });
+
+    console.log('add djonline tracks artist', artist);
     // uudet artistit crashaa siihen et ao id
 
     if (!artist) {
@@ -857,9 +865,20 @@ tracksRouter.post('/djonline', async (req, res, next) => {
       res.status(201).json(trackToReturn);
     } else if (artist) {
       // see if album exists
+      // const album = await Album.findOne({
+      //   where: { artist_id: artist.id, name: album_name }
+      // });
       const album = await Album.findOne({
-        where: { artist_id: artist.id, name: album_name }
+        where: {
+          artist_id: artist.id,
+          $col: db.where(
+            db.fn('lower', db.col('name')),
+            db.fn('lower', album_name)
+          )
+        }
       });
+      console.log('add djonline tracks album', album);
+
       if (!album) {
         // create new album
         const newAlbum = await Album.create({
@@ -925,9 +944,20 @@ tracksRouter.post('/djonline', async (req, res, next) => {
         res.status(201).json(trackToReturn);
       } else {
         // see if track exists
+        // const track = await Track.findOne({
+        //   where: { artist_id: artist.id, album_id: album.id, name: track_title }
+        // });
         const track = await Track.findOne({
-          where: { artist_id: artist.id, album_id: album.id, name: track_title }
+          where: {
+            artist_id: artist.id,
+            album_id: album.id,
+            $col: db.where(
+              db.fn('lower', db.col('name')),
+              db.fn('lower', track_title)
+            )
+          }
         });
+        console.log('add djonline tracks track', track);
 
         if (track) {
           // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
@@ -965,61 +995,61 @@ tracksRouter.post('/djonline', async (req, res, next) => {
           };
           console.log('track to return', trackToReturn);
           return res.status(200).json(trackToReturn);
+        } else {
+          // create new track
+          const newTrack = await Track.create({
+            artist_id: artist.id,
+            album_id: album.id,
+            identifier: cat_id,
+            label,
+            name: track_title,
+            disc_no,
+            track_no,
+            length,
+            country,
+            record_country,
+            people,
+            comment,
+            isrc
+          });
+          console.log('created new track', newTrack);
+
+          // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
+          const newReportTrack = await Report_Track.create({
+            track_id: newTrack.id,
+            report_id,
+            length: newTrack.length,
+            sortable_rank
+          });
+
+          console.log('new report-track', newReportTrack);
+          const trackToReturn = {
+            id: newTrack.id,
+            artist_id: newTrack.artist_id,
+            album_id: newTrack.album_id,
+            track_title: newTrack.name,
+            artist_name,
+            album_name,
+            label,
+            cat_id,
+            year,
+            disc_no,
+            track_no,
+            length,
+            country: newTrack.country,
+            record_country,
+            sortable_rank,
+            people: newTrack.people,
+            comment,
+            isrc,
+            report_id,
+            report_track_id: newReportTrack.id,
+            user_id: newTrack.user_id,
+            spotify_id: newTrack.spotify_id
+          };
+          console.log('track to return', trackToReturn);
+          res.status(201).json(trackToReturn);
         }
-
-        // create new track
-        const newTrack = await Track.create({
-          artist_id: artist.id,
-          album_id: album.id,
-          identifier: cat_id,
-          label,
-          name: track_title,
-          disc_no,
-          track_no,
-          length,
-          country,
-          record_country,
-          people,
-          comment,
-          isrc
-        });
-        console.log('created new track', newTrack);
-
-        // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
-        const newReportTrack = await Report_Track.create({
-          track_id: newTrack.id,
-          report_id,
-          length: newTrack.length,
-          sortable_rank
-        });
-
-        console.log('new report-track', newReportTrack);
-        const trackToReturn = {
-          id: newTrack.id,
-          artist_id: newTrack.artist_id,
-          album_id: newTrack.album_id,
-          track_title: newTrack.name,
-          artist_name,
-          album_name,
-          label,
-          cat_id,
-          year,
-          disc_no,
-          track_no,
-          length,
-          country: newTrack.country,
-          record_country,
-          sortable_rank,
-          people: newTrack.people,
-          comment,
-          isrc,
-          report_id,
-          report_track_id: newReportTrack.id,
-          user_id: newTrack.user_id,
-          spotify_id: newTrack.spotify_id
-        };
-        console.log('track to return', trackToReturn);
-        res.status(201).json(trackToReturn);
       }
     }
   } catch (exception) {

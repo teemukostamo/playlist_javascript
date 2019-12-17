@@ -32,7 +32,7 @@ const InProgressReportsList = props => {
           <Table striped>
             <Table.Header>
               <Table.Row>
-                <Table.Cell>Nimi</Table.Cell>
+                <Table.Cell>Ohjelma</Table.Cell>
                 <Table.Cell>Aika</Table.Cell>
                 <Table.Cell>Nro</Table.Cell>
                 <Table.Cell></Table.Cell>

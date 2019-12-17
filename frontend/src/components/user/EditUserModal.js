@@ -57,6 +57,10 @@ const EditUserModal = props => {
       };
       console.log('updting info', userToUpdate);
       props.updateUser(userToUpdate);
+      props.setNotification(
+        `Käyttäjän ${userToUpdate.first_name} ${userToUpdate.last_name} tiedot päivitetty!`,
+        'success'
+      );
       handleClose();
     }
     // if (!firstName || !lastName) {
@@ -220,9 +224,9 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedEditUserModal = connect(
-  mapStateToProps,
-  { setNotification, updateUser }
-)(EditUserModal);
+const connectedEditUserModal = connect(mapStateToProps, {
+  setNotification,
+  updateUser
+})(EditUserModal);
 
 export default connectedEditUserModal;

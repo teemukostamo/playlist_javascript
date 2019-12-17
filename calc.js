@@ -676,3 +676,10 @@ console.log(results);
 console.log(removeMergedAlbums);
 console.log(renamedAlbums);
 console.log(newResults);
+
+let word = 'hheellloo';
+
+word.replace(/(.)\1+/g, '$1');
+
+console.log(word);
+// ["helo", "how", "are", "you"]
