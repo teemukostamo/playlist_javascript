@@ -20,7 +20,7 @@ import moment from 'moment';
 
 const CreateNewReportForm = props => {
   const [programId, setProgramId] = useState('');
-  const [programNumber, setProgramNumber] = useState('');
+  const [programNumber, setProgramNumber] = useState(null);
   const [dj, setDj] = useState(
     `${props.login.first_name} ${props.login.last_name}`
   );

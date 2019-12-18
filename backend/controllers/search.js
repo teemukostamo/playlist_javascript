@@ -23,8 +23,8 @@ searchRouter.get('/autocomplete/:query', async (req, res, next) => {
     if (!token || !decodedToken.id) {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
-
-    const searchString = req.params.query;
+    // eslint-disable-next-line
+    const searchString = req.params.query.replace(/'/g, "\\'")
     console.log(searchString.length);
     if (searchString.length < 3) {
       return res.status(400).json({ error: 'query too short' });
@@ -42,7 +42,7 @@ searchRouter.get('/autocomplete/:query', async (req, res, next) => {
      FROM playlist__track as t
      INNER JOIN playlist__artist as ar ON t.artist_id = ar.id
      INNER JOIN playlist__album as al ON t.album_id = al.id
-     WHERE (t.name like "%${searchString}%" or ar.name like "%${searchString}%")
+     WHERE (t.name like '%${searchString}%' or ar.name like '%${searchString}%')
      ORDER BY t.name ASC 
      LIMIT 100
       `,
@@ -67,7 +67,8 @@ searchRouter.get('/advanced', async (req, res, next) => {
       return res.status(401).json({ error: 'token missing or invalid' });
     }
 
-    const searchString = req.query.query;
+    // eslint-disable-next-line
+    const searchString = req.query.query.replace(/'/g, "\\'");
     const kind = req.query.kind;
     console.log(searchString.length);
     if (searchString.length < 3) {
@@ -90,7 +91,7 @@ searchRouter.get('/advanced', async (req, res, next) => {
       INNER JOIN playlist__track as tr ON rt.track_id = tr.id
       INNER JOIN playlist__album as al ON tr.album_id = al.id
       INNER JOIN playlist__artist as ar ON tr.artist_id = ar.id AND al.artist_id = ar.id
-      WHERE ${kind}.name like "%${searchString}%"
+      WHERE ${kind}.name like '%${searchString}%'
       GROUP BY tr.id
       ORDER BY track_title asc
       LIMIT 1000

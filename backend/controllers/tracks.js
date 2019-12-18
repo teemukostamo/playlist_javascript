@@ -782,13 +782,16 @@ tracksRouter.post('/djonline', async (req, res, next) => {
     } else {
       artist_name = artist_name.toUpperCase();
     }
+    if (record_country === '') {
+      record_country = null;
+    }
 
     // see if artist exists
     // const artist = await Artist.findOne({ where: { name: artist_name } });
     const artist = await Artist.findOne({
       where: db.where(
         db.fn('lower', db.col('name')),
-        db.fn('lower', artist_name)
+        db.fn('lower', artist_name.toLowerCase())
       )
     });
 
@@ -873,7 +876,7 @@ tracksRouter.post('/djonline', async (req, res, next) => {
           artist_id: artist.id,
           $col: db.where(
             db.fn('lower', db.col('name')),
-            db.fn('lower', album_name)
+            db.fn('lower', album_name.toLowerCase())
           )
         }
       });
@@ -953,7 +956,7 @@ tracksRouter.post('/djonline', async (req, res, next) => {
             album_id: album.id,
             $col: db.where(
               db.fn('lower', db.col('name')),
-              db.fn('lower', track_title)
+              db.fn('lower', track_title.toLowerCase())
             )
           }
         });

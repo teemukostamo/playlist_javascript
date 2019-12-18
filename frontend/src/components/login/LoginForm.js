@@ -31,7 +31,7 @@ const LoginForm = ({ newLogin }) => {
           <input
             type="text"
             placeholder="Käyttäjätunnus..."
-            onChange={e => setUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value.trim())}
           />
         </Form.Field>
         <Form.Field>
@@ -39,7 +39,7 @@ const LoginForm = ({ newLogin }) => {
           <input
             type="password"
             placeholder="Salasana..."
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value.trim())}
           />
         </Form.Field>
         <Button color="green" type="submit">
@@ -54,7 +54,4 @@ LoginForm.propTypes = {
   newLogin: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { newLogin, setNotification }
-)(LoginForm);
+export default connect(null, { newLogin, setNotification })(LoginForm);

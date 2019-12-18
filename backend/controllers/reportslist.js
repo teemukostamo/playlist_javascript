@@ -88,7 +88,14 @@ reportslistRouter.get('/date/:date', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    // console.log('results from reports route', reports);
+    console.log('results from reports route', reports);
+    // console.log('report to get charcode from', reports[24]);
+    // console.log('name at reports[24].name:', reports[24].name);
+    // console.log(
+    //   'charcode at reports[24].name.charCodeAt(2):',
+    //   reports[24].name.charCodeAt(2)
+    // );
+
     res.json(reports);
   } catch (exception) {
     next(exception);
