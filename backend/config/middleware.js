@@ -1,11 +1,3 @@
-const logger = (req, res, next) => {
-  console.log('Method:', req.method);
-  console.log('Path:  ', req.path);
-  console.log('Body:  ', req.body);
-  console.log('---');
-  next();
-};
-
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' });
 };
@@ -34,17 +26,19 @@ const errorHandler = (error, req, res, next) => {
   next(error);
 };
 
-const tokenExtractor = (req, res, next) => {
+const getTokenFrom = req => {
   const authorization = req.get('authorization');
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    req.token = authorization.substring(7);
+    console.log('token is ok');
+    const token = authorization.substring(7);
+    return token;
   }
-  next();
+
+  return null;
 };
 
 module.exports = {
-  logger,
   unknownEndpoint,
   errorHandler,
-  tokenExtractor
+  getTokenFrom
 };

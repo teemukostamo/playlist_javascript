@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Table, Icon, Confirm } from 'semantic-ui-react';
+import { Table, Icon, Confirm, Responsive } from 'semantic-ui-react';
 import { getOneReport } from '../../actions/reportActions';
 import { deleteReport } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
@@ -43,7 +43,9 @@ const ReportListItem = props => {
   return (
     <React.Fragment>
       <Table.Row className={className}>
-        <Table.Cell>{props.report.program_no}</Table.Cell>
+        <Responsive as={Table.Cell} minWidth={768}>
+          {props.report.program_no}
+        </Responsive>
         <Table.Cell>
           <Link className={className} to={`reports/${props.report.id}`}>
             {props.report.name}

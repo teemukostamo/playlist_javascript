@@ -13,7 +13,9 @@ import {
   Button,
   Input,
   TextArea,
-  Dropdown
+  Dropdown,
+  Popup,
+  Icon
 } from 'semantic-ui-react';
 
 const AddTrackModal = props => {
@@ -473,13 +475,8 @@ const AddTrackModal = props => {
             />
           </Form.Field>
           <Form.Group widths="equal">
-            <Form.Field>
-              <label>
-                Säveltäjän kotimaa
-                <span style={{ color: 'red' }}>
-                  <strong>*</strong>
-                </span>
-              </label>
+            <Form.Field required>
+              <label>Säveltäjän kotimaa</label>
               <Dropdown
                 placeholder="Suomi, muu, ei tietoa..."
                 openOnFocus={false}
@@ -502,12 +499,17 @@ const AddTrackModal = props => {
               />
             </Form.Field>
           </Form.Group>
-          <Form.Field>
+          <Form.Field required>
             <label>
               Levymerkki
-              <span style={{ color: 'red' }}>
-                <strong>*</strong>
-              </span>
+              <Popup
+                trigger={
+                  <Icon style={{ display: 'inline' }} name="question circle" />
+                }
+                content="Jos et tiedä levymerkkiä, kirjoita Ei tiedossa"
+                style={style}
+                inverted
+              />
             </label>
             <Input
               value={label}
@@ -517,7 +519,17 @@ const AddTrackModal = props => {
             />
           </Form.Field>
           <Form.Field required>
-            <label style={{ display: 'inline' }}>Levykoodi</label>
+            <label style={{ display: 'inline' }}>
+              Levykoodi
+              <Popup
+                trigger={
+                  <Icon style={{ display: 'inline' }} name="question circle" />
+                }
+                content="Jos et tiedä levykoodia, kirjoita Ei tiedossa"
+                style={style}
+                inverted
+              />
+            </label>
             <Button
               onClick={e => getDiscogs(e.preventDefault())}
               size="mini"
@@ -543,13 +555,8 @@ const AddTrackModal = props => {
               onChange={e => setIsrc(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
-            <label>
-              Vuosi
-              <span style={{ color: 'red' }}>
-                <strong>*</strong>
-              </span>
-            </label>
+          <Form.Field required>
+            <label>Vuosi</label>
             <Input
               value={year}
               maxLength={4}
@@ -587,6 +594,13 @@ const AddTrackModal = props => {
       </Modal.Content>
     </Modal>
   );
+};
+
+const style = {
+  borderRadius: 0,
+  display: 'block',
+  opacity: 0.9,
+  padding: '2em'
 };
 
 const mapStateToProps = state => {

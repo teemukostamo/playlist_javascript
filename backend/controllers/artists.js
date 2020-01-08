@@ -1,47 +1,29 @@
-const jwt = require('jsonwebtoken');
+const ErrorResponse = require('../utils/errorResponse');
 const artistsRouter = require('express').Router();
 const Artist = require('../models/Artist');
 const db = require('../config/database');
-
-// getTokenFrom eristää tokenin authorization -headeristä
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
 
 // get one artist
-artistsRouter.get('/details/:id', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+artistsRouter.route('/details/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const artist = await Artist.findOne({ where: { id: req.params.id } });
-    if (artist) {
-      console.log('artistrouter log', artist);
-      res.json(artist.toJSON());
-    } else {
-      res.status(404).end();
+    if (!artist) {
+      return next(
+        new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(artist);
+  })
+);
 
-// get albums by artist
-artistsRouter.get('/albumsby/:id', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+// get all albums by artist
+artistsRouter.route('/albumsby/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
+    console.log('req user', req.user);
     const albumlist = await db.query(
       `
       SELECT al.id as album_id
@@ -64,28 +46,20 @@ artistsRouter.get('/albumsby/:id', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    if (albumlist) {
-      console.log('artistrouter log albumlist', albumlist);
-      res.json(albumlist);
-    } else {
-      res.status(404).end();
+    if (!albumlist) {
+      return next(
+        new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(albumlist);
+  })
+);
 
 // update artist
-artistsRouter.put('/details/:id', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+artistsRouter.route('/details/:id').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let { name, spotify_id } = req.body;
-
     const updatedArtist = await Artist.update(
       {
         name,
@@ -93,15 +67,13 @@ artistsRouter.put('/details/:id', async (req, res, next) => {
       },
       { where: { id: req.params.id } }
     );
-    if (updatedArtist) {
-      console.log('artistrouter log', updatedArtist);
-      res.json(updatedArtist);
-    } else {
-      res.status(404).end();
+    if (updatedArtist[0] === 0) {
+      return next(
+        new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(`${updatedArtist[0]} row('s) affected`);
+  })
+);
 
 module.exports = artistsRouter;

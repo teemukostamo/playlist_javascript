@@ -10,7 +10,13 @@ import {
   getAllReportsByDateByUser
 } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
+import {
+  Container,
+  Table,
+  Dimmer,
+  Loader,
+  Responsive
+} from 'semantic-ui-react';
 import moment from 'moment';
 moment.locale('fi');
 console.log(moment.locale());
@@ -100,7 +106,9 @@ const ReportList = props => {
       <Table striped>
         <Table.Header>
           <Table.Row>
-            <Table.Cell>Ohjelmanro</Table.Cell>
+            <Responsive as={Table.Cell} minWidth={768}>
+              Ohjelmanro
+            </Responsive>
             <Table.Cell>Nimi</Table.Cell>
             <Table.Cell>Aika</Table.Cell>
             <Table.Cell>Kello</Table.Cell>

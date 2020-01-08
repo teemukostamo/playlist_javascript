@@ -16,7 +16,11 @@ const searchRouter = require('./controllers/search');
 const top100Router = require('./controllers/top100');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
+
+// import middleware
 const middleware = require('./config/middleware');
+const logger = require('./middleware/logger');
+const errorHandler = require('./middleware/error');
 
 const db = require('./config/database');
 db.authenticate()
@@ -100,8 +104,8 @@ app.get('/track*', (req, res) => {
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(middleware.logger);
-app.use(middleware.tokenExtractor);
+app.use(logger);
+// app.use(middleware.getTokenFrom);
 
 app.use('/api/artists', artistsRouter);
 app.use('/api/tracks', tracksRouter);
@@ -122,7 +126,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 app.use(middleware.unknownEndpoint);
-app.use(middleware.errorHandler);
+app.use(errorHandler);
 
 // const PORT = process.env.PORT || 5000;
 

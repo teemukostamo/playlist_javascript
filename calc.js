@@ -683,3 +683,14 @@ word.replace(/(.)\1+/g, '$1');
 
 console.log(word);
 // ["helo", "how", "are", "you"]
+
+let obj = {
+  test1: 'yks',
+  test2: 'kaks'
+};
+
+console.log(obj);
+
+obj = obj.test3('test3');
+
+console.log(obj);

@@ -100,7 +100,7 @@ const AddUserModal = props => {
       <Header content="Luo uusi käyttäjä" />
       <Modal.Content>
         <Form onSubmit={createUser}>
-          <Form.Field>
+          <Form.Field required>
             <label>Käyttäjätunnus</label>
             <Input
               type="text"
@@ -108,7 +108,7 @@ const AddUserModal = props => {
               onChange={e => setUsername(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Salasana</label>
             <Input
               focus
@@ -117,7 +117,7 @@ const AddUserModal = props => {
               onChange={e => setPassword(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Salasana uudelleen</label>
             <Input
               focus
@@ -126,7 +126,7 @@ const AddUserModal = props => {
               onChange={e => setConfirmPassword(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Etunimi</label>
             <Input
               focus
@@ -135,7 +135,7 @@ const AddUserModal = props => {
               onChange={e => setFirstName(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Sukunimi</label>
             <Input
               focus
@@ -144,7 +144,7 @@ const AddUserModal = props => {
               onChange={e => setLastName(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Email</label>
             <Input
               focus
@@ -153,7 +153,7 @@ const AddUserModal = props => {
               onChange={e => setEmail(e.target.value)}
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field required>
             <label>Taso</label>
             <Dropdown
               selection
