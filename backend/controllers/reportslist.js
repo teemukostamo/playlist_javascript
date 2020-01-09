@@ -1,31 +1,16 @@
-const jwt = require('jsonwebtoken');
 const reportslistRouter = require('express').Router();
 const db = require('../config/database');
+
 const Report = require('../models/Report');
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get all reports by month by current user
-reportslistRouter.get('/all', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-    console.log('got request');
-    const date = req.query.date;
-    const user = req.query.user;
-    console.log('date from backend route', date);
-    console.log('user from backend route', user);
-    console.log('typeof date from backend route', typeof date);
-
+reportslistRouter.route('/all').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let reports = await db.query(
       `
       SELECT re.program_no
@@ -40,33 +25,22 @@ reportslistRouter.get('/all', async (req, res, next) => {
       , re.user_id 
      FROM playlist__program as pr
      INNER JOIN playlist__report as re ON pr.id = re.program_id
-     WHERE re.program_date like "${date}%"
-     AND re.user_id = ${user}
+     WHERE re.program_date like "${req.query.date}%"
+     AND re.user_id = ${req.query.user}
      ORDER BY program_date ASC, program_start_time ASC
       `,
       {
         type: db.QueryTypes.SELECT
       }
     );
-    // console.log('results from reports route', reports);
-    res.json(reports);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(reports);
+  })
+);
 
 // get all reports of a month
-reportslistRouter.get('/date/:date', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-    console.log('got request');
-    let date = req.params.date;
-    console.log('date from backend route', date);
-    console.log('typeof date from backend route', typeof date);
+reportslistRouter.route('/date/:date').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let reports = await db.query(
       `
       SELECT re.program_no
@@ -81,39 +55,21 @@ reportslistRouter.get('/date/:date', async (req, res, next) => {
       , re.user_id 
      FROM playlist__program as pr
      INNER JOIN playlist__report as re ON pr.id = re.program_id
-     WHERE re.program_date like "${date}%"
+     WHERE re.program_date like "${req.params.date}%"
      ORDER BY program_date ASC, program_start_time ASC
       `,
       {
         type: db.QueryTypes.SELECT
       }
     );
-    console.log('results from reports route', reports);
-    // console.log('report to get charcode from', reports[24]);
-    // console.log('name at reports[24].name:', reports[24].name);
-    // console.log(
-    //   'charcode at reports[24].name.charCodeAt(2):',
-    //   reports[24].name.charCodeAt(2)
-    // );
-
-    res.json(reports);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(reports);
+  })
+);
 
 // get all in progress reports of a user
-reportslistRouter.get('/user/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-    console.log('got request');
-    let id = req.params.id;
-    console.log('id from backend route', id);
-    console.log('typeof id from backend route', typeof id);
+reportslistRouter.route('/user/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let reports = await db.query(
       `
       SELECT re.program_no
@@ -128,39 +84,34 @@ reportslistRouter.get('/user/:id', async (req, res, next) => {
       , re.user_id 
      FROM playlist__program as pr
      INNER JOIN playlist__report as re ON pr.id = re.program_id
-     WHERE re.user_id="${id}" AND re.status="0"
+     WHERE re.user_id="${req.params.id}" AND re.status="0"
      ORDER BY program_date ASC, program_start_time ASC
       `,
       {
         type: db.QueryTypes.SELECT
       }
     );
-    // console.log('results from reports route', reports);
-    res.json(reports);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(reports);
+  })
+);
 
 // delete report - set status to 9
-reportslistRouter.delete('/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+reportslistRouter.route('/:id').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const deletedReport = await Report.update(
       {
         status: 9
       },
       { where: { id: req.params.id } }
     );
-    console.log(deletedReport);
+    if (deletedReport[0] === 0) {
+      return next(
+        new ErrorResponse(`no report found with the id ${req.params.id}`, 404)
+      );
+    }
     res.status(200).json(`${deletedReport[0]} rows affected`);
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 module.exports = reportslistRouter;

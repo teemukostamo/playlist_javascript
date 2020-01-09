@@ -1,96 +1,70 @@
-const jwt = require('jsonwebtoken');
 const programsRouter = require('express').Router();
-const Program = require('../models/Program');
-const Report = require('../models/Report');
 const db = require('../config/database');
 
-// getTokenFrom eristää tokenin authorization -headeristä
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const Program = require('../models/Program');
+const Report = require('../models/Report');
+
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get all active programs
-programsRouter.get('/active', async (req, res, next) => {
-  try {
-    // see if token exists
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
-    // const programs = await Program.findAll();
+programsRouter.route('/active').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const programs = await db.query(
       'SELECT * FROM playlist__program WHERE display = 1 order by name asc',
       {
         type: db.QueryTypes.SELECT
       }
     );
-    res.json(programs);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    if (programs.length === 0) {
+      return next(new ErrorResponse('no programs found', 404));
+    }
+    res.status(200).json(programs);
+  })
+);
 
 // get all programs
-programsRouter.get('/all', async (req, res, next) => {
-  try {
-    // see if token exists
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
-    // const programs = await Program.findAll();
+programsRouter.route('/all').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const programs = await db.query(
       'SELECT * FROM playlist__program order by display desc, name asc',
       {
         type: db.QueryTypes.SELECT
       }
     );
-    res.json(programs);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    if (programs.length === 0) {
+      return next(new ErrorResponse('no programs found', 404));
+    }
+    res.status(200).json(programs);
+  })
+);
 
 // get one program
-programsRouter.get('/getone/:id', async (req, res, next) => {
-  try {
-    // see if token exists
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
-    // const programs = await Program.findAll();
+programsRouter.route('/getone/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const program = await db.query(
       `SELECT * FROM playlist__program WHERE id = ${req.params.id}`,
       {
         type: db.QueryTypes.SELECT
       }
     );
-    res.json(program);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    if (program.length === 0) {
+      return next(
+        new ErrorResponse(`no programs found with the id ${req.params.id}`, 404)
+      );
+    }
+    res.status(200).json(program);
+  })
+);
 
 // create new program
-programsRouter.post('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-    console.log(req.body);
+programsRouter.route('/').post(
+  verifyUser,
+  asyncHandler(async (req, res) => {
     const savedProgram = await Program.create({
       user_id: req.body.user_id,
       identifier: req.body.identifier,
@@ -98,23 +72,16 @@ programsRouter.post('/', async (req, res, next) => {
       display: 1,
       site: 1
     });
-    console.log(savedProgram);
     res.status(201).json(savedProgram);
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
-// update program
-programsRouter.put('/update', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+// update program - get the id of program to update from req body
+programsRouter.route('/update').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
+    console.log(req.user);
     let { id, name, identifier, site, display } = req.body;
-
     const programToUpdate = await Program.update(
       {
         name,
@@ -124,21 +91,17 @@ programsRouter.put('/update', async (req, res, next) => {
       },
       { where: { id: id } }
     );
-    console.log(programToUpdate);
-    res.status(200).json(programToUpdate);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    if (programToUpdate[0] === 0) {
+      return next(new ErrorResponse(`no program found with the id ${id}`, 404));
+    }
+    res.status(200).json(`${programToUpdate[0]} row(s) affected`);
+  })
+);
 
 // merge two programs
-programsRouter.put('/merge', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+programsRouter.route('/merge').put(
+  verifyUser,
+  asyncHandler(async (req, res) => {
     let { merge, mergeTo } = req.body;
     let transaction;
     try {
@@ -154,9 +117,7 @@ programsRouter.put('/merge', async (req, res, next) => {
     } catch (err) {
       if (transaction) await transaction.rollback();
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 module.exports = programsRouter;

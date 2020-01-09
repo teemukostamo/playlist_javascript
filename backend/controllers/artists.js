@@ -1,9 +1,11 @@
-const ErrorResponse = require('../utils/errorResponse');
 const artistsRouter = require('express').Router();
-const Artist = require('../models/Artist');
 const db = require('../config/database');
+
+const Artist = require('../models/Artist');
+
 const asyncHandler = require('../middleware/async');
 const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get one artist
 artistsRouter.route('/details/:id').get(
@@ -46,7 +48,7 @@ artistsRouter.route('/albumsby/:id').get(
         type: db.QueryTypes.SELECT
       }
     );
-    if (!albumlist) {
+    if (albumlist.length === 0) {
       return next(
         new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
       );

@@ -1,23 +1,13 @@
-const jwt = require('jsonwebtoken');
 const top100Router = require('express').Router();
 const db = require('../config/database');
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
 
 // get top100 tracks or artists
-top100Router.get('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+top100Router.route('/').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const result = await db.query(
       ` 
         SELECT COUNT(*) as count
@@ -42,17 +32,12 @@ top100Router.get('/', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    console.log(req.query.list);
-    console.log(req.query.start_date);
-    console.log(req.query.end_date);
     if (result) {
-      res.json(result);
+      res.status(200).json(result);
     } else {
       res.status(404).end();
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 module.exports = top100Router;

@@ -1,59 +1,41 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const usersRouter = require('express').Router();
 const User = require('../models/User');
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get all users
-usersRouter.get('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+usersRouter.route('/').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const users = await User.findAll();
-    console.log('users length', users.length);
-    res.json(users.map(user => user.toJSON()));
-  } catch (exception) {
-    next(exception);
-  }
-});
+    if (!users) {
+      return next(new ErrorResponse('no users found', 404));
+    }
+    res.status(200).json(users);
+  })
+);
 
 // get one user
-usersRouter.get('/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+usersRouter.route('/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const user = await User.findOne({ where: { id: req.params.id } });
-    if (user) {
-      res.json(user.toJSON());
-    } else {
-      res.status(404).end();
+    if (!user) {
+      return next(
+        new ErrorResponse(`no user found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(user);
+  })
+);
 
 // add a user
-usersRouter.post('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+usersRouter.route('/').post(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     // see if user exists, send status 400 if yes
     const existingUser = await User.findOne({
       where: { username: req.body.username }
@@ -102,23 +84,25 @@ usersRouter.post('/', async (req, res, next) => {
       });
       res.status(201).json(savedUser.toJSON());
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 // update user
-usersRouter.put('/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
+usersRouter.route('/:id').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
+    // see if user exists, return error if not
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (!user) {
+      return next(
+        new ErrorResponse(`no user found with the id ${req.params.id}`, 404)
+      );
     }
-    const body = req.body;
-    let { first_name, last_name, email, status, level, last_seen } = body;
 
-    // req body password is empty string, only update other info
+    // destructure values from req body
+    let { first_name, last_name, email, status, level, last_seen } = req.body;
+
+    // if req body password is empty string, only update other info
     if (
       req.body.password === undefined ||
       req.body.password === null ||
@@ -133,10 +117,10 @@ usersRouter.put('/:id', async (req, res, next) => {
           level,
           last_seen
         },
-        { where: { id: req.body.id } }
+        { where: { id: req.params.id } }
       );
       console.log(updatedUser);
-      res.status(200).json(`${updatedUser[0]} rows affected`);
+      return res.status(200).json(`${updatedUser[0]} rows affected`);
     } else {
       // hash password
       const saltRounds = 10;
@@ -154,30 +138,26 @@ usersRouter.put('/:id', async (req, res, next) => {
         },
         { where: { id: req.params.id } }
       );
-      console.log(updatedUser);
       res.status(200).json(`${updatedUser[0]} rows affected`);
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 // delete user
-usersRouter.delete('/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
+usersRouter.route('/:id').delete(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
+    const user = await User.findOne({ where: { id: req.params.id } });
+    if (!user) {
+      return next(
+        new ErrorResponse(`no user found with the id ${req.params.id}`, 404)
+      );
     }
-
-    const deleteUser = await User.destroy({
+    await User.destroy({
       where: { id: req.params.id }
     });
-    console.log('deleted user', deleteUser);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(204).json({});
+  })
+);
 
 module.exports = usersRouter;

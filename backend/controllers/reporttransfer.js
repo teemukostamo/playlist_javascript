@@ -1,26 +1,17 @@
-const jwt = require('jsonwebtoken');
 const reportTransferRouter = require('express').Router();
 const Report_Transfer = require('../models/Report_Transfer');
 const path = require('path');
 var fs = require('fs');
 const db = require('../config/database');
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get all transfers
-reportTransferRouter.get('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+reportTransferRouter.route('/').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const transfers = await db.query(
       `
       SELECT rt.id
@@ -41,36 +32,23 @@ reportTransferRouter.get('/', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    res.json(transfers);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(transfers);
+  })
+);
 
 // send file to client by filename
-reportTransferRouter.get('/:filename', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-    console.log('got download request for ', req.params.filename);
+reportTransferRouter.route('/:filename').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     res.download(path.join(__dirname, `../transfers/${req.params.filename}`));
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 // add a new transfer -get tracks from db, parse to teosto-required format and create txt-file
 // generate report transfer by date
-reportTransferRouter.post('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+reportTransferRouter.route('/').post(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let { user_id, status, filename, period } = req.body;
     const arrayWithTracks = await db.query(
       `
@@ -533,14 +511,12 @@ reportTransferRouter.post('/', async (req, res, next) => {
         period
       });
       console.log(transferInfo);
-      res.json(transferInfo);
+      res.status(200).json(transferInfo);
     } else {
-      res.status(404).end();
+      new ErrorResponse('Problem generating file', 404);
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 module.exports = reportTransferRouter;
 

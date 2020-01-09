@@ -4,6 +4,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 
+// import middleware
+const logger = require('./middleware/logger');
+const { errorHandler, unknownEndpoint } = require('./middleware/error');
+
 const artistsRouter = require('./controllers/artists');
 const tracksRouter = require('./controllers/tracks');
 const albumsRouter = require('./controllers/albums');
@@ -17,11 +21,6 @@ const top100Router = require('./controllers/top100');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 
-// import middleware
-const middleware = require('./config/middleware');
-const logger = require('./middleware/logger');
-const errorHandler = require('./middleware/error');
-
 const db = require('./config/database');
 db.authenticate()
   .then(() => console.log('Database connected...'))
@@ -32,6 +31,7 @@ db.authenticate()
 // console.log(path.join(__dirname, '../frontend', '/build/index.html'));
 
 app.use(express.static(path.resolve(__dirname, 'build')));
+
 app.get('/', function(req, res) {
   // res.sendFile(path.resolve(__dirname + '/../dist/index.html'));
   res.sendFile(path.resolve(__dirname + '/build/index.html'), err => {
@@ -105,7 +105,6 @@ app.get('/track*', (req, res) => {
 app.use(bodyParser.json());
 app.use(cors());
 app.use(logger);
-// app.use(middleware.getTokenFrom);
 
 app.use('/api/artists', artistsRouter);
 app.use('/api/tracks', tracksRouter);
@@ -125,7 +124,7 @@ if (process.env.NODE_ENV === 'test') {
   app.use('/api/testing', testingRouter);
 }
 
-app.use(middleware.unknownEndpoint);
+app.use(unknownEndpoint);
 app.use(errorHandler);
 
 // const PORT = process.env.PORT || 5000;

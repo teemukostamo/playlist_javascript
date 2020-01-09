@@ -1,25 +1,16 @@
-const jwt = require('jsonwebtoken');
 const albumsRouter = require('express').Router();
-const Album = require('../models/Album');
 const db = require('../config/database');
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const Album = require('../models/Album');
+
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get one album
-albumsRouter.get('/albumdetails/:id', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+albumsRouter.route('/albumdetails/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const album = await db.query(
       `
       SELECT al.name as album_name
@@ -38,26 +29,19 @@ albumsRouter.get('/albumdetails/:id', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    if (album) {
-      console.log('Albumsrouter log', album);
-      res.json(album);
-    } else {
-      res.status(404).end();
+    if (album.length === 0) {
+      return next(
+        new ErrorResponse(`no album found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(album);
+  })
+);
 
-// get one albums tracklist & report count
-albumsRouter.get('/tracklist/:id', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+// get one album's tracklist & album occurrence in reports count
+albumsRouter.route('/tracklist/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const album = await db.query(
       `
       SELECT tr.id as track_id
@@ -79,28 +63,20 @@ albumsRouter.get('/tracklist/:id', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    if (album) {
-      console.log('Albumsrouter log', album);
-      res.json(album);
-    } else {
-      res.status(404).end();
+    if (album.length === 0) {
+      return next(
+        new ErrorResponse(`no album found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(album);
+  })
+);
 
-// update album
-albumsRouter.put('/albumdetails/:id', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+// update album name, label, cat_id, year or spotify_id
+albumsRouter.route('/albumdetails/:id').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let { name, label, cat_id, year, spotify_id } = req.body;
-
     const updatedAlbum = await Album.update(
       {
         name,
@@ -111,14 +87,13 @@ albumsRouter.put('/albumdetails/:id', async (req, res, next) => {
       },
       { where: { id: req.params.id } }
     );
-    if (updatedAlbum) {
-      console.log('update album log', updatedAlbum);
-      res.json(updatedAlbum);
-    } else {
-      res.status(404).end();
+    if (updatedAlbum[0] === 0) {
+      return next(
+        new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(`${updatedAlbum[0]} row('s) affected`);
+  })
+);
+
 module.exports = albumsRouter;

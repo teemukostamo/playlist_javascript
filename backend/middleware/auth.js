@@ -19,7 +19,7 @@ const verifyUser = asyncHandler(async (req, res, next) => {
   try {
     // verify token
     const decoded = jwt.verify(token, process.env.SECRET);
-    console.log('decoded token', decoded);
+    // eslint-disable-next-line
     req.user = await User.findOne({ where: { id: decoded.id } });
     next();
   } catch (error) {

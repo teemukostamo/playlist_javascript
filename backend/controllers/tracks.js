@@ -14,15 +14,14 @@ const getTokenFrom = req => {
   return null;
 };
 
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
+
 // get one track
-tracksRouter.get('/details/:id', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+tracksRouter.route('/details/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const track = await db.query(
       `SELECT t.name as track_title
       , ar.name as artist
@@ -49,26 +48,19 @@ tracksRouter.get('/details/:id', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    if (track) {
-      console.log('tracksrouter log', track);
-      res.json(track);
-    } else {
-      res.status(404).end();
+    if (track.length === 0) {
+      return next(
+        new ErrorResponse(`no track found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(track);
+  })
+);
 
 // get track play history by track_id
-tracksRouter.get('/history/:id', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+tracksRouter.route('/history/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const track = await db.query(
       `
       SELECT pr.name as program_name
@@ -87,69 +79,49 @@ tracksRouter.get('/history/:id', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    if (track) {
-      console.log('tracksrouter log', track);
-      res.json(track);
-    } else {
-      res.status(404).end();
+    if (track.length === 0) {
+      return next(
+        new ErrorResponse(`no track found with the id ${req.params.id}`, 404)
+      );
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(track);
+  })
+);
 
-// change album
-tracksRouter.put('/updatealbum', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+// change album of a track on track details page
+tracksRouter.route('/updatealbum').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let { track_id, album_id } = req.body;
-    const updateAlbum = await Track.update(
+    const changedAlbum = await Track.update(
       {
         album_id: album_id
       },
       { where: { id: track_id } }
     );
-    console.log(updateAlbum);
-    res.status(200).json('one row affected');
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(`${changedAlbum[0]} row(s) affected.`);
+  })
+);
 
-// change artist
-tracksRouter.put('/updateartist', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+// change artist of a track on track details page
+tracksRouter.route('/updateartist').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let { track_id, artist_id } = req.body;
-    const updateArtist = await Track.update(
+    const changedArtist = await Track.update(
       {
         artist_id: artist_id
       },
       { where: { id: track_id } }
     );
-    console.log(updateArtist);
-    res.status(200).json('one row affected');
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(`${changedArtist[0]} row(s) affected.`);
+  })
+);
 
 // update track, album, artist
-tracksRouter.put('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+tracksRouter.route('/').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let {
       artist_name,
       album_name,
@@ -231,21 +203,13 @@ tracksRouter.put('/', async (req, res, next) => {
     console.log('updated album info', albumToUpdate);
     console.log('updated artist info', artistToUpdate);
     res.status(200).json(updatedTrack);
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 // save track and add it to current report
-tracksRouter.post('/addandreport', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
+tracksRouter.route('/addandreport').post(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     // destructure values from req.body
     let {
       track_title,
@@ -509,21 +473,13 @@ tracksRouter.post('/addandreport', async (req, res, next) => {
         res.status(201).json(trackToReturn);
       }
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 // add new track to db
-tracksRouter.post('/addtodb', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
+tracksRouter.route('/addtodb').post(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     // destructure values from req.body
     let {
       track_title,
@@ -739,21 +695,13 @@ tracksRouter.post('/addtodb', async (req, res, next) => {
         }
       }
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 // check & add djonline tracks array
-tracksRouter.post('/djonline', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
+tracksRouter.route('/djonline').post(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     // destructure values from req.body
     let {
       track_title,
@@ -1055,9 +1003,7 @@ tracksRouter.post('/djonline', async (req, res, next) => {
         }
       }
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 module.exports = tracksRouter;

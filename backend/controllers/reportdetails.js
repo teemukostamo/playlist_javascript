@@ -1,24 +1,16 @@
-const jwt = require('jsonwebtoken');
 const reportDetailsRouter = require('express').Router();
 const db = require('../config/database');
+
 const Report = require('../models/Report');
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get one report details
-reportDetailsRouter.get('/details/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+reportDetailsRouter.route('/details/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const report = await db.query(
       `
       SELECT pr.name as program_name
@@ -44,26 +36,17 @@ reportDetailsRouter.get('/details/:id', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    if (report) {
-      console.log('report details router log', report);
-      res.json(report);
-    } else {
-      res.status(404).end();
+    if (report.length === 0) {
+      return next(new ErrorResponse(`no report with id ${req.params.id}`, 404));
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(report);
+  })
+);
 
 // create new report
-reportDetailsRouter.post('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
+reportDetailsRouter.route('/').post(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let {
       user_id,
       program_id,
@@ -87,22 +70,14 @@ reportDetailsRouter.post('/', async (req, res, next) => {
       status,
       rerun
     });
-    console.log(savedReport);
     res.status(201).json(savedReport.toJSON());
-  } catch (error) {
-    next(error);
-  }
-});
+  })
+);
 
 // update existing report details
-reportDetailsRouter.put('/update/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
+reportDetailsRouter.route('/update/:id').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let {
       user_id,
       program_id,
@@ -129,11 +104,14 @@ reportDetailsRouter.put('/update/:id', async (req, res, next) => {
       },
       { where: { id: req.body.id } }
     );
+    if (updatedReport[0] === 0) {
+      return next(
+        new ErrorResponse(`no report found with the id ${req.body.id}`, 404)
+      );
+    }
     console.log(updatedReport);
-    res.status(201).json(updatedReport);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(`${updatedReport[0]} rows(s) affected`);
+  })
+);
 
 module.exports = reportDetailsRouter;

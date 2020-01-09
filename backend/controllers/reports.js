@@ -1,24 +1,16 @@
-const jwt = require('jsonwebtoken');
 const reportsRouter = require('express').Router();
 const db = require('../config/database');
+
 const Report_Track = require('../models/Report_Track');
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get report-tracks by report_id
-reportsRouter.get('/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+reportsRouter.route('/:id').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     console.log('req params id at reports controller', req.params.id);
     let report = await db.query(
       `
@@ -51,21 +43,14 @@ reportsRouter.get('/:id', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    res.json(report);
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(200).json(report);
+  })
+);
 
 // add a track to report-tracks list
-reportsRouter.post('/', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-    // destructure values from req.body
+reportsRouter.route('/').post(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let { track_id, report_id, length, sortable_rank } = req.body;
     const newReportTrack = await Report_Track.create({
       track_id,
@@ -73,39 +58,47 @@ reportsRouter.post('/', async (req, res, next) => {
       length,
       sortable_rank
     });
-    res.status(201).json(newReportTrack.toJSON());
-  } catch (exception) {
-    next(exception);
-  }
-});
+    res.status(201).json(newReportTrack);
+  })
+);
 
 // delete track from report-track list
-reportsRouter.delete('/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-    const deleteReportTrack = await Report_Track.destroy({
+reportsRouter.route('/:id').delete(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
+    const report_track = await Report_Track.findOne({
       where: { id: req.params.id }
     });
-    console.log('deleted report track', deleteReportTrack);
-    res.status(204).end();
-  } catch (exception) {
-    next(exception);
-  }
-});
+    if (!report_track) {
+      return next(
+        new ErrorResponse(
+          `no report_track found with the id ${req.params.id}`,
+          404
+        )
+      );
+    }
+    await Report_Track.destroy({
+      where: { id: req.params.id }
+    });
+    res.status(204).json({});
+  })
+);
 
 // update sortable ranks
-reportsRouter.put('/:id', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
+reportsRouter.route('/:id').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
+    const report_track = await Report_Track.findOne({
+      where: { id: req.params.id }
+    });
+    if (!report_track) {
+      return next(
+        new ErrorResponse(
+          `no report_track found with the id ${req.params.id}`,
+          404
+        )
+      );
     }
-    console.log(req.body);
     const updatedReportTrack = await Report_Track.update(
       {
         sortable_rank: req.body.sortable_rank
@@ -113,9 +106,7 @@ reportsRouter.put('/:id', async (req, res, next) => {
       { where: { id: req.params.id } }
     );
     res.status(200).json(`${updatedReportTrack[0]} rows affected`);
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 module.exports = reportsRouter;

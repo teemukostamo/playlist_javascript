@@ -1,31 +1,21 @@
-const jwt = require('jsonwebtoken');
 const searchRouter = require('express').Router();
 const db = require('../config/database');
+
 const Track = require('../models/Track');
 const Artist = require('../models/Artist');
 const Album = require('../models/Album');
 const Report_Track = require('../models/Report_Track');
 
-const getTokenFrom = req => {
-  const authorization = req.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+const asyncHandler = require('../middleware/async');
+const verifyUser = require('../middleware/auth');
+const ErrorResponse = require('../utils/errorResponse');
 
 // get results for autocomplete search
-searchRouter.get('/autocomplete/:query', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+searchRouter.route('/autocomplete/:query').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     // eslint-disable-next-line
-    const searchString = req.params.query.replace(/'/g, "\\'")
-    console.log(searchString.length);
+    const searchString = req.params.query.replace(/'/g, "\\'");
     if (searchString.length < 3) {
       return res.status(400).json({ error: 'query too short' });
     }
@@ -50,23 +40,14 @@ searchRouter.get('/autocomplete/:query', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    console.log(results);
-    res.json(results);
-  } catch (error) {
-    next(error);
-  }
-});
+    res.status(200).json(results);
+  })
+);
 
 // advanced search results
-searchRouter.get('/advanced', async (req, res, next) => {
-  try {
-    // see if token is valid
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
-
+searchRouter.route('/advanced').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     // eslint-disable-next-line
     const searchString = req.query.query.replace(/'/g, "\\'");
     const kind = req.query.kind;
@@ -100,21 +81,14 @@ searchRouter.get('/advanced', async (req, res, next) => {
         type: db.QueryTypes.SELECT
       }
     );
-    console.log(results);
-    res.json(results);
-  } catch (error) {
-    next(error);
-  }
-});
+    res.status(200).json(results);
+  })
+);
 
 // merge tracks, albums or artists
-searchRouter.put('/advanced', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+searchRouter.route('/advanced').put(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     let { type, merge, mergeTo } = req.body;
 
     if (type === 'track') {
@@ -171,19 +145,13 @@ searchRouter.put('/advanced', async (req, res, next) => {
     } else {
       res.status(404).end();
     }
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 // change artist options
-searchRouter.get('/changeartist/:query', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+searchRouter.route('/changeartist/:query').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const results = await db.query(
       `
     SELECT name as artist_name, id as artist_id
@@ -195,19 +163,13 @@ searchRouter.get('/changeartist/:query', async (req, res, next) => {
       }
     );
     res.status(200).json(results);
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 // change album options
-searchRouter.get('/changealbum/:query', async (req, res, next) => {
-  try {
-    const token = getTokenFrom(req);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
-    }
+searchRouter.route('/changealbum/:query').get(
+  verifyUser,
+  asyncHandler(async (req, res, next) => {
     const results = await db.query(
       `
     SELECT al.name as album_name, al.id as album_id, al.identifier as cat_id, ar.name as artist_name
@@ -221,9 +183,7 @@ searchRouter.get('/changealbum/:query', async (req, res, next) => {
       }
     );
     res.status(200).json(results);
-  } catch (exception) {
-    next(exception);
-  }
-});
+  })
+);
 
 module.exports = searchRouter;
