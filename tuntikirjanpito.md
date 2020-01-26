@@ -70,4 +70,5 @@
 | 25.11.2019 |   4    |                                 manual, little fixes                                 |
 | 26.11.2019 |   3    |          fixed warnings & updating views after track, artist or album merge          |
 | 08.01.2020 |   4    |                        refactoring middleware and controllers                        |
+| 09.01.2020 |   6    |                        refactoring middleware and controllers                        |
 |  yhteensä  |  229   |                                                                                      |

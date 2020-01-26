@@ -24,10 +24,6 @@ import { initializeUsers } from './actions/userActions';
 import { initializePrograms } from './actions/programActions';
 
 const App = props => {
-  // logout on browser close
-  // window.onbeforeunload = () => {
-  //   props.logout();
-  // };
   // initial logged in user, programs list, users list
   useEffect(() => {
     props.initializeUser();
@@ -35,11 +31,6 @@ const App = props => {
     props.initializeUsers();
     // eslint-disable-next-line
   }, [props.login.token]);
-
-  // handle logout redux
-  // const handleLogout = () => {
-  //   props.logout();
-  // };
 
   console.log('app 74', props);
   if (props.login.user === null) {

@@ -4,7 +4,8 @@ import {
   SET_CURRENT,
   CREATE_USER,
   UPDATE_USER,
-  DELETE_USER
+  DELETE_USER,
+  LOGOUT
 } from '../actions/types';
 import userService from '../services/users';
 

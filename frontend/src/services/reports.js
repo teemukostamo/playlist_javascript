@@ -92,8 +92,7 @@ const deleteReport = async id => {
   const config = {
     headers: { Authorization: token }
   };
-
-  const request = await axios.delete(`/api/reportslist/${id}`, config);
+  const request = await axios.put(`/api/reportslist/${id}`, {}, config);
   return request.data;
 };
 

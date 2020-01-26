@@ -10,7 +10,11 @@ const ErrorResponse = require('../utils/errorResponse');
 usersRouter.route('/').get(
   verifyUser,
   asyncHandler(async (req, res, next) => {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: {
+        exclude: ['password']
+      }
+    });
     if (!users) {
       return next(new ErrorResponse('no users found', 404));
     }
