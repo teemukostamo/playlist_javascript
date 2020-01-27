@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const loginRouter = require('express').Router();
 const User = require('../models/User');
 
-// login route
-loginRouter.post('/', async (req, res) => {
+// @desc    User login
+// @route   PUT /
+// @access  Public
+exports.login = async (req, res) => {
   const body = req.body;
 
   // check if user exists, return 401 if not
@@ -53,6 +54,4 @@ loginRouter.post('/', async (req, res) => {
     level: user.level,
     status: user.status
   });
-});
-
-module.exports = loginRouter;
+};

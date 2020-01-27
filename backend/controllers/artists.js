@@ -1,33 +1,29 @@
-const artistsRouter = require('express').Router();
 const db = require('../config/database');
-
 const Artist = require('../models/Artist');
 
 const asyncHandler = require('../middleware/async');
-const verifyUser = require('../middleware/auth');
 const ErrorResponse = require('../utils/errorResponse');
 
-// get one artist
-artistsRouter.route('/details/:id').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    const artist = await Artist.findOne({ where: { id: req.params.id } });
-    if (!artist) {
-      return next(
-        new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
-      );
-    }
-    res.status(200).json(artist);
-  })
-);
+// @desc    Get one artist details
+// @route   GET /details/:id
+// @access  Private
+exports.getOneArtist = asyncHandler(async (req, res, next) => {
+  const artist = await Artist.findOne({ where: { id: req.params.id } });
+  if (!artist) {
+    return next(
+      new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
+    );
+  }
+  res.status(200).json(artist);
+});
 
-// get all albums by artist
-artistsRouter.route('/albumsby/:id').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    console.log('req user', req.user);
-    const albumlist = await db.query(
-      `
+// @desc    Get all albums by artist
+// @route   GET /albumsby/:id
+// @access  Private
+exports.getAllAlbumsByArtist = asyncHandler(async (req, res, next) => {
+  console.log('req user', req.user);
+  const albumlist = await db.query(
+    `
       SELECT al.id as album_id
       , ar.id as artist_id
       , al.name
@@ -44,38 +40,34 @@ artistsRouter.route('/albumsby/:id').get(
      group by album_id
      ORDER BY al.name
     `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    if (albumlist.length === 0) {
-      return next(
-        new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
-      );
+    {
+      type: db.QueryTypes.SELECT
     }
-    res.status(200).json(albumlist);
-  })
-);
-
-// update artist
-artistsRouter.route('/details/:id').put(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    let { name, spotify_id } = req.body;
-    const updatedArtist = await Artist.update(
-      {
-        name,
-        spotify_id
-      },
-      { where: { id: req.params.id } }
+  );
+  if (albumlist.length === 0) {
+    return next(
+      new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
     );
-    if (updatedArtist[0] === 0) {
-      return next(
-        new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
-      );
-    }
-    res.status(200).json(`${updatedArtist[0]} row('s) affected`);
-  })
-);
+  }
+  res.status(200).json(albumlist);
+});
 
-module.exports = artistsRouter;
+// @desc    Update artist details
+// @route   PUT /details/:id
+// @access  Private
+exports.updateArtist = asyncHandler(async (req, res, next) => {
+  let { name, spotify_id } = req.body;
+  const updatedArtist = await Artist.update(
+    {
+      name,
+      spotify_id
+    },
+    { where: { id: req.params.id } }
+  );
+  if (updatedArtist[0] === 0) {
+    return next(
+      new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
+    );
+  }
+  res.status(200).json(`${updatedArtist[0]} row('s) affected`);
+});

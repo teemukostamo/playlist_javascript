@@ -8,18 +8,18 @@ const app = express();
 const logger = require('./middleware/logger');
 const { errorHandler, unknownEndpoint } = require('./middleware/error');
 
-const artistsRouter = require('./controllers/artists');
-const tracksRouter = require('./controllers/tracks');
-const albumsRouter = require('./controllers/albums');
+const albumsRouter = require('./routes/albums');
+const artistsRouter = require('./routes/artists');
+const loginRouter = require('./routes/login');
+const programsRouter = require('./routes/programs');
+const reportDetailsRouter = require('./routes/reportdetails');
 const reportsRouter = require('./controllers/reports');
 const reportslistRouter = require('./controllers/reportslist');
-const reportDetailsRouter = require('./controllers/reportdetails');
 const reportTransferRouter = require('./controllers/reporttransfer');
-const programsRouter = require('./controllers/programs');
 const searchRouter = require('./controllers/search');
 const top100Router = require('./controllers/top100');
+const tracksRouter = require('./controllers/tracks');
 const usersRouter = require('./controllers/users');
-const loginRouter = require('./controllers/login');
 
 const db = require('./config/database');
 db.authenticate()

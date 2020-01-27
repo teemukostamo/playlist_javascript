@@ -1,18 +1,14 @@
-const albumsRouter = require('express').Router();
 const db = require('../config/database');
-
 const Album = require('../models/Album');
-
 const asyncHandler = require('../middleware/async');
-const verifyUser = require('../middleware/auth');
 const ErrorResponse = require('../utils/errorResponse');
 
-// get one album
-albumsRouter.route('/albumdetails/:id').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    const album = await db.query(
-      `
+// @desc    Get one album
+// @route   GET /albumdetails/:id
+// @access  Private
+exports.getOneAlbum = asyncHandler(async (req, res, next) => {
+  const album = await db.query(
+    `
       SELECT al.name as album_name
       , al.id as album_id
       , al.label
@@ -25,25 +21,24 @@ albumsRouter.route('/albumdetails/:id').get(
       INNER JOIN playlist__album as al ON al.artist_id = ar.id
       WHERE al.id = ${req.params.id}
     `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    if (album.length === 0) {
-      return next(
-        new ErrorResponse(`no album found with the id ${req.params.id}`, 404)
-      );
+    {
+      type: db.QueryTypes.SELECT
     }
-    res.status(200).json(album);
-  })
-);
+  );
+  if (album.length === 0) {
+    return next(
+      new ErrorResponse(`no album found with the id ${req.params.id}`, 404)
+    );
+  }
+  res.status(200).json(album);
+});
 
-// get one album's tracklist & album occurrence in reports count
-albumsRouter.route('/tracklist/:id').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    const album = await db.query(
-      `
+// @desc    Get one album's tracklist & album occurrence in reports count
+// @route   GET /tracklist/:id
+// @access  Private
+exports.getAlbumTracklist = asyncHandler(async (req, res, next) => {
+  const album = await db.query(
+    `
       SELECT tr.id as track_id
       , tr.isrc
       , tr.side as disc_no
@@ -59,41 +54,37 @@ albumsRouter.route('/tracklist/:id').get(
      group by track_id
      order by track_no asc, track_title asc
     `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    if (album.length === 0) {
-      return next(
-        new ErrorResponse(`no album found with the id ${req.params.id}`, 404)
-      );
+    {
+      type: db.QueryTypes.SELECT
     }
-    res.status(200).json(album);
-  })
-);
-
-// update album name, label, cat_id, year or spotify_id
-albumsRouter.route('/albumdetails/:id').put(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    let { name, label, cat_id, year, spotify_id } = req.body;
-    const updatedAlbum = await Album.update(
-      {
-        name,
-        label,
-        cat_id,
-        year,
-        spotify_id
-      },
-      { where: { id: req.params.id } }
+  );
+  if (album.length === 0) {
+    return next(
+      new ErrorResponse(`no album found with the id ${req.params.id}`, 404)
     );
-    if (updatedAlbum[0] === 0) {
-      return next(
-        new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
-      );
-    }
-    res.status(200).json(`${updatedAlbum[0]} row('s) affected`);
-  })
-);
+  }
+  res.status(200).json(album);
+});
 
-module.exports = albumsRouter;
+// @desc    Update album name, label, cat_id, year or spotify_id
+// @route   PUT /albumdetails/:id
+// @access  Private
+exports.updateAlbum = asyncHandler(async (req, res, next) => {
+  let { name, label, cat_id, year, spotify_id } = req.body;
+  const updatedAlbum = await Album.update(
+    {
+      name,
+      label,
+      cat_id,
+      year,
+      spotify_id
+    },
+    { where: { id: req.params.id } }
+  );
+  if (updatedAlbum[0] === 0) {
+    return next(
+      new ErrorResponse(`no artist found with the id ${req.params.id}`, 404)
+    );
+  }
+  res.status(200).json(`${updatedAlbum[0]} row('s) affected`);
+});

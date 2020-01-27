@@ -22,6 +22,7 @@ const getCatIdFromDiscogs = async query => {
   const request = await axios.get(
     `https://api.discogs.com/database/search?artist=${query.artist}&release_title=${query.album}&token=${process.env.REACT_APP_DISCOGS_TOKEN}`
   );
+  console.log('discogs data', request.data);
   return request.data;
 };
 
