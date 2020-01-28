@@ -1,4 +1,3 @@
-const searchRouter = require('express').Router();
 const db = require('../config/database');
 
 const Track = require('../models/Track');
@@ -7,20 +6,18 @@ const Album = require('../models/Album');
 const Report_Track = require('../models/Report_Track');
 
 const asyncHandler = require('../middleware/async');
-const verifyUser = require('../middleware/auth');
-const ErrorResponse = require('../utils/errorResponse');
 
-// get results for autocomplete search
-searchRouter.route('/autocomplete/:query').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    // eslint-disable-next-line
-    const searchString = req.params.query.replace(/'/g, "\\'");
-    if (searchString.length < 3) {
-      return res.status(400).json({ error: 'query too short' });
-    }
-    const results = await db.query(
-      `
+// @desc    Get results for autocomplete search
+// @route   GET autocomplete/:query
+// @access  Private
+exports.autocompleteResults = asyncHandler(async (req, res, next) => {
+  // eslint-disable-next-line
+  const searchString = req.params.query.replace(/'/g, "\\'");
+  if (searchString.length < 3) {
+    return res.status(400).json({ error: 'query too short' });
+  }
+  const results = await db.query(
+    `
       SELECT t.name as track_title
       , ar.name as artist
       , al.name as album
@@ -36,27 +33,26 @@ searchRouter.route('/autocomplete/:query').get(
      ORDER BY t.name ASC 
      LIMIT 100
       `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    res.status(200).json(results);
-  })
-);
-
-// advanced search results
-searchRouter.route('/advanced').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    // eslint-disable-next-line
-    const searchString = req.query.query.replace(/'/g, "\\'");
-    const kind = req.query.kind;
-    console.log(searchString.length);
-    if (searchString.length < 3) {
-      return res.status(400).json({ error: 'query too short' });
+    {
+      type: db.QueryTypes.SELECT
     }
-    const results = await db.query(
-      `
+  );
+  res.status(200).json(results);
+});
+
+// @desc    Get advanced search results
+// @route   GET /advanced
+// @access  Private
+exports.advancedResults = asyncHandler(async (req, res, next) => {
+  // eslint-disable-next-line
+  const searchString = req.query.query.replace(/'/g, "\\'");
+  const kind = req.query.kind;
+  console.log(searchString.length);
+  if (searchString.length < 3) {
+    return res.status(400).json({ error: 'query too short' });
+  }
+  const results = await db.query(
+    `
       SELECT ar.name as artist_name
       , ar.id as artist_id
       , al.name as album_name
@@ -77,113 +73,107 @@ searchRouter.route('/advanced').get(
       ORDER BY track_title asc
       LIMIT 1000
       `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    res.status(200).json(results);
-  })
-);
-
-// merge tracks, albums or artists
-searchRouter.route('/advanced').put(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    let { type, merge, mergeTo } = req.body;
-
-    if (type === 'track') {
-      let transaction;
-      try {
-        transaction = await db.transaction();
-        await Report_Track.update(
-          {
-            track_id: mergeTo
-          },
-          { where: { track_id: merge } }
-        );
-        await Track.destroy({ where: { id: merge } });
-        res.status(200).json('1 table affected');
-      } catch (err) {
-        if (transaction) await transaction.rollback();
-      }
-    } else if (type === 'album') {
-      let transaction;
-      try {
-        transaction = await db.transaction();
-        await Track.update(
-          {
-            album_id: mergeTo
-          },
-          { where: { album_id: merge } }
-        );
-        await Album.destroy({ where: { id: merge } });
-        res.status(200).json('1 table affected');
-      } catch (err) {
-        if (transaction) await transaction.rollback();
-      }
-    } else if (type === 'artist') {
-      let transaction;
-      try {
-        transaction = await db.transaction();
-        await Album.update(
-          {
-            artist_id: mergeTo
-          },
-          { where: { artist_id: merge } }
-        );
-        await Track.update(
-          {
-            artist_id: mergeTo
-          },
-          { where: { artist_id: merge } }
-        );
-        await Artist.destroy({ where: { id: merge } });
-        res.status(200).json('2 tables affected');
-      } catch (err) {
-        if (transaction) await transaction.rollback();
-      }
-    } else {
-      res.status(404).end();
+    {
+      type: db.QueryTypes.SELECT
     }
-  })
-);
+  );
+  res.status(200).json(results);
+});
 
-// change artist options
-searchRouter.route('/changeartist/:query').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    const results = await db.query(
-      `
+// @desc    Merge tracks, albums or artists
+// @route   PUT /advanced
+// @access  Private
+exports.merge = asyncHandler(async (req, res, next) => {
+  let { type, merge, mergeTo } = req.body;
+
+  if (type === 'track') {
+    let transaction;
+    try {
+      transaction = await db.transaction();
+      await Report_Track.update(
+        {
+          track_id: mergeTo
+        },
+        { where: { track_id: merge } }
+      );
+      await Track.destroy({ where: { id: merge } });
+      res.status(200).json('1 table affected');
+    } catch (err) {
+      if (transaction) await transaction.rollback();
+    }
+  } else if (type === 'album') {
+    let transaction;
+    try {
+      transaction = await db.transaction();
+      await Track.update(
+        {
+          album_id: mergeTo
+        },
+        { where: { album_id: merge } }
+      );
+      await Album.destroy({ where: { id: merge } });
+      res.status(200).json('1 table affected');
+    } catch (err) {
+      if (transaction) await transaction.rollback();
+    }
+  } else if (type === 'artist') {
+    let transaction;
+    try {
+      transaction = await db.transaction();
+      await Album.update(
+        {
+          artist_id: mergeTo
+        },
+        { where: { artist_id: merge } }
+      );
+      await Track.update(
+        {
+          artist_id: mergeTo
+        },
+        { where: { artist_id: merge } }
+      );
+      await Artist.destroy({ where: { id: merge } });
+      res.status(200).json('2 tables affected');
+    } catch (err) {
+      if (transaction) await transaction.rollback();
+    }
+  } else {
+    res.status(404).end();
+  }
+});
+
+// @desc    Get change artist options
+// @route   GET /changeartist/:query
+// @access  Private
+exports.changeArtistOptions = asyncHandler(async (req, res, next) => {
+  const results = await db.query(
+    `
     SELECT name as artist_name, id as artist_id
     FROM playlist__artist
     WHERE name like "%${req.params.query}%"
     `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    res.status(200).json(results);
-  })
-);
+    {
+      type: db.QueryTypes.SELECT
+    }
+  );
+  res.status(200).json(results);
+});
 
-// change album options
-searchRouter.route('/changealbum/:query').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    const results = await db.query(
-      `
+// @desc    Get change album options
+// @route   GET /changealbum/:query
+// @access  Private
+exports.changeAlbumOptions = asyncHandler(async (req, res, next) => {
+  const results = await db.query(
+    `
     SELECT al.name as album_name, al.id as album_id, al.identifier as cat_id, ar.name as artist_name
     FROM playlist__album as al
     INNER JOIN playlist__artist as ar ON al.artist_id = ar.id
     WHERE al.name like "%${req.params.query}%"
     ORDER BY album_name asc
     `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    res.status(200).json(results);
-  })
-);
-
-module.exports = searchRouter;
+    {
+      type: db.QueryTypes.SELECT
+    }
+  );
+  res.status(200).json(results);
+});

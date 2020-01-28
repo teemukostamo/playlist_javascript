@@ -1,15 +1,13 @@
-const top100Router = require('express').Router();
 const db = require('../config/database');
 
 const asyncHandler = require('../middleware/async');
-const verifyUser = require('../middleware/auth');
 
-// get top100 tracks or artists
-top100Router.route('/').get(
-  verifyUser,
-  asyncHandler(async (req, res, next) => {
-    const result = await db.query(
-      ` 
+// @desc    Get Top100 most played tracks, albums or artists of a certain month
+// @route   GET /
+// @access  Private
+exports.getTop100 = asyncHandler(async (req, res, next) => {
+  const result = await db.query(
+    ` 
         SELECT COUNT(*) as count
         , rt.track_id
         , tr.name as track_title
@@ -28,16 +26,13 @@ top100Router.route('/').get(
         ORDER BY COUNT(*) DESC
         LIMIT 100
         `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      res.status(404).end();
+    {
+      type: db.QueryTypes.SELECT
     }
-  })
-);
-
-module.exports = top100Router;
+  );
+  if (result) {
+    res.status(200).json(result);
+  } else {
+    res.status(404).end();
+  }
+});

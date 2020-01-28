@@ -13,13 +13,13 @@ const artistsRouter = require('./routes/artists');
 const loginRouter = require('./routes/login');
 const programsRouter = require('./routes/programs');
 const reportDetailsRouter = require('./routes/reportdetails');
-const reportsRouter = require('./controllers/reports');
-const reportslistRouter = require('./controllers/reportslist');
-const reportTransferRouter = require('./controllers/reporttransfer');
-const searchRouter = require('./controllers/search');
-const top100Router = require('./controllers/top100');
-const tracksRouter = require('./controllers/tracks');
-const usersRouter = require('./controllers/users');
+const reportsRouter = require('./routes/reports');
+const reportslistRouter = require('./routes/reportslist');
+const reportTransferRouter = require('./routes/reporttransfer');
+const searchRouter = require('./routes/search');
+const top100Router = require('./routes/top100');
+const tracksRouter = require('./routes/tracks');
+const usersRouter = require('./routes/users');
 
 const db = require('./config/database');
 db.authenticate()
