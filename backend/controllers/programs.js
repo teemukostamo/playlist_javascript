@@ -1,6 +1,7 @@
 const db = require('../config/database');
 const Program = require('../models/Program');
 const Report = require('../models/Report');
+
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 
@@ -73,7 +74,7 @@ exports.createNewProgram = asyncHandler(async (req, res) => {
 // @access  Private
 exports.updateProgram = asyncHandler(async (req, res, next) => {
   console.log(req.user);
-  let { id, name, identifier, site, display } = req.body;
+  const { id, name, identifier, site, display } = req.body;
   const programToUpdate = await Program.update(
     {
       name,
@@ -81,7 +82,7 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
       site,
       display
     },
-    { where: { id: id } }
+    { where: { id } }
   );
   if (programToUpdate[0] === 0) {
     return next(new ErrorResponse(`no program found with the id ${id}`, 404));
@@ -93,7 +94,7 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
 // @route   PUT /merge
 // @access  Private
 exports.mergePrograms = asyncHandler(async (req, res) => {
-  let { merge, mergeTo } = req.body;
+  const { merge, mergeTo } = req.body;
   let transaction;
   try {
     transaction = await db.transaction();

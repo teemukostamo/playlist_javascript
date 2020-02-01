@@ -2,12 +2,14 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 const app = express();
 
 // import middleware
 const logger = require('./middleware/logger');
 const { errorHandler, unknownEndpoint } = require('./middleware/error');
 
+// import routes
 const albumsRouter = require('./routes/albums');
 const artistsRouter = require('./routes/artists');
 const loginRouter = require('./routes/login');
@@ -21,20 +23,17 @@ const top100Router = require('./routes/top100');
 const tracksRouter = require('./routes/tracks');
 const usersRouter = require('./routes/users');
 
+// import db
 const db = require('./config/database');
+
 db.authenticate()
   .then(() => console.log('Database connected...'))
-  .catch(err => console.log('Error: ' + err));
-
-// console.log(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html'));
-// console.log(path.resolve(__dirname, '../frontend/build/index.html'));
-// console.log(path.join(__dirname, '../frontend', '/build/index.html'));
+  .catch(err => console.log(`Error: ${err}`));
 
 app.use(express.static(path.resolve(__dirname, 'build')));
 
 app.get('/', function(req, res) {
-  // res.sendFile(path.resolve(__dirname + '/../dist/index.html'));
-  res.sendFile(path.resolve(__dirname + '/build/index.html'), err => {
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`), err => {
     if (err) {
       res.status(500).send(err);
     }
@@ -42,65 +41,32 @@ app.get('/', function(req, res) {
 });
 
 app.get('/reports*', (req, res) => {
-  console.log('hi from app.get reports');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
 app.get('/top100*', (req, res) => {
-  console.log('hi from app.get');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
 app.get('/search*', (req, res) => {
-  console.log('hi from app.get');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
 app.get('/transfer*', (req, res) => {
-  console.log('hi from app.get');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
 app.get('/users*', (req, res) => {
-  console.log('hi from app.get');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
 app.get('/propgrams*', (req, res) => {
-  console.log('hi from app.get');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
 app.get('/artist*', (req, res) => {
-  console.log('hi from app.get');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
 app.get('/album*', (req, res) => {
-  console.log('hi from app.get');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
 app.get('/track*', (req, res) => {
-  console.log('hi from app.get');
-  console.log(req);
-  console.log(res);
-  res.sendFile(path.resolve(__dirname + '/build/index.html'));
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
 });
-// app.get('/reports', (req, res) => {
-//   console.log('hi from app.get');
-//   console.log(req);
-//   console.log(res);
-//   res.sendFile(path.resolve(__dirname + '/build/index.html'));
-// });
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -120,15 +86,10 @@ app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 
 if (process.env.NODE_ENV === 'test') {
-  const testingRouter = require('./controllers/testing');
-  app.use('/api/testing', testingRouter);
+  // add testing conf here
 }
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
-
-// const PORT = process.env.PORT || 5000;
-
-// app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
 module.exports = app;

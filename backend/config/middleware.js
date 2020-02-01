@@ -3,17 +3,25 @@ const errorHandler = (error, req, res, next) => {
 
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return res.status(400).send({ error: 'malformatted id' });
-  } else if (error.name === 'ValidationError') {
+  }
+
+  if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message });
-  } else if (error.name === 'JsonWebTokenError') {
+  }
+
+  if (error.name === 'JsonWebTokenError') {
     return res.status(401).json({
       error: 'invalid token'
     });
-  } else if (error.name === 'SequelizeAccessDeniedError') {
+  }
+
+  if (error.name === 'SequelizeAccessDeniedError') {
     return res.status(500).json({
       error: 'SequelizeAccessDeniedError: error accessing database'
     });
-  } else if (error.name === 'SequelizeDatabaseError') {
+  }
+
+  if (error.name === 'SequelizeDatabaseError') {
     return res.status(500).json({
       error
     });

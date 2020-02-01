@@ -1,5 +1,6 @@
 const db = require('../config/database');
 const Album = require('../models/Album');
+
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 
@@ -70,7 +71,7 @@ exports.getAlbumTracklist = asyncHandler(async (req, res, next) => {
 // @route   PUT /albumdetails/:id
 // @access  Private
 exports.updateAlbum = asyncHandler(async (req, res, next) => {
-  let { name, label, cat_id, year, spotify_id } = req.body;
+  const { name, label, cat_id, year, spotify_id } = req.body;
   const updatedAlbum = await Album.update(
     {
       name,

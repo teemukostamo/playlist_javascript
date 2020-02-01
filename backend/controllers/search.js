@@ -10,7 +10,7 @@ const asyncHandler = require('../middleware/async');
 // @desc    Get results for autocomplete search
 // @route   GET autocomplete/:query
 // @access  Private
-exports.autocompleteResults = asyncHandler(async (req, res, next) => {
+exports.autocompleteResults = asyncHandler(async (req, res) => {
   // eslint-disable-next-line
   const searchString = req.params.query.replace(/'/g, "\\'");
   if (searchString.length < 3) {
@@ -43,10 +43,10 @@ exports.autocompleteResults = asyncHandler(async (req, res, next) => {
 // @desc    Get advanced search results
 // @route   GET /advanced
 // @access  Private
-exports.advancedResults = asyncHandler(async (req, res, next) => {
-  // eslint-disable-next-line
-  const searchString = req.query.query.replace(/'/g, "\\'");
-  const kind = req.query.kind;
+exports.advancedResults = asyncHandler(async (req, res) => {
+  const { kind, query } = req.query;
+  // eslint-disable-next-line quotes
+  const searchString = query.replace(/'/g, "\\'");
   console.log(searchString.length);
   if (searchString.length < 3) {
     return res.status(400).json({ error: 'query too short' });
@@ -83,8 +83,8 @@ exports.advancedResults = asyncHandler(async (req, res, next) => {
 // @desc    Merge tracks, albums or artists
 // @route   PUT /advanced
 // @access  Private
-exports.merge = asyncHandler(async (req, res, next) => {
-  let { type, merge, mergeTo } = req.body;
+exports.merge = asyncHandler(async (req, res) => {
+  const { type, merge, mergeTo } = req.body;
 
   if (type === 'track') {
     let transaction;
@@ -145,7 +145,7 @@ exports.merge = asyncHandler(async (req, res, next) => {
 // @desc    Get change artist options
 // @route   GET /changeartist/:query
 // @access  Private
-exports.changeArtistOptions = asyncHandler(async (req, res, next) => {
+exports.changeArtistOptions = asyncHandler(async (req, res) => {
   const results = await db.query(
     `
     SELECT name as artist_name, id as artist_id
@@ -162,7 +162,7 @@ exports.changeArtistOptions = asyncHandler(async (req, res, next) => {
 // @desc    Get change album options
 // @route   GET /changealbum/:query
 // @access  Private
-exports.changeAlbumOptions = asyncHandler(async (req, res, next) => {
+exports.changeAlbumOptions = asyncHandler(async (req, res) => {
   const results = await db.query(
     `
     SELECT al.name as album_name, al.id as album_id, al.identifier as cat_id, ar.name as artist_name

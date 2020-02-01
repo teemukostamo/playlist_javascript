@@ -5,7 +5,7 @@ const asyncHandler = require('../middleware/async');
 // @desc    Get Top100 most played tracks, albums or artists of a certain month
 // @route   GET /
 // @access  Private
-exports.getTop100 = asyncHandler(async (req, res, next) => {
+exports.getTop100 = asyncHandler(async (req, res) => {
   const result = await db.query(
     ` 
         SELECT COUNT(*) as count

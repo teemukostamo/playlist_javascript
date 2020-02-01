@@ -1,15 +1,16 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
 const User = require('../models/User');
 
 // @desc    User login
 // @route   PUT /
 // @access  Public
 exports.login = async (req, res) => {
-  const body = req.body;
+  const { username, password } = req.body;
 
   // check if user exists, return 401 if not
-  const user = await User.findOne({ where: { username: body.username } });
+  const user = await User.findOne({ where: { username } });
   console.log(user);
   if (!user) {
     return res.status(401).json({
@@ -19,7 +20,7 @@ exports.login = async (req, res) => {
 
   // check if password is correct, return 401 if not
   const passwordCorrect =
-    user === null ? false : await bcrypt.compare(body.password, user.password);
+    user === null ? false : await bcrypt.compare(password, user.password);
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
       error: 'Invalid username or password'
@@ -38,7 +39,7 @@ exports.login = async (req, res) => {
   // update last seen field
   const updatedUser = await User.update(
     { last_seen: new Date() },
-    { where: { username: body.username } }
+    { where: { username } }
   );
 
   console.log(updatedUser);

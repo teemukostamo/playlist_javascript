@@ -1,5 +1,5 @@
-const config = require('./config');
 const Sequelize = require('sequelize');
+const config = require('./config');
 
 // Google cloud db:
 module.exports = new Sequelize(config.DB_NAME, 'root', config.DB_SECRET, {

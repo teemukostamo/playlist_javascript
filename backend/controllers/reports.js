@@ -7,9 +7,9 @@ const ErrorResponse = require('../utils/errorResponse');
 // @desc    Get report-tracks by report_id
 // @route   GET /:id
 // @access  Private
-exports.getReportTracks = asyncHandler(async (req, res, next) => {
+exports.getReportTracks = asyncHandler(async (req, res) => {
   console.log('req params id at reports controller', req.params.id);
-  let report = await db.query(
+  const report = await db.query(
     `
       SELECT rt.sortable_rank
       , ar.name as artist_name
@@ -46,8 +46,8 @@ exports.getReportTracks = asyncHandler(async (req, res, next) => {
 // @desc    Add a track to report-tracks list
 // @route   POST /
 // @access  Private
-exports.addTrackToReport = asyncHandler(async (req, res, next) => {
-  let { track_id, report_id, length, sortable_rank } = req.body;
+exports.addTrackToReport = asyncHandler(async (req, res) => {
+  const { track_id, report_id, length, sortable_rank } = req.body;
   const newReportTrack = await Report_Track.create({
     track_id,
     report_id,

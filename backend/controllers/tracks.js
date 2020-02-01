@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 const Track = require('../models/Track');
 const Album = require('../models/Album');
 const Artist = require('../models/Artist');
@@ -78,11 +79,11 @@ exports.getPlayhistory = asyncHandler(async (req, res, next) => {
 // @desc    Change the album of a track
 // @route   PUT /updatealbum
 // @access  Private
-exports.changeAlbum = asyncHandler(async (req, res, next) => {
-  let { track_id, album_id } = req.body;
+exports.changeAlbum = asyncHandler(async (req, res) => {
+  const { track_id, album_id } = req.body;
   const changedAlbum = await Track.update(
     {
-      album_id: album_id
+      album_id
     },
     { where: { id: track_id } }
   );
@@ -92,11 +93,11 @@ exports.changeAlbum = asyncHandler(async (req, res, next) => {
 // @desc    Change the artist of a track
 // @route   PUT /updateartist
 // @access  Private
-exports.changeArtist = asyncHandler(async (req, res, next) => {
-  let { track_id, artist_id } = req.body;
+exports.changeArtist = asyncHandler(async (req, res) => {
+  const { track_id, artist_id } = req.body;
   const changedArtist = await Track.update(
     {
-      artist_id: artist_id
+      artist_id
     },
     { where: { id: track_id } }
   );
@@ -106,8 +107,8 @@ exports.changeArtist = asyncHandler(async (req, res, next) => {
 // @desc    Update track, album, artist
 // @route   PUT /
 // @access  Private
-exports.updateTrack = asyncHandler(async (req, res, next) => {
-  let {
+exports.updateTrack = asyncHandler(async (req, res) => {
+  const {
     artist_name,
     album_name,
     track_title,
@@ -193,9 +194,9 @@ exports.updateTrack = asyncHandler(async (req, res, next) => {
 // @desc    Save new track and add it to current report
 // @route   POST /addandreport
 // @access  Private
-exports.addAndReport = asyncHandler(async (req, res, next) => {
+exports.addAndReport = asyncHandler(async (req, res) => {
   // destructure values from req.body
-  let {
+  const {
     track_title,
     artist_name,
     album_name,
@@ -230,8 +231,8 @@ exports.addAndReport = asyncHandler(async (req, res, next) => {
       name: album_name,
       artist_id: newArtist.id,
       identifier: cat_id,
-      label: label,
-      year: year
+      label,
+      year
     });
     console.log('created new album', newAlbum);
 
@@ -299,8 +300,8 @@ exports.addAndReport = asyncHandler(async (req, res, next) => {
         name: album_name,
         artist_id: artist.id,
         identifier: cat_id,
-        label: label,
-        year: year
+        label,
+        year
       });
       console.log('created new album', newAlbum);
 
@@ -462,9 +463,9 @@ exports.addAndReport = asyncHandler(async (req, res, next) => {
 // @desc    Add new track to db
 // @route   POST /addtodb
 // @access  Private
-exports.addNewTrack = asyncHandler(async (req, res, next) => {
+exports.addNewTrack = asyncHandler(async (req, res) => {
   // destructure values from req.body
-  let {
+  const {
     track_title,
     artist_name,
     album_name,
@@ -497,8 +498,8 @@ exports.addNewTrack = asyncHandler(async (req, res, next) => {
       name: album_name,
       artist_id: newArtist.id,
       identifier: cat_id,
-      label: label,
-      year: year
+      label,
+      year
     });
     console.log('created new album', newAlbum);
 
@@ -555,8 +556,8 @@ exports.addNewTrack = asyncHandler(async (req, res, next) => {
         name: album_name,
         artist_id: artist.id,
         identifier: cat_id,
-        label: label,
-        year: year
+        label,
+        year
       });
       console.log('created new album', newAlbum);
 
@@ -632,50 +633,49 @@ exports.addNewTrack = asyncHandler(async (req, res, next) => {
         };
         console.log('track to return', trackToReturn);
         return res.status(200).json(trackToReturn);
-      } else {
-        // create new track
-        const newTrack = await Track.create({
-          artist_id: artist.id,
-          album_id: album.id,
-          identifier: cat_id,
-          label,
-          name: track_title,
-          disc_no,
-          track_no,
-          length,
-          country,
-          record_country,
-          people,
-          comment,
-          user_id,
-          isrc
-        });
-        console.log('created new track', newTrack);
-
-        const trackToReturn = {
-          id: newTrack.id,
-          artist_id: newTrack.artist_id,
-          album_id: newTrack.album_id,
-          track_title: newTrack.name,
-          artist_name,
-          album_name,
-          label,
-          cat_id,
-          year,
-          disc_no,
-          track_no,
-          length,
-          country: newTrack.country,
-          record_country,
-          people: newTrack.people,
-          comment,
-          isrc,
-          user_id: newTrack.user_id,
-          spotify_id: newTrack.spotify_id
-        };
-        console.log('track to return', trackToReturn);
-        res.status(201).json(trackToReturn);
       }
+      // create new track
+      const newTrack = await Track.create({
+        artist_id: artist.id,
+        album_id: album.id,
+        identifier: cat_id,
+        label,
+        name: track_title,
+        disc_no,
+        track_no,
+        length,
+        country,
+        record_country,
+        people,
+        comment,
+        user_id,
+        isrc
+      });
+      console.log('created new track', newTrack);
+
+      const trackToReturn = {
+        id: newTrack.id,
+        artist_id: newTrack.artist_id,
+        album_id: newTrack.album_id,
+        track_title: newTrack.name,
+        artist_name,
+        album_name,
+        label,
+        cat_id,
+        year,
+        disc_no,
+        track_no,
+        length,
+        country: newTrack.country,
+        record_country,
+        people: newTrack.people,
+        comment,
+        isrc,
+        user_id: newTrack.user_id,
+        spotify_id: newTrack.spotify_id
+      };
+      console.log('track to return', trackToReturn);
+      res.status(201).json(trackToReturn);
     }
   }
 });
@@ -683,9 +683,10 @@ exports.addNewTrack = asyncHandler(async (req, res, next) => {
 // @desc    Check if tracks fetched from djonline exist in db. Add new tracks to db and all to current report
 // @route   POST /djonline
 // @access  Private
-exports.addDjonlineTracks = asyncHandler(async (req, res, next) => {
+exports.addDjonlineTracks = asyncHandler(async (req, res) => {
   // destructure values from req.body
   let {
+    // eslint-disable-next-line prefer-const
     track_title,
     artist_name,
     album_name,
@@ -705,10 +706,10 @@ exports.addDjonlineTracks = asyncHandler(async (req, res, next) => {
   } = req.body;
 
   // see if artist name ends with , the
-  let lastFive = artist_name.slice(artist_name.length - 5);
+  const lastFive = artist_name.slice(artist_name.length - 5);
   if (lastFive.toLowerCase() === ', the') {
     artist_name = artist_name.substring(0, artist_name.length - 5);
-    artist_name = 'THE ' + artist_name.toUpperCase();
+    artist_name = `THE ${artist_name.toUpperCase()}`;
   } else {
     artist_name = artist_name.toUpperCase();
   }
@@ -739,8 +740,8 @@ exports.addDjonlineTracks = asyncHandler(async (req, res, next) => {
       name: album_name,
       artist_id: newArtist.id,
       identifier: cat_id,
-      label: label,
-      year: year
+      label,
+      year
     });
     console.log('created new album', newAlbum);
 
@@ -818,8 +819,8 @@ exports.addDjonlineTracks = asyncHandler(async (req, res, next) => {
         name: album_name,
         artist_id: artist.id,
         identifier: cat_id,
-        label: label,
-        year: year
+        label,
+        year
       });
       console.log('created new album', newAlbum);
 
@@ -928,61 +929,60 @@ exports.addDjonlineTracks = asyncHandler(async (req, res, next) => {
         };
         console.log('track to return', trackToReturn);
         return res.status(200).json(trackToReturn);
-      } else {
-        // create new track
-        const newTrack = await Track.create({
-          artist_id: artist.id,
-          album_id: album.id,
-          identifier: cat_id,
-          label,
-          name: track_title,
-          disc_no,
-          track_no,
-          length,
-          country,
-          record_country,
-          people,
-          comment,
-          isrc
-        });
-        console.log('created new track', newTrack);
-
-        // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
-        const newReportTrack = await Report_Track.create({
-          track_id: newTrack.id,
-          report_id,
-          length: newTrack.length,
-          sortable_rank
-        });
-
-        console.log('new report-track', newReportTrack);
-        const trackToReturn = {
-          id: newTrack.id,
-          artist_id: newTrack.artist_id,
-          album_id: newTrack.album_id,
-          track_title: newTrack.name,
-          artist_name,
-          album_name,
-          label,
-          cat_id,
-          year,
-          disc_no,
-          track_no,
-          length,
-          country: newTrack.country,
-          record_country,
-          sortable_rank,
-          people: newTrack.people,
-          comment,
-          isrc,
-          report_id,
-          report_track_id: newReportTrack.id,
-          user_id: newTrack.user_id,
-          spotify_id: newTrack.spotify_id
-        };
-        console.log('track to return', trackToReturn);
-        res.status(201).json(trackToReturn);
       }
+      // create new track
+      const newTrack = await Track.create({
+        artist_id: artist.id,
+        album_id: album.id,
+        identifier: cat_id,
+        label,
+        name: track_title,
+        disc_no,
+        track_no,
+        length,
+        country,
+        record_country,
+        people,
+        comment,
+        isrc
+      });
+      console.log('created new track', newTrack);
+
+      // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
+      const newReportTrack = await Report_Track.create({
+        track_id: newTrack.id,
+        report_id,
+        length: newTrack.length,
+        sortable_rank
+      });
+
+      console.log('new report-track', newReportTrack);
+      const trackToReturn = {
+        id: newTrack.id,
+        artist_id: newTrack.artist_id,
+        album_id: newTrack.album_id,
+        track_title: newTrack.name,
+        artist_name,
+        album_name,
+        label,
+        cat_id,
+        year,
+        disc_no,
+        track_no,
+        length,
+        country: newTrack.country,
+        record_country,
+        sortable_rank,
+        people: newTrack.people,
+        comment,
+        isrc,
+        report_id,
+        report_track_id: newReportTrack.id,
+        user_id: newTrack.user_id,
+        spotify_id: newTrack.spotify_id
+      };
+      console.log('track to return', trackToReturn);
+      res.status(201).json(trackToReturn);
     }
   }
 });

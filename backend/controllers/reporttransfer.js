@@ -1,7 +1,8 @@
-const Report_Transfer = require('../models/Report_Transfer');
 const path = require('path');
-var fs = require('fs');
+const fs = require('fs');
+
 const db = require('../config/database');
+const Report_Transfer = require('../models/Report_Transfer');
 
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
@@ -9,7 +10,7 @@ const ErrorResponse = require('../utils/errorResponse');
 // @desc    Get all transfers
 // @route   GET /
 // @access  Private
-exports.getAllTransfers = asyncHandler(async (req, res, next) => {
+exports.getAllTransfers = asyncHandler(async (req, res) => {
   const transfers = await db.query(
     `
       SELECT rt.id
@@ -36,15 +37,15 @@ exports.getAllTransfers = asyncHandler(async (req, res, next) => {
 // @desc    Send file to client
 // @route   GET /:filename
 // @access  Private
-exports.sendFileToClient = asyncHandler(async (req, res, next) => {
+exports.sendFileToClient = asyncHandler(async (req, res) => {
   res.download(path.join(__dirname, `../transfers/${req.params.filename}`));
 });
 
 // @desc    Generate report transfer by date - get tracks from db, parse to teosto-required format and create txt-file
 // @route   POST /
 // @access  Private
-exports.generateTransferFile = asyncHandler(async (req, res, next) => {
-  let { user_id, status, filename, period } = req.body;
+exports.generateTransferFile = asyncHandler(async (req, res) => {
+  const { user_id, status, filename, period } = req.body;
   const arrayWithTracks = await db.query(
     `
       SELECT re.program_date
@@ -80,7 +81,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
   );
   if (arrayWithTracks) {
     // console.log('tracks to put in report', arrayWithTracks);
-    let placeholder = {
+    const placeholder = {
       track_title: '                                                  ',
       copyright_holder_1: '                              ',
       copyright_holder_2: '                              ',
@@ -96,26 +97,30 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       comment:
         '                                                                               '
     };
-    let newArr = [];
+    const newArr = [];
 
     arrayWithTracks.forEach(track => {
       // get program date, remove dashes and two first numbers
-      let new_program_date = track.program_date.replace(/-/g, '').substring(2);
+      const new_program_date = track.program_date
+        .replace(/-/g, '')
+        .substring(2);
       // console.log('new program date', new_program_date);
       // console.log('new program date length', new_program_date.length);
 
       // get program start and end time, remove colons and replace last zeroes with two spaces
-      let new_program_start_time =
-        track.program_start_time.replace(/:/g, '').slice(0, -2) + '  ';
+      const new_program_start_time = `${track.program_start_time
+        .replace(/:/g, '')
+        .slice(0, -2)}  `;
       // console.log('new program start time', new_program_start_time);
       // console.log('new program start time length', new_program_start_time.length);
-      let new_programm_end_time =
-        track.program_end_time.replace(/:/g, '').slice(0, -2) + '  ';
+      const new_programm_end_time = `${track.program_end_time
+        .replace(/:/g, '')
+        .slice(0, -2)}  `;
       // console.log('new program end time', new_programm_end_time);
       // console.log('new program end time length', new_programm_end_time.length);
 
       // get track title, remove track name length from placeholder, then add to remaining placeholder
-      let track_title_maxlength = 50;
+      const track_title_maxlength = 50;
       let new_track_title =
         track.track_title.toUpperCase() +
         placeholder.track_title.substring(track.track_title.length);
@@ -136,7 +141,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       } else {
         seconds = seconds.toString();
       }
-      let new_length = minutes + seconds;
+      const new_length = minutes + seconds;
       // console.log('new length', new_length);
       // console.log('new length length', new_length.length);
 
@@ -151,7 +156,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       // console.log('new country length', new_country.length);
 
       // get artist name
-      let artist_maxlength = 25;
+      const artist_maxlength = 25;
       let new_artist_name =
         track.artist_name.toUpperCase() +
         placeholder.artist_name.substring(track.artist_name.length);
@@ -162,7 +167,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       // console.log('new artist name length', new_artist_name.length);
 
       // get label
-      let label_maxlength = 20;
+      const label_maxlength = 20;
       let new_label;
       if (track.label === null) {
         new_label = placeholder.label;
@@ -176,10 +181,10 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       // console.log('new label length', new_label.length);
 
       // get cat id
-      let cat_id_maxlength = 15;
+      const cat_id_maxlength = 15;
       let new_cat_id;
       if (track.cat_id === null) {
-        let unknown = 'EI ILMOITETTU';
+        const unknown = 'EI ILMOITETTU';
         new_cat_id = unknown + placeholder.cat_id.substring(unknown.length);
       } else {
         new_cat_id =
@@ -219,7 +224,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       if (track.record_country === null || track.record_country === '') {
         new_record_country = '   ';
       } else {
-        new_record_country = track.record_country + ' ';
+        new_record_country = `${track.record_country} `;
       }
 
       // console.log('new record country', new_record_country);
@@ -227,7 +232,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       // console.log('new record country typeof', typeof new_record_country);
 
       // get program name
-      let program_name_maxlength = 63;
+      const program_name_maxlength = 63;
       let new_program_name =
         track.program_name.toUpperCase() +
         placeholder.program_name.substring(track.program_name.length);
@@ -248,7 +253,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       // console.log('new year length', new_year.length);
 
       // get isrc
-      let isrc_maxlength = 12;
+      const isrc_maxlength = 12;
       let new_isrc;
       if (track.isrc === null) {
         new_isrc = placeholder.isrc;
@@ -262,7 +267,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
       // console.log('new isrc length', new_isrc.length);
 
       // handle copyright holders
-      let copyright_holder_maxlength = 30;
+      const copyright_holder_maxlength = 30;
       let new_copyright_holder_1;
       let new_copyright_holder_2;
       let new_copyright_holder_3;
@@ -276,7 +281,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
         new_copyright_holder_4 = placeholder.copyright_holder_4;
         new_copyright_holder_5 = placeholder.copyright_holder_5;
       } else {
-        let new_copyright_holders = track.copyright_holders.split('|');
+        const new_copyright_holders = track.copyright_holders.split('|');
         new_copyright_holders.pop();
         new_copyright_holders.shift();
         if (new_copyright_holders.length === 1) {
@@ -478,20 +483,20 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
         handle_code: '1'
       });
     });
-    let exportArr = [];
+    const exportArr = [];
     newArr.forEach(field =>
       exportArr.push(
         `${field.program_date}${field.program_start_time}${field.program_end_time}${field.teosto_id}${field.track_title}${field.helper_field}${field.length}${field.times}${field.copyright_holder_1}${field.copyright_holder_2}${field.copyright_holder_3}${field.copyright_holder_4}${field.copyright_holder_5}${field.country}${field.artist_name}${field.label}${field.cat_id}${field.disc_no}${field.track_no}${field.record_country}${field.type}${field.jingle}${field.program_name}${field.year}${field.isrc}${field.comment}${field.handle_code}`
       )
     );
-    let file = fs.createWriteStream(
+    const file = fs.createWriteStream(
       path.join(__dirname, `../transfers/${filename}`)
     );
     file.on('error', function(err) {
       console.log(err);
     });
     exportArr.forEach(function(v) {
-      file.write(v + '\n');
+      file.write(`${v}\n`);
     });
     file.end();
     const transferInfo = await Report_Transfer.create({
@@ -503,6 +508,7 @@ exports.generateTransferFile = asyncHandler(async (req, res, next) => {
     console.log(transferInfo);
     res.status(200).json(transferInfo);
   } else {
+    // eslint-disable-next-line no-new
     new ErrorResponse('Problem generating file', 404);
   }
 });

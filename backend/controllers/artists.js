@@ -56,7 +56,7 @@ exports.getAllAlbumsByArtist = asyncHandler(async (req, res, next) => {
 // @route   PUT /details/:id
 // @access  Private
 exports.updateArtist = asyncHandler(async (req, res, next) => {
-  let { name, spotify_id } = req.body;
+  const { name, spotify_id } = req.body;
   const updatedArtist = await Artist.update(
     {
       name,

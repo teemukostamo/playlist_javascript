@@ -1,13 +1,14 @@
 const db = require('../config/database');
 const Report = require('../models/Report');
+
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 
 // @desc    Get all reports by month by current user
 // @route   GET /all
 // @access  Private
-exports.getCurrentUsersReports = asyncHandler(async (req, res, next) => {
-  let reports = await db.query(
+exports.getCurrentUsersReports = asyncHandler(async (req, res) => {
+  const reports = await db.query(
     `
       SELECT re.program_no
       , pr.name
@@ -35,8 +36,8 @@ exports.getCurrentUsersReports = asyncHandler(async (req, res, next) => {
 // @desc    Get all reports of a month
 // @route   GET /date/:date
 // @access  Private
-exports.getAllReportsByMonth = asyncHandler(async (req, res, next) => {
-  let reports = await db.query(
+exports.getAllReportsByMonth = asyncHandler(async (req, res) => {
+  const reports = await db.query(
     `
       SELECT re.program_no
       , pr.name
@@ -63,10 +64,9 @@ exports.getAllReportsByMonth = asyncHandler(async (req, res, next) => {
 // @desc    Get all in progress reports of a user
 // @route   GET /user/:id
 // @access  Private
-exports.getCurrentUsersInProgressReports = asyncHandler(
-  async (req, res, next) => {
-    let reports = await db.query(
-      `
+exports.getCurrentUsersInProgressReports = asyncHandler(async (req, res) => {
+  const reports = await db.query(
+    `
       SELECT re.program_no
       , pr.name
       , re.program_date
@@ -82,13 +82,12 @@ exports.getCurrentUsersInProgressReports = asyncHandler(
      WHERE re.user_id="${req.params.id}" AND re.status="0"
      ORDER BY program_date ASC, program_start_time ASC
       `,
-      {
-        type: db.QueryTypes.SELECT
-      }
-    );
-    res.status(200).json(reports);
-  }
-);
+    {
+      type: db.QueryTypes.SELECT
+    }
+  );
+  res.status(200).json(reports);
+});
 
 // @desc    Delete report - set status to 9
 // @route   PUT /:id

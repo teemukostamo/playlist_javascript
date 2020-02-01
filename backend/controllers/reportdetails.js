@@ -1,5 +1,6 @@
 const db = require('../config/database');
 const Report = require('../models/Report');
+
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 
@@ -41,8 +42,8 @@ exports.getReportDetails = asyncHandler(async (req, res, next) => {
 // @desc    Create a new report
 // @route   POST /
 // @access  Private
-exports.createNewReport = asyncHandler(async (req, res, next) => {
-  let {
+exports.createNewReport = asyncHandler(async (req, res) => {
+  const {
     user_id,
     program_id,
     program_date,
@@ -72,7 +73,7 @@ exports.createNewReport = asyncHandler(async (req, res, next) => {
 // @route   PUT /update/:id
 // @access  Private
 exports.updateReportDetails = asyncHandler(async (req, res, next) => {
-  let {
+  const {
     user_id,
     program_id,
     program_date,
