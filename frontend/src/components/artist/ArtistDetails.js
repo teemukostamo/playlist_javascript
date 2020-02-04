@@ -1,19 +1,19 @@
+/* eslint-disable no-shadow */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import { getOneArtist } from '../../actions/artistActions';
 import AlbumsByArtist from './AlbumsByArtist';
 import ArtistDetailsForm from './ArtistDetailsForm';
 
-const ArtistDetails = props => {
-  console.log('artist detail props', props);
-
+const ArtistDetails = ({ id, getOneArtist, artist }) => {
   useEffect(() => {
-    props.getOneArtist(props.id);
+    getOneArtist(id);
     // eslint-disable-next-line
-  }, [props.id]);
+  }, [id]);
 
-  if (props.artist.currentArtist === null) {
+  if (artist.currentArtist === null) {
     return (
       <Container>
         <Dimmer>
@@ -25,8 +25,8 @@ const ArtistDetails = props => {
 
   return (
     <Container>
-      <ArtistDetailsForm currentArtist={props.artist.currentArtist} />
-      <AlbumsByArtist albumList={props.artist.albumList} />
+      <ArtistDetailsForm currentArtist={artist.currentArtist} />
+      <AlbumsByArtist albumList={artist.albumList} />
     </Container>
   );
 };
@@ -37,8 +37,14 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedArtistDetails = connect(
-  mapStateToProps,
-  { getOneArtist }
-)(ArtistDetails);
+ArtistDetails.propTypes = {
+  id: PropTypes.number.isRequired,
+  artist: PropTypes.arrayOf.isRequired,
+  getOneArtist: PropTypes.func.isRequired
+};
+
+const connectedArtistDetails = connect(mapStateToProps, { getOneArtist })(
+  ArtistDetails
+);
+
 export default connectedArtistDetails;

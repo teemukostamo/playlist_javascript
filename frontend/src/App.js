@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import './App.css';
+import { Container } from 'semantic-ui-react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './components/layout/Home';
@@ -18,7 +19,6 @@ import Search from './components/search/Search';
 import Top100List from './components/top100/Top100List';
 import ReportWithTracks from './components/report/ReportWithTracks';
 import Notification from './components/layout/Notification';
-import { Container } from 'semantic-ui-react';
 import { initializeUser, logout } from './actions/loginActions';
 import { initializeUsers } from './actions/userActions';
 import { initializePrograms } from './actions/programActions';
@@ -68,41 +68,41 @@ const App = props => {
         <Notification />
       </div>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/reports" component={ReportList} />
-        <Route exact path="/transfer" component={ReportTransferList} />
+        <Route exact path='/' component={Home} />
+        <Route exact path='/reports' component={ReportList} />
+        <Route exact path='/transfer' component={ReportTransferList} />
         <Route
-          path="/reports/:id"
+          path='/reports/:id'
           render={({ match }) => {
             console.log('*');
             return <ReportWithTracks id={match.params.id} />;
           }}
         />
         <Route
-          path="/artist/:id"
+          path='/artist/:id'
           render={({ match }) => {
             console.log('*');
             return <ArtistDetails id={match.params.id} />;
           }}
         />
         <Route
-          path="/album/:id"
+          path='/album/:id'
           render={({ match }) => {
             console.log('*');
             return <AlbumDetails id={match.params.id} />;
           }}
         />
         <Route
-          path="/track/:id"
+          path='/track/:id'
           render={({ match }) => {
             console.log('*');
             return <TrackDetails id={match.params.id} />;
           }}
         />
-        <Route exact path="/programs" component={ProgramList} />
-        <Route exact path="/search" component={Search} />
-        <Route exact path="/top100" component={Top100List} />
-        <Route exact path="/users" component={UserList} />
+        <Route exact path='/programs' component={ProgramList} />
+        <Route exact path='/search' component={Search} />
+        <Route exact path='/top100' component={Top100List} />
+        <Route exact path='/users' component={UserList} />
       </Switch>
       <div>
         <Footer />

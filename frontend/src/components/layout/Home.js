@@ -3,7 +3,7 @@ import { Container, Grid, Dimmer, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import CreateNewReportForm from '../report/CreateNewReportForm';
 import InProgressReportsList from '../report/InProgressReportsList';
-import Notification from '../layout/Notification';
+import Notification from './Notification';
 import { getAllInProgress } from '../../actions/reportsListActions';
 
 const Home = props => {
@@ -30,7 +30,7 @@ const Home = props => {
     <Container>
       <h2>Radio Helsinki teostoraportointi</h2>
       <Notification />
-      <Grid divided="vertically">
+      <Grid divided='vertically'>
         <Grid.Row columns={2}>
           <CreateNewReportForm />
           <InProgressReportsList />
@@ -52,9 +52,6 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedHome = connect(
-  mapStateToProps,
-  { getAllInProgress }
-)(Home);
+const connectedHome = connect(mapStateToProps, { getAllInProgress })(Home);
 
 export default connectedHome;

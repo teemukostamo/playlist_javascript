@@ -47,7 +47,7 @@ export const addNewTrack = trackToAdd => async dispatch => {
 };
 
 // add a new track to db - not in a report
-export const addTrackToDb = trackToAdd => async dispatch => {
+export const addTrackToDb = trackToAdd => async () => {
   try {
     const track = await trackService.addTrackToDb(trackToAdd);
     console.log(track);

@@ -9,7 +9,6 @@ const MergeAlbumTracksModal = props => {
   const [trackToMerge, setTrackToMerge] = useState(null);
   const handleOpen = () => {
     setModalOpen(true);
-    console.log(modalOpen);
   };
   const handleClose = () => {
     setModalOpen(false);
@@ -17,7 +16,7 @@ const MergeAlbumTracksModal = props => {
 
   if (!modalOpen) {
     return (
-      <button className="link-btn" onClick={handleOpen}>
+      <button className='link-btn' onClick={handleOpen}>
         {props.track_id}
       </button>
     );
@@ -46,7 +45,7 @@ const MergeAlbumTracksModal = props => {
         closeIcon
         onClose={handleClose}
         trigger={
-          <button className="link-btn" onClick={handleOpen}>
+          <button className='link-btn' onClick={handleOpen}>
             {props.track_id}
           </button>
         }
@@ -65,7 +64,7 @@ const MergeAlbumTracksModal = props => {
               />
             </Form.Field>
             <Form.Field>
-              <Button type="submit">Yhdistä</Button>
+              <Button type='submit'>Yhdistä</Button>
             </Form.Field>
           </Form>
         </Modal.Content>
@@ -81,9 +80,8 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedMergeAlbumTracksModal = connect(
-  mapStateToProps,
-  { mergeTrackFunction }
-)(MergeAlbumTracksModal);
+const connectedMergeAlbumTracksModal = connect(mapStateToProps, {
+  mergeTrackFunction
+})(MergeAlbumTracksModal);
 
 export default connectedMergeAlbumTracksModal;

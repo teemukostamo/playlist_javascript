@@ -1,12 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Filter = props => {
+const Filter = ({ handleChange, value }) => {
   return (
     <div>
       rajaa näytettäviä
-      <input onChange={props.handleChange} value={props.value} />
+      <input onChange={handleChange} value={value} />
     </div>
   );
+};
+
+Filter.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired
 };
 
 export default Filter;

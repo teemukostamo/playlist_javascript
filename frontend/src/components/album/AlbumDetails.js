@@ -4,6 +4,7 @@ import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import AlbumDetailsForm from './AlbumDetailsForm';
 import { getOneAlbum } from '../../actions/albumActions';
 import TracksInAnAlbum from './TracksInAnAlbum';
+import PropTypes from 'prop-types';
 
 const AlbumDetails = props => {
   console.log('album detail props', props);
@@ -34,14 +35,15 @@ const AlbumDetails = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    album: state.album
-  };
+const mapStateToProps = state => ({
+  album: state.album
+});
+
+AlbumDetails.propTypes = {
+  id: PropTypes.number
 };
 
-const connectedAlbumDetails = connect(
-  mapStateToProps,
-  { getOneAlbum }
-)(AlbumDetails);
+const connectedAlbumDetails = connect(mapStateToProps, { getOneAlbum })(
+  AlbumDetails
+);
 export default connectedAlbumDetails;
