@@ -12,9 +12,6 @@ const initialState = {
 };
 
 const albumReducer = (state = initialState, action) => {
-  console.log('albumReducer state now: ', state);
-  console.log('albumReducer action', action);
-
   switch (action.type) {
     case GET_ONE_ALBUM:
       return {

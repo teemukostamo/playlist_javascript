@@ -1,6 +1,6 @@
 import axios from 'axios';
-const baseUrl = '/api/artists';
 
+const baseUrl = '/api/artists';
 let token = null;
 
 const setToken = newToken => {
@@ -28,13 +28,11 @@ const updateArtist = async artistToUpdate => {
   const config = {
     headers: { Authorization: token }
   };
-  console.log('artistservice updated track', artistToUpdate);
   const response = await axios.put(
     `${baseUrl}/details/${artistToUpdate.id}`,
     artistToUpdate,
     config
   );
-  console.log(response.data);
   return response.data;
 };
 

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTop100 } from '../../actions/searchActions';
 import { Form, Button, Dropdown } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import fi from 'date-fns/locale/fi';
+import { getTop100 } from '../../actions/searchActions';
 
 const Top100SearchForm = props => {
   const [startDate, setStartDate] = useState(Date.now() - 7 * 24 * 3600 * 1000);
@@ -22,15 +23,12 @@ const Top100SearchForm = props => {
   //   props.getTop100(query);
   //   // eslint-disable-next-line
   // }, []);
-  console.log('start date', startDate);
-
   const handleSearch = () => {
     const query = {
       list,
       start_date: moment(startDate).format('YYYY-MM-DD'),
       end_date: moment(endDate).format('YYYY-MM-DD')
     };
-    console.log('klikd search', query);
     props.getTop100(query);
   };
 
@@ -58,46 +56,47 @@ const Top100SearchForm = props => {
   };
   return (
     <Form>
-      <Form.Group widths="equal">
-        <Form.Field>
-          <label>Hae</label>
-          <Dropdown
-            openOnFocus
-            selection
-            defaultValue={list}
-            options={listOptions}
-            onChange={getListOptions}
-          />{' '}
-        </Form.Field>
-        <Form.Field>
-          <label>Alkaen</label>
-          <DatePicker
-            selected={startDate}
-            disabledKeyboardNavigation={true}
-            dateFormat="dd.MM.yyyy"
-            onChange={date => setStartDate(date)}
-            locale={fi}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Päättyen</label>
-          <DatePicker
-            selected={endDate}
-            disabledKeyboardNavigation={true}
-            dateFormat="dd.MM.yyyy"
-            onChange={date => setEndDate(date)}
-            locale={fi}
-          />
-        </Form.Field>
+      <Form.Group widths='equal'>
+        <Form.Field
+          label='Hae'
+          control={Dropdown}
+          openOnFocus
+          selection
+          defaultValue={list}
+          options={listOptions}
+          onChange={getListOptions}
+        />
+        <Form.Field
+          label='Alkaen'
+          control={DatePicker}
+          selected={startDate}
+          disabledKeyboardNavigation
+          dateFormat='dd.MM.yyyy'
+          onChange={date => setStartDate(date)}
+          locale={fi}
+        />
+        <Form.Field
+          label='Päättyen'
+          control={DatePicker}
+          selected={endDate}
+          disabledKeyboardNavigation
+          dateFormat='dd.MM.yyyy'
+          onChange={date => setEndDate(date)}
+          locale={fi}
+        />
         <Form.Field></Form.Field>
         <Form.Field></Form.Field>
         <Form.Field></Form.Field>
       </Form.Group>
-      <Button color="blue" onClick={handleSearch}>
+      <Button color='blue' onClick={handleSearch}>
         Hae
       </Button>{' '}
     </Form>
   );
+};
+
+Top100SearchForm.propTypes = {
+  getTop100: PropTypes.func.isRequired
 };
 
 const connectedTop100SearchForm = connect(null, { getTop100 })(

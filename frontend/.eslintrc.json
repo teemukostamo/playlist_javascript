@@ -31,8 +31,14 @@
     "arrow-parens": "off",
     "jsx-quotes": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/require-default-props": "off",
     "arrow-body-style": "off",
     "object-curly-newline": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-confusing-arrow": "off",
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": "off",
+    "radix": ["error", "as-needed"],
+    "operator-linebreak": "off"
   }
 }

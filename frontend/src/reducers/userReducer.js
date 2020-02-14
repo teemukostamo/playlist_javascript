@@ -13,9 +13,6 @@ const initialState = {
   loading: false
 };
 const userReducer = (state = initialState, action) => {
-  // console.log('userreducer state now: ', state);
-  // console.log('userreducer action', action.data);
-
   switch (action.type) {
     case INIT_USERS_LIST:
       return {
@@ -48,7 +45,6 @@ const userReducer = (state = initialState, action) => {
         loading: false
       };
     case DELETE_USER:
-      console.log('removing user id from user reducer', action.data);
       return {
         ...state,
         users: state.users.filter(user => user.id !== action.data),

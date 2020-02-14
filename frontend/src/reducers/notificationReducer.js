@@ -4,8 +4,6 @@ const initialState = {
 };
 
 const notificationReducer = (state = initialState, action) => {
-  console.log('action', action);
-  console.log(state);
   switch (action.type) {
     case 'SET_NOTIFICATION':
       return action.data;
@@ -19,8 +17,6 @@ const notificationReducer = (state = initialState, action) => {
 };
 
 export const setNotification = (message, type) => {
-  console.log(message);
-  console.log(type);
   const content = {
     message,
     type
@@ -37,36 +33,5 @@ export const setNotification = (message, type) => {
     }, 3000);
   };
 };
-
-// const setNotification = (id, message) => {
-//   console.log(message);
-//   return dispatch => {
-//     dispatch({
-//       type: 'NOTIFICATION',
-//       id,
-//       message
-//     });
-//   };
-// };
-
-// const clearNotification = id => {
-//   return {
-//     type: 'CLEAR',
-//     id
-//   };
-// };
-
-// let nextNotificationId = 0;
-// export function showNotificationWithTimeout(text, duration) {
-//   duration = duration * 1000;
-//   return function(dispatch) {
-//     const id = nextNotificationId++;
-//     dispatch(setNotification(id, text));
-
-//     setTimeout(() => {
-//       dispatch(clearNotification(id));
-//     }, duration);
-//   };
-// }
 
 export default notificationReducer;

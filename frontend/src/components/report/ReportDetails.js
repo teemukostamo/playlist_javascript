@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   Header,
@@ -16,52 +17,60 @@ import moment from 'moment';
 import SearchTrack from '../track/SearchTrack';
 import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
 import Togglable from '../layout/Togglable';
-import { updateReport } from '../../actions/reportActions';
-import { copyReport } from '../../actions/reportActions';
+import { updateReport, copyReport } from '../../actions/reportActions';
 import { setNotification } from '../../reducers/notificationReducer';
 
-const ReportDetails = props => {
+const ReportDetails = ({
+  report,
+  users,
+  programs,
+  login,
+  updateReport,
+  copyReport,
+  setNotification
+}) => {
+  console.log('report detuils props.report', report);
   const [programId, setProgramId] = useState('');
   const [programNumber, setProgramNumber] = useState('');
   const [dj, setDj] = useState('');
   const [programDate, setProgramDate] = useState('');
+  console.log('report details program date', programDate);
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
   const [status, setStatus] = useState('');
   const [userId, setUserId] = useState('');
   const [rerun, setRerun] = useState(null);
 
-  console.log('report detauls props', props);
   useEffect(() => {
-    if (props.report.reportDetails !== null) {
-      setUserId(props.report.reportDetails.user_id);
-      setProgramId(props.report.reportDetails.program_id);
-      setDj(props.report.reportDetails.program_dj);
-      setProgramNumber(props.report.reportDetails.program_no);
-      setProgramDate(new Date(props.report.reportDetails.program_date));
-      setProgramStartTime(props.report.reportDetails.program_start_time);
-      setProgramEndTime(props.report.reportDetails.program_end_time);
-      setStatus(props.report.reportDetails.status);
-      setRerun(props.report.reportDetails.rerun);
+    if (report.reportDetails !== null) {
+      setUserId(report.reportDetails.user_id);
+      setProgramId(report.reportDetails.program_id);
+      setDj(report.reportDetails.program_dj);
+      setProgramNumber(report.reportDetails.program_no);
+      setProgramDate(new Date(report.reportDetails.program_date));
+      setProgramStartTime(report.reportDetails.program_start_time);
+      setProgramEndTime(report.reportDetails.program_end_time);
+      setStatus(report.reportDetails.status);
+      setRerun(report.reportDetails.rerun);
     }
-  }, [props.report.reportDetails]);
+  }, [report.reportDetails]);
 
-  if (props.report.reportDetails === null || props.users.users === null) {
+  if (report.reportDetails === null || users.users === null) {
     return (
       <Segment>
         <Dimmer active inverted>
-          <Loader inverted content="Ladataan..." />
+          <Loader inverted content='Ladataan...' />
         </Dimmer>
       </Segment>
     );
   }
 
-  let programOptions = props.programs.activePrograms.map(program => ({
+  const programOptions = programs.activePrograms.map(program => ({
     key: program.id,
     text: program.name,
     value: program.id
   }));
-  let userOptions = props.users.users.map(user => ({
+  const userOptions = users.users.map(user => ({
     key: user.id,
     text: `${user.first_name} ${user.last_name}`,
     value: user.id
@@ -354,7 +363,6 @@ const ReportDetails = props => {
   };
 
   const getRerun = () => {
-    console.log('getting rerun');
     if (rerun === null) {
       setRerun(1);
     } else {
@@ -364,9 +372,10 @@ const ReportDetails = props => {
 
   // save changes to db
   const saveChanges = e => {
+    console.log('program date', programDate);
     e.preventDefault();
     const updatedReportDetails = {
-      id: props.report.reportDetails.id,
+      id: report.reportDetails.id,
       user_id: userId,
       program_id: programId,
       program_date: moment(programDate).format('YYYY-MM-DD'),
@@ -374,24 +383,24 @@ const ReportDetails = props => {
       program_end_time: programEndTime,
       program_no: programNumber,
       program_dj: dj,
-      program_name: props.report.reportDetails.program_name,
-      status: status,
-      rerun: rerun
+      program_name: report.reportDetails.program_name,
+      status,
+      rerun
     };
     if (
       parseInt(updatedReportDetails.program_start_time) >=
       parseInt(updatedReportDetails.program_end_time)
     ) {
-      props.setNotification('Tarkasta aloitus- ja lopetusaika!', 'fail');
+      setNotification('Tarkasta aloitus- ja lopetusaika!', 'fail');
     } else {
       console.log('saving changes...', updatedReportDetails);
-      props.setNotification('Muutokset tallennettu!', 'success');
-      props.updateReport(updatedReportDetails);
+      setNotification('Muutokset tallennettu!', 'success');
+      updateReport(updatedReportDetails);
     }
   };
 
   // copy report for rerun
-  const copyReport = e => {
+  const handleCopyReportClick = e => {
     e.preventDefault();
     console.log('klikd copy');
     const reportDetailsToCopy = {
@@ -401,16 +410,14 @@ const ReportDetails = props => {
       program_start_time: programStartTime,
       program_end_time: programEndTime,
       program_no: programNumber,
-      program_name: props.report.reportDetails.program_name,
+      program_name: report.reportDetails.program_name,
       program_dj: dj,
-      status: status,
-      rerun: rerun
+      status,
+      rerun
     };
-    const reportTracksToCopy = props.report.report;
-    console.log(reportDetailsToCopy);
-    console.log(reportTracksToCopy);
-    props.copyReport(reportDetailsToCopy, reportTracksToCopy);
-    props.setNotification(
+    const reportTracksToCopy = report.report;
+    copyReport(reportDetailsToCopy, reportTracksToCopy);
+    setNotification(
       `Raportti monistettu ajankohtaan ${moment(programDate).format(
         'YYYY-MM-DD'
       )}`,
@@ -419,28 +426,25 @@ const ReportDetails = props => {
   };
 
   const rerunCheckBox = () => {
-    if (props.login.level === 1) {
+    if (login.level === 1) {
       return null;
-    } else {
-      return (
-        <Form.Field>
-          <label>Uusinta</label>
-          <Form.Checkbox
-            name="rerun"
-            onChange={getRerun}
-            checked={rerun ? true : false}
-          />
-        </Form.Field>
-      );
     }
+    return (
+      <Form.Field
+        label='Uusinta'
+        control={Form.Checkbox}
+        name='rerun'
+        onChange={getRerun}
+        checked={!!rerun}
+      />
+    );
   };
 
   const duplicateBtn = () => {
-    if (props.login.level === 1) {
+    if (login.level === 1) {
       return null;
-    } else {
-      return <Button onClick={copyReport}>Monista</Button>;
     }
+    return <Button onClick={handleCopyReportClick}>Monista</Button>;
   };
 
   return (
@@ -448,111 +452,99 @@ const ReportDetails = props => {
       <Header>Lisää biisi raporttiin:</Header>
       <Segment.Group horizontal>
         <Segment>
-          <Togglable color="blue" buttonLabel="Pikahaku">
+          <Togglable color='blue' buttonLabel='Pikahaku'>
             <SearchTrack />
           </Togglable>
         </Segment>
         <Segment>
-          <Togglable color="blue" buttonLabel="Hae biisit DJonlinesta">
+          <Togglable color='blue' buttonLabel='Hae biisit DJonlinesta'>
             <GetDjOnlineTracks />
           </Togglable>
         </Segment>
       </Segment.Group>
 
-      <Grid divided="vertically">
+      <Grid divided='vertically'>
         <Grid.Row columns={2}>
           <Grid.Column>
             <Header>Raportin tiedot:</Header>
             <Form>
-              <Form.Field>
-                <label>Ohjelma</label>
-                <Dropdown
-                  placeholder="Ohjelma"
-                  openOnFocus
-                  selection
-                  value={programId}
-                  search
-                  options={programOptions}
-                  onChange={getProgram}
-                />{' '}
-              </Form.Field>
-              <Form.Field>
-                <label>Ohjelmanumero</label>
-                <Form.Input
-                  defaultValue={programNumber}
-                  onChange={e => setProgramNumber(e.target.value)}
-                />{' '}
-              </Form.Field>
-              <Form.Field>
-                <label>DJ</label>
-                <Form.Input
-                  value={dj}
-                  onChange={e => setDj(e.target.value)}
-                />{' '}
-              </Form.Field>
-
-              <Form.Group widths="equal">
-                <Form.Field>
-                  <label>Ohjelman päivä</label>
-
-                  <DatePicker
-                    selected={programDate}
-                    disabledKeyboardNavigation={true}
-                    dateFormat="dd.MM.yyyy"
-                    onChange={date => setProgramDate(date)}
-                    locale={fi}
-                  />
-                </Form.Field>
-
-                <Form.Field>
-                  <label>Alkaa kello</label>
-                  <Dropdown
-                    value={programStartTime}
-                    openOnFocus
-                    selection
-                    search
-                    options={startTimeOptions}
-                    onChange={getStartTime}
-                  />{' '}
-                </Form.Field>
-
-                <Form.Field>
-                  <label>Päättyy kello</label>
-                  <Dropdown
-                    value={programEndTime}
-                    openOnFocus
-                    selection
-                    search
-                    options={endTimeOptions}
-                    onChange={getEndTime}
-                  />{' '}
-                </Form.Field>
-              </Form.Group>
-              <Form.Field>
-                <label>Raportin tila</label>
-                <Dropdown
-                  openOnFocus
-                  selection
-                  options={statusOptions}
-                  onChange={getStatus}
-                  value={status}
-                />{' '}
-              </Form.Field>
-              <Form.Field>
-                <label>Käyttäjä</label>
-                <Dropdown
-                  placeholder="Käyttäjä"
-                  openOnFocus={false}
-                  value={userId}
-                  selection
-                  search
-                  options={userOptions}
-                  onChange={getUser}
+              <Form.Field
+                label='Ohjelma'
+                control={Dropdown}
+                placeholder='Ohjelma'
+                openOnFocus
+                selection
+                value={programId}
+                search
+                options={programOptions}
+                onChange={getProgram}
+              />
+              <Form.Field
+                label='Ohjelmanumero'
+                control={Form.Input}
+                defaultValue={programNumber}
+                onChange={e => setProgramNumber(e.target.value)}
+              />
+              <Form.Field
+                label='DJ'
+                control={Form.Input}
+                value={dj}
+                onChange={e => setDj(e.target.value)}
+              />
+              <Form.Group widths='equal'>
+                <Form.Field
+                  label='Ohjelman päivä'
+                  control={DatePicker}
+                  selected={programDate}
+                  disabledKeyboardNavigation
+                  dateFormat='dd.MM.yyyy'
+                  onChange={date => setProgramDate(date)}
+                  locale={fi}
                 />
-              </Form.Field>
+                <Form.Field
+                  label='Alkaa kello'
+                  control={Dropdown}
+                  value={programStartTime}
+                  openOnFocus
+                  selection
+                  search
+                  options={startTimeOptions}
+                  onChange={getStartTime}
+                />
+                <Form.Field
+                  label='Päättyy kello'
+                  control={Dropdown}
+                  value={programEndTime}
+                  openOnFocus
+                  selection
+                  search
+                  options={endTimeOptions}
+                  onChange={getEndTime}
+                />
+              </Form.Group>
+              <Form.Field
+                label='Raportin tila'
+                control={Dropdown}
+                openOnFocus
+                selection
+                options={statusOptions}
+                onChange={getStatus}
+                value={status}
+              />
+              <Form.Field
+                label='Käyttäjä'
+                control={Dropdown}
+                placeholder='Käyttäjä'
+                openOnFocus={false}
+                value={userId}
+                selection
+                search
+                options={userOptions}
+                onChange={getUser}
+              />
               {rerunCheckBox()}
-              <Form.Group widths="equal">
-                <Button color="green" onClick={saveChanges}>
+              <Form.Group widths='equal'>
+                <Button color='green' onClick={saveChanges}>
                   Tallenna
                 </Button>
                 {duplicateBtn()}
@@ -565,8 +557,121 @@ const ReportDetails = props => {
   );
 };
 
+ReportDetails.propTypes = {
+  report: PropTypes.shape({
+    reportDetails: PropTypes.shape({
+      program_name: PropTypes.string,
+      program_no: PropTypes.number,
+      program_dj: PropTypes.string,
+      program_date: PropTypes.string,
+      program_start_time: PropTypes.string,
+      program_end_time: PropTypes.string,
+      id: PropTypes.number,
+      program_id: PropTypes.number,
+      rerun: PropTypes.number,
+      status: PropTypes.number,
+      user_id: PropTypes.number,
+      username: PropTypes.string,
+      first_name: PropTypes.string,
+      last_name: PropTypes.string
+    }),
+    report: PropTypes.arrayOf(
+      PropTypes.shape({
+        sortable_rank: PropTypes.number,
+        artist_name: PropTypes.string,
+        track_title: PropTypes.string,
+        length: PropTypes.number,
+        track_id: PropTypes.number,
+        artist_id: PropTypes.number,
+        album_id: PropTypes.number,
+        album_name: PropTypes.string,
+        disc_no: PropTypes.number,
+        track_no: PropTypes.number,
+        cat_id: PropTypes.string,
+        country: PropTypes.number,
+        isrc: PropTypes.string,
+        label: PropTypes.string,
+        people: PropTypes.string,
+        record_country: PropTypes.string,
+        year: PropTypes.string,
+        report_track_id: PropTypes.number
+      })
+    )
+  }),
+  users: PropTypes.shape({
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        username: PropTypes.string,
+        first_name: PropTypes.string,
+        last_name: PropTypes.string,
+        email: PropTypes.string,
+        address: PropTypes.string,
+        zip: PropTypes.string,
+        city: PropTypes.string,
+        country: PropTypes.string,
+        phone: PropTypes.string,
+        status: PropTypes.number,
+        level: PropTypes.number,
+        last_seen: PropTypes.string,
+        reset_key: PropTypes.string,
+        old_id: PropTypes.number,
+        created_at: PropTypes.string,
+        updated_at: PropTypes.string
+      })
+    ),
+    current: PropTypes.shape({
+      id: PropTypes.number,
+      username: PropTypes.string,
+      first_name: PropTypes.string,
+      last_name: PropTypes.string,
+      email: PropTypes.string,
+      address: PropTypes.string,
+      zip: PropTypes.string,
+      city: PropTypes.string,
+      country: PropTypes.string,
+      phone: PropTypes.string,
+      status: PropTypes.number,
+      level: PropTypes.number,
+      last_seen: PropTypes.string,
+      reset_key: PropTypes.string,
+      old_id: PropTypes.number,
+      created_at: PropTypes.string,
+      updated_at: PropTypes.string
+    }),
+    loading: PropTypes.bool
+  }),
+  programs: PropTypes.shape({
+    activePrograms: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        user_id: PropTypes.number,
+        name: PropTypes.string,
+        identifier: PropTypes.string,
+        display: PropTypes.number,
+        site: PropTypes.number,
+        created_at: PropTypes.string,
+        updated_at: PropTypes.string
+      })
+    )
+  }),
+  login: PropTypes.shape({
+    token: PropTypes.string,
+    username: PropTypes.string,
+    id: PropTypes.number,
+    email: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    level: PropTypes.number,
+    status: PropTypes.number,
+    loading: PropTypes.bool
+  }),
+  setNotification: PropTypes.func,
+  updateReport: PropTypes.func,
+  copyReport: PropTypes.func
+};
+
 const mapStateToProps = state => {
-  console.log('report details state to props', state);
   return {
     report: state.report,
     reportsList: state.reportsList,

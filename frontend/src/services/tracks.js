@@ -1,6 +1,6 @@
 import axios from 'axios';
-const baseUrl = '/api/tracks';
 
+const baseUrl = '/api/tracks';
 let token = null;
 
 const setToken = newToken => {
@@ -8,23 +8,34 @@ const setToken = newToken => {
 };
 
 const checkDjonlineTracks = async searchParams => {
-  // TODO - Handle sortable_rank
+  const config = {
+    headers: { Authorization: token }
+  };
   const tracks = await axios.get(
     `${process.env.REACT_APP_PLAYLOG_URL}?id=${searchParams.studioId}&date=${searchParams.date}`
   );
+
   let arr = [];
-  for (const prop in tracks.data) {
-    arr.push(tracks.data[prop]);
-  }
+  const entries = Object.entries(tracks.data);
+  // eslint-disable-next-line no-unused-vars
+  entries.forEach(([key, value]) => {
+    arr.push(value);
+  });
   arr = arr.reverse();
-  let newArr = [];
-  arr.forEach((track, index) => {
+
+  // old with for of
+  // let arr = [];
+  // for (const prop in tracks.data) {
+  //   arr.push(tracks.data[prop]);
+  // }
+  // console.log('arr', arr);
+  // arr = arr.reverse();
+  const newArr = [];
+  arr.forEach(track => {
     let hours = track.date.charAt(11) + track.date.charAt(12);
     hours = parseInt(hours);
-    let a = track.length.split(':');
-    console.log('trackservice time after splitting :', a);
-    let seconds = parseInt(a[0]) * 60 + parseInt(a[1]);
-    console.log('trackservice length as seconds', seconds);
+    const a = track.length.split(':');
+    const seconds = parseInt(a[0]) * 60 + parseInt(a[1]);
     // make loop skip the songs not matching the start time - end time -window
     if (
       hours < parseInt(searchParams.startTime) ||
@@ -51,9 +62,6 @@ const checkDjonlineTracks = async searchParams => {
       report_id: searchParams.report_id
     });
   });
-  const config = {
-    headers: { Authorization: token }
-  };
   console.log('array of tracks going to backend', newArr);
   const newerArr = [];
   newArr.forEach((track, index) => {
@@ -62,7 +70,7 @@ const checkDjonlineTracks = async searchParams => {
       sortable_rank: searchParams.sortable_rank_start + index + 1
     });
   });
-  let returnArr = [];
+  const returnArr = [];
   console.log('new arr to backend with sortable ranks', newerArr);
   newerArr.forEach(async track => {
     const request = await axios.post(`${baseUrl}/djonline`, track, config);
@@ -82,7 +90,6 @@ const addNewTrack = async trackToAdd => {
     trackToAdd,
     config
   );
-  console.log(response.data);
   return response.data;
 };
 
@@ -92,7 +99,6 @@ const addTrackToDb = async trackToAdd => {
     headers: { Authorization: token }
   };
   const response = await axios.post(`${baseUrl}/addtodb`, trackToAdd, config);
-  console.log(response.data);
   return response.data;
 };
 
@@ -100,9 +106,7 @@ const updateTrack = async trackToUpdate => {
   const config = {
     headers: { Authorization: token }
   };
-  console.log('trackservices updated track', trackToUpdate);
   const response = await axios.put(baseUrl, trackToUpdate, config);
-  console.log(response.data);
   return response.data;
 };
 
@@ -111,7 +115,7 @@ const updateAlbumId = async albumToUpdate => {
     headers: { Authorization: token }
   };
   const response = await axios.put(
-    `/api/tracks/updatealbum`,
+    '/api/tracks/updatealbum',
     albumToUpdate,
     config
   );
@@ -123,7 +127,7 @@ const updateArtistId = async artistToUpdate => {
     headers: { Authorization: token }
   };
   const response = await axios.put(
-    `/api/tracks/updateartist`,
+    '/api/tracks/updateartist',
     artistToUpdate,
     config
   );

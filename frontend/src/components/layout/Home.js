@@ -7,8 +7,6 @@ import Notification from './Notification';
 import { getAllInProgress } from '../../actions/reportsListActions';
 
 const Home = props => {
-  console.log('home props', props);
-
   // useEffect(() => {
   //   props.getAllInProgress(props.login.id);
   //   // eslint-disable-next-line
@@ -41,7 +39,6 @@ const Home = props => {
 };
 
 const mapStateToProps = state => {
-  console.log('report details state to props', state);
   return {
     report: state.report,
     reportsList: state.reportsList,

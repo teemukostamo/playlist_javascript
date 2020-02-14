@@ -30,10 +30,6 @@ const initialState = {
 };
 
 const reportReducer = (state = initialState, action) => {
-  console.log('reportreducer state now: ', state);
-  console.log('reportreducer action', action);
-  console.log(action.type);
-
   switch (action.type) {
     case GET_ONE_REPORT:
       return {

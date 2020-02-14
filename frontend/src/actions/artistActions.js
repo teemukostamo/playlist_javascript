@@ -35,9 +35,7 @@ export const updateArtist = artistToUpdate => async dispatch => {
   dispatch({
     type: SET_LOADING
   });
-  console.log('artist to update', artistToUpdate);
-  const updateArtist = await artistService.updateArtist(artistToUpdate);
-  console.log(updateArtist);
+  await artistService.updateArtist(artistToUpdate);
   const updatedArtist = await artistService.getOneArtist(artistToUpdate.id);
   dispatch({
     type: GET_ONE_ARTIST,
@@ -50,8 +48,7 @@ export const mergeArtistFunction = mergeParams => async dispatch => {
     dispatch({
       type: SET_LOADING
     });
-    const mergeAction = await searchService.merge(mergeParams);
-    console.log(mergeAction);
+    await searchService.merge(mergeParams);
     const artist = await artistService.getOneArtist(mergeParams.mergeTo);
     dispatch({
       type: GET_ONE_ARTIST,

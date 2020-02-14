@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Container } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import Top100SearchForm from './Top100SearchForm';
 import AddToCurrentReport from '../track/AddToCurrentReport';
 
-const Top100List = props => {
-  if (props.search.top100Query === null) {
+const Top100List = ({ search }) => {
+  if (search.top100Query === null) {
     return (
       <Container>
         <h1>Top 100</h1>
@@ -14,7 +15,7 @@ const Top100List = props => {
       </Container>
     );
   }
-  if (props.search.loading) {
+  if (search.loading) {
     return (
       <Container>
         <h1>Top 100</h1>
@@ -23,7 +24,7 @@ const Top100List = props => {
       </Container>
     );
   }
-  if (props.search.top100Query.list === 'artist_id')
+  if (search.top100Query.list === 'artist_id') {
     return (
       <Container>
         <h1>Top 100</h1>
@@ -40,7 +41,7 @@ const Top100List = props => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {props.search.top100.map(t => (
+            {search.top100.map(t => (
               <Table.Row key={t.track_id}>
                 <Table.Cell>
                   <Link to={`/artist/${t.artist_id}`}>{t.artist}</Link>
@@ -52,7 +53,8 @@ const Top100List = props => {
         </Table>
       </Container>
     );
-  if (props.search.top100Query.list === 'album_id')
+  }
+  if (search.top100Query.list === 'album_id') {
     return (
       <Container>
         <h1>Top 100</h1>
@@ -66,7 +68,7 @@ const Top100List = props => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {props.search.top100.map(t => (
+            {search.top100.map(t => (
               <Table.Row key={t.track_id}>
                 <Table.Cell>
                   <Link to={`/artist/${t.artist_id}`}>{t.artist}</Link>
@@ -81,7 +83,8 @@ const Top100List = props => {
         </Table>
       </Container>
     );
-  if (props.search.top100Query.list === 'track_id')
+  }
+  if (search.top100Query.list === 'track_id') {
     return (
       <Container>
         <h1>Top 100</h1>
@@ -97,7 +100,7 @@ const Top100List = props => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {props.search.top100.map(t => (
+            {search.top100.map(t => (
               <Table.Row key={t.track_id}>
                 <Table.Cell>
                   <Link to={`/artist/${t.artist_id}`}>{t.artist}</Link>
@@ -122,10 +125,31 @@ const Top100List = props => {
         </Table>
       </Container>
     );
+  }
+};
+
+Top100List.propTypes = {
+  search: PropTypes.shape({
+    top100Query: PropTypes.shape({
+      list: PropTypes.string,
+      start_date: PropTypes.string,
+      end_date: PropTypes.string
+    }),
+    top100: PropTypes.arrayOf(
+      PropTypes.shape({
+        count: PropTypes.number,
+        track_id: PropTypes.number,
+        track_title: PropTypes.string,
+        album: PropTypes.string,
+        artist: PropTypes.string,
+        album_id: PropTypes.number,
+        artist_id: PropTypes.number
+      })
+    )
+  })
 };
 
 const mapStateToProps = state => {
-  console.log('top100', state);
   return {
     search: state.search
   };

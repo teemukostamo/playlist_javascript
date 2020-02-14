@@ -681,16 +681,7 @@ let word = 'hheellloo';
 
 word.replace(/(.)\1+/g, '$1');
 
-console.log(word);
-// ["helo", "how", "are", "you"]
+const arr = [1, 2, 3];
 
-let obj = {
-  test1: 'yks',
-  test2: 'kaks'
-};
-
-console.log(obj);
-
-obj = obj.test3('test3');
-
-console.log(obj);
+const [foo] = arr;
+console.log(foo);

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Notification from '../layout/Notification';
 import { Form, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { newLogin } from '../../actions/loginActions';
 import { setNotification } from '../../reducers/notificationReducer';
+import Notification from '../layout/Notification';
 
+// eslint-disable-next-line no-shadow
 const LoginForm = ({ newLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,7 +18,6 @@ const LoginForm = ({ newLogin }) => {
       username,
       password
     };
-    console.log(user);
     newLogin(user);
   };
   return (
@@ -29,20 +29,20 @@ const LoginForm = ({ newLogin }) => {
         <Form.Field>
           <label>Käyttäjätunnus</label>
           <input
-            type="text"
-            placeholder="Käyttäjätunnus..."
+            type='text'
+            placeholder='Käyttäjätunnus...'
             onChange={e => setUsername(e.target.value.trim())}
           />
         </Form.Field>
         <Form.Field>
           <label>Salasana</label>
           <input
-            type="password"
-            placeholder="Salasana..."
+            type='password'
+            placeholder='Salasana...'
             onChange={e => setPassword(e.target.value.trim())}
           />
         </Form.Field>
-        <Button color="green" type="submit">
+        <Button color='green' type='submit'>
           Kirjaudu
         </Button>
       </Form>

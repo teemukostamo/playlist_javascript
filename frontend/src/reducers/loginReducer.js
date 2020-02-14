@@ -14,9 +14,6 @@ const initialState = {
 };
 
 const loginReducer = (state = initialState, action) => {
-  // console.log('loginreducer state', state);
-  // console.log('loginreducer action', action);
-
   switch (action.type) {
     case INIT_USER:
       return action.data;
@@ -28,7 +25,6 @@ const loginReducer = (state = initialState, action) => {
       return action.data;
 
     case LOGIN_ERROR:
-      console.error(action.payload);
       return {
         ...state,
         error: action.payload

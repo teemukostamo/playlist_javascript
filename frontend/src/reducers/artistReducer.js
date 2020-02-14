@@ -12,9 +12,6 @@ const initialState = {
 };
 
 const artistReducer = (state = initialState, action) => {
-  console.log('artistreducer state now: ', state);
-  console.log('artistreducer action', action);
-
   switch (action.type) {
     case GET_ONE_ARTIST:
       return {

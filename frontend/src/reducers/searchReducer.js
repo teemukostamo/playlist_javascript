@@ -29,10 +29,6 @@ const initialState = {
 };
 
 const searchReducer = (state = initialState, action) => {
-  console.log('searchReducer state now: ', state);
-  console.log('searchReducer action', action);
-  console.log('searchReducer action.type', action.type);
-
   switch (action.type) {
     case AUTOCOMPLETE_RESULTS:
       return {
@@ -102,7 +98,7 @@ const searchReducer = (state = initialState, action) => {
           result => result.track_id !== action.data.merge
         )
       };
-    case MERGE_ALBUMS:
+    case MERGE_ALBUMS: {
       const albumToMerge = action.data.merge;
       const mergeAlbumTo = action.data.mergeTo;
       const newAlbumName = action.data.newName;
@@ -126,7 +122,8 @@ const searchReducer = (state = initialState, action) => {
         ...state,
         advancedResults: newAlbumResults
       };
-    case MERGE_ARTISTS:
+    }
+    case MERGE_ARTISTS: {
       const artistToMerge = action.data.merge;
       const mergeArtistTo = action.data.mergeTo;
       const newArtistName = action.data.newName;
@@ -150,6 +147,7 @@ const searchReducer = (state = initialState, action) => {
         ...state,
         advancedResults: newArtistResults
       };
+    }
     default:
       return state;
   }

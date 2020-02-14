@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-const Togglable = props => {
+const Togglable = ({ size, style, color, buttonLabel, children }) => {
   const [visible, setVisible] = useState(false);
 
   const hideWhenVisible = { display: visible ? 'none' : '' };
@@ -16,20 +16,20 @@ const Togglable = props => {
     <div>
       <div style={hideWhenVisible}>
         <Button
-          size={props.size}
-          style={props.style}
-          color={props.color}
+          size={size}
+          style={style}
+          color={color}
           onClick={toggleVisibility}
         >
-          {props.buttonLabel}
+          {buttonLabel}
         </Button>
       </div>
       <div style={showWhenVisible}>
-        {props.children}
+        {children}
         <Button
-          size={props.size}
-          style={props.style}
-          color={props.color}
+          size={size}
+          style={style}
+          color={color}
           onClick={toggleVisibility}
         >
           Piilota
@@ -40,7 +40,15 @@ const Togglable = props => {
 };
 
 Togglable.propTypes = {
-  buttonLabel: PropTypes.string.isRequired
+  size: PropTypes.string,
+  color: PropTypes.string,
+  buttonLabel: PropTypes.string,
+  style: PropTypes.shape({
+    marginTop: PropTypes.string,
+    float: PropTypes.string
+  }),
+  // eslint-disable-next-line react/forbid-prop-types
+  children: PropTypes.object
 };
 
 export default Togglable;

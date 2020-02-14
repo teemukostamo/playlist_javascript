@@ -4,9 +4,8 @@ import {
   SET_CURRENT,
   CREATE_USER,
   UPDATE_USER,
-  DELETE_USER,
-  LOGOUT
-} from '../actions/types';
+  DELETE_USER
+} from './types';
 import userService from '../services/users';
 
 export const initializeUsers = () => async dispatch => {

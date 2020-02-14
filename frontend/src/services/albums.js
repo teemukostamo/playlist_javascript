@@ -1,6 +1,6 @@
 import axios from 'axios';
-const baseUrl = '/api/albums';
 
+const baseUrl = '/api/albums';
 let token = null;
 
 const setToken = newToken => {
@@ -27,14 +27,11 @@ const updateAlbum = async albumToUpdate => {
   const config = {
     headers: { Authorization: token }
   };
-  console.log('albumservice updated album', albumToUpdate);
-  console.log('album to update', albumToUpdate);
   const response = await axios.put(
     `${baseUrl}/albumdetails/${albumToUpdate.id}`,
     albumToUpdate,
     config
   );
-  console.log(response.data);
   return response.data;
 };
 

@@ -14,9 +14,6 @@ const initialState = {
 };
 
 const trackReducer = (state = initialState, action) => {
-  console.log('trackreducer state now: ', state);
-  console.log('trackreducer action', action);
-
   switch (action.type) {
     case GET_ONE_TRACK:
       return {

@@ -1,7 +1,8 @@
 import axios from 'axios';
-const baseUrl = '/api/reports';
+
 const download = require('downloadjs');
 
+const baseUrl = '/api/reports';
 let token = null;
 
 const setToken = newToken => {
@@ -13,11 +14,7 @@ const getAllByDate = async date => {
   const config = {
     headers: { Authorization: token }
   };
-  // notice baseurl is different here!
-  console.log('getting reports from', date);
-
   const request = await axios.get(`/api/reportslist/date/${date}`, config);
-  console.log('reportservice get one report-track data', request.data);
   return request.data;
 };
 
@@ -26,14 +23,10 @@ const getAllByDateByUser = async (date, user) => {
   const config = {
     headers: { Authorization: token }
   };
-  // notice baseurl is different here!
-  console.log('getting reports from', date, 'by user ', user);
-
   const request = await axios.get(
     `/api/reportslist/all?date=${date}&user=${user}`,
     config
   );
-  console.log('reportservice get one report-track data', request.data);
   return request.data;
 };
 
@@ -42,23 +35,16 @@ const getAllInProgress = async id => {
   const config = {
     headers: { Authorization: token }
   };
-  // notice baseurl is different here!
-  console.log('getting reports from id', id);
-
   const request = await axios.get(`/api/reportslist/user/${id}`, config);
-  console.log('reportservice get all in progress by user id', request.data);
   return request.data;
 };
-// get a list of reports by user_id, date
 
 // get one report with tracks
 const getOne = async id => {
   const config = {
     headers: { Authorization: token }
   };
-  console.log('report req id', id);
   const request = await axios.get(`${baseUrl}/${id}`, config);
-  console.log('reportservice get one report-track data', request.data);
   return request.data;
 };
 
@@ -67,7 +53,6 @@ const getAllTransfers = async () => {
     headers: { Authorization: token }
   };
   const request = await axios.get('/api/reporttransfer', config);
-  console.log('reportservice get all transfers data', request.data);
   return request.data;
 };
 
@@ -76,7 +61,6 @@ const addTrackToReport = async trackToAdd => {
     headers: { Authorization: token }
   };
   const request = await axios.post(`${baseUrl}`, trackToAdd, config);
-  console.log('reportservice add track to report', request.data);
   return request.data;
 };
 
@@ -117,9 +101,7 @@ const getReportDetails = async id => {
   const config = {
     headers: { Authorization: token }
   };
-  console.log('reportdetails req id ', id);
   const request = await axios.get(`/api/reportdetails/details/${id}`, config);
-  console.log('reportservice get report details res data', request.data);
   return request.data;
 };
 
@@ -128,9 +110,7 @@ const createReport = async newReport => {
   const config = {
     headers: { Authorization: token }
   };
-
   const response = await axios.post('/api/reportdetails', newReport, config);
-  console.log(response.data);
   return response.data;
 };
 

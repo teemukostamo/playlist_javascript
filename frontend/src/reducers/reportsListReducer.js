@@ -25,10 +25,6 @@ const initialState = {
 };
 
 const reportListReducer = (state = initialState, action) => {
-  console.log('report list reducer state now: ', state);
-  console.log('report list reducer action', action);
-  console.log(action.type);
-
   switch (action.type) {
     // date is YYYY-MM
     case GET_ALL_REPORTS_BY_DATE:
@@ -65,15 +61,11 @@ const reportListReducer = (state = initialState, action) => {
         loading: false
       };
     case FILTER_BY_USER_ID:
-      console.log('action id', action.data);
-      console.log('report list reducer state after FILTER by id action', state);
       return {
         ...state,
         filterUserValue: action.data
       };
     case FILTER_BY_STATUS:
-      console.log('action id', action.data);
-      console.log('report list reducer state after FILTER by id action', state);
       return {
         ...state,
         filterStatusValue: action.data
@@ -81,13 +73,6 @@ const reportListReducer = (state = initialState, action) => {
     case FILTER_BY_TEXT:
       return {
         ...state,
-        // reportsToShow:
-        //   action.data.length === 0
-        //     ? state.reportsList
-        //     : state.reportsList.filter(r =>
-        //         r.name.toLowerCase().includes(action.data.toLowerCase())
-        //       ),
-
         filterByText: action.data
       };
     case SET_LOADING:
@@ -96,7 +81,6 @@ const reportListReducer = (state = initialState, action) => {
         loading: true
       };
     case REPORT_ERROR:
-      console.error(action.payload);
       return {
         ...state,
         error: action.payload

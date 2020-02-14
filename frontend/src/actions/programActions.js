@@ -5,10 +5,9 @@ import {
   CREATE_NEW_PROGRAM,
   UPDATE_PROGRAM,
   SET_LOADING
-} from '../actions/types';
+} from './types';
 import programService from '../services/programs';
 
-// get program list fo
 export const getAllPrograms = () => async dispatch => {
   try {
     dispatch({
@@ -40,7 +39,6 @@ export const initializePrograms = () => async dispatch => {
   }
 };
 
-// get one program by id
 export const getOneProgram = id => async dispatch => {
   try {
     dispatch({
@@ -57,7 +55,6 @@ export const getOneProgram = id => async dispatch => {
   }
 };
 
-// create new program
 export const createNewProgram = programToAdd => async dispatch => {
   try {
     dispatch({
@@ -73,23 +70,16 @@ export const createNewProgram = programToAdd => async dispatch => {
   }
 };
 
-// update program
 export const updateProgram = updatedProgram => async dispatch => {
   try {
     dispatch({
       type: SET_LOADING
     });
-    const updated = await programService.updateProgram(updatedProgram);
-    console.log(updated);
+    await programService.updateProgram(updatedProgram);
     dispatch({
       type: UPDATE_PROGRAM,
       data: updatedProgram
     });
-    // const programs = await programService.getAll();
-    // dispatch({
-    //   type: GET_ALL_PROGRAMS,
-    //   data: programs
-    // });
   } catch (error) {
     console.log(error);
   }
@@ -100,8 +90,7 @@ export const mergePrograms = mergeParams => async dispatch => {
     dispatch({
       type: SET_LOADING
     });
-    const mergeAction = await programService.mergePrograms(mergeParams);
-    console.log(mergeAction);
+    await programService.mergePrograms(mergeParams);
     const programs = await programService.getAll();
     dispatch({
       type: GET_ALL_PROGRAMS,

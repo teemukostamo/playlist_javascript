@@ -1,6 +1,6 @@
 import axios from 'axios';
-const baseUrl = '/api/programs';
 
+const baseUrl = '/api/programs';
 let token = null;
 
 const setToken = newToken => {
@@ -30,9 +30,7 @@ const getOne = async id => {
   const config = {
     headers: { Authorization: token }
   };
-  console.log('program req id', id);
   const request = await axios.get(`${baseUrl}/getone/${id}`, config);
-  console.log('programservice get one program data', request.data);
   return request.data;
 };
 
@@ -56,7 +54,6 @@ const mergePrograms = async mergeParams => {
   const config = {
     headers: { Authorization: token }
   };
-  console.log(mergeParams);
   const request = await axios.put(`${baseUrl}/merge`, mergeParams, config);
   return request.data;
 };

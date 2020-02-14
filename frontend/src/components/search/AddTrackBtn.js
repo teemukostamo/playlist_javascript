@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
-  getCatIdFromDiscogs,
-  clearDiscogsCatId
-} from '../../actions/searchActions';
-import { setNotification } from '../../reducers/notificationReducer';
-import { addTrackToDb, addNewTrack } from '../../actions/trackActions';
-import {
   Modal,
   Header,
   Form,
@@ -15,6 +9,12 @@ import {
   TextArea,
   Dropdown
 } from 'semantic-ui-react';
+import {
+  getCatIdFromDiscogs,
+  clearDiscogsCatId
+} from '../../actions/searchActions';
+import { setNotification } from '../../reducers/notificationReducer';
+import { addTrackToDb, addNewTrack } from '../../actions/trackActions';
 
 const AddTrackBtn = props => {
   console.log('search form add track button', props);
@@ -43,7 +43,6 @@ const AddTrackBtn = props => {
   }, [props.search.discogsCatId]);
 
   const submitTrack = () => {
-    console.log('klikd submit track');
     // artist name validation
     if (artist === null) {
       props.setNotification('Artisti on pakollinen tieto', 'fail');
@@ -180,7 +179,7 @@ const AddTrackBtn = props => {
             !year
           }
           onClick={saveAndAddToReport}
-          color="green"
+          color='green'
         >
           Tallenna ja lisää raporttiin
         </Button>
@@ -475,21 +474,21 @@ const AddTrackBtn = props => {
       open={modalOpen}
       closeIcon
       trigger={
-        <Button color="blue" onClick={handleOpen}>
+        <Button color='blue' onClick={handleOpen}>
           Lisää uusi biisi
         </Button>
       }
       onClose={handleClose}
     >
-      <Header content="Lisää uusi biisi" />
+      <Header content='Lisää uusi biisi' />
       <Modal.Content>
         <Form onSubmit={submitTrack}>
           <Form.Field required>
             <label>Artisti </label>
             <Input
               value={artist}
-              type="text"
-              placeholder="Artisti..."
+              type='text'
+              placeholder='Artisti...'
               onChange={e => setArtist(e.target.value)}
             />
           </Form.Field>
@@ -497,8 +496,8 @@ const AddTrackBtn = props => {
             <label>Albumi</label>
             <Input
               value={album}
-              type="text"
-              placeholder="Albumi..."
+              type='text'
+              placeholder='Albumi...'
               onChange={e => setAlbum(e.target.value)}
             />
           </Form.Field>
@@ -506,19 +505,19 @@ const AddTrackBtn = props => {
             <label>Biisi</label>
             <Input
               value={track}
-              type="text"
-              placeholder="Biisi..."
+              type='text'
+              placeholder='Biisi...'
               onChange={e => setTrack(e.target.value)}
             />
           </Form.Field>
-          <Form.Group widths="equal">
+          <Form.Group widths='equal'>
             <Form.Field required>
               <label>Kesto - minuutit</label>
               <Input
                 maxLength={4}
                 value={min}
-                type="number"
-                placeholder="Minuuttia..."
+                type='number'
+                placeholder='Minuuttia...'
                 onChange={e => setMin(e.target.value)}
               />
             </Form.Field>
@@ -527,20 +526,20 @@ const AddTrackBtn = props => {
               <Input
                 value={sec}
                 maxLength={2}
-                type="number"
-                placeholder="Sekuntia..."
+                type='number'
+                placeholder='Sekuntia...'
                 onChange={e => setSec(e.target.value)}
               />
             </Form.Field>
           </Form.Group>
-          <Form.Group widths="equal">
+          <Form.Group widths='equal'>
             <Form.Field required>
               <label>Levy#</label>
               <Input
                 maxLength={2}
                 value={discNo}
-                type="number"
-                placeholder="CD1=1, CD2=2, A1=1, A2=2..."
+                type='number'
+                placeholder='CD1=1, CD2=2, A1=1, A2=2...'
                 onChange={e => setDiscNo(e.target.value)}
               />
             </Form.Field>
@@ -549,8 +548,8 @@ const AddTrackBtn = props => {
               <Input
                 value={trackNo}
                 maxLength={2}
-                type="number"
-                placeholder="Biisi #..."
+                type='number'
+                placeholder='Biisi #...'
                 onChange={e => setTrackNo(e.target.value)}
               />
             </Form.Field>
@@ -559,10 +558,10 @@ const AddTrackBtn = props => {
             <label>Tekijät - max 5kpl, yksi per rivi, SUKUNIMI ETUNIMI</label>
             <TextArea
               onChange={e => setPeople(e.target.value)}
-              placeholder="Tekijät - max 5kpl"
+              placeholder='Tekijät - max 5kpl'
             />
           </Form.Field>
-          <Form.Group widths="equal">
+          <Form.Group widths='equal'>
             <Form.Field>
               <label>
                 Säveltäjän kotimaa
@@ -571,7 +570,7 @@ const AddTrackBtn = props => {
                 </span>
               </label>
               <Dropdown
-                placeholder="Suomi, muu, ei tietoa..."
+                placeholder='Suomi, muu, ei tietoa...'
                 openOnFocus={false}
                 value={country}
                 selection
@@ -582,7 +581,7 @@ const AddTrackBtn = props => {
             <Form.Field>
               <label>Tallennusmaa</label>
               <Dropdown
-                placeholder="Valitse tallennusmaa..."
+                placeholder='Valitse tallennusmaa...'
                 openOnFocus={false}
                 value={recordCountry}
                 selection
@@ -601,8 +600,8 @@ const AddTrackBtn = props => {
             </label>
             <Input
               value={label}
-              type="text"
-              placeholder="Levymerkki..."
+              type='text'
+              placeholder='Levymerkki...'
               onChange={e => setLabel(e.target.value)}
             />
           </Form.Field>
@@ -610,16 +609,16 @@ const AddTrackBtn = props => {
             <label style={{ display: 'inline' }}>Levykoodi</label>
             <Button
               onClick={e => getDiscogs(e.preventDefault())}
-              size="mini"
-              floated="right"
+              size='mini'
+              floated='right'
               style={{ marginBottom: '0.3rem' }}
             >
               Hae levykoodi Discogsista
             </Button>
             <Input
               value={catId}
-              type="text"
-              placeholder="Levykoodi..."
+              type='text'
+              placeholder='Levykoodi...'
               onChange={e => setCatId(e.target.value)}
             />
           </Form.Field>
@@ -628,8 +627,8 @@ const AddTrackBtn = props => {
             <Input
               value={isrc}
               maxLength={12}
-              type="text"
-              placeholder="ISRC..."
+              type='text'
+              placeholder='ISRC...'
               onChange={e => setIsrc(e.target.value)}
             />
           </Form.Field>
@@ -643,8 +642,8 @@ const AddTrackBtn = props => {
             <Input
               value={year}
               maxLength={4}
-              type="number"
-              placeholder="Vuosi..."
+              type='number'
+              placeholder='Vuosi...'
               onChange={e => setYear(e.target.value)}
             />
           </Form.Field>
@@ -652,7 +651,7 @@ const AddTrackBtn = props => {
             <label>Lisätietoa</label>
             <TextArea
               onChange={e => setComment(e.target.value)}
-              placeholder="Lisätietoa..."
+              placeholder='Lisätietoa...'
             />
           </Form.Field>
           <Button
@@ -668,8 +667,8 @@ const AddTrackBtn = props => {
               !catId ||
               !year
             }
-            color="blue"
-            type="submit"
+            color='blue'
+            type='submit'
           >
             Tallenna
           </Button>
