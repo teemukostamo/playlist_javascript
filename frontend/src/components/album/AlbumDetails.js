@@ -1,20 +1,18 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import AlbumDetailsForm from './AlbumDetailsForm';
 import { getOneAlbum } from '../../actions/albumActions';
 import TracksInAnAlbum from './TracksInAnAlbum';
-import PropTypes from 'prop-types';
 
-const AlbumDetails = props => {
-  console.log('album detail props', props);
-
+const AlbumDetails = ({ id, album, getOneAlbum }) => {
   useEffect(() => {
-    props.getOneAlbum(props.id);
+    getOneAlbum(id);
     // eslint-disable-next-line
-  }, [props.id]);
+  }, [id]);
 
-  if (props.album.currentAlbum === null) {
+  if (album.currentAlbum === null) {
     return (
       <Container>
         <Dimmer>
@@ -26,11 +24,8 @@ const AlbumDetails = props => {
 
   return (
     <Container>
-      <AlbumDetailsForm
-        album_id={props.id}
-        currentAlbum={props.album.currentAlbum}
-      />
-      <TracksInAnAlbum tracklist={props.album.tracklist} />
+      <AlbumDetailsForm album_id={id} currentAlbum={album.currentAlbum} />
+      <TracksInAnAlbum tracklist={album.tracklist} />
     </Container>
   );
 };
@@ -40,7 +35,34 @@ const mapStateToProps = state => ({
 });
 
 AlbumDetails.propTypes = {
-  id: PropTypes.number
+  id: PropTypes.string.isRequired,
+  album: PropTypes.shape({
+    currentAlbum: PropTypes.arrayOf(
+      PropTypes.shape({
+        album_name: PropTypes.string,
+        album_id: PropTypes.number,
+        label: PropTypes.string,
+        cat_id: PropTypes.string,
+        spotify_id: PropTypes.string,
+        year: PropTypes.string,
+        artist_name: PropTypes.string,
+        artist_id: PropTypes.number
+      })
+    ),
+    tracklist: PropTypes.arrayOf(
+      PropTypes.shape({
+        track_id: PropTypes.number,
+        isrc: PropTypes.string,
+        disc_no: PropTypes.number,
+        track_no: PropTypes.number,
+        track_title: PropTypes.string,
+        artist_name: PropTypes.string,
+        report_occurrence: PropTypes.number
+      })
+    ),
+    loading: PropTypes.bool
+  }),
+  getOneAlbum: PropTypes.func
 };
 
 const connectedAlbumDetails = connect(mapStateToProps, { getOneAlbum })(

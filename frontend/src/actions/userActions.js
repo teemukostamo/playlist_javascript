@@ -51,9 +51,8 @@ export const updateUser = userToUpdate => async dispatch => {
     dispatch({
       type: SET_LOADING
     });
-    const updated = await userService.updateUser(userToUpdate);
+    await userService.updateUser(userToUpdate);
     const users = await userService.getAll();
-    console.log(updated);
     dispatch({
       type: UPDATE_USER,
       data: users
@@ -72,8 +71,7 @@ export const deleteUser = id => async dispatch => {
       type: DELETE_USER,
       data: id
     });
-    const deleted = await userService.deleteUser(id);
-    console.log(deleted);
+    await userService.deleteUser(id);
   } catch (error) {
     console.log(error);
   }

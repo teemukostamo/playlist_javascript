@@ -39,6 +39,7 @@
     "function-paren-newline": "off",
     "implicit-arrow-linebreak": "off",
     "radix": ["error", "as-needed"],
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "camelcase": "off"
   }
 }

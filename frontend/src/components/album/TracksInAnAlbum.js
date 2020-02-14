@@ -41,7 +41,7 @@ TracksInAnAlbum.propTypes = {
       isrc: PropTypes.string,
       report_occurrence: PropTypes.number
     })
-  ).isRequired
+  )
 };
 
 export default TracksInAnAlbum;

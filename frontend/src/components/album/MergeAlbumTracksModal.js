@@ -20,57 +20,56 @@ const MergeAlbumTracksModal = props => {
         {props.track_id}
       </button>
     );
-  } else {
-    const onSubmit = () => {
-      const mergeParams = {
-        type: 'track',
-        merge: trackToMerge,
-        mergeTo: props.track_id
-      };
-      mergeTrackFunction(mergeParams);
-    };
-
-    const mergeOptions = props.album.tracklist.map(track => ({
-      key: track.track_id,
-      text: `${track.track_id} - ${track.track_title}`,
-      value: track.track_id
-    }));
-    const getTrackToMerge = (e, { value }) => {
-      e.preventDefault();
-      setTrackToMerge(value);
-    };
-    return (
-      <Modal
-        open={modalOpen}
-        closeIcon
-        onClose={handleClose}
-        trigger={
-          <button className='link-btn' onClick={handleOpen}>
-            {props.track_id}
-          </button>
-        }
-      >
-        <Header>
-          Yhdistä biisiin {props.track_id} - {props.track_title} tiedot
-        </Header>
-        <Modal.Content>
-          <Form onSubmit={onSubmit}>
-            <Form.Field>
-              <Dropdown
-                onChange={getTrackToMerge}
-                selection
-                search
-                options={mergeOptions}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Button type='submit'>Yhdistä</Button>
-            </Form.Field>
-          </Form>
-        </Modal.Content>
-      </Modal>
-    );
   }
+  const onSubmit = () => {
+    const mergeParams = {
+      type: 'track',
+      merge: trackToMerge,
+      mergeTo: props.track_id
+    };
+    mergeTrackFunction(mergeParams);
+  };
+
+  const mergeOptions = props.album.tracklist.map(track => ({
+    key: track.track_id,
+    text: `${track.track_id} - ${track.track_title}`,
+    value: track.track_id
+  }));
+  const getTrackToMerge = (e, { value }) => {
+    e.preventDefault();
+    setTrackToMerge(value);
+  };
+  return (
+    <Modal
+      open={modalOpen}
+      closeIcon
+      onClose={handleClose}
+      trigger={
+        <button className='link-btn' onClick={handleOpen}>
+          {props.track_id}
+        </button>
+      }
+    >
+      <Header>
+        Yhdistä biisiin {props.track_id} - {props.track_title} tiedot
+      </Header>
+      <Modal.Content>
+        <Form onSubmit={onSubmit}>
+          <Form.Field>
+            <Dropdown
+              onChange={getTrackToMerge}
+              selection
+              search
+              options={mergeOptions}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Button type='submit'>Yhdistä</Button>
+          </Form.Field>
+        </Form>
+      </Modal.Content>
+    </Modal>
+  );
 };
 
 const mapStateToProps = state => {

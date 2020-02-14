@@ -19,7 +19,6 @@ export const getAutocompleteResults = query => async dispatch => {
       type: SET_SEARCH_LOADING
     });
     const results = await searchService.getTracksForSearch(query);
-    console.log(results);
     dispatch({
       type: AUTOCOMPLETE_RESULTS,
       data: results
@@ -35,7 +34,6 @@ export const advancedSearch = searchParams => async dispatch => {
       type: SET_SEARCH_LOADING
     });
     const results = await searchService.advancedSearch(searchParams);
-    console.log(results);
     dispatch({
       type: ADVANCED_RESULTS,
       data: results
@@ -47,7 +45,6 @@ export const advancedSearch = searchParams => async dispatch => {
 
 export const sortAdvancedResults = sortBy => async dispatch => {
   try {
-    console.log('sort advanced search results by', sortBy);
     dispatch({
       type: SORT_ADVANCED_RESULTS,
       data: sortBy
