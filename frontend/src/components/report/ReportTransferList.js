@@ -1,27 +1,27 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
 import ReportTransferOptions from './ReportTransferOptions';
 import ReportTransferListItem from './ReportTransferListItem';
-import { Container, Table, Dimmer, Loader } from 'semantic-ui-react';
 import { getAllTransfers } from '../../actions/reportTransferActions';
 
-const ReportTransferList = props => {
-  console.log('report transfer list props', props);
+const ReportTransferList = ({ reportsList, login, getAllTransfers }) => {
   useEffect(() => {
-    props.getAllTransfers();
+    getAllTransfers();
     // eslint-disable-next-line
-  }, [props.reportsList.lastReport]);
+  }, [reportsList.lastReport]);
 
-  if (props.reportsList.reportTransferList === null) {
+  if (reportsList.reportTransferList === null) {
     return (
       <Container>
         <Dimmer active inverted>
-          <Loader size="medium">Ladataan...</Loader>
+          <Loader size='medium'>Ladataan...</Loader>
         </Dimmer>
       </Container>
     );
   }
-  if (props.login.level === 3) {
+  if (login.level === 3) {
     return (
       <Container>
         <h1>Siirtotiedostot</h1>
@@ -36,24 +36,52 @@ const ReportTransferList = props => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {props.reportsList.reportTransferList.map(item => (
+            {reportsList.reportTransferList.map(item => (
               <ReportTransferListItem key={item.id} item={item} />
             ))}
           </Table.Body>
         </Table>
       </Container>
     );
-  } else {
-    return null;
   }
+  return null;
+};
+
+ReportTransferList.propTypes = {
+  reportsList: PropTypes.shape({
+    reportTransferList: PropTypes.arrayOf(
+      PropTypes.shape({
+        created_at: PropTypes.string,
+        filename: PropTypes.string,
+        first_name: PropTypes.string,
+        id: PropTypes.number,
+        last_name: PropTypes.string,
+        period: PropTypes.string,
+        status: PropTypes.number,
+        updated_at: PropTypes.string,
+        user_id: PropTypes.number,
+        username: PropTypes.string
+      })
+    ),
+    lastTransfer: PropTypes.string
+  }),
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }),
+  getAllTransfers: PropTypes.func
 };
 
 const mapStateToProps = state => {
-  console.log('report list state to props', state);
   return {
-    report: state.report,
     reportsList: state.reportsList,
-    notification: state.notification,
     login: state.login
   };
 };

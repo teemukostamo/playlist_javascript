@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Dropdown, Grid } from 'semantic-ui-react';
 import AddTrackBtn from './AddTrackBtn';
 import { advancedSearch } from '../../actions/searchActions';
 
-const SearchForm = props => {
+const SearchForm = ({ advancedSearch }) => {
   const [searchString, setSearchString] = useState('');
   const [searchTarget, setSearchTarget] = useState('ar');
 
@@ -35,33 +36,30 @@ const SearchForm = props => {
       query: searchString,
       kind: searchTarget
     };
-    console.log(searchParams);
-    props.advancedSearch(searchParams);
+    advancedSearch(searchParams);
   };
   return (
     <Grid columns={2}>
       <Grid.Column>
         <Form>
-          <Form.Field>
-            <label>Hakusana</label>
-            <Input
-              placeholder="Hakusana..."
-              type="text"
-              value={searchString}
-              onChange={e => setSearchString(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Hae Biisin / Artistin / Albumin nimellä:</label>
-            <Dropdown
-              openOnFocus
-              selection
-              defaultValue={searchTarget}
-              options={searchTargetOptions}
-              onChange={getSearchTarget}
-            />{' '}
-          </Form.Field>
-          <Button color="blue" onClick={handleSearch}>
+          <Form.Field
+            control={Input}
+            placeholder='Hakusana...'
+            type='text'
+            value={searchString}
+            onChange={e => setSearchString(e.target.value)}
+            label='Hakusana'
+          />
+          <Form.Field
+            control={Dropdown}
+            openOnFocus
+            selection
+            defaultValue={searchTarget}
+            options={searchTargetOptions}
+            onChange={getSearchTarget}
+            label='Hae Biisin / Artistin / Albumin nimellä:'
+          />
+          <Button color='blue' onClick={handleSearch}>
             HAE
           </Button>
         </Form>
@@ -73,6 +71,10 @@ const SearchForm = props => {
       </Grid.Column>
     </Grid>
   );
+};
+
+SearchForm.propTypes = {
+  advancedSearch: PropTypes.func.isRequired
 };
 
 const connectedSearchForm = connect(null, { advancedSearch })(SearchForm);

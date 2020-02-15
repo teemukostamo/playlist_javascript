@@ -146,7 +146,7 @@ ReportList.propTypes = {
         user_id: PropTypes.number
       })
     ),
-    reportListDate: PropTypes.string.isRequired,
+    reportListDate: PropTypes.string,
     loading: PropTypes.bool,
     filterByText: PropTypes.string,
     filterUserValue: PropTypes.number,

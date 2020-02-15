@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Dropdown, Grid } from 'semantic-ui-react';
 import { sortAdvancedResults } from '../../actions/searchActions';
 
-const SortResults = props => {
-  console.log('sort props', props);
+const SortResults = ({ sortAdvancedResults }) => {
   const [sortBy, setSortBy] = useState(1);
 
   useEffect(() => {
-    console.log(sortBy);
-    props.sortAdvancedResults(sortBy);
+    sortAdvancedResults(sortBy);
     // eslint-disable-next-line
   }, [sortBy]);
 
@@ -27,36 +26,31 @@ const SortResults = props => {
   ];
   const getSortOptions = (e, { value }) => {
     e.preventDefault();
-    console.log(sortBy);
     setSortBy(value);
   };
   return (
     <Grid columns={4}>
       <Grid.Column>
         <Form>
-          <Form.Field>
-            <label>Järjestä tulokset</label>
-            <Dropdown
-              defaultValue={sortBy}
-              openOnFocus
-              selection
-              options={sortOptions}
-              onChange={getSortOptions}
-            />{' '}
-          </Form.Field>
+          <Form.Field
+            control={Dropdown}
+            defaultValue={sortBy}
+            openOnFocus
+            selection
+            options={sortOptions}
+            onChange={getSortOptions}
+            label='Järjestä tulokset'
+          />
         </Form>
       </Grid.Column>
     </Grid>
   );
 };
-const mapStateToProps = state => {
-  return {
-    search: state.search
-  };
+
+SortResults.propTypes = {
+  sortAdvancedResults: PropTypes.func
 };
 
-const connectedSortResult = connect(mapStateToProps, { sortAdvancedResults })(
-  SortResults
-);
+const connectedSortResult = connect(null, { sortAdvancedResults })(SortResults);
 
 export default connectedSortResult;

@@ -1,25 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Loader, Dimmer } from 'semantic-ui-react';
 import SearchResultItem from './SearchResultItem';
 import SortResults from './SortResults';
 
-const SearchResults = props => {
-  console.log('search result props', props);
-  if (props.search.advancedResults === null) {
+const SearchResults = ({ search }) => {
+  if (search.advancedResults === null) {
     return null;
   }
-  if (props.search.loading === true) {
+  if (search.loading === true) {
     return (
       <Dimmer active>
         <Loader>ladataan...</Loader>
       </Dimmer>
     );
   }
-  let resultsToShow = props.search.advancedResults;
+  let resultsToShow = search.advancedResults;
 
   resultsToShow =
-    props.search.sortAdvancedResults === 2
+    search.sortAdvancedResults === 2
       ? resultsToShow
       : resultsToShow.sort((a, b) =>
           a.track_title > b.track_title
@@ -30,7 +30,7 @@ const SearchResults = props => {
         );
 
   resultsToShow =
-    props.search.sortAdvancedResults === 1
+    search.sortAdvancedResults === 1
       ? resultsToShow
       : resultsToShow.sort((a, b) =>
           a.artist_name > b.artist_name
@@ -39,10 +39,6 @@ const SearchResults = props => {
             ? -1
             : 0
         );
-
-  // objs.sort((a, b) =>
-  //   a.last_nom > b.last_nom ? 1 : b.last_nom > a.last_nom ? -1 : 0
-  // );
 
   return (
     <div style={{ marginTop: '2rem' }}>
@@ -67,8 +63,27 @@ const SearchResults = props => {
   );
 };
 
+SearchResults.propTypes = {
+  search: PropTypes.shape({
+    advancedResults: PropTypes.arrayOf(
+      PropTypes.shape({
+        album_id: PropTypes.number,
+        album_name: PropTypes.string,
+        artist_id: PropTypes.number,
+        artist_name: PropTypes.string,
+        length: PropTypes.number,
+        program_date: PropTypes.string,
+        report_id: PropTypes.number,
+        track_id: PropTypes.number,
+        track_title: PropTypes.string
+      })
+    ),
+    loading: PropTypes.bool,
+    sortAdvancedResults: PropTypes.number
+  })
+};
+
 const mapStateToProps = state => {
-  console.log('search results state', state);
   return {
     search: state.search
   };

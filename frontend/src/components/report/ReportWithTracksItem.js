@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Icon, Checkbox } from 'semantic-ui-react';
 import EditTrackModal from '../track/EditTrackModal';
@@ -8,42 +9,39 @@ import {
   unCheckForDelete
 } from '../../actions/reportActions';
 
-const ReportWithTracksItem = props => {
-  console.log('track to modal', props.track);
+const ReportWithTracksItem = ({
+  report,
+  track,
+  deleteTrackFromReport,
+  checkForDelete,
+  unCheckForDelete
+}) => {
   const [checked, setChecked] = useState(false);
-  // console.log('report with tracks item props', props);
   const onDelete = () => {
-    const remainingTracks = props.report.report.filter(
-      t => t.report_track_id !== props.track.report_track_id
+    const remainingTracks = report.report.filter(
+      t => t.report_track_id !== track.report_track_id
     );
     const params = {
-      report_track_id: props.track.report_track_id,
-      report_id: props.report.reportDetails.id,
+      report_track_id: track.report_track_id,
+      report_id: report.reportDetails.id,
       remainingTracks
     };
-    console.log(params);
-    props.deleteTrackFromReport(params);
-    console.log('klikd delete');
-  };
-  const onEdit = () => {
-    console.log('klikd edit');
+    deleteTrackFromReport(params);
   };
 
   const checkedClick = () => {
     setChecked(!checked);
     if (checked === true) {
-      console.log('removing id from delete array', props.track.report_track_id);
-      props.unCheckForDelete(props.track.report_track_id);
+      unCheckForDelete(track.report_track_id);
     } else {
-      console.log('checked for delete id', props.track.report_track_id);
-      props.checkForDelete(props.track.report_track_id);
+      checkForDelete(track.report_track_id);
     }
   };
-  let minutes = Math.floor(props.track.length / 60);
+  let minutes = Math.floor(track.length / 60);
   minutes = minutes.toString();
-  let seconds = props.track.length - minutes * 60;
+  let seconds = track.length - minutes * 60;
   if (seconds.toString().length === 1) {
-    seconds = '0' + seconds.toString();
+    seconds = `0${seconds.toString()}`;
   }
   seconds = seconds.toString();
 
@@ -53,53 +51,111 @@ const ReportWithTracksItem = props => {
         <Checkbox onChange={checkedClick} checked={checked} />
         <Icon
           style={{ marginLeft: '1.5rem', cursor: 'pointer' }}
-          onClick={onEdit}
-          name="arrows alternate"
+          name='arrows alternate'
         />
       </Table.Cell>
-      <Table.Cell>{props.track.sortable_rank}</Table.Cell>
-      <Table.Cell>{props.track.artist_name}</Table.Cell>
-      <Table.Cell>{props.track.track_title}</Table.Cell>
+      <Table.Cell>{track.sortable_rank}</Table.Cell>
+      <Table.Cell>{track.artist_name}</Table.Cell>
+      <Table.Cell>{track.track_title}</Table.Cell>
       <Table.Cell>
         {minutes}:{seconds}
       </Table.Cell>
       <Table.Cell>
         <Icon
           style={{ cursor: 'pointer' }}
-          color="red"
+          color='red'
           onClick={onDelete}
-          name="delete"
+          name='delete'
         />
       </Table.Cell>
       <Table.Cell>
-        {/* <Icon
-          style={{ cursor: 'pointer' }}
-          color="blue"
-          onClick={onEdit}
-          name="edit"
-        /> */}
         <EditTrackModal
-          id={props.track.track_id}
-          sortable_rank={props.track.sortable_rank}
-          report_track_id={props.track.report_track_id}
-          track={props.track}
+          id={track.track_id}
+          sortable_rank={track.sortable_rank}
+          report_track_id={track.report_track_id}
+          track={track}
         />
       </Table.Cell>
     </Table.Row>
   );
 };
 
+ReportWithTracksItem.propTypes = {
+  deleteTrackFromReport: PropTypes.func,
+  checkForDelete: PropTypes.func,
+  unCheckForDelete: PropTypes.func,
+  track: PropTypes.shape({
+    album_id: PropTypes.number,
+    album_name: PropTypes.string,
+    artist_id: PropTypes.number,
+    artist_name: PropTypes.string,
+    cat_id: PropTypes.string,
+    country: PropTypes.number,
+    disc_no: PropTypes.number,
+    isrc: PropTypes.string,
+    label: PropTypes.string,
+    length: PropTypes.number,
+    people: PropTypes.string,
+    record_country: PropTypes.string,
+    report_track_id: PropTypes.number,
+    sortable_rank: PropTypes.number,
+    track_id: PropTypes.number,
+    track_no: PropTypes.number,
+    track_title: PropTypes.string,
+    year: PropTypes.string
+  }),
+  report: PropTypes.shape({
+    reportDetails: PropTypes.shape({
+      program_name: PropTypes.string,
+      program_no: PropTypes.number,
+      program_dj: PropTypes.string,
+      program_date: PropTypes.string,
+      program_start_time: PropTypes.string,
+      program_end_time: PropTypes.string,
+      id: PropTypes.number,
+      program_id: PropTypes.number,
+      rerun: PropTypes.number,
+      status: PropTypes.number,
+      user_id: PropTypes.number,
+      username: PropTypes.string,
+      first_name: PropTypes.string,
+      last_name: PropTypes.string
+    }),
+    report: PropTypes.arrayOf(
+      PropTypes.shape({
+        album_id: PropTypes.number,
+        album_name: PropTypes.string,
+        artist_id: PropTypes.number,
+        artist_name: PropTypes.string,
+        cat_id: PropTypes.string,
+        country: PropTypes.number,
+        disc_no: PropTypes.number,
+        isrc: PropTypes.string,
+        label: PropTypes.string,
+        length: PropTypes.number,
+        record_country: PropTypes.string,
+        report_id: PropTypes.number,
+        report_track_id: PropTypes.number,
+        sortable_rank: PropTypes.number,
+        spotify_id: PropTypes.string,
+        track_no: PropTypes.number,
+        track_title: PropTypes.string,
+        year: PropTypes.string
+      })
+    )
+  })
+};
+
 const mapStateToProps = state => {
   return {
-    report: state.report,
-    reportsList: state.reportsList,
-    notification: state.notification
+    report: state.report
   };
 };
 
-const connectedReportWithTracksItem = connect(
-  mapStateToProps,
-  { deleteTrackFromReport, checkForDelete, unCheckForDelete }
-)(ReportWithTracksItem);
+const connectedReportWithTracksItem = connect(mapStateToProps, {
+  deleteTrackFromReport,
+  checkForDelete,
+  unCheckForDelete
+})(ReportWithTracksItem);
 
 export default connectedReportWithTracksItem;

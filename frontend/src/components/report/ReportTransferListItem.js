@@ -1,32 +1,46 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
-import { downloadReport } from '../../services/reports';
 import moment from 'moment';
+import { downloadReport } from '../../services/reports';
 
-const ReportTransferListItem = props => {
+const ReportTransferListItem = ({ item }) => {
   const downloadTransfer = filename => {
     downloadReport(filename);
   };
   return (
     <Table.Row>
-      <Table.Cell>{props.item.created_at}</Table.Cell>
+      <Table.Cell>{item.created_at}</Table.Cell>
       <Table.Cell>
-        {props.item.first_name} {props.item.last_name}
+        {item.first_name} {item.last_name}
       </Table.Cell>
-      <Table.Cell>{moment(props.item.period).format('MM/YYYY')}</Table.Cell>
+      <Table.Cell>{moment(item.period).format('MM/YYYY')}</Table.Cell>
       <Table.Cell>
-        <Link to="#" onClick={() => downloadTransfer(props.item.filename)}>
-          {props.item.filename}
-        </Link>
+        <button
+          type='button'
+          className='link-btn'
+          onClick={() => downloadTransfer(item.filename)}
+        >
+          {item.filename}
+        </button>
       </Table.Cell>
     </Table.Row>
   );
 };
 
-const connectedReportTransferListItem = connect(null, { downloadReport })(
-  ReportTransferListItem
-);
+ReportTransferListItem.propTypes = {
+  item: PropTypes.shape({
+    created_at: PropTypes.string,
+    filename: PropTypes.string,
+    first_name: PropTypes.string,
+    id: PropTypes.number,
+    last_name: PropTypes.string,
+    period: PropTypes.string,
+    status: PropTypes.number,
+    updated_at: PropTypes.string,
+    user_id: PropTypes.number,
+    username: PropTypes.string
+  })
+};
 
-export default connectedReportTransferListItem;
+export default ReportTransferListItem;

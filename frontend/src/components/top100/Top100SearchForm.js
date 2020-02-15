@@ -11,18 +11,7 @@ const Top100SearchForm = props => {
   const [startDate, setStartDate] = useState(Date.now() - 7 * 24 * 3600 * 1000);
   const [endDate, setEndDate] = useState(new Date());
   const [list, setList] = useState('artist_id');
-  // useEffect(() => {
-  //   const query = {
-  //     list,
-  //     start_date: moment()
-  //       .subtract(7, 'd')
-  //       .format('YYYY-MM-DD'),
-  //     end_date: moment(endDate).format('YYYY-MM-DD')
-  //   };
-  //   console.log(query);
-  //   props.getTop100(query);
-  //   // eslint-disable-next-line
-  // }, []);
+
   const handleSearch = () => {
     const query = {
       list,
