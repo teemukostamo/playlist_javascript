@@ -1,28 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Dropdown, Form, Input } from 'semantic-ui-react';
 import {
   filterByUserId,
   filterByStatus,
   filterByText
 } from '../../actions/reportsListActions';
-import { Dropdown, Form, Input } from 'semantic-ui-react';
 
-const FilterReportList = props => {
+const FilterReportList = ({
+  users,
+  login,
+  filterByUserId,
+  filterByStatus,
+  filterByText
+}) => {
   const [userId, setUserId] = useState(null);
   const [status, setStatus] = useState(null);
   const [filterText, setFilterText] = useState('');
 
   useEffect(() => {
-    props.filterByUserId(userId);
-    props.filterByStatus(status);
-    props.filterByText(filterText);
-    console.log('user id', userId);
-    console.log('filterText', filterText);
-    console.log('status', status);
+    filterByUserId(userId);
+    filterByStatus(status);
+    filterByText(filterText);
     // eslint-disable-next-line
   }, [userId, status, filterText]);
 
-  const userOptions = props.users.users.map(user => ({
+  if (users.users === null) {
+    return (
+      <div>
+        <span>Ladataan...</span>
+      </div>
+    );
+  }
+
+  const userOptions = users.users.map(user => ({
     key: user.id,
     text: `${user.first_name} ${user.last_name}`,
     value: user.id
@@ -36,7 +48,7 @@ const FilterReportList = props => {
     },
     ...userOptions
   ];
-  // status options
+
   const statusOptions = [
     {
       key: '2',
@@ -58,54 +70,50 @@ const FilterReportList = props => {
   const getUser = (e, { value }) => {
     e.preventDefault();
     setUserId(value);
-    // console.log('user id', userId);
-    // props.filterByUserId(userId);
   };
   const getStatus = (event, { value }) => {
     event.preventDefault();
     setStatus(value);
-    console.log('tila', status);
-    props.filterByStatus(status);
+    filterByStatus(status);
   };
   const getFilteredByText = (event, { value }) => {
     event.preventDefault();
     setFilterText(value);
-    props.filterByText(filterText);
+    filterByText(filterText);
   };
 
   const filterByUser = () => {
-    if (props.login.level === 1) {
+    if (login.level === 1) {
       return null;
-    } else {
-      return (
-        <Form.Field>
-          <Dropdown
-            placeholder="Käyttäjä"
-            openOnFocus
-            selection
-            search
-            options={addAllToUserOptions}
-            onChange={getUser}
-          />
-        </Form.Field>
-      );
     }
+    return (
+      <Form.Field>
+        <Dropdown
+          placeholder='Käyttäjä'
+          openOnFocus
+          selection
+          search
+          options={addAllToUserOptions}
+          onChange={getUser}
+        />
+      </Form.Field>
+    );
   };
 
   return (
     <Form>
-      <Form.Group widths="equal">
+      <Form.Group widths='equal'>
         <Form.Field>
           <Input
-            type="text"
-            placeholder="Tekstisuodatus"
+            type='text'
+            placeholder='Tekstisuodatus'
             onChange={getFilteredByText}
           />
         </Form.Field>
         {filterByUser()}
         <Form.Field>
           <Dropdown
-            placeholder="Tila"
+            placeholder='Tila'
             openOnFocus
             selection
             options={statusOptions}
@@ -118,12 +126,36 @@ const FilterReportList = props => {
   );
 };
 
+FilterReportList.propTypes = {
+  filterByStatus: PropTypes.func,
+  filterByText: PropTypes.func,
+  filterByUserId: PropTypes.func,
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }),
+  users: PropTypes.shape({
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        first_name: PropTypes.string,
+        last_name: PropTypes.string
+      })
+    )
+  })
+};
+
 const mapStateToProps = state => {
-  console.log('reportfilterform state to props', state);
   return {
     report: state.report,
     reportsList: state.reportsList,
-    notification: state.notification,
     users: state.users,
     login: state.login
   };

@@ -1,27 +1,27 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Container, Dimmer, Loader, Table } from 'semantic-ui-react';
 import ProgramListItem from './ProgramListItem';
 import AddProgramModal from './AddProgramModal';
 import Notification from '../layout/Notification';
 import { getAllPrograms } from '../../actions/programActions';
-import { Container, Dimmer, Loader } from 'semantic-ui-react';
-import { Table } from 'semantic-ui-react';
 
-const ProgramList = props => {
+const ProgramList = ({ getAllPrograms, programs, login }) => {
   useEffect(() => {
-    props.getAllPrograms();
-    //eslint-disable-next-line
+    getAllPrograms();
+    // eslint-disable-next-line
   }, []);
-  if (props.programs.allPrograms === null || props.programs.loading === true) {
+  if (programs.allPrograms === null || programs.loading === true) {
     return (
       <Container>
         <Dimmer active inverted>
-          <Loader size="medium">Haetaan ohjelmia...</Loader>
+          <Loader size='medium'>Haetaan ohjelmia...</Loader>
         </Dimmer>
       </Container>
     );
   }
-  if (props.login.level === 3 || props.login.level === 2) {
+  if (login.level === 3 || login.level === 2) {
     return (
       <Container>
         <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
@@ -40,16 +40,57 @@ const ProgramList = props => {
           </Table.Header>
 
           <Table.Body>
-            {props.programs.allPrograms.map(program => (
+            {programs.allPrograms.map(program => (
               <ProgramListItem program={program} key={program.id} />
             ))}
           </Table.Body>
         </Table>
       </Container>
     );
-  } else {
-    return null;
   }
+  return null;
+};
+
+ProgramList.propTypes = {
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }),
+  programs: PropTypes.shape({
+    activePrograms: PropTypes.arrayOf(
+      PropTypes.shape({
+        created_at: PropTypes.string,
+        display: PropTypes.number,
+        id: PropTypes.number,
+        identifier: PropTypes.string,
+        name: PropTypes.string,
+        site: PropTypes.number,
+        updated_at: PropTypes.string,
+        user_id: PropTypes.number
+      })
+    ),
+    allPrograms: PropTypes.arrayOf(
+      PropTypes.shape({
+        created_at: PropTypes.string,
+        display: PropTypes.number,
+        id: PropTypes.number,
+        identifier: PropTypes.string,
+        name: PropTypes.string,
+        site: PropTypes.number,
+        updated_at: PropTypes.string,
+        user_id: PropTypes.number
+      })
+    ),
+    loading: PropTypes.bool
+  }),
+  getAllPrograms: PropTypes.func
 };
 
 const mapStateToProps = state => ({

@@ -74,28 +74,24 @@ const App = props => {
         <Route
           path='/reports/:id'
           render={({ match }) => {
-            console.log('*');
             return <ReportWithTracks id={match.params.id} />;
           }}
         />
         <Route
           path='/artist/:id'
           render={({ match }) => {
-            console.log('*');
             return <ArtistDetails id={match.params.id} />;
           }}
         />
         <Route
           path='/album/:id'
           render={({ match }) => {
-            console.log('*');
             return <AlbumDetails id={match.params.id} />;
           }}
         />
         <Route
           path='/track/:id'
           render={({ match }) => {
-            console.log('*');
             return <TrackDetails id={match.params.id} />;
           }}
         />

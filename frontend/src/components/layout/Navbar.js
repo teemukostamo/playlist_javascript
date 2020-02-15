@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Menu, Image, Dropdown, Icon } from 'semantic-ui-react';
@@ -8,17 +9,16 @@ import { logout } from '../../actions/loginActions';
 
 import logo from '../../img/logo.png';
 
-const Navbar = props => {
+const Navbar = ({ first_name, last_name, login, logout }) => {
   const getLoggedInUserInfo = () => {
     return <LoggedInUserInfo />;
   };
   const handleLogoutClick = () => {
-    props.logout();
+    logout();
   };
   const trigger = (
     <span>
-      <Icon color='pink' name='user' size='large' /> {props.first_name}{' '}
-      {props.last_name}
+      <Icon color='pink' name='user' size='large' /> {first_name} {last_name}
     </span>
   );
   const options = [
@@ -35,7 +35,7 @@ const Navbar = props => {
       onClick: handleLogoutClick
     }
   ];
-  if (props.login.level === 1) {
+  if (login.level === 1) {
     return (
       <div style={{ marginBottom: '1.5rem' }}>
         <Menu pointing stackable inverted>
@@ -75,7 +75,7 @@ const Navbar = props => {
     );
   }
 
-  if (props.login.level === 2) {
+  if (login.level === 2) {
     return (
       <div style={{ marginBottom: '1.5rem' }}>
         <Menu pointing stackable inverted>
@@ -120,8 +120,7 @@ const Navbar = props => {
       </div>
     );
   }
-
-  if (props.login.level === 3) {
+  if (login.level === 3) {
     return (
       <div style={{ marginBottom: '1.5rem' }}>
         <Menu pointing stackable inverted>
@@ -177,10 +176,29 @@ const Navbar = props => {
   }
 };
 
+Navbar.propTypes = {
+  first_name: PropTypes.string,
+  last_name: PropTypes.string,
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }),
+  logout: PropTypes.func
+};
+
 const mapStateToProps = state => {
   return {
     login: state.login
   };
 };
 
-export default connect(mapStateToProps, { logout })(Navbar);
+const connectedNavbar = connect(mapStateToProps, { logout })(Navbar);
+
+export default connectedNavbar;

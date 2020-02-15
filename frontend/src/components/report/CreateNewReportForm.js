@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { createReport } from '../../actions/reportActions';
-import { setNotification } from '../../reducers/notificationReducer';
-import Togglable from '../layout/Togglable';
 import {
   Form,
   Button,
@@ -17,27 +15,28 @@ import {
 import DatePicker from 'react-datepicker';
 import fi from 'date-fns/locale/fi';
 import moment from 'moment';
+import Togglable from '../layout/Togglable';
+import { setNotification } from '../../reducers/notificationReducer';
+import { createReport } from '../../actions/reportActions';
 
-const CreateNewReportForm = props => {
+const CreateNewReportForm = ({
+  login,
+  programs,
+  report,
+  setNotification,
+  createReport
+}) => {
   const [programId, setProgramId] = useState('');
   const [programNumber, setProgramNumber] = useState(null);
-  const [dj, setDj] = useState(
-    `${props.login.first_name} ${props.login.last_name}`
-  );
+  const [dj, setDj] = useState(`${login.first_name} ${login.last_name}`);
   const [newProgramName, setNewProgramName] = useState('');
   const [programDate, setProgramDate] = useState(new Date());
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
   const [redirect, setRedirect] = useState(false);
 
-  // if (props.programs.allPrograms === null) {
-  //   return <div>loafing</div>;
-  // }
-
-  console.log('create new report form props', props);
-
   // list of programoptions for select
-  let programOptions = props.programs.activePrograms.map(program => ({
+  const programOptions = programs.activePrograms.map(program => ({
     key: program.id,
     text: program.name,
     value: program.id
@@ -45,7 +44,6 @@ const CreateNewReportForm = props => {
   const getProgram = (event, { value }) => {
     event.preventDefault();
     setProgramId(value);
-    console.log(programId);
   };
 
   // list of program start time options
@@ -174,7 +172,6 @@ const CreateNewReportForm = props => {
   const getStartTime = (event, { value }) => {
     event.preventDefault();
     setProgramStartTime(value);
-    console.log(programStartTime);
   };
 
   // list of program end time options
@@ -303,12 +300,11 @@ const CreateNewReportForm = props => {
   const getEndTime = (event, { value }) => {
     event.preventDefault();
     setProgramEndTime(value);
-    console.log(programEndTime);
   };
 
-  const createReport = () => {
+  const handleCreateReportClick = () => {
     const newReport = {
-      user_id: props.login.id,
+      user_id: login.id,
       program_id: programId,
       new_program_name: newProgramName,
       program_date: moment(programDate).format('YYYY-MM-DD'),
@@ -319,19 +315,13 @@ const CreateNewReportForm = props => {
       status: 0,
       rerun: null
     };
-    console.log(parseInt(programEndTime));
     if (
       parseInt(newReport.program_end_time) <=
       parseInt(newReport.program_start_time)
     ) {
-      props.setNotification('Tarkista ohjelman alku- ja loppuaika!', 'fail');
+      setNotification('Tarkista ohjelman alku- ja loppuaika!', 'fail');
     } else {
-      props.createReport(newReport);
-      console.log(
-        'create report button click pros',
-        props.report.reportDetails
-      );
-      console.log('creating report:', newReport);
+      createReport(newReport);
       setRedirect(true);
     }
   };
@@ -343,10 +333,8 @@ const CreateNewReportForm = props => {
     padding: '2em'
   };
 
-  if (redirect && props.report.newReport !== null) {
-    console.log('create new report for after submit props', props);
-    console.log('redirecting to id', props.report.newReport.id);
-    return <Redirect to={`reports/${props.report.newReport.id}`} />;
+  if (redirect && report.newReport !== null) {
+    return <Redirect to={`reports/${report.newReport.id}`} />;
   }
 
   let disabled;
@@ -371,16 +359,16 @@ const CreateNewReportForm = props => {
                   trigger={
                     <Icon
                       style={{ display: 'inline' }}
-                      name="question circle"
+                      name='question circle'
                     />
                   }
-                  content="Valitse ohjelma listalta. Jos ohjelmaasi ei löydy listalta niin klikkaa Luo uusi ohjelma, kirjoita ohjelmasi nimi ja jatka"
+                  content='Valitse ohjelma listalta. Jos ohjelmaasi ei löydy listalta niin klikkaa Luo uusi ohjelma, kirjoita ohjelmasi nimi ja jatka'
                   style={style}
                   inverted
                 />
               </label>
               <Dropdown
-                placeholder="Valitse ohjelma"
+                placeholder='Valitse ohjelma'
                 openOnFocus
                 selection
                 search
@@ -389,84 +377,82 @@ const CreateNewReportForm = props => {
               />{' '}
               <Togglable
                 style={{ marginTop: '0.5rem', float: 'right' }}
-                size="tiny"
-                buttonLabel="Luo uusi ohjelma"
+                size='tiny'
+                buttonLabel='Luo uusi ohjelma'
               >
-                <Form.Field>
-                  <label>Uusi ohjelma</label>
-                  <Input
-                    type="text"
-                    value={newProgramName}
-                    onChange={e => setNewProgramName(e.target.value)}
-                  />{' '}
-                </Form.Field>
+                <Form.Field
+                  label='Uusi ohjelma'
+                  control={Input}
+                  type='text'
+                  value={newProgramName}
+                  onChange={e => setNewProgramName(e.target.value)}
+                />
               </Togglable>
             </Form.Field>
-            <Form.Field>
-              <label>
-                Ohjelmanumero{' '}
-                <Popup
-                  trigger={
-                    <Icon
-                      style={{ display: 'inline' }}
-                      name="question circle"
-                    />
-                  }
-                  content="Tsekkaa ohjelmasi numero viikon ohjelmakartasta."
-                  style={style}
-                  inverted
-                />
-              </label>
-              <Input
-                type="number"
-                value={programNumber}
-                onChange={e => setProgramNumber(e.target.value)}
-              />{' '}
-            </Form.Field>
-            <Form.Field>
-              <label>DJ</label>
-              <Input
-                type="text"
-                value={dj}
-                onChange={e => setDj(e.target.value)}
-              />{' '}
-            </Form.Field>
-
-            <Form.Group widths="equal">
-              <Form.Field>
-                <label>Ohjelman päivä</label>
-                <DatePicker
-                  locale={fi}
-                  selected={programDate}
-                  dateFormat="dd.MM.yyyy"
-                  onChange={date => setProgramDate(date)}
-                />
-              </Form.Field>
-              <Form.Field>
-                <label>Alkaa kello</label>
-                <Dropdown
-                  placeholder="hh:mm"
-                  openOnFocus
-                  selection
-                  search
-                  options={startTimeOptions}
-                  onChange={getStartTime}
-                />{' '}
-              </Form.Field>
-              <Form.Field>
-                <label>Päättyy kello</label>
-                <Dropdown
-                  placeholder="hh:mm"
-                  openOnFocus
-                  selection
-                  search
-                  options={endTimeOptions}
-                  onChange={getEndTime}
-                />{' '}
-              </Form.Field>
+            <Form.Field
+              control={Input}
+              type='number'
+              onChange={e => setProgramNumber(e.target.value)}
+              label={
+                <span>
+                  Ohjelmanumero{' '}
+                  <Popup
+                    trigger={
+                      <Icon
+                        style={{ display: 'inline' }}
+                        name='question circle'
+                      />
+                    }
+                    content='Tsekkaa ohjelmasi numero viikon ohjelmakartasta.'
+                    style={style}
+                    inverted
+                  />
+                </span>
+              }
+            />
+            <Form.Field
+              control={Input}
+              type='text'
+              value={dj}
+              onChange={e => setDj(e.target.value)}
+              label='DJ'
+            />
+            <Form.Group widths='equal'>
+              <Form.Field
+                control={DatePicker}
+                locale={fi}
+                selected={programDate}
+                dateFormat='dd.MM.yyyy'
+                onChange={date => setProgramDate(date)}
+                label='Ohjelman päivä'
+              />
+              <Form.Field
+                control={Dropdown}
+                placeholder='hh:mm'
+                openOnFocus
+                selection
+                search
+                options={startTimeOptions}
+                onChange={getStartTime}
+                label='Alkaa kello'
+              />
+              <Form.Field
+                control={Dropdown}
+                placeholder='hh:mm'
+                openOnFocus
+                selection
+                search
+                options={endTimeOptions}
+                onChange={getEndTime}
+                label='Päättyy kello'
+              />
             </Form.Group>
-            <Form.Group widths="equal">
-              <Button disabled={disabled} color="green" onClick={createReport}>
+            <Form.Group widths='equal'>
+              <Button
+                disabled={disabled}
+                color='green'
+                onClick={handleCreateReportClick}
+              >
                 Jatka
               </Button>
             </Form.Group>
@@ -477,14 +463,58 @@ const CreateNewReportForm = props => {
   );
 };
 
+CreateNewReportForm.propTypes = {
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }),
+  programs: PropTypes.shape({
+    activePrograms: PropTypes.arrayOf(
+      PropTypes.shape({
+        created_at: PropTypes.string,
+        display: PropTypes.number,
+        id: PropTypes.number,
+        identifier: PropTypes.string,
+        name: PropTypes.string,
+        site: PropTypes.number,
+        updated_at: PropTypes.string,
+        user_id: PropTypes.number
+      })
+    ),
+    allPrograms: PropTypes.arrayOf(
+      PropTypes.shape({
+        created_at: PropTypes.string,
+        display: PropTypes.number,
+        id: PropTypes.number,
+        identifier: PropTypes.string,
+        name: PropTypes.string,
+        site: PropTypes.number,
+        updated_at: PropTypes.string,
+        user_id: PropTypes.number
+      })
+    ),
+    loading: PropTypes.bool
+  }),
+  report: PropTypes.shape({
+    newReport: PropTypes.shape({
+      id: PropTypes.number
+    })
+  }),
+  setNotification: PropTypes.func,
+  createReport: PropTypes.func
+};
+
 const mapStateToProps = state => {
-  console.log('report details state to props', state);
   return {
     report: state.report,
-    reportsList: state.reportsList,
     programs: state.programs,
-    notification: state.notification,
-    users: state.users,
     login: state.login
   };
 };

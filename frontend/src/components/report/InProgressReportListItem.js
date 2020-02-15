@@ -1,46 +1,37 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import moment from 'moment';
+import { Table, Icon, Confirm } from 'semantic-ui-react';
 import { deleteInProgressReport } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
-import { Table, Icon, Confirm, Dimmer, Loader } from 'semantic-ui-react';
-import moment from 'moment';
 
 const InProgressReportListItem = ({
   report,
-  reportsList,
   login,
   deleteInProgressReport,
   setNotification
 }) => {
   const [open, setOpen] = useState(false);
-  if (reportsList.loading === true) {
-    return (
-      <Dimmer active inverted>
-        <Loader inverted content="Ladataan..." />
-      </Dimmer>
-    );
-  }
 
   const cancelDelete = () => {
     setOpen(false);
   };
+
   const confirmDelete = () => {
     setOpen(false);
     const params = {
       report_id: report.id,
       user_id: login.id
     };
-    console.log(`klikd delete on report`, params);
     deleteInProgressReport(params);
-    console.log('clikd delete on report', report.id);
     setNotification(
       `${report.name} ${report.program_date} poistettu!`,
       'success'
     );
   };
 
-  console.log(report, login, reportsList);
   return (
     <React.Fragment>
       <Table.Row>
@@ -53,14 +44,14 @@ const InProgressReportListItem = ({
         <Table.Cell>{report.program_no}</Table.Cell>
         <Table.Cell>
           {' '}
-          <Icon color="red" onClick={() => setOpen(true)} name="delete" />
+          <Icon color='red' onClick={() => setOpen(true)} name='delete' />
           <Confirm
             content={`Haluatko varmasti poistaa raportin ${report.name} ${report.program_date}`}
             open={open}
             onCancel={cancelDelete}
             onConfirm={confirmDelete}
-            cancelButton="En sittenkään"
-            confirmButton="Joo kyl"
+            cancelButton='En sittenkään'
+            confirmButton='Joo kyl'
           />
         </Table.Cell>
       </Table.Row>
@@ -68,9 +59,30 @@ const InProgressReportListItem = ({
   );
 };
 
+InProgressReportListItem.propTypes = {
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }),
+  report: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    program_date: PropTypes.string,
+    program_no: PropTypes.number
+  }),
+  deleteInProgressReport: PropTypes.func,
+  setNotification: PropTypes.func
+};
+
 const mapStateToProps = state => {
   return {
-    reportsList: state.reportsList,
     login: state.login
   };
 };

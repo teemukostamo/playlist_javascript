@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Header, Form, Button, Dropdown } from 'semantic-ui-react';
 import { mergeTrackFunction } from '../../actions/trackActions';
 
-const MergeAlbumTracksModal = props => {
-  console.log('merge album tracks modal props', props);
+const MergeAlbumTracksModal = ({ track_id, track_title, album }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [trackToMerge, setTrackToMerge] = useState(null);
   const handleOpen = () => {
@@ -16,8 +16,8 @@ const MergeAlbumTracksModal = props => {
 
   if (!modalOpen) {
     return (
-      <button className='link-btn' onClick={handleOpen}>
-        {props.track_id}
+      <button type='button' className='link-btn' onClick={handleOpen}>
+        {track_id}
       </button>
     );
   }
@@ -25,12 +25,12 @@ const MergeAlbumTracksModal = props => {
     const mergeParams = {
       type: 'track',
       merge: trackToMerge,
-      mergeTo: props.track_id
+      mergeTo: track_id
     };
     mergeTrackFunction(mergeParams);
   };
 
-  const mergeOptions = props.album.tracklist.map(track => ({
+  const mergeOptions = album.tracklist.map(track => ({
     key: track.track_id,
     text: `${track.track_id} - ${track.track_title}`,
     value: track.track_id
@@ -45,13 +45,13 @@ const MergeAlbumTracksModal = props => {
       closeIcon
       onClose={handleClose}
       trigger={
-        <button className='link-btn' onClick={handleOpen}>
-          {props.track_id}
+        <button type='button' className='link-btn' onClick={handleOpen}>
+          {track_id}
         </button>
       }
     >
       <Header>
-        Yhdistä biisiin {props.track_id} - {props.track_title} tiedot
+        Yhdistä biisiin {track_id} - {track_title} tiedot
       </Header>
       <Modal.Content>
         <Form onSubmit={onSubmit}>
@@ -72,8 +72,37 @@ const MergeAlbumTracksModal = props => {
   );
 };
 
+MergeAlbumTracksModal.propTypes = {
+  track_id: PropTypes.number.isRequired,
+  track_title: PropTypes.string.isRequired,
+  album: PropTypes.shape({
+    currentAlbum: PropTypes.arrayOf(
+      PropTypes.shape({
+        album_name: PropTypes.string,
+        album_id: PropTypes.number.isRequired,
+        label: PropTypes.string,
+        cat_id: PropTypes.string,
+        spotify_id: PropTypes.string,
+        year: PropTypes.string,
+        artist_name: PropTypes.string,
+        artist_id: PropTypes.number
+      })
+    ),
+    tracklist: PropTypes.arrayOf(
+      PropTypes.shape({
+        track_id: PropTypes.number,
+        isrc: PropTypes.string,
+        disc_no: PropTypes.number,
+        track_no: PropTypes.number,
+        track_title: PropTypes.string,
+        artist_name: PropTypes.string,
+        report_occurrence: PropTypes.number
+      })
+    )
+  })
+};
+
 const mapStateToProps = state => {
-  console.log('MergeAlbumTracksModal state', state);
   return {
     album: state.album
   };

@@ -1,20 +1,29 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Table, Grid, Container, Header } from 'semantic-ui-react';
 import InProgressReportListItem from './InProgressReportListItem';
 import { getAllInProgress } from '../../actions/reportsListActions';
-import { Table, Grid, Container, Header } from 'semantic-ui-react';
 
-const InProgressReportsList = props => {
-  console.log(props);
+const InProgressReportsList = ({ reportsList, login, getAllInProgress }) => {
   useEffect(() => {
-    props.getAllInProgress(props.login.id);
+    getAllInProgress(login.id);
     // eslint-disable-next-line
   }, []);
 
-  if (props.reportsList.inProgress === null) {
+  if (reportsList.loading === true) {
+    return (
+      // <Dimmer active inverted>
+      //   <Loader inverted content='Ladataan...' />
+      // </Dimmer>
+      <div>ladataan...</div>
+    );
+  }
+
+  if (reportsList.inProgress === null) {
     return null;
   }
-  if (props.reportsList.inProgress.length === 0) {
+  if (reportsList.inProgress.length === 0) {
     return (
       <Grid.Column>
         <Container>
@@ -39,7 +48,7 @@ const InProgressReportsList = props => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {props.reportsList.inProgress.map(r => (
+              {reportsList.inProgress.map(r => (
                 <InProgressReportListItem key={r.id} report={r} />
               ))}
             </Table.Body>
@@ -48,6 +57,30 @@ const InProgressReportsList = props => {
       </Grid.Column>
     </React.Fragment>
   );
+};
+
+InProgressReportsList.propTypes = {
+  reportsList: PropTypes.shape({
+    inProgress: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        program_date: PropTypes.string,
+        program_dj: PropTypes.string,
+        program_end_time: PropTypes.string,
+        program_no: PropTypes.number,
+        program_start_time: PropTypes.string,
+        rerun: PropTypes.number,
+        status: PropTypes.number,
+        user_id: PropTypes.number
+      })
+    ),
+    loading: PropTypes.bool
+  }),
+  login: PropTypes.shape({
+    id: PropTypes.number
+  }),
+  getAllInProgress: PropTypes.func
 };
 
 const mapStateToProps = state => {

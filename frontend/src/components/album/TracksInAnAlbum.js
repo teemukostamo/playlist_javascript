@@ -8,7 +8,7 @@ const TracksInAnAlbum = ({ tracklist }) => {
     return <span>loading</span>;
   }
   return (
-    <>
+    <React.Fragment>
       <h4>Biisit</h4>
       <Table striped>
         <Table.Header>
@@ -26,7 +26,7 @@ const TracksInAnAlbum = ({ tracklist }) => {
           ))}
         </Table.Body>
       </Table>
-    </>
+    </React.Fragment>
   );
 };
 

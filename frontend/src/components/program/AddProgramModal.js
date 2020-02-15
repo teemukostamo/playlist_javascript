@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createNewProgram } from '../../actions/programActions';
-import { setNotification } from '../../reducers/notificationReducer';
 import {
   Modal,
   Header,
@@ -11,8 +10,17 @@ import {
   Popup,
   Icon
 } from 'semantic-ui-react';
+import { createNewProgram } from '../../actions/programActions';
+import { setNotification } from '../../reducers/notificationReducer';
 
-const AddProgramModal = props => {
+const style = {
+  borderRadius: 0,
+  display: 'block',
+  opacity: 0.9,
+  padding: '2em'
+};
+
+const AddProgramModal = ({ login, createNewProgram, setNotification }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [name, setName] = useState('');
   const [identifier, setIdentifier] = useState('');
@@ -32,18 +40,17 @@ const AddProgramModal = props => {
       identifier,
       name,
       site,
-      user_id: props.login.id
+      user_id: login.id
     };
-    console.log('klikd add program', programToAdd);
-    props.createNewProgram(programToAdd);
-    props.setNotification(`${programToAdd.name} lisätty!`, 'success');
+    createNewProgram(programToAdd);
+    setNotification(`${programToAdd.name} lisätty!`, 'success');
     handleClose();
   };
 
   return (
     <Modal
       trigger={
-        <Button onClick={handleOpen} floated="right" color="green">
+        <Button onClick={handleOpen} floated='right' color='green'>
           Luo uusi ohjelma
         </Button>
       }
@@ -51,64 +58,71 @@ const AddProgramModal = props => {
       open={modalOpen}
       onClose={handleClose}
     >
-      <Header content="Lisää ohjelma" />
+      <Header content='Lisää ohjelma' />
       <Modal.Content>
         <Form onSubmit={addProgram}>
-          <Form.Field>
-            <label>Ohjelman nimi</label>
-            <Input
-              focus
-              type="text"
-              placeholder="Ohjelman nimi..."
-              onChange={e => setName(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Ohjelman tarkenne</label>
-            <Input
-              focus
-              type="text"
-              placeholder="Ohjelman tarkenne..."
-              onChange={e => setIdentifier(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>
-              Aktiivinen{' '}
-              <Popup
-                trigger={
-                  <Icon style={{ display: 'inline' }} name="question circle" />
-                }
-                content="Aktiiviset ohjelmat näkyy Luo uusi raportti -sivun ohjelmalistalla"
-                style={style}
-                inverted
-              />
-            </label>
-            <Form.Checkbox
-              name="active"
-              onChange={() => setDisplay(!display)}
-              checked={display ? true : false}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>
-              Näytä saitin hakulistassa{' '}
-              <Popup
-                trigger={
-                  <Icon style={{ display: 'inline' }} name="question circle" />
-                }
-                content="Liittyy vanhaan saittiin jossa pääsi selaamaan raportteja per ohjelma"
-                style={style}
-                inverted
-              />
-            </label>
-            <Form.Checkbox
-              name="site"
-              onChange={() => setSite(!site)}
-              checked={site ? true : false}
-            />
-          </Form.Field>
-          <Button color="green" type="submit" disabled={!name}>
+          <Form.Field
+            label='Ohjelman nimi'
+            control={Input}
+            focus
+            type='text'
+            placeholder='Ohjelman nimi...'
+            onChange={e => setName(e.target.value)}
+          />
+          <Form.Field
+            label='Ohjelman tarkenne'
+            control={Input}
+            focus
+            type='text'
+            placeholder='Ohjelman tarkenne...'
+            onChange={e => setIdentifier(e.target.value)}
+          />
+
+          <Form.Field
+            control={Form.Checkbox}
+            name='active'
+            onChange={() => setDisplay(!display)}
+            checked={!!display}
+            label={
+              <span>
+                Aktiivinen{' '}
+                <Popup
+                  trigger={
+                    <Icon
+                      style={{ display: 'inline' }}
+                      name='question circle'
+                    />
+                  }
+                  content='Aktiiviset ohjelmat näkyy Luo uusi raportti -sivun ohjelmalistalla'
+                  style={style}
+                  inverted
+                />
+              </span>
+            }
+          />
+          <Form.Field
+            control={Form.Checkbox}
+            name='site'
+            onChange={() => setSite(!site)}
+            checked={!!site}
+            label={
+              <span>
+                Näytä saitin hakulistassa{' '}
+                <Popup
+                  trigger={
+                    <Icon
+                      style={{ display: 'inline' }}
+                      name='question circle'
+                    />
+                  }
+                  content='Liittyy vanhaan saittiin jossa pääsi selaamaan raportteja per ohjelma'
+                  style={style}
+                  inverted
+                />
+              </span>
+            }
+          />
+          <Button color='green' type='submit' disabled={!name}>
             Tallenna
           </Button>
         </Form>
@@ -117,11 +131,20 @@ const AddProgramModal = props => {
   );
 };
 
-const style = {
-  borderRadius: 0,
-  display: 'block',
-  opacity: 0.9,
-  padding: '2em'
+AddProgramModal.propTypes = {
+  createNewProgram: PropTypes.func,
+  setNotification: PropTypes.func,
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  })
 };
 
 const mapStateToProps = state => {
@@ -129,9 +152,9 @@ const mapStateToProps = state => {
     login: state.login
   };
 };
-const connectedAddProgramModal = connect(
-  mapStateToProps,
-  { setNotification, createNewProgram }
-)(AddProgramModal);
+const connectedAddProgramModal = connect(mapStateToProps, {
+  setNotification,
+  createNewProgram
+})(AddProgramModal);
 
 export default connectedAddProgramModal;

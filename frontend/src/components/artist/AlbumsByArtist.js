@@ -8,7 +8,7 @@ const AlbumsByArtist = ({ albumList }) => {
     return <span>loading</span>;
   }
   return (
-    <>
+    <React.Fragment>
       <h4>Albumit</h4>
       <Table striped>
         <Table.Header>
@@ -27,7 +27,7 @@ const AlbumsByArtist = ({ albumList }) => {
           ))}
         </Table.Body>
       </Table>
-    </>
+    </React.Fragment>
   );
 };
 
@@ -43,7 +43,7 @@ AlbumsByArtist.propTypes = {
       track_count: PropTypes.number,
       report_occurrence: PropTypes.number
     })
-  ).isRequired
+  )
 };
 
 export default AlbumsByArtist;

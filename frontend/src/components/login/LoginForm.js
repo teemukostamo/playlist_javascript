@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { newLogin } from '../../actions/loginActions';
 import { setNotification } from '../../reducers/notificationReducer';
@@ -26,22 +26,20 @@ const LoginForm = ({ newLogin }) => {
       <h3>Kirjaudu sisään</h3>
       <Notification />
       <Form onSubmit={handleLogin}>
-        <Form.Field>
-          <label>Käyttäjätunnus</label>
-          <input
-            type='text'
-            placeholder='Käyttäjätunnus...'
-            onChange={e => setUsername(e.target.value.trim())}
-          />
-        </Form.Field>
-        <Form.Field>
-          <label>Salasana</label>
-          <input
-            type='password'
-            placeholder='Salasana...'
-            onChange={e => setPassword(e.target.value.trim())}
-          />
-        </Form.Field>
+        <Form.Field
+          label='Käyttäjätunnus'
+          control={Input}
+          type='text'
+          placeholder='Käyttäjätunnus...'
+          onChange={e => setUsername(e.target.value.trim())}
+        />
+        <Form.Field
+          label='Salasana'
+          control={Input}
+          type='password'
+          placeholder='Salasana...'
+          onChange={e => setPassword(e.target.value.trim())}
+        />
         <Button color='green' type='submit'>
           Kirjaudu
         </Button>

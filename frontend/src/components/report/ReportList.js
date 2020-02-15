@@ -1,15 +1,7 @@
+/* eslint-disable indent */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ReportFilterForm from './ReportFilterForm';
-import FilterReportList from './FilterReportList';
-import ReportListItem from './ReportListItem';
-import Notification from '../layout/Notification';
-import { getOneReport } from '../../actions/reportActions';
-import {
-  getAllReportsByDate,
-  getAllReportsByDateByUser
-} from '../../actions/reportsListActions';
-import { setNotification } from '../../reducers/notificationReducer';
 import {
   Container,
   Table,
@@ -18,45 +10,48 @@ import {
   Responsive
 } from 'semantic-ui-react';
 import moment from 'moment';
-moment.locale('fi');
-console.log(moment.locale());
+import ReportFilterForm from './ReportFilterForm';
+import FilterReportList from './FilterReportList';
+import ReportListItem from './ReportListItem';
+import Notification from '../layout/Notification';
+import {
+  getAllReportsByDate,
+  getAllReportsByDateByUser
+} from '../../actions/reportsListActions';
 
-const ReportList = props => {
+moment.locale('fi');
+
+const ReportList = ({
+  login,
+  reportsList,
+  getAllReportsByDate,
+  getAllReportsByDateByUser
+}) => {
   // initial reports list
   useEffect(() => {
-    if (props.login.level === 1) {
-      if (props.reportsList.reportListDate === null) {
-        props.getAllReportsByDateByUser(
-          moment().format('YYYY-MM'),
-          props.login.id
-        );
+    if (login.level === 1) {
+      if (reportsList.reportListDate === null) {
+        getAllReportsByDateByUser(moment().format('YYYY-MM'), login.id);
       } else {
-        props.getAllReportsByDateByUser(
-          props.reportsList.reportListDate,
-          props.login.id
-        );
+        getAllReportsByDateByUser(reportsList.reportListDate, login.id);
       }
+    } else if (reportsList.reportListDate === null) {
+      getAllReportsByDate(moment().format('YYYY-MM'));
     } else {
-      if (props.reportsList.reportListDate === null) {
-        props.getAllReportsByDate(moment().format('YYYY-MM'));
-      } else {
-        props.getAllReportsByDate(props.reportsList.reportListDate);
-      }
+      getAllReportsByDate(reportsList.reportListDate);
     }
-
     // eslint-disable-next-line
   }, []);
-  console.log('Reportlist props', props);
 
-  if (props.reportsList.reportsList === null || props.reportsList.loading) {
+  if (reportsList.reportsList === null || reportsList.loading) {
     return (
       <Dimmer active inverted>
-        <Loader inverted content="Ladataan..." />
+        <Loader inverted content='Ladataan...' />
       </Dimmer>
     );
   }
 
-  if (props.reportsList.reportsList.length === 0) {
+  if (reportsList.reportsList.length === 0) {
     return (
       <Container>
         <h2>Ei raportteja valittuna ajankohtana. Valitse vuosi ja kuukausi</h2>
@@ -66,35 +61,33 @@ const ReportList = props => {
   }
 
   let reportListTimeDate;
-  if (props.reportsList.reportListDate === null) {
+  if (reportsList.reportListDate === null) {
     reportListTimeDate = moment().format('MMMM YYYY');
   } else {
-    reportListTimeDate = moment(props.reportsList.reportListDate).format(
-      'MMMM YYYY'
-    );
+    reportListTimeDate = moment(reportsList.reportListDate).format('MMMM YYYY');
   }
 
-  let reportsToShow = props.reportsList.reportsList;
+  let reportsToShow = reportsList.reportsList;
 
   reportsToShow =
-    props.reportsList.filterByText === 0
+    reportsList.filterByText === 0
       ? reportsToShow
       : (reportsToShow = reportsToShow.filter(report =>
           report.name
             .toLowerCase()
-            .includes(props.reportsList.filterByText.toLowerCase())
+            .includes(reportsList.filterByText.toLowerCase())
         ));
   reportsToShow =
-    props.reportsList.filterUserValue === null
+    reportsList.filterUserValue === null
       ? reportsToShow
       : (reportsToShow = reportsToShow.filter(
-          report => report.user_id === props.reportsList.filterUserValue
+          report => report.user_id === reportsList.filterUserValue
         ));
   reportsToShow =
-    props.reportsList.filterStatusValue === null
+    reportsList.filterStatusValue === null
       ? reportsToShow
       : (reportsToShow = reportsToShow.filter(
-          report => report.status === props.reportsList.filterStatusValue
+          report => report.status === reportsList.filterStatusValue
         ));
 
   return (
@@ -126,21 +119,54 @@ const ReportList = props => {
   );
 };
 
+ReportList.propTypes = {
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }).isRequired,
+  reportsList: PropTypes.shape({
+    reportsList: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        program_date: PropTypes.string,
+        program_dj: PropTypes.string,
+        program_start_time: PropTypes.string,
+        program_end_time: PropTypes.string,
+        program_no: PropTypes.number,
+        rerun: PropTypes.number,
+        status: PropTypes.number,
+        user_id: PropTypes.number
+      })
+    ),
+    reportListDate: PropTypes.string.isRequired,
+    loading: PropTypes.bool,
+    filterByText: PropTypes.string,
+    filterUserValue: PropTypes.number,
+    filterStatusValue: PropTypes.number
+  }),
+  getAllReportsByDate: PropTypes.func,
+  getAllReportsByDateByUser: PropTypes.func
+};
+
 const mapStateToProps = state => {
-  console.log('report list state to props', state);
   return {
     report: state.report,
     reportsList: state.reportsList,
-    notification: state.notification,
     login: state.login
   };
 };
 
 const mapDispatchToProps = {
   getAllReportsByDate,
-  getAllReportsByDateByUser,
-  getOneReport,
-  setNotification
+  getAllReportsByDateByUser
 };
 
 const connectedReportList = connect(

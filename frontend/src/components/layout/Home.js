@@ -1,20 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Container, Grid, Dimmer, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import CreateNewReportForm from '../report/CreateNewReportForm';
 import InProgressReportsList from '../report/InProgressReportsList';
-import Notification from './Notification';
-import { getAllInProgress } from '../../actions/reportsListActions';
 
-const Home = props => {
-  // useEffect(() => {
-  //   props.getAllInProgress(props.login.id);
-  //   // eslint-disable-next-line
-  // }, []);
-  if (
-    props.programs.activePrograms === null
-    // props.reportsList.inProgress === null
-  ) {
+const Home = ({ programs }) => {
+  if (programs.activePrograms === null) {
     return (
       <Container>
         <h2>Radio Helsinki teostoraportointi</h2>
@@ -27,7 +19,6 @@ const Home = props => {
   return (
     <Container>
       <h2>Radio Helsinki teostoraportointi</h2>
-      <Notification />
       <Grid divided='vertically'>
         <Grid.Row columns={2}>
           <CreateNewReportForm />
@@ -38,17 +29,29 @@ const Home = props => {
   );
 };
 
+Home.propTypes = {
+  programs: PropTypes.shape({
+    activePrograms: PropTypes.arrayOf(
+      PropTypes.shape({
+        created_at: PropTypes.string,
+        display: PropTypes.number,
+        id: PropTypes.number,
+        identifier: PropTypes.string,
+        name: PropTypes.string,
+        site: PropTypes.number,
+        updated_at: PropTypes.string,
+        user_id: PropTypes.number
+      })
+    )
+  })
+};
+
 const mapStateToProps = state => {
   return {
-    report: state.report,
-    reportsList: state.reportsList,
-    programs: state.programs,
-    notification: state.notification,
-    users: state.users,
-    login: state.login
+    programs: state.programs
   };
 };
 
-const connectedHome = connect(mapStateToProps, { getAllInProgress })(Home);
+const connectedHome = connect(mapStateToProps, null)(Home);
 
 export default connectedHome;

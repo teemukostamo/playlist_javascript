@@ -29,7 +29,6 @@ const ReportDetails = ({
   copyReport,
   setNotification
 }) => {
-  console.log('report detuils props.report', report);
   const [programId, setProgramId] = useState('');
   const [programNumber, setProgramNumber] = useState('');
   const [dj, setDj] = useState('');

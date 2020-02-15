@@ -18,28 +18,30 @@
   },
   "plugins": ["react"],
   "rules": {
+    "arrow-body-style": "off",
+    "arrow-parens": "off",
+    "camelcase": "off",
     "class-methods-use-this": 0,
+    "comma-dangle": "off",
+    "consistent-return": "off",
+    "function-paren-newline": "off",
+    "implicit-arrow-linebreak": "off",
     "import/no-named-as-default": 0,
+    "jsx-quotes": "off",
+    "no-confusing-arrow": "off",
+    "node/no-unsupported-features/es-syntax": "off",
+    "object-curly-newline": "off",
+    "operator-linebreak": "off",
+    "radix": ["error", "as-needed"],
     "react/jsx-filename-extension": [
       "error",
       {
         "extensions": [".js", ".jsx"]
       }
     ],
-    "node/no-unsupported-features/es-syntax": "off",
-    "comma-dangle": "off",
-    "arrow-parens": "off",
-    "jsx-quotes": "off",
+    "react/jsx-fragments": "off",
     "react/jsx-one-expression-per-line": "off",
-    "react/require-default-props": "off",
-    "arrow-body-style": "off",
-    "object-curly-newline": "off",
-    "consistent-return": "off",
-    "no-confusing-arrow": "off",
-    "function-paren-newline": "off",
-    "implicit-arrow-linebreak": "off",
-    "radix": ["error", "as-needed"],
-    "operator-linebreak": "off",
-    "camelcase": "off"
+    "react/jsx-wrap-multilines": "off",
+    "react/require-default-props": "off"
   }
 }

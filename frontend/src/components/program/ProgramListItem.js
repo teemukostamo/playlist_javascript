@@ -1,45 +1,50 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Table, Container, Dimmer, Loader } from 'semantic-ui-react';
 import EditProgramModal from './EditProgramModal';
 import MergePrograms from './MergePrograms';
-import { setNotification } from '../../reducers/notificationReducer';
-import { Table, Container, Dimmer, Loader } from 'semantic-ui-react';
 
-const ProgramListItem = props => {
-  if (props.program === null) {
+const ProgramListItem = ({ program }) => {
+  if (program === null) {
     return (
       <Container>
         <Dimmer active inverted>
-          <Loader size="medium">Haetaan Ohjelmia...</Loader>
+          <Loader size='medium'>Haetaan Ohjelmia...</Loader>
         </Dimmer>
       </Container>
     );
   }
 
   let className;
-  if (props.program.display === 1) {
+  if (program.display === 1) {
     className = 'active-program';
   }
 
   return (
     <Table.Row className={className}>
       <Table.Cell>
-        <MergePrograms
-          program_id={props.program.id}
-          program_name={props.program.name}
-        />
+        <MergePrograms program_id={program.id} program_name={program.name} />
       </Table.Cell>
-      {/* <Table.Cell>{props.program.name}</Table.Cell> */}
+      {/* <Table.Cell>{program.name}</Table.Cell> */}
       <Table.Cell>
-        <EditProgramModal program={props.program} />
+        <EditProgramModal program={program} />
       </Table.Cell>
-      <Table.Cell>{props.program.identifier}</Table.Cell>
+      <Table.Cell>{program.identifier}</Table.Cell>
     </Table.Row>
   );
 };
 
-const connectedProgramListItem = connect(null, { setNotification })(
-  ProgramListItem
-);
+ProgramListItem.propTypes = {
+  program: PropTypes.shape({
+    created_at: PropTypes.string,
+    display: PropTypes.number,
+    id: PropTypes.number,
+    identifier: PropTypes.string,
+    name: PropTypes.string,
+    site: PropTypes.number,
+    updated_at: PropTypes.string,
+    user_id: PropTypes.number
+  })
+};
 
-export default connectedProgramListItem;
+export default ProgramListItem;
