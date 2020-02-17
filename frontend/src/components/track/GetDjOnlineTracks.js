@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
-import { getDjonlineTracks } from '../../actions/trackActions';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Dropdown, Grid, Header } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import fi from 'date-fns/locale/fi';
 import moment from 'moment';
 import { parseISO } from 'date-fns';
+import { getDjonlineTracks } from '../../actions/trackActions';
 
-const GetDjOnlineTracks = props => {
-  const [date, setDate] = useState(
-    parseISO(props.report.reportDetails.program_date)
-  );
+const GetDjOnlineTracks = ({ report, getDjonlineTracks }) => {
+  const [date, setDate] = useState(parseISO(report.reportDetails.program_date));
   const [studioId, setStudioId] = useState('928');
   const [startTime, setStartTime] = useState(
-    props.report.reportDetails.program_start_time.slice(0, 2)
+    report.reportDetails.program_start_time.slice(0, 2)
   );
   const [endTime, setEndTime] = useState(
-    props.report.reportDetails.program_end_time.slice(0, 2)
+    report.reportDetails.program_end_time.slice(0, 2)
   );
 
-  console.log(endTime);
   const getStudioId = (e, { value }) => {
     e.preventDefault();
     setStudioId(value);
@@ -300,67 +298,63 @@ const GetDjOnlineTracks = props => {
       date: moment(date).format('YYYY-MM-DD'),
       startTime,
       endTime,
-      report_id: props.report.reportDetails.id,
-      sortable_rank_start: props.report.report.length
+      report_id: report.reportDetails.id,
+      sortable_rank_start: report.report.length
     };
-    props.getDjonlineTracks(searchParams);
+    getDjonlineTracks(searchParams);
   };
 
   return (
     <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
-      <Grid divided="vertically">
+      <Grid divided='vertically'>
         <Grid.Row columns={2}>
           <Form>
             <Header>Hae biisit DJOnlinesta</Header>
-            <Form.Group widths="equal">
-              <Form.Field>
-                <label>Valitse päivä</label>
-                <DatePicker
-                  selected={date}
-                  dateFormat="dd.MM.yyyy"
-                  locale={fi}
-                  onChange={date => setDate(date)}
-                />
-              </Form.Field>
-              <Form.Field>
-                <label>Valitse studio</label>
-                <Dropdown
-                  placeholder="Studio 1"
-                  openOnFocus
-                  selection
-                  options={studioOptions}
-                  onChange={getStudioId}
-                  defaultValue={studioId}
-                />{' '}
-              </Form.Field>
+            <Form.Group widths='equal'>
+              <Form.Field
+                control={DatePicker}
+                selected={date}
+                dateFormat='dd.MM.yyyy'
+                locale={fi}
+                onChange={date => setDate(date)}
+                label='Valitse päivä'
+              />
+              <Form.Field
+                control={Dropdown}
+                placeholder='Studio 1'
+                openOnFocus
+                selection
+                options={studioOptions}
+                onChange={getStudioId}
+                defaultValue={studioId}
+                label='Valitse studio'
+              />
             </Form.Group>
-            <Form.Group widths="equal">
-              <Form.Field>
-                <label>Alkaen kello</label>
-                <Dropdown
-                  placeholder="Alkaen HH:MM"
-                  openOnFocus
-                  selection
-                  search
-                  options={startTimeOptions}
-                  onChange={getStartTime}
-                  defaultValue={startTime}
-                />{' '}
-              </Form.Field>
-              <Form.Field>
-                <label>Päättyen kello</label>
-                <Dropdown
-                  placeholder="Päättyen HH:MM"
-                  openOnFocus
-                  selection
-                  search
-                  options={endTimeOptions}
-                  onChange={getEndTime}
-                  defaultValue={endTime}
-                />{' '}
-              </Form.Field>
+            <Form.Group widths='equal'>
+              <Form.Field
+                control={Dropdown}
+                placeholder='Alkaen HH:MM'
+                openOnFocus
+                selection
+                search
+                options={startTimeOptions}
+                onChange={getStartTime}
+                defaultValue={startTime}
+                label='Alkaen kello'
+              />
+              <Form.Field
+                control={Dropdown}
+                placeholder='Päättyen HH:MM'
+                openOnFocus
+                selection
+                search
+                options={endTimeOptions}
+                onChange={getEndTime}
+                defaultValue={endTime}
+                label='Päättyen kello'
+              />
             </Form.Group>
-            <Button color="green" onClick={GetTracksFromApi}>
+            <Button color='green' onClick={GetTracksFromApi}>
               Hae
             </Button>
           </Form>
@@ -370,15 +364,53 @@ const GetDjOnlineTracks = props => {
   );
 };
 
+GetDjOnlineTracks.propTypes = {
+  report: PropTypes.shape({
+    reportDetails: PropTypes.shape({
+      program_name: PropTypes.string,
+      program_no: PropTypes.number,
+      program_dj: PropTypes.string,
+      program_date: PropTypes.string,
+      program_start_time: PropTypes.string,
+      program_end_time: PropTypes.string,
+      id: PropTypes.number,
+      program_id: PropTypes.number,
+      rerun: PropTypes.number,
+      status: PropTypes.number,
+      user_id: PropTypes.number,
+      username: PropTypes.string,
+      first_name: PropTypes.string,
+      last_name: PropTypes.string
+    }),
+    report: PropTypes.arrayOf(
+      PropTypes.shape({
+        album_id: PropTypes.number,
+        album_name: PropTypes.string,
+        artist_id: PropTypes.number,
+        artist_name: PropTypes.string,
+        cat_id: PropTypes.string,
+        country: PropTypes.number,
+        disc_no: PropTypes.number,
+        isrc: PropTypes.string,
+        label: PropTypes.string,
+        length: PropTypes.number,
+        record_country: PropTypes.string,
+        report_id: PropTypes.number,
+        report_track_id: PropTypes.number,
+        sortable_rank: PropTypes.number,
+        spotify_id: PropTypes.string,
+        track_no: PropTypes.number,
+        track_title: PropTypes.string,
+        year: PropTypes.string
+      })
+    )
+  }),
+  getDjonlineTracks: PropTypes.func
+};
+
 const mapStateToProps = state => {
-  console.log('getdjonlinetracks state to props', state);
   return {
-    report: state.report,
-    reportsList: state.reportsList,
-    programs: state.programs,
-    notification: state.notification,
-    users: state.users,
-    login: state.login
+    report: state.report
   };
 };
 

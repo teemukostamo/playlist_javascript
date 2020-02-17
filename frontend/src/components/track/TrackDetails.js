@@ -1,20 +1,19 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 import TrackDetailsForm from './TrackDetailsForm';
 import PlayHistory from './PlayHistory';
-import Notification from '../layout/Notification';
 import { getOneTrack, getOneTrackHistory } from '../../actions/trackActions';
 
-const TrackDetails = props => {
-  console.log('track detail props', props);
+const TrackDetails = ({ track, id, getOneTrack, getOneTrackHistory }) => {
   useEffect(() => {
-    props.getOneTrackHistory(props.id);
-    props.getOneTrack(props.id);
+    getOneTrackHistory(parseInt(id));
+    getOneTrack(parseInt(id));
     // eslint-disable-next-line
   }, []);
 
-  if (props.track.currentTrack === null || props.track.playhistory === null) {
+  if (track.currentTrack === null || track.playhistory === null) {
     return (
       <Container>
         <Dimmer>
@@ -26,11 +25,32 @@ const TrackDetails = props => {
 
   return (
     <Container>
-      <Notification />
-      <TrackDetailsForm currentTrack={props.track.currentTrack[0]} />
-      <PlayHistory playhistory={props.track.playhistory} />
+      <TrackDetailsForm currentTrack={track.currentTrack[0]} />
+      <PlayHistory playhistory={track.playhistory} />
     </Container>
   );
+};
+
+TrackDetails.propTypes = {
+  id: PropTypes.string,
+  track: PropTypes.shape({
+    currentTrack: PropTypes.arrayOf(
+      PropTypes.shape({
+        track_id: PropTypes.number
+      })
+    ),
+    playhistory: PropTypes.arrayOf(
+      PropTypes.shape({
+        program_name: PropTypes.string,
+        program_date: PropTypes.string,
+        program_id: PropTypes.number,
+        report_id: PropTypes.number,
+        track_id: PropTypes.number
+      })
+    )
+  }),
+  getOneTrack: PropTypes.func,
+  getOneTrackHistory: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -39,8 +59,8 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedTrackDetails = connect(
-  mapStateToProps,
-  { getOneTrack, getOneTrackHistory }
-)(TrackDetails);
+const connectedTrackDetails = connect(mapStateToProps, {
+  getOneTrack,
+  getOneTrackHistory
+})(TrackDetails);
 export default connectedTrackDetails;

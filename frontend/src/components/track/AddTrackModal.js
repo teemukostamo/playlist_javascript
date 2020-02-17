@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  getCatIdFromDiscogs,
-  clearDiscogsCatId
-} from '../../actions/searchActions';
-import { setNotification } from '../../reducers/notificationReducer';
-import { addNewTrack } from '../../actions/trackActions';
 import {
   Modal,
   Header,
@@ -17,9 +12,28 @@ import {
   Popup,
   Icon
 } from 'semantic-ui-react';
+import {
+  getCatIdFromDiscogs,
+  clearDiscogsCatId
+} from '../../actions/searchActions';
+import { setNotification } from '../../reducers/notificationReducer';
+import { addNewTrack } from '../../actions/trackActions';
 
-const AddTrackModal = props => {
-  console.log('add track modal props', props);
+const style = {
+  borderRadius: 0,
+  display: 'block',
+  opacity: 0.9,
+  padding: '2em'
+};
+
+const AddTrackModal = ({
+  search,
+  login,
+  report,
+  getCatIdFromDiscogs,
+  addNewTrack,
+  setNotification
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [artist, setArtist] = useState('');
   const [album, setAlbum] = useState('');
@@ -37,20 +51,26 @@ const AddTrackModal = props => {
   const [isrc, setIsrc] = useState('');
   const [comment, setComment] = useState('');
   useEffect(() => {
-    if (props.search.discogsCatId === null) {
+    if (search.discogsCatId === null) {
       setCatId('');
     } else {
-      setCatId(props.search.discogsCatId);
+      setCatId(search.discogsCatId);
     }
-  }, [props.search.discogsCatId]);
+  }, [search.discogsCatId]);
+
+  const handleOpen = () => {
+    setModalOpen(true);
+  };
+  const handleClose = () => {
+    setModalOpen(false);
+  };
 
   const submitTrack = () => {
-    console.log('klikd submit track');
     // artist name validation
     if (artist === null) {
-      props.setNotification('Artisti on pakollinen tieto', 'fail');
+      setNotification('Artisti on pakollinen tieto', 'fail');
     }
-    let length = parseInt(min) * 60 + parseInt(sec);
+    const length = parseInt(min) * 60 + parseInt(sec);
     if (people === null) {
       const trackToAdd = {
         artist_name: artist,
@@ -67,12 +87,11 @@ const AddTrackModal = props => {
         cat_id: catId,
         isrc,
         comment,
-        report_id: props.report.reportDetails.id,
-        user_id: props.login.id,
-        sortable_rank: props.report.report.length + 1
+        report_id: report.reportDetails.id,
+        user_id: login.id,
+        sortable_rank: report.report.length + 1
       };
-      console.log(trackToAdd);
-      props.addNewTrack(trackToAdd);
+      addNewTrack(trackToAdd);
       handleClose();
     } else {
       const trackToAdd = {
@@ -90,12 +109,11 @@ const AddTrackModal = props => {
         cat_id: catId,
         isrc,
         comment,
-        report_id: props.report.reportDetails.id,
-        user_id: props.login.id,
-        sortable_rank: props.report.report.length + 1
+        report_id: report.reportDetails.id,
+        user_id: login.id,
+        sortable_rank: report.report.length + 1
       };
-      console.log(trackToAdd);
-      props.addNewTrack(trackToAdd);
+      addNewTrack(trackToAdd);
       handleClose();
     }
   };
@@ -369,209 +387,211 @@ const AddTrackModal = props => {
     event.preventDefault();
     setRecordCountry(value);
   };
-  const handleOpen = () => {
-    setModalOpen(true);
-  };
-  const handleClose = () => {
-    setModalOpen(false);
-  };
   const getDiscogs = () => {
     const query = {
       artist,
       album
     };
-    props.getCatIdFromDiscogs(query);
+    getCatIdFromDiscogs(query);
   };
   return (
     <Modal
       open={modalOpen}
       closeIcon
       trigger={
-        <Button color="blue" onClick={handleOpen}>
+        <Button color='blue' onClick={handleOpen}>
           Lisää uusi biisi
         </Button>
       }
       onClose={handleClose}
     >
-      <Header content="Lisää uusi biisi" />
+      <Header content='Lisää uusi biisi' />
       <Modal.Content>
         <Form onSubmit={submitTrack}>
-          <Form.Field required>
-            <label>Artisti </label>
-            <Input
-              value={artist}
-              type="text"
-              placeholder="Artisti..."
-              onChange={e => setArtist(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Albumi</label>
-            <Input
-              value={album}
-              type="text"
-              placeholder="Albumi..."
-              onChange={e => setAlbum(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Biisi</label>
-            <Input
-              value={track}
-              type="text"
-              placeholder="Biisi..."
-              onChange={e => setTrack(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Group widths="equal">
-            <Form.Field required>
-              <label>Kesto - minuutit</label>
-              <Input
-                maxLength={4}
-                value={min}
-                type="number"
-                placeholder="Minuuttia..."
-                onChange={e => setMin(e.target.value)}
-              />
-            </Form.Field>
-            <Form.Field required>
-              <label>Kesto - sekunnit</label>
-              <Input
-                value={sec}
-                maxLength={2}
-                type="number"
-                placeholder="Sekuntia..."
-                onChange={e => setSec(e.target.value)}
-              />
-            </Form.Field>
-          </Form.Group>
-          <Form.Group widths="equal">
-            <Form.Field required>
-              <label>Levy#</label>
-              <Input
-                maxLength={2}
-                value={discNo}
-                type="number"
-                placeholder="CD1=1, CD2=2, A1=1, A2=2..."
-                onChange={e => setDiscNo(e.target.value)}
-              />
-            </Form.Field>
-            <Form.Field required>
-              <label>Biisi#</label>
-              <Input
-                value={trackNo}
-                maxLength={2}
-                type="number"
-                placeholder="Biisi #..."
-                onChange={e => setTrackNo(e.target.value)}
-              />
-            </Form.Field>
-          </Form.Group>
-          <Form.Field>
-            <label>Tekijät - max 5kpl, yksi per rivi, SUKUNIMI ETUNIMI</label>
-            <TextArea
-              onChange={e => setPeople(e.target.value)}
-              placeholder="Tekijät - max 5kpl"
-            />
-          </Form.Field>
-          <Form.Group widths="equal">
-            <Form.Field required>
-              <label>Säveltäjän kotimaa</label>
-              <Dropdown
-                placeholder="Suomi, muu, ei tietoa..."
-                openOnFocus={false}
-                value={country}
-                selection
-                options={countryOptions}
-                onChange={getCountry}
-              />
-            </Form.Field>
-            <Form.Field>
-              <label>Tallennusmaa</label>
-              <Dropdown
-                placeholder="Valitse tallennusmaa..."
-                openOnFocus={false}
-                value={recordCountry}
-                selection
-                search
-                options={recordCountryOptions}
-                onChange={getRecordCountry}
-              />
-            </Form.Field>
-          </Form.Group>
-          <Form.Field required>
-            <label>
-              Levymerkki
-              <Popup
-                trigger={
-                  <Icon style={{ display: 'inline' }} name="question circle" />
-                }
-                content="Jos et tiedä levymerkkiä, kirjoita Ei tiedossa"
-                style={style}
-                inverted
-              />
-            </label>
-            <Input
-              value={label}
-              type="text"
-              placeholder="Levymerkki..."
-              onChange={e => setLabel(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label style={{ display: 'inline' }}>
-              Levykoodi
-              <Popup
-                trigger={
-                  <Icon style={{ display: 'inline' }} name="question circle" />
-                }
-                content="Jos et tiedä levykoodia, kirjoita Ei tiedossa"
-                style={style}
-                inverted
-              />
-            </label>
-            <Button
-              onClick={e => getDiscogs(e.preventDefault())}
-              size="mini"
-              floated="right"
-              style={{ marginBottom: '0.3rem' }}
-            >
-              Hae levykoodi Discogsista
-            </Button>
-            <Input
-              value={catId}
-              type="text"
-              placeholder="Levykoodi..."
-              onChange={e => setCatId(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>ISRC</label>
-            <Input
-              value={isrc}
-              maxLength={12}
-              type="text"
-              placeholder="ISRC..."
-              onChange={e => setIsrc(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Vuosi</label>
-            <Input
-              value={year}
+          <Form.Field
+            required
+            control={Input}
+            value={artist}
+            type='text'
+            placeholder='Artisti...'
+            onChange={e => setArtist(e.target.value)}
+            label='Artisti'
+          />
+          <Form.Field
+            required
+            control={Input}
+            value={album}
+            type='text'
+            placeholder='Albumi...'
+            onChange={e => setAlbum(e.target.value)}
+            label='Albumi'
+          />
+          <Form.Field
+            required
+            control={Input}
+            value={track}
+            type='text'
+            placeholder='Biisi...'
+            onChange={e => setTrack(e.target.value)}
+            label='Biisi'
+          />
+          <Form.Group widths='equal'>
+            <Form.Field
+              required
+              control={Input}
               maxLength={4}
-              type="number"
-              placeholder="Vuosi..."
-              onChange={e => setYear(e.target.value)}
+              value={min}
+              type='number'
+              placeholder='Minuuttia...'
+              onChange={e => setMin(e.target.value)}
+              label='Kesto - minuutit'
             />
-          </Form.Field>
-          <Form.Field>
-            <label>Lisätietoa</label>
-            <TextArea
-              onChange={e => setComment(e.target.value)}
-              placeholder="Lisätietoa..."
+            <Form.Field
+              required
+              control={Input}
+              value={sec}
+              maxLength={2}
+              type='number'
+              placeholder='Sekuntia...'
+              onChange={e => setSec(e.target.value)}
+              label='Kesto - sekunnit'
             />
-          </Form.Field>
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <Form.Field
+              required
+              control={Input}
+              maxLength={2}
+              value={discNo}
+              type='number'
+              placeholder='CD1=1, CD2=2, A1=1, A2=2...'
+              onChange={e => setDiscNo(e.target.value)}
+              label='Levy #'
+            />
+            <Form.Field
+              required
+              control={Input}
+              value={trackNo}
+              maxLength={2}
+              type='number'
+              placeholder='Biisi #...'
+              onChange={e => setTrackNo(e.target.value)}
+              label='Biisi #'
+            />
+          </Form.Group>
+          <Form.Field
+            control={TextArea}
+            onChange={e => setPeople(e.target.value)}
+            placeholder='Tekijät - max 5kpl'
+            label='Tekijät - max 5kpl, yksi per rivi, SUKUNIMI ETUNIMI'
+          />
+          <Form.Group widths='equal'>
+            <Form.Field
+              required
+              control={Dropdown}
+              placeholder='Suomi, muu, ei tietoa...'
+              openOnFocus={false}
+              value={country}
+              selection
+              options={countryOptions}
+              onChange={getCountry}
+              label='Säveltäjän kotimaa'
+            />
+            <Form.Field
+              control={Dropdown}
+              placeholder='Valitse tallennusmaa...'
+              openOnFocus={false}
+              value={recordCountry}
+              selection
+              search
+              options={recordCountryOptions}
+              onChange={getRecordCountry}
+              label='Tallennusmaa'
+            />
+          </Form.Group>
+          <Form.Field
+            required
+            control={Input}
+            value={label}
+            type='text'
+            placeholder='Levymerkki...'
+            onChange={e => setLabel(e.target.value)}
+            label={
+              <span>
+                Levymerkki{' '}
+                <Popup
+                  trigger={
+                    <Icon
+                      style={{ display: 'inline' }}
+                      name='question circle'
+                    />
+                  }
+                  content='Jos et tiedä levymerkkiä, kirjoita Ei tiedossa'
+                  style={style}
+                  inverted
+                />
+              </span>
+            }
+          />
+          <Form.Field
+            required
+            control={Input}
+            value={catId}
+            type='text'
+            placeholder='Levykoodi...'
+            onChange={e => setCatId(e.target.value)}
+            label={
+              <React.Fragment>
+                <span style={{ display: 'inline' }}>
+                  Levykoodi{' '}
+                  <Popup
+                    trigger={
+                      <Icon
+                        style={{ display: 'inline' }}
+                        name='question circle'
+                      />
+                    }
+                    content='Jos et tiedä levykoodia, kirjoita Ei tiedossa'
+                    style={style}
+                    inverted
+                  />
+                </span>
+                <Button
+                  onClick={e => getDiscogs(e.preventDefault())}
+                  size='mini'
+                  floated='right'
+                  style={{ marginBottom: '0.3rem' }}
+                >
+                  Hae levykoodi Discogsista
+                </Button>
+              </React.Fragment>
+            }
+          />
+          <Form.Field
+            control={Input}
+            value={isrc}
+            maxLength={12}
+            type='text'
+            placeholder='ISRC...'
+            onChange={e => setIsrc(e.target.value)}
+            label='ISRC'
+          />
+          <Form.Field
+            required
+            control={Input}
+            value={year}
+            maxLength={4}
+            type='number'
+            placeholder='Vuosi...'
+            onChange={e => setYear(e.target.value)}
+            label='Vuosi'
+          />
+          <Form.Field
+            control={TextArea}
+            onChange={e => setComment(e.target.value)}
+            placeholder='Lisätietoa...'
+            label='Lisätietoa'
+          />
           <Button
             disabled={
               !artist ||
@@ -585,8 +605,8 @@ const AddTrackModal = props => {
               !catId ||
               !year
             }
-            color="green"
-            type="submit"
+            color='green'
+            type='submit'
           >
             Tallenna ja lisää raporttiin
           </Button>
@@ -596,11 +616,56 @@ const AddTrackModal = props => {
   );
 };
 
-const style = {
-  borderRadius: 0,
-  display: 'block',
-  opacity: 0.9,
-  padding: '2em'
+AddTrackModal.propTypes = {
+  search: PropTypes.shape({
+    discogsCatId: PropTypes.string
+  }),
+  login: PropTypes.shape({
+    id: PropTypes.number
+  }),
+  report: PropTypes.shape({
+    reportDetails: PropTypes.shape({
+      program_name: PropTypes.string,
+      program_no: PropTypes.number,
+      program_dj: PropTypes.string,
+      program_date: PropTypes.string,
+      program_start_time: PropTypes.string,
+      program_end_time: PropTypes.string,
+      id: PropTypes.number,
+      program_id: PropTypes.number,
+      rerun: PropTypes.number,
+      status: PropTypes.number,
+      user_id: PropTypes.number,
+      username: PropTypes.string,
+      first_name: PropTypes.string,
+      last_name: PropTypes.string
+    }),
+    report: PropTypes.arrayOf(
+      PropTypes.shape({
+        sortable_rank: PropTypes.number,
+        artist_name: PropTypes.string,
+        track_title: PropTypes.string,
+        length: PropTypes.number,
+        track_id: PropTypes.number,
+        artist_id: PropTypes.number,
+        album_id: PropTypes.number,
+        album_name: PropTypes.string,
+        disc_no: PropTypes.number,
+        track_no: PropTypes.number,
+        cat_id: PropTypes.string,
+        country: PropTypes.number,
+        isrc: PropTypes.string,
+        label: PropTypes.string,
+        people: PropTypes.string,
+        record_country: PropTypes.string,
+        year: PropTypes.string,
+        report_track_id: PropTypes.number
+      })
+    )
+  }),
+  setNotification: PropTypes.func,
+  addNewTrack: PropTypes.func,
+  getCatIdFromDiscogs: PropTypes.func
 };
 
 const mapStateToProps = state => {

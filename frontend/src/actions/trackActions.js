@@ -36,7 +36,6 @@ export const addNewTrack = trackToAdd => async dispatch => {
       type: SET_LOADING
     });
     const track = await trackService.addNewTrack(trackToAdd);
-    console.log(track);
     dispatch({
       type: ADD_NEW_TRACK,
       data: track

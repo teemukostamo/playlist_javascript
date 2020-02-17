@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createUser } from '../../actions/userActions';
-import { setNotification } from '../../reducers/notificationReducer';
 import {
   Modal,
   Header,
@@ -11,6 +10,8 @@ import {
   Icon,
   Dropdown
 } from 'semantic-ui-react';
+import { createUser } from '../../actions/userActions';
+import { setNotification } from '../../reducers/notificationReducer';
 
 const AddUserModal = props => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,9 +31,9 @@ const AddUserModal = props => {
     setModalOpen(false);
   };
 
-  const createUser = () => {
+  const createUserButtonClick = () => {
     if (password !== confirmPassword) {
-      props.setNotification(`Salasanat eivät täsmää!`, 'fail');
+      props.setNotification('Salasanat eivät täsmää!', 'fail');
     }
     const userToAdd = {
       username,
@@ -43,7 +44,6 @@ const AddUserModal = props => {
       level,
       status
     };
-    console.log('klikd create user', userToAdd);
     props.createUser(userToAdd);
     props.setNotification(`${userToAdd.username} lisätty!`, 'success');
     handleClose();
@@ -72,7 +72,6 @@ const AddUserModal = props => {
   };
 
   const getStatus = () => {
-    console.log('getting status');
     if (status === null) {
       setStatus(1);
     } else {
@@ -86,10 +85,10 @@ const AddUserModal = props => {
         <Button
           style={{ marginBottom: '0.5rem' }}
           onClick={handleOpen}
-          floated="right"
-          color="green"
+          floated='right'
+          color='green'
         >
-          <Icon name="add" />
+          <Icon name='add' />
           LUO UUSI KÄYTTÄJÄ
         </Button>
       }
@@ -97,82 +96,82 @@ const AddUserModal = props => {
       open={modalOpen}
       onClose={handleClose}
     >
-      <Header content="Luo uusi käyttäjä" />
+      <Header content='Luo uusi käyttäjä' />
       <Modal.Content>
-        <Form onSubmit={createUser}>
-          <Form.Field required>
-            <label>Käyttäjätunnus</label>
-            <Input
-              type="text"
-              placeholder="Käyttäjätunnus..."
-              onChange={e => setUsername(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Salasana</label>
-            <Input
-              focus
-              type="password"
-              placeholder="Salasana..."
-              onChange={e => setPassword(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Salasana uudelleen</label>
-            <Input
-              focus
-              type="password"
-              placeholder="Vahvista salasana..."
-              onChange={e => setConfirmPassword(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Etunimi</label>
-            <Input
-              focus
-              type="text"
-              placeholder="Etunimi..."
-              onChange={e => setFirstName(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Sukunimi</label>
-            <Input
-              focus
-              type="text"
-              placeholder="Sukunimi..."
-              onChange={e => setLastName(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Email</label>
-            <Input
-              focus
-              type="email"
-              placeholder="Email..."
-              onChange={e => setEmail(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <label>Taso</label>
-            <Dropdown
-              selection
-              defaultValue={level}
-              options={levelOptions}
-              onChange={getLevel}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Tunnus käytössä</label>
-            <Form.Checkbox
-              name="active"
-              onChange={getStatus}
-              checked={status ? true : false}
-            />
-          </Form.Field>
+        <Form onSubmit={createUserButtonClick}>
+          <Form.Field
+            required
+            control={Input}
+            type='text'
+            placeholder='Käyttäjätunnus...'
+            onChange={e => setUsername(e.target.value)}
+            label='Käyttäjätunnus'
+          />
+          <Form.Field
+            required
+            control={Input}
+            focus
+            type='password'
+            placeholder='Salasana...'
+            onChange={e => setPassword(e.target.value)}
+            label='Salasana'
+          />
+          <Form.Field
+            required
+            control={Input}
+            focus
+            type='password'
+            placeholder='Vahvista salasana...'
+            onChange={e => setConfirmPassword(e.target.value)}
+            label='Salasana uudelleen'
+          />
+          <Form.Field
+            required
+            control={Input}
+            focus
+            type='text'
+            placeholder='Etunimi...'
+            onChange={e => setFirstName(e.target.value)}
+            label='Etunimi'
+          />
+          <Form.Field
+            required
+            control={Input}
+            focus
+            type='text'
+            placeholder='Sukunimi...'
+            onChange={e => setLastName(e.target.value)}
+            label='Sukunimi'
+          />
+          <Form.Field
+            required
+            control={Input}
+            focus
+            type='email'
+            placeholder='Email...'
+            onChange={e => setEmail(e.target.value)}
+            label='Email'
+          />
+          <Form.Field
+            required
+            control={Dropdown}
+            selection
+            defaultValue={level}
+            options={levelOptions}
+            onChange={getLevel}
+            label='Taso'
+          />
+          <Form.Field
+            control={Form.Checkbox}
+            name='active'
+            onChange={getStatus}
+            checked={!!status}
+            label='Tunnus käytössä'
+          />
+
           <Button
-            color="green"
-            type="submit"
+            color='green'
+            type='submit'
             disabled={
               !username ||
               !password ||
@@ -188,6 +187,11 @@ const AddUserModal = props => {
       </Modal.Content>
     </Modal>
   );
+};
+
+AddUserModal.propTypes = {
+  setNotification: PropTypes.func,
+  createUser: PropTypes.func
 };
 
 const connectedAddUserModal = connect(null, { setNotification, createUser })(

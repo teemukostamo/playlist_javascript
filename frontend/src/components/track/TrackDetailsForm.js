@@ -1,4 +1,6 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -17,45 +19,50 @@ import { addTrackToReport } from '../../actions/reportActions';
 import ChangeAlbumModal from './ChangeAlbumModal';
 import ChangeArtistModal from './ChangeArtistModal';
 
-const TrackDetailsForm = props => {
-  console.log('track details form props', props);
+const TrackDetailsForm = ({
+  currentTrack,
+  track,
+  report,
+  updateTrack,
+  setNotification
+}) => {
   const [redirect, setRedirect] = useState(false);
-  const [artist, setArtist] = useState(props.currentTrack.artist);
-  const [album, setAlbum] = useState(props.currentTrack.album);
-  const [track, setTrack] = useState(props.currentTrack.track_title);
-  const [min, setMin] = useState(Math.floor(props.currentTrack.length / 60));
-  const [sec, setSec] = useState(props.currentTrack.length % 60);
-  const [country, setCountry] = useState(props.currentTrack.country);
+  const [artist, setArtist] = useState(currentTrack.artist);
+  const [album, setAlbum] = useState(currentTrack.album);
+  const [trackTitle, setTrackTitle] = useState(currentTrack.track_title);
+  const [min, setMin] = useState(Math.floor(currentTrack.length / 60));
+  const [sec, setSec] = useState(currentTrack.length % 60);
+  const [country, setCountry] = useState(currentTrack.country);
   const [recordCountry, setRecordCountry] = useState(
-    props.currentTrack.record_country
+    currentTrack.record_country
   );
   const [people, setPeople] = useState(null);
-  const [discNo, setDiscNo] = useState(props.currentTrack.disc_no);
-  const [trackNo, setTrackNo] = useState(props.currentTrack.track_no);
+  const [discNo, setDiscNo] = useState(currentTrack.disc_no);
+  const [trackNo, setTrackNo] = useState(currentTrack.track_no);
   const [year, setYear] = useState(null);
-  const [isrc, setIsrc] = useState(props.currentTrack.isrc);
-  const [comment, setComment] = useState(props.currentTrack.comment);
+  const [isrc, setIsrc] = useState(currentTrack.isrc);
+  const [comment, setComment] = useState(currentTrack.comment);
 
   useEffect(() => {
-    if (props.currentTrack.year === null) {
+    if (currentTrack.year === null) {
       setYear(null);
     } else {
-      setYear(parseInt(props.currentTrack.year));
+      setYear(parseInt(currentTrack.year));
     }
-  }, [props.currentTrack.year]);
+  }, [currentTrack.year]);
 
   useEffect(() => {
-    if (props.currentTrack.people === null) {
+    if (currentTrack.people === null) {
       setPeople(null);
     } else {
       setPeople(
-        props.currentTrack.people
+        currentTrack.people
           .replace(/\| /, '')
           .replace(/\| /g, '\n')
           .replace(/ \|/, '')
       );
     }
-  }, [props.currentTrack.people]);
+  }, [currentTrack.people]);
 
   const countryOptions = [
     {
@@ -327,20 +334,19 @@ const TrackDetailsForm = props => {
     setRecordCountry(value);
   };
   const submitTrack = () => {
-    console.log('klikd submit track');
     // artist name validation
     if (artist === null) {
-      props.setNotification('Artisti on pakollinen tieto', 'fail');
+      setNotification('Artisti on pakollinen tieto', 'fail');
     }
     if (people === null) {
-      let length = parseInt(min) * 60 + parseInt(sec);
+      const length = parseInt(min) * 60 + parseInt(sec);
       const trackToUpdate = {
         artist_name: artist,
         album_name: album,
-        artist_id: props.currentTrack.artist_id,
-        album_id: props.currentTrack.album_id,
-        track_id: props.currentTrack.track_id,
-        track_title: track,
+        artist_id: currentTrack.artist_id,
+        album_id: currentTrack.album_id,
+        track_id: currentTrack.track_id,
+        track_title: trackTitle,
         length,
         country,
         record_country: recordCountry,
@@ -351,21 +357,20 @@ const TrackDetailsForm = props => {
         isrc,
         comment
       };
-      console.log(trackToUpdate);
-      props.updateTrack(trackToUpdate);
-      props.setNotification(
+      updateTrack(trackToUpdate);
+      setNotification(
         `Biisin ${trackToUpdate.track_title} tiedot päivitetty!`,
         'success'
       );
     } else {
-      let length = parseInt(min) * 60 + parseInt(sec);
+      const length = parseInt(min) * 60 + parseInt(sec);
       const trackToUpdate = {
         artist_name: artist,
         album_name: album,
-        artist_id: props.currentTrack.artist_id,
-        album_id: props.currentTrack.album_id,
-        track_id: props.currentTrack.track_id,
-        track_title: track,
+        artist_id: currentTrack.artist_id,
+        album_id: currentTrack.album_id,
+        track_id: currentTrack.track_id,
+        track_title: trackTitle,
         length,
         country,
         record_country: recordCountry,
@@ -376,44 +381,40 @@ const TrackDetailsForm = props => {
         isrc,
         comment
       };
-      console.log(trackToUpdate);
-      props.updateTrack(trackToUpdate);
-      props.setNotification(
+      updateTrack(trackToUpdate);
+      setNotification(
         `Biisin ${trackToUpdate.track_title} tiedot päivitetty!`,
         'success'
       );
     }
   };
   const addToReport = () => {
-    console.log('klikd add to report', props.currentTrack.track_id);
     const trackToSave = {
-      track_id: props.currentTrack.track_id,
-      report_id: props.report.reportDetails.id,
-      length: props.currentTrack.length,
-      sortable_rank: props.report.report.length + 1
+      track_id: currentTrack.track_id,
+      report_id: report.reportDetails.id,
+      length: currentTrack.length,
+      sortable_rank: report.report.length + 1
     };
-    console.log('track to save', trackToSave);
-    props.addTrackToReport(trackToSave);
-    props.setNotification(
-      `${props.currentTrack.track_title} lisätty raporttiin ${props.report.reportDetails.program_name}`,
+    addTrackToReport(trackToSave);
+    setNotification(
+      `${currentTrack.track_title} lisätty raporttiin ${report.reportDetails.program_name}`,
       'success'
     );
     setRedirect(true);
   };
   // save and add to report button - render if current report exists
   const addToReportButton = () => {
-    if (props.report.reportDetails === null) {
+    if (report.reportDetails === null) {
       return null;
-    } else {
-      return (
-        <Button onClick={addToReport} color="blue">
-          Lisää raporttiin
-        </Button>
-      );
     }
+    return (
+      <Button onClick={addToReport} color='blue'>
+        Lisää raporttiin
+      </Button>
+    );
   };
 
-  if (props.currentTrack === null) {
+  if (currentTrack === null) {
     return (
       <Dimmer>
         <Loader>Ladataan...</Loader>
@@ -421,46 +422,48 @@ const TrackDetailsForm = props => {
     );
   }
   if (redirect) {
-    return <Redirect to={`/reports/${props.report.reportDetails.id}`} />;
+    return <Redirect to={`/reports/${report.reportDetails.id}`} />;
   }
   return (
     <Grid columns={2}>
       <Grid.Column>
         <h2>Biisin tiedot</h2>
         <Form>
-          <Form.Field required>
-            <label>Artisti</label>
-            <Input
-              disabled
-              value={props.track.currentTrack[0].artist}
-              type="text"
-              placeholder={artist}
-              onChange={e => setArtist(e.target.value)}
-            />
-            <span>
-              <Link
-                style={{
-                  cursor: 'pointer',
-                  fontSize: '0.8rem',
-                  color: 'teal',
-                  marginRight: '1rem'
-                }}
-                to={`../artist/${props.currentTrack.artist_id}`}
-              >
-                Muokkaa artistin tietoja
-              </Link>
-            </span>
-            <span>
-              <ChangeArtistModal currentTrack={props.currentTrack} />
-            </span>
-          </Form.Field>
+          <Form.Field
+            required
+            control={Input}
+            disabled
+            value={track.currentTrack[0].artist}
+            type='text'
+            placeholder={artist}
+            onChange={e => setArtist(e.target.value)}
+            label='Artisti'
+          />
+
+          <span>
+            <Link
+              style={{
+                cursor: 'pointer',
+                fontSize: '0.8rem',
+                color: 'teal',
+                marginRight: '1rem'
+              }}
+              to={`../artist/${currentTrack.artist_id}`}
+            >
+              Muokkaa artistin tietoja
+            </Link>
+          </span>
+          <span>
+            <ChangeArtistModal currentTrack={currentTrack} />
+          </span>
+
           <Form.Field required>
             <label>Albumi</label>
             <Input
               disabled
-              value={props.track.currentTrack[0].album}
-              type="text"
-              placeholder="Albumi..."
+              value={track.currentTrack[0].album}
+              type='text'
+              placeholder='Albumi...'
               onChange={e => setAlbum(e.target.value)}
             />
             <span>
@@ -471,32 +474,32 @@ const TrackDetailsForm = props => {
                   color: 'teal',
                   marginRight: '1rem'
                 }}
-                to={`../album/${props.currentTrack.album_id}`}
+                to={`../album/${currentTrack.album_id}`}
               >
                 Muokkaa albumin tietoja
               </Link>
             </span>
             <span>
-              <ChangeAlbumModal currentTrack={props.currentTrack} />
+              <ChangeAlbumModal currentTrack={currentTrack} />
             </span>
           </Form.Field>
           <Form.Field required>
             <label>Biisi</label>
             <Input
-              defaultValue={track}
-              type="text"
-              placeholder="Biisi..."
-              onChange={e => setTrack(e.target.value)}
+              defaultValue={trackTitle}
+              type='text'
+              placeholder='Biisi...'
+              onChange={e => setTrackTitle(e.target.value)}
             />
           </Form.Field>
-          <Form.Group widths="equal">
+          <Form.Group widths='equal'>
             <Form.Field required>
               <label>Kesto - minuutit</label>
               <Input
                 maxLength={4}
                 defaultValue={min}
-                type="number"
-                placeholder="Minuuttia..."
+                type='number'
+                placeholder='Minuuttia...'
                 onChange={e => setMin(e.target.value)}
               />
             </Form.Field>
@@ -505,20 +508,20 @@ const TrackDetailsForm = props => {
               <Input
                 defaultValue={sec}
                 maxLength={2}
-                type="number"
-                placeholder="Sekuntia..."
+                type='number'
+                placeholder='Sekuntia...'
                 onChange={e => setSec(e.target.value)}
               />
             </Form.Field>
           </Form.Group>
-          <Form.Group widths="equal">
+          <Form.Group widths='equal'>
             <Form.Field required>
               <label>Levy#</label>
               <Input
                 maxLength={2}
                 defaultValue={discNo}
-                type="number"
-                placeholder="CD1=1, CD2=2, A1=1, A2=2..."
+                type='number'
+                placeholder='CD1=1, CD2=2, A1=1, A2=2...'
                 onChange={e => setDiscNo(e.target.value)}
               />
             </Form.Field>
@@ -527,8 +530,8 @@ const TrackDetailsForm = props => {
               <Input
                 defaultValue={trackNo}
                 maxLength={2}
-                type="number"
-                placeholder="Biisi #..."
+                type='number'
+                placeholder='Biisi #...'
                 onChange={e => setTrackNo(e.target.value)}
               />
             </Form.Field>
@@ -538,14 +541,14 @@ const TrackDetailsForm = props => {
             <TextArea
               defaultValue={people}
               onChange={e => setPeople(e.target.value)}
-              placeholder="Tekijät - max 5kpl"
+              placeholder='Tekijät - max 5kpl'
             />
           </Form.Field>
-          <Form.Group widths="equal">
+          <Form.Group widths='equal'>
             <Form.Field required>
               <label>Säveltäjän kotimaa</label>
               <Dropdown
-                placeholder="Suomi, muu, ei tietoa..."
+                placeholder='Suomi, muu, ei tietoa...'
                 openOnFocus={false}
                 defaultValue={country}
                 selection
@@ -556,7 +559,7 @@ const TrackDetailsForm = props => {
             <Form.Field>
               <label>Tallennusmaa</label>
               <Dropdown
-                placeholder="Valitse tallennusmaa..."
+                placeholder='Valitse tallennusmaa...'
                 openOnFocus={false}
                 defaultValue={recordCountry}
                 selection
@@ -571,8 +574,8 @@ const TrackDetailsForm = props => {
             <Input
               defaultValue={isrc}
               maxLength={12}
-              type="text"
-              placeholder="ISRC..."
+              type='text'
+              placeholder='ISRC...'
               onChange={e => setIsrc(e.target.value)}
             />
           </Form.Field>
@@ -581,8 +584,8 @@ const TrackDetailsForm = props => {
             <Input
               defaultValue={year}
               maxLength={4}
-              type="number"
-              placeholder="Vuosi..."
+              type='number'
+              placeholder='Vuosi...'
               onChange={e => setYear(e.target.value)}
             />
           </Form.Field>
@@ -591,7 +594,7 @@ const TrackDetailsForm = props => {
             <TextArea
               defaultValue={comment}
               onChange={e => setComment(e.target.value)}
-              placeholder="Lisätietoa..."
+              placeholder='Lisätietoa...'
             />
           </Form.Field>
           <Button
@@ -607,7 +610,7 @@ const TrackDetailsForm = props => {
             //   !catId ||
             //   !year
             // }
-            color="green"
+            color='green'
             onClick={submitTrack}
           >
             Tallenna muutokset
@@ -617,6 +620,72 @@ const TrackDetailsForm = props => {
       </Grid.Column>
     </Grid>
   );
+};
+
+TrackDetailsForm.propTypes = {
+  currentTrack: PropTypes.shape({
+    album: PropTypes.string,
+    album_id: PropTypes.number,
+    artist: PropTypes.string,
+    artist_id: PropTypes.number,
+    cat_id: PropTypes.string,
+    comment: PropTypes.string,
+    country: PropTypes.number,
+    disc_no: PropTypes.number,
+    isrc: PropTypes.string,
+    label: PropTypes.string,
+    length: PropTypes.number,
+    people: PropTypes.string,
+    record_country: PropTypes.string,
+    track_id: PropTypes.number,
+    track_no: PropTypes.number,
+    track_title: PropTypes.string,
+    year: PropTypes.string
+  }),
+  report: PropTypes.shape({
+    reportDetails: PropTypes.shape({
+      program_name: PropTypes.string,
+      program_no: PropTypes.number,
+      program_dj: PropTypes.string,
+      program_date: PropTypes.string,
+      program_start_time: PropTypes.string,
+      program_end_time: PropTypes.string,
+      id: PropTypes.number,
+      program_id: PropTypes.number,
+      rerun: PropTypes.number,
+      status: PropTypes.number,
+      user_id: PropTypes.number,
+      username: PropTypes.string,
+      first_name: PropTypes.string,
+      last_name: PropTypes.string
+    }),
+    report: PropTypes.array
+  }),
+  track: PropTypes.shape({
+    currentTrack: PropTypes.arrayOf(
+      PropTypes.shape({
+        album: PropTypes.string,
+        album_id: PropTypes.number,
+        artist: PropTypes.string,
+        artist_id: PropTypes.number,
+        cat_id: PropTypes.string,
+        comment: PropTypes.string,
+        country: PropTypes.number,
+        disc_no: PropTypes.number,
+        isrc: PropTypes.string,
+        label: PropTypes.string,
+        length: PropTypes.number,
+        people: PropTypes.string,
+        record_country: PropTypes.string,
+        track_id: PropTypes.number,
+        track_no: PropTypes.number,
+        track_title: PropTypes.string,
+        year: PropTypes.string
+      })
+    )
+  }),
+  setNotification: PropTypes.func,
+  updateTrack: PropTypes.func
 };
 
 const mapStateToProps = state => {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Search, Button, Grid, Header } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
@@ -14,21 +15,19 @@ const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
   const { setInputText, search } = useSearchTracksHook();
 
   const handleResultSelect = (e, { result }) => {
-    const trackToSave = {
+    const newTrackToReport = {
       track_id: result.value,
       report_id: report.reportDetails.id,
       length: result.length,
       sortable_rank: report.report.length + 1
     };
-    console.log('handling result select', trackToSave);
-    setTrackToSave(trackToSave);
+    setTrackToSave(newTrackToReport);
   };
 
   const saveClick = () => {
     if (!trackToSave) {
       setNotification('Valitse biisi!', 'fail');
     } else {
-      console.log('klikd save', trackToSave);
       addTrackToReport(trackToSave);
       setTrackToSave(null);
     }
@@ -53,16 +52,16 @@ const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
   }
 
   if (redirect) {
-    return <Redirect to={`/search`} />;
+    return <Redirect to='/search' />;
   }
 
   return (
     <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
-      <Grid divided="vertically">
-        <Grid.Row columns="2">
+      <Grid divided='vertically'>
+        <Grid.Row columns='2'>
           <Form>
             <Header>Hae</Header>
-            <Form.Group widths="equal">
+            <Form.Group widths='equal'>
               <Form.Field>
                 <Search
                   loading={search.loading}
@@ -74,15 +73,15 @@ const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
                 />
               </Form.Field>
               <Form.Field>
-                <Button color="green" onClick={saveClick}>
+                <Button color='green' onClick={saveClick}>
                   Lisää biisi raporttiin
                 </Button>
               </Form.Field>
             </Form.Group>
-            <Form.Group widths="equal">
+            <Form.Group widths='equal'>
               <Form.Field>
                 {' '}
-                <Button onClick={goToAdvancedSearch} color="blue">
+                <Button onClick={goToAdvancedSearch} color='blue'>
                   Tarkennettu haku
                 </Button>
               </Form.Field>
@@ -98,10 +97,19 @@ const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
   );
 };
 
+SearchTrack.propTypes = {
+  report: PropTypes.shape({
+    reportDetails: PropTypes.shape({
+      id: PropTypes.number
+    }),
+    report: PropTypes.array
+  }),
+  addTrackToReport: PropTypes.func,
+  setNotification: PropTypes.func
+};
+
 const mapStateToProps = state => {
-  console.log('search track state to props', state);
   return {
-    search: state.search,
     report: state.report
   };
 };

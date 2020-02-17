@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Table, Dimmer, Loader } from 'semantic-ui-react';
 import PlayHistoryItem from './PlayHistoryItem';
 
-const PlayHistory = props => {
-  console.log('playhistory props', props);
-  if (props.playhistory === null) {
+const PlayHistory = ({ playhistory }) => {
+  if (playhistory === null) {
     return (
       <Dimmer>
         <Loader>Ladataan...</Loader>
@@ -22,13 +22,25 @@ const PlayHistory = props => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {props.playhistory.map(pgm => (
+          {playhistory.map(pgm => (
             <PlayHistoryItem key={pgm.report_id} pgm={pgm} />
           ))}
         </Table.Body>
       </Table>
     </React.Fragment>
   );
+};
+
+PlayHistory.propTypes = {
+  playhistory: PropTypes.arrayOf(
+    PropTypes.shape({
+      program_name: PropTypes.string,
+      program_date: PropTypes.string,
+      program_id: PropTypes.number,
+      report_id: PropTypes.number,
+      track_id: PropTypes.number
+    })
+  )
 };
 
 export default PlayHistory;
