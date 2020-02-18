@@ -168,7 +168,6 @@ const AddUserModal = props => {
             checked={!!status}
             label='Tunnus käytössä'
           />
-
           <Button
             color='green'
             type='submit'

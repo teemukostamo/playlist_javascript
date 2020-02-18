@@ -1,12 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Container, Dimmer, Loader, Table } from 'semantic-ui-react';
 import AddUserModal from './AddUserModal';
 import User from './UserListItem';
-import { Container, Dimmer, Loader } from 'semantic-ui-react';
-import { Table } from 'semantic-ui-react';
 
-const UserList = props => {
-  if (props.users.users === null || props.users.loading === true) {
+const UserList = ({ users, login }) => {
+  if (users.users === null || users.loading === true) {
     return (
       <Container>
         <Dimmer active inverted>
@@ -16,8 +16,7 @@ const UserList = props => {
     );
   }
 
-  console.log('userlist props', props);
-  if (props.login.level === 3) {
+  if (login.level === 3) {
     return (
       <Container>
         <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
@@ -36,16 +35,53 @@ const UserList = props => {
           </Table.Header>
 
           <Table.Body>
-            {props.users.users.map(user => (
+            {users.users.map(user => (
               <User user={user} key={user.id} />
             ))}
           </Table.Body>
         </Table>
       </Container>
     );
-  } else {
-    return null;
   }
+  return null;
+};
+
+UserList.propTypes = {
+  login: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }),
+  users: PropTypes.shape({
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        address: PropTypes.string,
+        city: PropTypes.string,
+        country: PropTypes.string,
+        created_at: PropTypes.string,
+        email: PropTypes.string,
+        first_name: PropTypes.string,
+        id: PropTypes.number,
+        last_name: PropTypes.string,
+        last_seen: PropTypes.string,
+        level: PropTypes.number,
+        old_id: PropTypes.number,
+        phone: PropTypes.string,
+        reset_key: PropTypes.string,
+        status: PropTypes.number,
+        updated_at: PropTypes.string,
+        username: PropTypes.string,
+        zip: PropTypes.string
+      })
+    ),
+    loading: PropTypes.bool
+  })
 };
 
 const mapStateToProps = state => ({

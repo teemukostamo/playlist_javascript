@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -23,24 +24,28 @@ import { initializeUser, logout } from './actions/loginActions';
 import { initializeUsers } from './actions/userActions';
 import { initializePrograms } from './actions/programActions';
 
-const App = props => {
+const App = ({
+  login,
+  initializePrograms,
+  initializeUser,
+  initializeUsers
+}) => {
   // initial logged in user, programs list, users list
   useEffect(() => {
-    props.initializeUser();
-    props.initializePrograms();
-    props.initializeUsers();
+    initializeUser();
+    initializePrograms();
+    initializeUsers();
     // eslint-disable-next-line
-  }, [props.login.token]);
+  }, [login.token]);
 
-  console.log('app 74', props);
-  if (props.login.user === null) {
+  if (login.user === null) {
     return (
       <Container>
         <LoginForm />
       </Container>
     );
   }
-  if (props.login.status === null) {
+  if (login.status === null) {
     return (
       <Container>
         <div>Tunnukset hyllyllä. Ota yhteys ylläpitoon.</div>
@@ -57,12 +62,9 @@ const App = props => {
   return (
     <Router>
       <div>
-        {/* Logged in as {props.login.username}
+        {/* Logged in as {login.username}
         <button onClick={handleLogout}>logout</button> */}
-        <Navbar
-          first_name={props.login.first_name}
-          last_name={props.login.last_name}
-        />
+        <Navbar first_name={login.first_name} last_name={login.last_name} />
       </div>
       <div>
         <Notification />
@@ -107,8 +109,25 @@ const App = props => {
   );
 };
 
+App.propTypes = {
+  login: PropTypes.shape({
+    user: PropTypes.shape,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    email: PropTypes.string,
+    id: PropTypes.number,
+    level: PropTypes.number,
+    loading: PropTypes.bool,
+    status: PropTypes.number,
+    token: PropTypes.string,
+    username: PropTypes.string
+  }),
+  initializeUser: PropTypes.func,
+  initializeUsers: PropTypes.func,
+  initializePrograms: PropTypes.func
+};
+
 const mapStateToProps = state => {
-  console.log('app state', state);
   return {
     report: state.report,
     reportsList: state.reportsList,

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { updateUser } from '../../actions/userActions';
-import { setNotification } from '../../reducers/notificationReducer';
-import ModalNotification from '../layout/ModalNotification';
-
 import {
   Modal,
   Header,
@@ -12,16 +9,19 @@ import {
   Input,
   Dropdown
 } from 'semantic-ui-react';
+import { updateUser } from '../../actions/userActions';
+import { setNotification } from '../../reducers/notificationReducer';
+import ModalNotification from '../layout/ModalNotification';
 
-const EditUserModal = props => {
+const EditUserModal = ({ user, setNotification, updateUser }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState(props.user.first_name);
-  const [lastName, setLastName] = useState(props.user.last_name);
-  const [email, setEmail] = useState(props.user.email);
-  const [level, setLevel] = useState(props.user.level);
-  const [status, setStatus] = useState(props.user.status);
+  const [firstName, setFirstName] = useState(user.first_name);
+  const [lastName, setLastName] = useState(user.last_name);
+  const [email, setEmail] = useState(user.email);
+  const [level, setLevel] = useState(user.level);
+  const [status, setStatus] = useState(user.status);
 
   const handleOpen = () => {
     setModalOpen(true);
@@ -33,21 +33,20 @@ const EditUserModal = props => {
   const updateUserClick = () => {
     if (password.length === 0 && confirmPassword.length === 0) {
       const userToUpdate = {
-        id: props.user.id,
+        id: user.id,
         first_name: firstName,
         last_name: lastName,
         email,
         level,
         status
       };
-      console.log('updting info', userToUpdate);
-      props.updateUser(userToUpdate);
+      updateUser(userToUpdate);
       handleClose();
     } else if (password !== confirmPassword || password.length <= 3) {
-      props.setNotification('Tarkasta salasanat!', 'fail');
+      setNotification('Tarkasta salasanat!', 'fail');
     } else {
       const userToUpdate = {
-        id: props.user.id,
+        id: user.id,
         password,
         first_name: firstName,
         last_name: lastName,
@@ -55,22 +54,13 @@ const EditUserModal = props => {
         level,
         status
       };
-      console.log('updting info', userToUpdate);
-      props.updateUser(userToUpdate);
-      props.setNotification(
+      updateUser(userToUpdate);
+      setNotification(
         `Käyttäjän ${userToUpdate.first_name} ${userToUpdate.last_name} tiedot päivitetty!`,
         'success'
       );
       handleClose();
     }
-    // if (!firstName || !lastName) {
-    //   props.setNotification(
-    //     'Etunimi ja sukunimi ovat pakollisia tietoja',
-    //     'fail'
-    //   );
-    // }
-
-    // props.updateUser(userToUpdate);
   };
 
   const levelOptions = [
@@ -96,7 +86,6 @@ const EditUserModal = props => {
   };
 
   const getStatus = () => {
-    console.log('getting status');
     if (status === null) {
       setStatus(1);
     } else {
@@ -107,105 +96,98 @@ const EditUserModal = props => {
   return (
     <Modal
       trigger={
-        <a href="#!" onClick={handleOpen}>
-          {props.user.username}
+        <a href='#!' onClick={handleOpen}>
+          {user.username}
         </a>
       }
       closeIcon
       open={modalOpen}
       onClose={handleClose}
     >
-      <Header content="Muokkaa käyttäjän tietoja" />
+      <Header content='Muokkaa käyttäjän tietoja' />
       <Modal.Content>
         <Form onSubmit={updateUserClick}>
-          <Form.Field>
-            <label>Käyttäjätunnus</label>
-            <Input
-              defaultValue={props.user.username}
-              type="text"
-              placeholder="Käyttäjätunnus..."
-              disabled
-            />
-          </Form.Field>
-          <Form.Field>
-            <ModalNotification />
-            <label>Salasana - syötä vaihtaaksesi</label>
-            <Input
-              focus
-              type="password"
-              placeholder="Salasana..."
-              onChange={e => setPassword(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Salasana uudelleen</label>
-            <Input
-              focus
-              type="password"
-              placeholder="Vahvista salasana..."
-              onChange={e => setConfirmPassword(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <ModalNotification />
-            <label>Etunimi</label>
-            <Input
-              focus
-              defaultValue={firstName}
-              type="text"
-              placeholder="Etunimi..."
-              onChange={e => setFirstName(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Sukunimi</label>
-            <Input
-              focus
-              defaultValue={lastName}
-              type="text"
-              placeholder="Sukunimi..."
-              onChange={e => setLastName(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Email</label>
-            <Input
-              focus
-              defaultValue={email}
-              type="email"
-              placeholder="Email..."
-              onChange={e => setEmail(e.target.value)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Taso</label>
-            <Dropdown
-              selection
-              defaultValue={props.user.level}
-              options={levelOptions}
-              onChange={getLevel}
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Tunnus käytössä</label>
-            <Form.Checkbox
-              name="active"
-              onChange={getStatus}
-              checked={status ? true : false}
-            />
-          </Form.Field>
-          {/* <Form.Field>
-            <label>Tila</label>
-            <Dropdown
-              selection
-              defaultValue={props.user.status}
-              options={statusOptions}
-              onChange={getStatus}
-            />
-          </Form.Field> */}
+          <Form.Field
+            control={Input}
+            defaultValue={user.username}
+            type='text'
+            placeholder='Käyttäjätunnus...'
+            disabled
+            label='Käyttäjätunnus'
+          />
+          <Form.Field
+            control={Input}
+            focus
+            type='password'
+            placeholder='Salasana...'
+            onChange={e => setPassword(e.target.value)}
+            label={
+              <React.Fragment>
+                <span>Salasana - syötä vaihtaaksesi</span>
+                {'  '}
+                <ModalNotification />
+              </React.Fragment>
+            }
+          />
+          <Form.Field
+            control={Input}
+            focus
+            type='password'
+            placeholder='Vahvista salasana...'
+            onChange={e => setConfirmPassword(e.target.value)}
+            label={
+              <React.Fragment>
+                <span>Salasana uudelleen</span>
+                {'  '}
+                <ModalNotification />
+              </React.Fragment>
+            }
+          />
+          <Form.Field
+            control={Input}
+            focus
+            defaultValue={firstName}
+            type='text'
+            placeholder='Etunimi...'
+            onChange={e => setFirstName(e.target.value)}
+            label='Etunimi'
+          />
+          <Form.Field
+            control={Input}
+            focus
+            defaultValue={lastName}
+            type='text'
+            placeholder='Sukunimi...'
+            onChange={e => setLastName(e.target.value)}
+            label='Sukunimi'
+          />
+          <Form.Field
+            control={Input}
+            focus
+            defaultValue={email}
+            type='email'
+            placeholder='Email...'
+            onChange={e => setEmail(e.target.value)}
+            label='Email'
+          />
+          <Form.Field
+            control={Dropdown}
+            selection
+            defaultValue={user.level}
+            options={levelOptions}
+            onChange={getLevel}
+            label='Taso'
+          />
+          <Form.Field
+            control={Form.Checkbox}
+            name='active'
+            onChange={getStatus}
+            checked={!!status}
+            label='Tunnus käytössä'
+          />
           <Button
-            color="green"
-            type="submit"
+            color='green'
+            type='submit'
             disabled={!email || !firstName || !lastName}
           >
             Tallenna
@@ -217,14 +199,31 @@ const EditUserModal = props => {
   );
 };
 
-const mapStateToProps = state => {
-  console.log('app state', state);
-  return {
-    login: state.login
-  };
+EditUserModal.propTypes = {
+  user: PropTypes.shape({
+    address: PropTypes.string,
+    city: PropTypes.string,
+    country: PropTypes.string,
+    created_at: PropTypes.string,
+    email: PropTypes.string,
+    first_name: PropTypes.string,
+    id: PropTypes.number,
+    last_name: PropTypes.string,
+    last_seen: PropTypes.string,
+    level: PropTypes.number,
+    old_id: PropTypes.number,
+    phone: PropTypes.string,
+    reset_key: PropTypes.string,
+    status: PropTypes.number,
+    updated_at: PropTypes.string,
+    username: PropTypes.string,
+    zip: PropTypes.string
+  }),
+  updateUser: PropTypes.func,
+  setNotification: PropTypes.func
 };
 
-const connectedEditUserModal = connect(mapStateToProps, {
+const connectedEditUserModal = connect(null, {
   setNotification,
   updateUser
 })(EditUserModal);

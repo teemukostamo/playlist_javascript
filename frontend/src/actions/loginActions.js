@@ -13,7 +13,7 @@ import {
   LOGIN_ERROR,
   UPDATE_CURRENT_USER,
   SET_LOADING
-} from '../actions/types';
+} from './types';
 
 export const initializeUser = () => async dispatch => {
   try {
@@ -91,4 +91,5 @@ export const logout = () => async dispatch => {
   dispatch({
     type: LOGOUT
   });
+  dispatch({});
 };

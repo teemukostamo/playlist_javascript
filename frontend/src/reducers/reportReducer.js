@@ -110,9 +110,6 @@ const reportReducer = (state = initialState, action) => {
         checkedForDelete: [action.data, ...state.checkedForDelete]
       };
     case UNCHECK_FOR_DELETE:
-      console.log(action.data);
-      console.log(typeof state.checkedForDelete);
-      console.log(state.checkedForDelete);
       return {
         ...state,
         checkedForDelete: state.checkedForDelete.filter(
@@ -130,7 +127,6 @@ const reportReducer = (state = initialState, action) => {
         loading: true
       };
     case REPORT_ERROR:
-      console.error(action.payload);
       return {
         ...state,
         error: action.payload

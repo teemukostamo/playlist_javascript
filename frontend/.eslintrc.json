@@ -28,6 +28,7 @@
     "function-paren-newline": "off",
     "implicit-arrow-linebreak": "off",
     "import/no-named-as-default": 0,
+    "jsx-a11y/click-events-have-key-events": "off",
     "jsx-quotes": "off",
     "no-confusing-arrow": "off",
     "node/no-unsupported-features/es-syntax": "off",

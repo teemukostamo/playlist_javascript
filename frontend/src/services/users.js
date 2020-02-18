@@ -9,13 +9,10 @@ const setToken = newToken => {
 };
 
 const getAll = async () => {
-  console.log('fired');
-
   const config = {
     headers: { Authorization: token }
   };
   const req = await axios.get(baseUrl, config);
-  console.log('get all users data', req);
   return req.data;
 };
 

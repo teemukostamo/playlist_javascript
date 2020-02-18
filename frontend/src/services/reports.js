@@ -120,13 +120,11 @@ const updateReport = async updatedReport => {
     headers: { Authorization: token }
   };
 
-  console.log('reportservice report to update', updatedReport);
-  const request = axios.put(
+  await axios.put(
     `/api/reportdetails/update/${updatedReport.id}`,
     updatedReport,
     config
   );
-  console.log(request.data);
   return updatedReport;
 };
 
