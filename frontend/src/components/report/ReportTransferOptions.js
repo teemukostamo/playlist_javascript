@@ -18,13 +18,13 @@ import { generateReportTransfer } from '../../actions/reportTransferActions';
 const ReportTransferOptions = ({
   reportsList,
   login,
-  getAllReportsByDate,
-  generateReportTransfer
+  getAllReportsByDateConnect,
+  generateReportTransferConnect
 }) => {
   const [pickerDate, setPickerDate] = useState(new Date());
 
   useEffect(() => {
-    getAllReportsByDate(moment(pickerDate).format('YYYY-MM'));
+    getAllReportsByDateConnect(moment(pickerDate).format('YYYY-MM'));
     // eslint-disable-next-line
   }, [pickerDate]);
 
@@ -35,7 +35,7 @@ const ReportTransferOptions = ({
       period: moment(pickerDate).format('YYYY-MM'),
       filename: `${moment(new Date()).format('YYYYMMDDhhmmss')}.txt`
     };
-    generateReportTransfer(params);
+    generateReportTransferConnect(params);
   };
 
   if (reportsList.reportsList === null) {
@@ -83,8 +83,8 @@ const ReportTransferOptions = ({
 };
 
 ReportTransferOptions.propTypes = {
-  generateReportTransfer: PropTypes.func,
-  getAllReportsByDate: PropTypes.func,
+  generateReportTransferConnect: PropTypes.func,
+  getAllReportsByDateConnect: PropTypes.func,
   login: PropTypes.shape({
     first_name: PropTypes.string,
     last_name: PropTypes.string,
@@ -123,8 +123,8 @@ const mapStateToProps = state => {
 };
 
 const connectedReportTransferOptions = connect(mapStateToProps, {
-  getAllReportsByDate,
-  generateReportTransfer
+  getAllReportsByDateConnect: getAllReportsByDate,
+  generateReportTransferConnect: generateReportTransfer
 })(ReportTransferOptions);
 
 export default connectedReportTransferOptions;

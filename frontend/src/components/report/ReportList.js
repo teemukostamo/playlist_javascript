@@ -24,21 +24,21 @@ moment.locale('fi');
 const ReportList = ({
   login,
   reportsList,
-  getAllReportsByDate,
-  getAllReportsByDateByUser
+  getAllReportsByDateConnect,
+  getAllReportsByDateByUserConnect
 }) => {
   // initial reports list
   useEffect(() => {
     if (login.level === 1) {
       if (reportsList.reportListDate === null) {
-        getAllReportsByDateByUser(moment().format('YYYY-MM'), login.id);
+        getAllReportsByDateByUserConnect(moment().format('YYYY-MM'), login.id);
       } else {
-        getAllReportsByDateByUser(reportsList.reportListDate, login.id);
+        getAllReportsByDateByUserConnect(reportsList.reportListDate, login.id);
       }
     } else if (reportsList.reportListDate === null) {
-      getAllReportsByDate(moment().format('YYYY-MM'));
+      getAllReportsByDateConnect(moment().format('YYYY-MM'));
     } else {
-      getAllReportsByDate(reportsList.reportListDate);
+      getAllReportsByDateConnect(reportsList.reportListDate);
     }
     // eslint-disable-next-line
   }, []);
@@ -152,8 +152,8 @@ ReportList.propTypes = {
     filterUserValue: PropTypes.number,
     filterStatusValue: PropTypes.number
   }),
-  getAllReportsByDate: PropTypes.func,
-  getAllReportsByDateByUser: PropTypes.func
+  getAllReportsByDateConnect: PropTypes.func,
+  getAllReportsByDateByUserConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -165,8 +165,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getAllReportsByDate,
-  getAllReportsByDateByUser
+  getAllReportsByDateConnect: getAllReportsByDate,
+  getAllReportsByDateByUserConnect: getAllReportsByDateByUser
 };
 
 const connectedReportList = connect(

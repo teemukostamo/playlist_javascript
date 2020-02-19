@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,9 +6,9 @@ import { getOneArtist } from '../../actions/artistActions';
 import AlbumsByArtist from './AlbumsByArtist';
 import ArtistDetailsForm from './ArtistDetailsForm';
 
-const ArtistDetails = ({ id, getOneArtist, artist }) => {
+const ArtistDetails = ({ id, getOneArtistConnect, artist }) => {
   useEffect(() => {
-    getOneArtist(parseInt(id));
+    getOneArtistConnect(parseInt(id));
     // eslint-disable-next-line
   }, [id]);
 
@@ -63,11 +62,11 @@ ArtistDetails.propTypes = {
     }),
     loading: PropTypes.bool
   }),
-  getOneArtist: PropTypes.func.isRequired
+  getOneArtistConnect: PropTypes.func.isRequired
 };
 
-const connectedArtistDetails = connect(mapStateToProps, { getOneArtist })(
-  ArtistDetails
-);
+const connectedArtistDetails = connect(mapStateToProps, {
+  getOneArtistConnect: getOneArtist
+})(ArtistDetails);
 
 export default connectedArtistDetails;

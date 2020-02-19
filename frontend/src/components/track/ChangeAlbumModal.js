@@ -6,7 +6,11 @@ import { changeAlbumId } from '../../actions/trackActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import { useChangeAlbumOptionsHook } from '../../hooks/changeAlbumOptionsHook';
 
-const ChangeAlbumModal = ({ currentTrack, changeAlbumId, setNotification }) => {
+const ChangeAlbumModal = ({
+  currentTrack,
+  changeAlbumIdConnect,
+  setNotificationConnect
+}) => {
   const { setInputText, search } = useChangeAlbumOptionsHook();
   const [modalOpen, setModalOpen] = useState(false);
   const [albumToChange, setAlbumToChange] = useState(null);
@@ -42,8 +46,8 @@ const ChangeAlbumModal = ({ currentTrack, changeAlbumId, setNotification }) => {
       album_id: albumToChange.value,
       album_name: albumToChange.album_name
     };
-    changeAlbumId(changedAlbum);
-    setNotification(
+    changeAlbumIdConnect(changedAlbum);
+    setNotificationConnect(
       `${currentTrack.track_title} -biisin albumi vaihdettu!`,
       'success'
     );
@@ -109,8 +113,8 @@ ChangeAlbumModal.propTypes = {
     track_title: PropTypes.string,
     year: PropTypes.string
   }),
-  changeAlbumId: PropTypes.func,
-  setNotification: PropTypes.func
+  changeAlbumIdConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -120,8 +124,8 @@ const mapStateToProps = state => {
 };
 
 const connectedChangeAlbumModal = connect(mapStateToProps, {
-  changeAlbumId,
-  setNotification
+  changeAlbumIdConnect: changeAlbumId,
+  setNotificationConnect: setNotification
 })(ChangeAlbumModal);
 
 export default connectedChangeAlbumModal;

@@ -13,9 +13,9 @@ const MergeAlbums = ({
   search,
   album_id,
   album_name,
-  mergeAlbumFunction,
-  updateAlbumState,
-  setNotification
+  mergeAlbumsFunctionConnect,
+  updateAlbumStateConnect,
+  setNotificatonConnect
 }) => {
   // console.log('merge album tracks modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
@@ -41,11 +41,11 @@ const MergeAlbums = ({
       newName: album_name
     };
     if (mergeParams.merge === mergeParams.mergeTo) {
-      setNotification('Tarkista albumi', 'fail');
+      setNotificatonConnect('Tarkista albumi', 'fail');
     } else {
-      updateAlbumState(mergeParams);
-      mergeAlbumFunction(mergeParams);
-      setNotification('Tiedot päivitetty!', 'success');
+      updateAlbumStateConnect(mergeParams);
+      mergeAlbumsFunctionConnect(mergeParams);
+      setNotificatonConnect('Tiedot päivitetty!', 'success');
       handleClose();
     }
   };
@@ -119,9 +119,9 @@ MergeAlbums.propTypes = {
   }),
   album_id: PropTypes.number.isRequired,
   album_name: PropTypes.string.isRequired,
-  mergeAlbumFunction: PropTypes.func,
-  updateAlbumState: PropTypes.func,
-  setNotification: PropTypes.func
+  mergeAlbumsFunctionConnect: PropTypes.func,
+  updateAlbumStateConnect: PropTypes.func,
+  setNotificatonConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -132,9 +132,9 @@ const mapStateToProps = state => {
 };
 
 const connectedMergeAlbums = connect(mapStateToProps, {
-  mergeAlbumFunction,
-  updateAlbumState,
-  setNotification
+  mergeAlbumsFunctionConnect: mergeAlbumFunction,
+  updateAlbumStateConnect: updateAlbumState,
+  setNotificatonConnect: setNotification
 })(MergeAlbums);
 
 export default connectedMergeAlbums;

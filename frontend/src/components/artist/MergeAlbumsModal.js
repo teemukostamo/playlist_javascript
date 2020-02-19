@@ -8,7 +8,7 @@ const MergeAlbumsModal = ({
   album_id,
   album_name,
   artist,
-  mergeAlbumFunction
+  mergeAlbumsFunctionConnect
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [albumToMerge, setAlbumToMerge] = useState(null);
@@ -31,7 +31,7 @@ const MergeAlbumsModal = ({
       merge: albumToMerge,
       mergeTo: album_id
     };
-    mergeAlbumFunction(mergeParams);
+    mergeAlbumsFunctionConnect(mergeParams);
   };
 
   const mergeOptions = artist.albumList.map(album => ({
@@ -102,7 +102,7 @@ MergeAlbumsModal.propTypes = {
     }),
     loading: PropTypes.bool
   }),
-  mergeAlbumFunction: PropTypes.func
+  mergeAlbumsFunctionConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -112,7 +112,7 @@ const mapStateToProps = state => {
 };
 
 const connectedMergeAlbumsModal = connect(mapStateToProps, {
-  mergeAlbumFunction
+  mergeAlbumsFunctionConnect: mergeAlbumFunction
 })(MergeAlbumsModal);
 
 export default connectedMergeAlbumsModal;

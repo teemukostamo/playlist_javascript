@@ -13,9 +13,9 @@ const MergeTracks = ({
   track_id,
   track_title,
   search,
-  setNotification,
-  mergeTrackFunction,
-  updateTrackState
+  setNotificationConnect,
+  mergeTrackFunctionConnect,
+  updateTrackStateConnect
 }) => {
   // console.log('merge track tracks modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
@@ -41,11 +41,11 @@ const MergeTracks = ({
       newName: track_title
     };
     if (mergeParams.merge === mergeParams.mergeTo) {
-      setNotification('Tarkista biisi', 'fail');
+      setNotificationConnect('Tarkista biisi', 'fail');
     } else {
-      mergeTrackFunction(mergeParams);
-      updateTrackState(mergeParams);
-      setNotification('Tiedot päivitetty!', 'success');
+      mergeTrackFunctionConnect(mergeParams);
+      updateTrackStateConnect(mergeParams);
+      setNotificationConnect('Tiedot päivitetty!', 'success');
       handleClose();
     }
   };
@@ -95,9 +95,9 @@ const MergeTracks = ({
 };
 
 MergeTracks.propTypes = {
-  mergeTrackFunction: PropTypes.func,
-  updateTrackState: PropTypes.func,
-  setNotification: PropTypes.func,
+  mergeTrackFunctionConnect: PropTypes.func,
+  updateTrackStateConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func,
   track_id: PropTypes.number,
   track_title: PropTypes.string,
   search: PropTypes.shape({
@@ -124,9 +124,9 @@ const mapStateToProps = state => {
 };
 
 const connectedMergeTracks = connect(mapStateToProps, {
-  mergeTrackFunction,
-  updateTrackState,
-  setNotification
+  mergeTrackFunctionConnect: mergeTrackFunction,
+  updateTrackStateConnect: updateTrackState,
+  setNotificationConnect: setNotification
 })(MergeTracks);
 
 export default connectedMergeTracks;

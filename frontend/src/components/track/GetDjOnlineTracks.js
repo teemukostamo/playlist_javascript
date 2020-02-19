@@ -8,7 +8,7 @@ import moment from 'moment';
 import { parseISO } from 'date-fns';
 import { getDjonlineTracks } from '../../actions/trackActions';
 
-const GetDjOnlineTracks = ({ report, getDjonlineTracks }) => {
+const GetDjOnlineTracks = ({ report, getDjonlineTracksConnect }) => {
   const [date, setDate] = useState(parseISO(report.reportDetails.program_date));
   const [studioId, setStudioId] = useState('928');
   const [startTime, setStartTime] = useState(
@@ -301,7 +301,7 @@ const GetDjOnlineTracks = ({ report, getDjonlineTracks }) => {
       report_id: report.reportDetails.id,
       sortable_rank_start: report.report.length
     };
-    getDjonlineTracks(searchParams);
+    getDjonlineTracksConnect(searchParams);
   };
 
   return (
@@ -405,7 +405,7 @@ GetDjOnlineTracks.propTypes = {
       })
     )
   }),
-  getDjonlineTracks: PropTypes.func
+  getDjonlineTracksConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -415,7 +415,7 @@ const mapStateToProps = state => {
 };
 
 const connectedGetDjOnlineTracks = connect(mapStateToProps, {
-  getDjonlineTracks
+  getDjonlineTracksConnect: getDjonlineTracks
 })(GetDjOnlineTracks);
 
 export default connectedGetDjOnlineTracks;

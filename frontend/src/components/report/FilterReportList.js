@@ -11,18 +11,18 @@ import {
 const FilterReportList = ({
   users,
   login,
-  filterByUserId,
-  filterByStatus,
-  filterByText
+  filterByUserIdConnect,
+  filterByStatusConnect,
+  filterByTextConnect
 }) => {
   const [userId, setUserId] = useState(null);
   const [status, setStatus] = useState(null);
   const [filterText, setFilterText] = useState('');
 
   useEffect(() => {
-    filterByUserId(userId);
-    filterByStatus(status);
-    filterByText(filterText);
+    filterByUserIdConnect(userId);
+    filterByStatusConnect(status);
+    filterByTextConnect(filterText);
     // eslint-disable-next-line
   }, [userId, status, filterText]);
 
@@ -74,12 +74,12 @@ const FilterReportList = ({
   const getStatus = (event, { value }) => {
     event.preventDefault();
     setStatus(value);
-    filterByStatus(status);
+    filterByStatusConnect(status);
   };
   const getFilteredByText = (event, { value }) => {
     event.preventDefault();
     setFilterText(value);
-    filterByText(filterText);
+    filterByTextConnect(filterText);
   };
 
   const filterByUser = () => {
@@ -127,9 +127,9 @@ const FilterReportList = ({
 };
 
 FilterReportList.propTypes = {
-  filterByStatus: PropTypes.func,
-  filterByText: PropTypes.func,
-  filterByUserId: PropTypes.func,
+  filterByStatusConnect: PropTypes.func,
+  filterByTextConnect: PropTypes.func,
+  filterByUserIdConnect: PropTypes.func,
   login: PropTypes.shape({
     first_name: PropTypes.string,
     last_name: PropTypes.string,
@@ -162,9 +162,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  filterByUserId,
-  filterByStatus,
-  filterByText
+  filterByUserIdConnect: filterByUserId,
+  filterByStatusConnect: filterByStatus,
+  filterByTextConnect: filterByText
 };
 
 const connectedFilterReportList = connect(

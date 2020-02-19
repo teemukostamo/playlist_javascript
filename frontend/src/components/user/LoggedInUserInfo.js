@@ -9,9 +9,9 @@ import { setNotification } from '../../reducers/notificationReducer';
 
 const LoggedInUserModal = ({
   login,
-  updateUser,
-  updateCurrentUser,
-  setNotification
+  updateUserConnect,
+  updateCurrentUserConnect,
+  setNotificationConnect
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [password, setPassword] = useState('');
@@ -35,12 +35,12 @@ const LoggedInUserModal = ({
         last_name: lastName,
         email
       };
-      updateCurrentUser(userToUpdate);
-      updateUser(userToUpdate);
-      setNotification('Omat tiedot päivitetty!', 'success');
+      updateCurrentUserConnect(userToUpdate);
+      updateUserConnect(userToUpdate);
+      setNotificationConnect('Omat tiedot päivitetty!', 'success');
       handleClose();
     } else if (password !== confirmPassword || password.length <= 3) {
-      setNotification('Tarkasta salasanat!', 'fail');
+      setNotificationConnect('Tarkasta salasanat!', 'fail');
     } else {
       const userToUpdate = {
         id: login.id,
@@ -50,9 +50,9 @@ const LoggedInUserModal = ({
         email
       };
       handleClose();
-      updateCurrentUser(userToUpdate);
-      updateUser(userToUpdate);
-      setNotification('Omat tiedot päivitetty!', 'success');
+      updateCurrentUserConnect(userToUpdate);
+      updateUserConnect(userToUpdate);
+      setNotificationConnect('Omat tiedot päivitetty!', 'success');
     }
   };
 
@@ -151,9 +151,9 @@ LoggedInUserModal.propTypes = {
     token: PropTypes.string,
     username: PropTypes.string
   }),
-  updateUser: PropTypes.func,
-  updateCurrentUser: PropTypes.func,
-  setNotification: PropTypes.func
+  updateUserConnect: PropTypes.func,
+  updateCurrentUserConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -163,9 +163,9 @@ const mapStateToProps = state => {
 };
 
 const connectedLoggedInUserModal = connect(mapStateToProps, {
-  setNotification,
-  updateUser,
-  updateCurrentUser
+  setNotificationConnect: setNotification,
+  updateUserConnect: updateUser,
+  updateCurrentUserConnect: updateCurrentUser
 })(LoggedInUserModal);
 
 export default connectedLoggedInUserModal;

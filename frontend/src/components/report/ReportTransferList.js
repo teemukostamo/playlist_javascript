@@ -6,9 +6,9 @@ import ReportTransferOptions from './ReportTransferOptions';
 import ReportTransferListItem from './ReportTransferListItem';
 import { getAllTransfers } from '../../actions/reportTransferActions';
 
-const ReportTransferList = ({ reportsList, login, getAllTransfers }) => {
+const ReportTransferList = ({ reportsList, login, getAllTransfersConnect }) => {
   useEffect(() => {
-    getAllTransfers();
+    getAllTransfersConnect();
     // eslint-disable-next-line
   }, [reportsList.lastReport]);
 
@@ -63,7 +63,15 @@ ReportTransferList.propTypes = {
         username: PropTypes.string
       })
     ),
-    lastTransfer: PropTypes.string
+    lastTransfer: PropTypes.shape({
+      created_at: PropTypes.string,
+      filename: PropTypes.string,
+      id: PropTypes.number,
+      period: PropTypes.string,
+      status: PropTypes.number,
+      updated_at: PropTypes.string,
+      user_id: PropTypes.number
+    })
   }),
   login: PropTypes.shape({
     first_name: PropTypes.string,
@@ -76,7 +84,7 @@ ReportTransferList.propTypes = {
     token: PropTypes.string,
     username: PropTypes.string
   }),
-  getAllTransfers: PropTypes.func
+  getAllTransfersConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -87,7 +95,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getAllTransfers
+  getAllTransfersConnect: getAllTransfers
 };
 
 const connectedReportTransferList = connect(

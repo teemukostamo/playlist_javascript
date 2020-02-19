@@ -7,7 +7,6 @@ const setToken = newToken => {
   token = `bearer ${newToken}`;
 };
 
-// get all active programs
 const getAllActive = async () => {
   const config = {
     headers: { Authorization: token }
@@ -16,7 +15,6 @@ const getAllActive = async () => {
   return req.data;
 };
 
-// get all programs
 const getAll = async () => {
   const config = {
     headers: { Authorization: token }
@@ -25,7 +23,6 @@ const getAll = async () => {
   return req.data;
 };
 
-// get one program
 const getOne = async id => {
   const config = {
     headers: { Authorization: token }

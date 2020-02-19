@@ -20,7 +20,11 @@ const style = {
   padding: '2em'
 };
 
-const EditProgramModal = ({ program, updateProgram, setNotification }) => {
+const EditProgramModal = ({
+  program,
+  updateProgramConnect,
+  setNotificationConnect
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [name, setName] = useState(program.name);
   const [identifier, setIdentifier] = useState(program.identifier);
@@ -43,8 +47,8 @@ const EditProgramModal = ({ program, updateProgram, setNotification }) => {
       site,
       user_id: program.user_id
     };
-    updateProgram(updatedProgram);
-    setNotification(`${updatedProgram.name} päivitetty!`, 'success');
+    updateProgramConnect(updatedProgram);
+    setNotificationConnect(`${updatedProgram.name} päivitetty!`, 'success');
     handleClose();
   };
 
@@ -160,13 +164,13 @@ EditProgramModal.propTypes = {
     updated_at: PropTypes.string,
     user_id: PropTypes.number
   }).isRequired,
-  updateProgram: PropTypes.func.isRequired,
-  setNotification: PropTypes.func
+  updateProgramConnect: PropTypes.func.isRequired,
+  setNotificationConnect: PropTypes.func
 };
 
 const connectedEditProgramModal = connect(null, {
-  setNotification,
-  updateProgram
+  setNotificationConnect: setNotification,
+  updateProgramConnect: updateProgram
 })(EditProgramModal);
 
 export default connectedEditProgramModal;

@@ -13,7 +13,7 @@ import { updateUser } from '../../actions/userActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import ModalNotification from '../layout/ModalNotification';
 
-const EditUserModal = ({ user, setNotification, updateUser }) => {
+const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -40,10 +40,14 @@ const EditUserModal = ({ user, setNotification, updateUser }) => {
         level,
         status
       };
-      updateUser(userToUpdate);
+      setNotificationConnect(
+        `Käyttäjän ${userToUpdate.first_name} ${userToUpdate.last_name} tiedot päivitetty!`,
+        'success'
+      );
+      updateUserConnect(userToUpdate);
       handleClose();
     } else if (password !== confirmPassword || password.length <= 3) {
-      setNotification('Tarkasta salasanat!', 'fail');
+      setNotificationConnect('Tarkasta salasanat!', 'fail');
     } else {
       const userToUpdate = {
         id: user.id,
@@ -54,8 +58,8 @@ const EditUserModal = ({ user, setNotification, updateUser }) => {
         level,
         status
       };
-      updateUser(userToUpdate);
-      setNotification(
+      updateUserConnect(userToUpdate);
+      setNotificationConnect(
         `Käyttäjän ${userToUpdate.first_name} ${userToUpdate.last_name} tiedot päivitetty!`,
         'success'
       );
@@ -219,13 +223,13 @@ EditUserModal.propTypes = {
     username: PropTypes.string,
     zip: PropTypes.string
   }),
-  updateUser: PropTypes.func,
-  setNotification: PropTypes.func
+  updateUserConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const connectedEditUserModal = connect(null, {
-  setNotification,
-  updateUser
+  setNotificationConnect: setNotification,
+  updateUserConnect: updateUser
 })(EditUserModal);
 
 export default connectedEditUserModal;

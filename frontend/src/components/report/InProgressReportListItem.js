@@ -10,8 +10,8 @@ import { setNotification } from '../../reducers/notificationReducer';
 const InProgressReportListItem = ({
   report,
   login,
-  deleteInProgressReport,
-  setNotification
+  deleteInProgressReportConnect,
+  setNotificationConnect
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -25,8 +25,8 @@ const InProgressReportListItem = ({
       report_id: report.id,
       user_id: login.id
     };
-    deleteInProgressReport(params);
-    setNotification(
+    deleteInProgressReportConnect(params);
+    setNotificationConnect(
       `${report.name} ${report.program_date} poistettu!`,
       'success'
     );
@@ -77,8 +77,8 @@ InProgressReportListItem.propTypes = {
     program_date: PropTypes.string,
     program_no: PropTypes.number
   }),
-  deleteInProgressReport: PropTypes.func,
-  setNotification: PropTypes.func
+  deleteInProgressReportConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -88,8 +88,8 @@ const mapStateToProps = state => {
 };
 
 const connectedInProgressReportListItem = connect(mapStateToProps, {
-  deleteInProgressReport,
-  setNotification
+  deleteInProgressReportConnect: deleteInProgressReport,
+  setNotificationConnect: setNotification
 })(InProgressReportListItem);
 
 export default connectedInProgressReportListItem;

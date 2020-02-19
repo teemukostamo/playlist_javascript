@@ -6,10 +6,15 @@ import TrackDetailsForm from './TrackDetailsForm';
 import PlayHistory from './PlayHistory';
 import { getOneTrack, getOneTrackHistory } from '../../actions/trackActions';
 
-const TrackDetails = ({ track, id, getOneTrack, getOneTrackHistory }) => {
+const TrackDetails = ({
+  track,
+  id,
+  getOneTrackConnect,
+  getOneTrackHistoryConnect
+}) => {
   useEffect(() => {
-    getOneTrackHistory(parseInt(id));
-    getOneTrack(parseInt(id));
+    getOneTrackHistoryConnect(parseInt(id));
+    getOneTrackConnect(parseInt(id));
     // eslint-disable-next-line
   }, []);
 
@@ -49,8 +54,8 @@ TrackDetails.propTypes = {
       })
     )
   }),
-  getOneTrack: PropTypes.func,
-  getOneTrackHistory: PropTypes.func
+  getOneTrackConnect: PropTypes.func,
+  getOneTrackHistoryConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -60,7 +65,7 @@ const mapStateToProps = state => {
 };
 
 const connectedTrackDetails = connect(mapStateToProps, {
-  getOneTrack,
-  getOneTrackHistory
+  getOneTrackConnect: getOneTrack,
+  getOneTrackHistoryConnect: getOneTrackHistory
 })(TrackDetails);
 export default connectedTrackDetails;

@@ -23,19 +23,19 @@ const ReportWithTracks = ({
   report,
   login,
   id,
-  getOneReport,
-  getReportDetails,
-  deleteChecked,
-  updateSortableRank
+  getOneReportConnect,
+  getReportDetailsConnect,
+  deleteCheckedConnect,
+  updateSortableRankConnect
 }) => {
   const [dragState, setDragState] = useState(null);
   // get report tracks by report id
   useEffect(() => {
     setTimeout(() => {
       if (id === undefined) {
-        getOneReport(report.reportDetails.id);
+        getOneReportConnect(report.reportDetails.id);
       } else {
-        getOneReport(parseInt(id));
+        getOneReportConnect(parseInt(id));
       }
     }, 1000);
     // eslint-disable-next-line
@@ -43,16 +43,16 @@ const ReportWithTracks = ({
   // get report details by report id
   useEffect(() => {
     if (id === undefined) {
-      getReportDetails(report.reportDetails.id);
+      getReportDetailsConnect(report.reportDetails.id);
     } else {
-      getReportDetails(id);
+      getReportDetailsConnect(id);
     }
     // eslint-disable-next-line
   }, []);
 
   // fetch tracks after sorting changes
   useEffect(() => {
-    updateSortableRank(dragState, id);
+    updateSortableRankConnect(dragState, id);
     // eslint-disable-next-line
   }, [dragState]);
 
@@ -62,7 +62,7 @@ const ReportWithTracks = ({
     const remainingTracks = report.report.filter(function(e) {
       return this.indexOf(e.report_track_id) < 0;
     }, report.checkedForDelete);
-    deleteChecked(report.checkedForDelete, id, remainingTracks);
+    deleteCheckedConnect(report.checkedForDelete, id, remainingTracks);
   };
 
   const dragProps = {
@@ -145,10 +145,10 @@ const ReportWithTracks = ({
 
 ReportWithTracks.propTypes = {
   id: PropTypes.string.isRequired,
-  deleteChecked: PropTypes.func,
-  getOneReport: PropTypes.func,
-  getReportDetails: PropTypes.func,
-  updateSortableRank: PropTypes.func,
+  deleteCheckedConnect: PropTypes.func,
+  getOneReportConnect: PropTypes.func,
+  getReportDetailsConnect: PropTypes.func,
+  updateSortableRankConnect: PropTypes.func,
   login: PropTypes.shape({
     first_name: PropTypes.string,
     last_name: PropTypes.string,
@@ -236,10 +236,10 @@ const mapStateToProps = state => {
 };
 
 const connectedReportWithTracks = connect(mapStateToProps, {
-  getOneReport,
-  getReportDetails,
-  deleteChecked,
-  updateSortableRank
+  getOneReportConnect: getOneReport,
+  getReportDetailsConnect: getReportDetails,
+  deleteCheckedConnect: deleteChecked,
+  updateSortableRankConnect: updateSortableRank
 })(ReportWithTracks);
 
 export default connectedReportWithTracks;

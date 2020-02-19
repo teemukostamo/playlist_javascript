@@ -12,9 +12,9 @@ import {
 const ReportWithTracksItem = ({
   report,
   track,
-  deleteTrackFromReport,
-  checkForDelete,
-  unCheckForDelete
+  deleteTrackFromReportConnect,
+  checkForDeleteConnect,
+  unCheckForDeleteConnect
 }) => {
   const [checked, setChecked] = useState(false);
   const onDelete = () => {
@@ -26,15 +26,15 @@ const ReportWithTracksItem = ({
       report_id: report.reportDetails.id,
       remainingTracks
     };
-    deleteTrackFromReport(params);
+    deleteTrackFromReportConnect(params);
   };
 
   const checkedClick = () => {
     setChecked(!checked);
     if (checked === true) {
-      unCheckForDelete(track.report_track_id);
+      unCheckForDeleteConnect(track.report_track_id);
     } else {
-      checkForDelete(track.report_track_id);
+      checkForDeleteConnect(track.report_track_id);
     }
   };
   let minutes = Math.floor(track.length / 60);
@@ -81,9 +81,9 @@ const ReportWithTracksItem = ({
 };
 
 ReportWithTracksItem.propTypes = {
-  deleteTrackFromReport: PropTypes.func,
-  checkForDelete: PropTypes.func,
-  unCheckForDelete: PropTypes.func,
+  deleteTrackFromReportConnect: PropTypes.func,
+  checkForDeleteConnect: PropTypes.func,
+  unCheckForDeleteConnect: PropTypes.func,
   track: PropTypes.shape({
     album_id: PropTypes.number,
     album_name: PropTypes.string,
@@ -153,9 +153,9 @@ const mapStateToProps = state => {
 };
 
 const connectedReportWithTracksItem = connect(mapStateToProps, {
-  deleteTrackFromReport,
-  checkForDelete,
-  unCheckForDelete
+  deleteTrackFromReportConnect: deleteTrackFromReport,
+  checkForDeleteConnect: checkForDelete,
+  unCheckForDeleteConnect: unCheckForDelete
 })(ReportWithTracksItem);
 
 export default connectedReportWithTracksItem;

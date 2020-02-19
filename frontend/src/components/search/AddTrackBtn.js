@@ -10,10 +10,7 @@ import {
   TextArea,
   Dropdown
 } from 'semantic-ui-react';
-import {
-  getCatIdFromDiscogs,
-  clearDiscogsCatId
-} from '../../actions/searchActions';
+import { getCatIdFromDiscogs } from '../../actions/searchActions';
 import { setNotification } from '../../reducers/notificationReducer';
 import { addTrackToDb, addNewTrack } from '../../actions/trackActions';
 
@@ -21,9 +18,10 @@ const AddTrackBtn = ({
   search,
   login,
   report,
-  setNotification,
-  addTrackToDb,
-  addNewTrack
+  setNotificationConnect,
+  addTrackToDbConnect,
+  addNewTrackConnect,
+  getCatIdFromDiscogsConnect
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [artist, setArtist] = useState('');
@@ -59,7 +57,7 @@ const AddTrackBtn = ({
   const submitTrack = () => {
     // artist name validation
     if (artist === null) {
-      setNotification('Artisti on pakollinen tieto', 'fail');
+      setNotificationConnect('Artisti on pakollinen tieto', 'fail');
     }
     const length = parseInt(min) * 60 + parseInt(sec);
     if (people === null) {
@@ -80,8 +78,8 @@ const AddTrackBtn = ({
         comment,
         user_id: login.id
       };
-      addTrackToDb(trackToAdd);
-      setNotification(`${trackToAdd.track_title} lisätty!`, 'success');
+      addTrackToDbConnect(trackToAdd);
+      setNotificationConnect(`${trackToAdd.track_title} lisätty!`, 'success');
       handleClose();
     } else {
       const trackToAdd = {
@@ -101,8 +99,8 @@ const AddTrackBtn = ({
         comment,
         user_id: login.id
       };
-      addTrackToDb(trackToAdd);
-      setNotification(`${trackToAdd.track_title} lisätty!`, 'success');
+      addTrackToDbConnect(trackToAdd);
+      setNotificationConnect(`${trackToAdd.track_title} lisätty!`, 'success');
       handleClose();
     }
   };
@@ -110,7 +108,7 @@ const AddTrackBtn = ({
   const saveAndAddToReport = () => {
     // artist name validation
     if (artist === null) {
-      setNotification('Artisti on pakollinen tieto', 'fail');
+      setNotificationConnect('Artisti on pakollinen tieto', 'fail');
     }
     const length = parseInt(min) * 60 + parseInt(sec);
     if (people === null) {
@@ -133,8 +131,8 @@ const AddTrackBtn = ({
         user_id: login.id,
         sortable_rank: report.report.length + 1
       };
-      addNewTrack(trackToAdd);
-      setNotification(
+      addNewTrackConnect(trackToAdd);
+      setNotificationConnect(
         `${trackToAdd.track_title} lisätty ja tallennettu raporttiin ${report.reportDetails.program_name}!`,
         'success'
       );
@@ -159,8 +157,8 @@ const AddTrackBtn = ({
         user_id: login.id,
         sortable_rank: report.report.length + 1
       };
-      addNewTrack(trackToAdd);
-      setNotification(
+      addNewTrackConnect(trackToAdd);
+      setNotificationConnect(
         `${trackToAdd.track_title} lisätty ja tallennettu raporttiin ${report.reportDetails.program_name}!`,
         'success'
       );
@@ -469,7 +467,7 @@ const AddTrackBtn = ({
       artist,
       album
     };
-    getCatIdFromDiscogs(query);
+    getCatIdFromDiscogsConnect(query);
   };
   return (
     <Modal
@@ -709,9 +707,10 @@ AddTrackBtn.propTypes = {
       })
     )
   }),
-  setNotification: PropTypes.func,
-  addTrackToDb: PropTypes.func,
-  addNewTrack: PropTypes.func
+  setNotificationConnect: PropTypes.func,
+  addTrackToDbConnect: PropTypes.func,
+  addNewTrackConnect: PropTypes.func,
+  getCatIdFromDiscogsConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -723,11 +722,10 @@ const mapStateToProps = state => {
   };
 };
 const connectedAddTrackBtn = connect(mapStateToProps, {
-  setNotification,
-  addTrackToDb,
-  addNewTrack,
-  getCatIdFromDiscogs,
-  clearDiscogsCatId
+  setNotificationConnect: setNotification,
+  addTrackToDbConnect: addTrackToDb,
+  addNewTrackConnect: addNewTrack,
+  getCatIdFromDiscogsConnect: getCatIdFromDiscogs
 })(AddTrackBtn);
 
 export default connectedAddTrackBtn;

@@ -13,9 +13,9 @@ const MergeArtists = ({
   artist_id,
   artist_name,
   search,
-  mergeArtistFunction,
-  updateArtistState,
-  setNotification
+  mergeArtistFunctionConnect,
+  updateArtistStateConnect,
+  setNotificationConnect
 }) => {
   // console.log('merge album tracks modal props', props);
   const [modalOpen, setModalOpen] = useState(false);
@@ -41,11 +41,11 @@ const MergeArtists = ({
       newName: artist_name
     };
     if (mergeParams.merge === mergeParams.mergeTo) {
-      setNotification('Tarkista artisti', 'fail');
+      setNotificationConnect('Tarkista artisti', 'fail');
     } else {
-      mergeArtistFunction(mergeParams);
-      updateArtistState(mergeParams);
-      setNotification('Tiedot päivitetty!', 'success');
+      mergeArtistFunctionConnect(mergeParams);
+      updateArtistStateConnect(mergeParams);
+      setNotificationConnect('Tiedot päivitetty!', 'success');
       handleClose();
     }
   };
@@ -117,9 +117,9 @@ MergeArtists.propTypes = {
   }),
   artist_id: PropTypes.number,
   artist_name: PropTypes.string,
-  setNotification: PropTypes.func,
-  mergeArtistFunction: PropTypes.func,
-  updateArtistState: PropTypes.func
+  setNotificationConnect: PropTypes.func,
+  mergeArtistFunctionConnect: PropTypes.func,
+  updateArtistStateConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -130,9 +130,9 @@ const mapStateToProps = state => {
 };
 
 const connectedMergeArtists = connect(mapStateToProps, {
-  mergeArtistFunction,
-  updateArtistState,
-  setNotification
+  mergeArtistFunctionConnect: mergeArtistFunction,
+  updateArtistStateConnect: updateArtistState,
+  setNotificationConnect: setNotification
 })(MergeArtists);
 
 export default connectedMergeArtists;

@@ -29,10 +29,10 @@ const EditTrackModal = ({
   track,
   report_track_id,
   sortable_rank,
-  getCatIdFromDiscogs,
-  clearDiscogsCatId,
-  updateTrack,
-  setNotification
+  getCatIdFromDiscogsConnect,
+  clearDiscogsCatIdConnect,
+  updateTrackConnect,
+  setNotificationConnect
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [artist, setArtist] = useState(track.artist_name);
@@ -89,7 +89,7 @@ const EditTrackModal = ({
 
   const handleClose = () => {
     // removeCurrentTrack();
-    clearDiscogsCatId();
+    clearDiscogsCatIdConnect();
     setModalOpen(false);
   };
 
@@ -127,7 +127,7 @@ const EditTrackModal = ({
   const submitTrack = () => {
     // artist name validation
     if (artist === null) {
-      setNotification('Artisti on pakollinen tieto', 'fail');
+      setNotificationConnect('Artisti on pakollinen tieto', 'fail');
     }
     if (people === null) {
       const length = parseInt(min) * 60 + parseInt(sec);
@@ -153,8 +153,8 @@ const EditTrackModal = ({
         sortable_rank,
         report_track_id
       };
-      updateTrack(trackToEdit);
-      setNotification(
+      updateTrackConnect(trackToEdit);
+      setNotificationConnect(
         `Biisin ${trackToEdit.track_title} tiedot päivitetty!`,
         'success'
       );
@@ -183,8 +183,8 @@ const EditTrackModal = ({
         sortable_rank,
         report_track_id
       };
-      updateTrack(trackToEdit);
-      setNotification(
+      updateTrackConnect(trackToEdit);
+      setNotificationConnect(
         `Biisin ${trackToEdit.track_title} tiedot päivitetty!`,
         'success'
       );
@@ -467,7 +467,7 @@ const EditTrackModal = ({
       artist,
       album
     };
-    getCatIdFromDiscogs(query);
+    getCatIdFromDiscogsConnect(query);
   };
 
   // let minutes = Math.floor(report.currentTrack[0].length / 60);
@@ -703,10 +703,10 @@ EditTrackModal.propTypes = {
   login: PropTypes.shape({
     id: PropTypes.number
   }),
-  clearDiscogsCatId: PropTypes.func,
-  getCatIdFromDiscogs: PropTypes.func,
-  setNotification: PropTypes.func,
-  updateTrack: PropTypes.func
+  clearDiscogsCatIdConnect: PropTypes.func,
+  getCatIdFromDiscogsConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func,
+  updateTrackConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -718,12 +718,12 @@ const mapStateToProps = state => {
   };
 };
 const connectedEditTrackModal = connect(mapStateToProps, {
-  setNotification,
+  setNotificationConnect: setNotification,
   getOneTrack,
   removeCurrentTrack,
-  updateTrack,
-  getCatIdFromDiscogs,
-  clearDiscogsCatId
+  updateTrackConnect: updateTrack,
+  getCatIdFromDiscogsConnect: getCatIdFromDiscogs,
+  clearDiscogsCatIdConnect: clearDiscogsCatId
 })(EditTrackModal);
 
 export default connectedEditTrackModal;

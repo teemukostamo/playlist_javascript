@@ -23,8 +23,8 @@ const TrackDetailsForm = ({
   currentTrack,
   track,
   report,
-  updateTrack,
-  setNotification
+  updateTrackConnect,
+  setNotificationConnect
 }) => {
   const [redirect, setRedirect] = useState(false);
   const [artist, setArtist] = useState(currentTrack.artist);
@@ -336,7 +336,7 @@ const TrackDetailsForm = ({
   const submitTrack = () => {
     // artist name validation
     if (artist === null) {
-      setNotification('Artisti on pakollinen tieto', 'fail');
+      setNotificationConnect('Artisti on pakollinen tieto', 'fail');
     }
     if (people === null) {
       const length = parseInt(min) * 60 + parseInt(sec);
@@ -357,8 +357,8 @@ const TrackDetailsForm = ({
         isrc,
         comment
       };
-      updateTrack(trackToUpdate);
-      setNotification(
+      updateTrackConnect(trackToUpdate);
+      setNotificationConnect(
         `Biisin ${trackToUpdate.track_title} tiedot päivitetty!`,
         'success'
       );
@@ -381,8 +381,8 @@ const TrackDetailsForm = ({
         isrc,
         comment
       };
-      updateTrack(trackToUpdate);
-      setNotification(
+      updateTrackConnect(trackToUpdate);
+      setNotificationConnect(
         `Biisin ${trackToUpdate.track_title} tiedot päivitetty!`,
         'success'
       );
@@ -396,7 +396,7 @@ const TrackDetailsForm = ({
       sortable_rank: report.report.length + 1
     };
     addTrackToReport(trackToSave);
-    setNotification(
+    setNotificationConnect(
       `${currentTrack.track_title} lisätty raporttiin ${report.reportDetails.program_name}`,
       'success'
     );
@@ -684,8 +684,8 @@ TrackDetailsForm.propTypes = {
       })
     )
   }),
-  setNotification: PropTypes.func,
-  updateTrack: PropTypes.func
+  setNotificationConnect: PropTypes.func,
+  updateTrackConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -696,8 +696,8 @@ const mapStateToProps = state => {
 };
 
 const connectedTrackDetailsForm = connect(mapStateToProps, {
-  setNotification,
-  updateTrack,
+  setNotificationConnect: setNotification,
+  updateTrackConnect: updateTrack,
   addTrackToReport
 })(TrackDetailsForm);
 

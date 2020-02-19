@@ -8,8 +8,8 @@ import { useChangeArtistOptionsHook } from '../../hooks/changeArtistOptionsHook'
 
 const ChangeArtistModal = ({
   currentTrack,
-  changeArtistId,
-  setNotification
+  changeArtistIdConnect,
+  setNotificationConnect
 }) => {
   const { setInputText, search } = useChangeArtistOptionsHook();
   const [modalOpen, setModalOpen] = useState(false);
@@ -46,8 +46,8 @@ const ChangeArtistModal = ({
       artist_id: artistToChange.value,
       artist_name: artistToChange.artist_name
     };
-    changeArtistId(changedArtist);
-    setNotification(
+    changeArtistIdConnect(changedArtist);
+    setNotificationConnect(
       `${currentTrack.track_title} -biisin artisti vaihdettu!`,
       'success'
     );
@@ -111,8 +111,8 @@ ChangeArtistModal.propTypes = {
     track_title: PropTypes.string,
     year: PropTypes.string
   }),
-  changeArtistId: PropTypes.func,
-  setNotification: PropTypes.func
+  changeArtistIdConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -122,8 +122,8 @@ const mapStateToProps = state => {
 };
 
 const connectedChangeArtistModal = connect(mapStateToProps, {
-  changeArtistId,
-  setNotification
+  changeArtistIdConnect: changeArtistId,
+  setNotificationConnect: setNotification
 })(ChangeArtistModal);
 
 export default connectedChangeArtistModal;

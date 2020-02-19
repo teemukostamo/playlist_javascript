@@ -5,18 +5,22 @@ import { Table, Grid, Container, Header } from 'semantic-ui-react';
 import InProgressReportListItem from './InProgressReportListItem';
 import { getAllInProgress } from '../../actions/reportsListActions';
 
-const InProgressReportsList = ({ reportsList, login, getAllInProgress }) => {
+const InProgressReportsList = ({
+  reportsList,
+  login,
+  getAllInProgressConnect
+}) => {
   useEffect(() => {
-    getAllInProgress(login.id);
+    getAllInProgressConnect(login.id);
     // eslint-disable-next-line
   }, []);
 
   if (reportsList.loading === true) {
     return (
-      // <Dimmer active inverted>
-      //   <Loader inverted content='Ladataan...' />
-      // </Dimmer>
-      <div>ladataan...</div>
+      <div>
+        <h3>Omat keskeneräiset raportit</h3>
+        <div>ladataan...</div>
+      </div>
     );
   }
 
@@ -80,7 +84,7 @@ InProgressReportsList.propTypes = {
   login: PropTypes.shape({
     id: PropTypes.number
   }),
-  getAllInProgress: PropTypes.func
+  getAllInProgressConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -91,7 +95,7 @@ const mapStateToProps = state => {
 };
 
 const connectedInProgressReportsList = connect(mapStateToProps, {
-  getAllInProgress
+  getAllInProgressConnect: getAllInProgress
 })(InProgressReportsList);
 
 export default connectedInProgressReportsList;

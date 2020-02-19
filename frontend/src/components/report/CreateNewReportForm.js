@@ -23,8 +23,8 @@ const CreateNewReportForm = ({
   login,
   programs,
   report,
-  setNotification,
-  createReport
+  setNotificationConnect,
+  createReportConnect
 }) => {
   const [programId, setProgramId] = useState('');
   const [programNumber, setProgramNumber] = useState(null);
@@ -319,9 +319,9 @@ const CreateNewReportForm = ({
       parseInt(newReport.program_end_time) <=
       parseInt(newReport.program_start_time)
     ) {
-      setNotification('Tarkista ohjelman alku- ja loppuaika!', 'fail');
+      setNotificationConnect('Tarkista ohjelman alku- ja loppuaika!', 'fail');
     } else {
-      createReport(newReport);
+      createReportConnect(newReport);
       setRedirect(true);
     }
   };
@@ -507,8 +507,8 @@ CreateNewReportForm.propTypes = {
       id: PropTypes.number
     })
   }),
-  setNotification: PropTypes.func,
-  createReport: PropTypes.func
+  setNotificationConnect: PropTypes.func,
+  createReportConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -520,8 +520,8 @@ const mapStateToProps = state => {
 };
 
 const connectedCreateNewReportForm = connect(mapStateToProps, {
-  createReport,
-  setNotification
+  createReportConnect: createReport,
+  setNotificationConnect: setNotification
 })(CreateNewReportForm);
 
 export default connectedCreateNewReportForm;

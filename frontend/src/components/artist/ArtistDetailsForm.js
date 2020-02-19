@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Grid, Dimmer, Loader } from 'semantic-ui-react';
-import Notification from '../layout/Notification';
 import { updateArtist } from '../../actions/artistActions';
 import { setNotification } from '../../reducers/notificationReducer';
 
 const ArtistDetailsForm = ({
   currentArtist,
-  setNotification,
-  updateArtist
+  setNotificationConnect,
+  updateArtistConnect
 }) => {
   const [artist, setArtist] = useState(currentArtist.name);
   const [spotifyId, setSpotifyId] = useState(currentArtist.spotify_id);
@@ -27,8 +26,8 @@ const ArtistDetailsForm = ({
       name: artist,
       spotify_id: spotifyId
     };
-    updateArtist(artistToUpdate);
-    setNotification(
+    updateArtistConnect(artistToUpdate);
+    setNotificationConnect(
       `Artistin ${artistToUpdate.name} tiedot päivitetty!`,
       'success'
     );
@@ -37,7 +36,6 @@ const ArtistDetailsForm = ({
     <Grid columns={2}>
       <Grid.Column>
         <h2>Artistin tiedot</h2>
-        <Notification />
         <Form>
           <Form.Field
             label='Artistin nimi'
@@ -73,13 +71,13 @@ ArtistDetailsForm.propTypes = {
     created_at: PropTypes.string,
     updated_at: PropTypes.string
   }),
-  updateArtist: PropTypes.func,
-  setNotification: PropTypes.func
+  updateArtistConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const connectedArtistDetailsForm = connect(null, {
-  updateArtist,
-  setNotification
+  updateArtistConnect: updateArtist,
+  setNotificationConnect: setNotification
 })(ArtistDetailsForm);
 
 export default connectedArtistDetailsForm;

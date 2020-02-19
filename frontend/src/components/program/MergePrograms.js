@@ -9,7 +9,7 @@ const MergePrograms = ({
   program_id,
   program_name,
   programs,
-  setNotification
+  setNotificationConnect
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [programToMerge, setProgramToMerge] = useState(null);
@@ -34,7 +34,10 @@ const MergePrograms = ({
       mergeTo: program_id
     };
     mergePrograms(mergeParams);
-    setNotification(`Ohjelma #${mergeParams.merge} yhdistetty!`, 'success');
+    setNotificationConnect(
+      `Ohjelma #${mergeParams.merge} yhdistetty!`,
+      'success'
+    );
     handleClose();
   };
   const mergeOptions = programs.allPrograms.map(program => ({
@@ -109,7 +112,7 @@ MergePrograms.propTypes = {
     ),
     loading: PropTypes.bool
   }),
-  setNotification: PropTypes.func
+  setNotificationConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -121,7 +124,7 @@ const mapStateToProps = state => {
 
 const connectedMergePrograms = connect(mapStateToProps, {
   mergePrograms,
-  setNotification
+  setNotificationConnect: setNotification
 })(MergePrograms);
 
 export default connectedMergePrograms;

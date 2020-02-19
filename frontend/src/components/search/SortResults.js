@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { Form, Dropdown, Grid } from 'semantic-ui-react';
 import { sortAdvancedResults } from '../../actions/searchActions';
 
-const SortResults = ({ sortAdvancedResults }) => {
+const SortResults = ({ sortAdvancedResultsConnect }) => {
   const [sortBy, setSortBy] = useState(1);
 
   useEffect(() => {
-    sortAdvancedResults(sortBy);
+    sortAdvancedResultsConnect(sortBy);
     // eslint-disable-next-line
   }, [sortBy]);
 
@@ -48,9 +48,11 @@ const SortResults = ({ sortAdvancedResults }) => {
 };
 
 SortResults.propTypes = {
-  sortAdvancedResults: PropTypes.func
+  sortAdvancedResultsConnect: PropTypes.func
 };
 
-const connectedSortResult = connect(null, { sortAdvancedResults })(SortResults);
+const connectedSortResult = connect(null, {
+  sortAdvancedResultsConnect: sortAdvancedResults
+})(SortResults);
 
 export default connectedSortResult;

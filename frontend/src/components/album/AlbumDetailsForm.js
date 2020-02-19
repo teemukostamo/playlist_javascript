@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Grid, Dimmer, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import Notification from '../layout/Notification';
 import { updateAlbum } from '../../actions/albumActions';
 import { setNotification } from '../../reducers/notificationReducer';
 
 const AlbumDetailsForm = ({
   album_id,
   currentAlbum,
-  updateAlbum,
-  setNotification
+  updateAlbumConnect,
+  setNotificationConnect
 }) => {
   const [name, setName] = useState(currentAlbum[0].album_name);
   const [label, setLabel] = useState(currentAlbum[0].label);
@@ -44,8 +43,8 @@ const AlbumDetailsForm = ({
       year,
       spotify_id: spotifyId
     };
-    updateAlbum(albumToUpdate);
-    setNotification(
+    updateAlbumConnect(albumToUpdate);
+    setNotificationConnect(
       `Albumin ${albumToUpdate.name} tiedot päivitetty!`,
       'success'
     );
@@ -54,7 +53,6 @@ const AlbumDetailsForm = ({
     <Grid columns={2}>
       <Grid.Column>
         <h2>Albumin tiedot</h2>
-        <Notification />
         <Form>
           <Form.Field>
             <label>Artistin nimi</label>
@@ -117,7 +115,7 @@ const AlbumDetailsForm = ({
 };
 
 AlbumDetailsForm.propTypes = {
-  album_id: PropTypes.number,
+  album_id: PropTypes.string,
   currentAlbum: PropTypes.arrayOf(
     PropTypes.shape({
       album_name: PropTypes.string,
@@ -130,13 +128,13 @@ AlbumDetailsForm.propTypes = {
       artist_id: PropTypes.number
     })
   ),
-  updateAlbum: PropTypes.func,
-  setNotification: PropTypes.func
+  updateAlbumConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const connectedAlbumDetailsForm = connect(null, {
-  updateAlbum,
-  setNotification
+  updateAlbumConnect: updateAlbum,
+  setNotificationConnect: setNotification
 })(AlbumDetailsForm);
 
 export default connectedAlbumDetailsForm;

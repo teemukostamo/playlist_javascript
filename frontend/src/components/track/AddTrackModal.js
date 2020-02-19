@@ -30,9 +30,9 @@ const AddTrackModal = ({
   search,
   login,
   report,
-  getCatIdFromDiscogs,
-  addNewTrack,
-  setNotification
+  getCatIdFromDiscogsConnect,
+  addNewTrackConnect,
+  setNotificationConnect
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [artist, setArtist] = useState('');
@@ -68,7 +68,7 @@ const AddTrackModal = ({
   const submitTrack = () => {
     // artist name validation
     if (artist === null) {
-      setNotification('Artisti on pakollinen tieto', 'fail');
+      setNotificationConnect('Artisti on pakollinen tieto', 'fail');
     }
     const length = parseInt(min) * 60 + parseInt(sec);
     if (people === null) {
@@ -91,7 +91,7 @@ const AddTrackModal = ({
         user_id: login.id,
         sortable_rank: report.report.length + 1
       };
-      addNewTrack(trackToAdd);
+      addNewTrackConnect(trackToAdd);
       handleClose();
     } else {
       const trackToAdd = {
@@ -113,7 +113,7 @@ const AddTrackModal = ({
         user_id: login.id,
         sortable_rank: report.report.length + 1
       };
-      addNewTrack(trackToAdd);
+      addNewTrackConnect(trackToAdd);
       handleClose();
     }
   };
@@ -392,7 +392,7 @@ const AddTrackModal = ({
       artist,
       album
     };
-    getCatIdFromDiscogs(query);
+    getCatIdFromDiscogsConnect(query);
   };
   return (
     <Modal
@@ -663,9 +663,9 @@ AddTrackModal.propTypes = {
       })
     )
   }),
-  setNotification: PropTypes.func,
-  addNewTrack: PropTypes.func,
-  getCatIdFromDiscogs: PropTypes.func
+  setNotificationConnect: PropTypes.func,
+  addNewTrackConnect: PropTypes.func,
+  getCatIdFromDiscogsConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -677,9 +677,9 @@ const mapStateToProps = state => {
   };
 };
 const connectedAddTrackModal = connect(mapStateToProps, {
-  setNotification,
-  addNewTrack,
-  getCatIdFromDiscogs,
+  setNotificationConnect: setNotification,
+  addNewTrackConnect: addNewTrack,
+  getCatIdFromDiscogsConnect: getCatIdFromDiscogs,
   clearDiscogsCatId
 })(AddTrackModal);
 

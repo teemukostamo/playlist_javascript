@@ -9,12 +9,12 @@ import { logout } from '../../actions/loginActions';
 
 import logo from '../../img/logo.png';
 
-const Navbar = ({ first_name, last_name, login, logout }) => {
+const Navbar = ({ first_name, last_name, login, logoutConnect }) => {
   const getLoggedInUserInfo = () => {
     return <LoggedInUserInfo />;
   };
   const handleLogoutClick = () => {
-    logout();
+    logoutConnect();
   };
   const trigger = (
     <span>
@@ -190,7 +190,7 @@ Navbar.propTypes = {
     token: PropTypes.string,
     username: PropTypes.string
   }),
-  logout: PropTypes.func
+  logoutConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -199,6 +199,8 @@ const mapStateToProps = state => {
   };
 };
 
-const connectedNavbar = connect(mapStateToProps, { logout })(Navbar);
+const connectedNavbar = connect(mapStateToProps, { logoutConnect: logout })(
+  Navbar
+);
 
 export default connectedNavbar;

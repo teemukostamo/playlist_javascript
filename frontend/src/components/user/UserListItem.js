@@ -7,7 +7,7 @@ import EditUserModal from './EditUserModal';
 import { setNotification } from '../../reducers/notificationReducer';
 import { setCurrent, updateUser, deleteUser } from '../../actions/userActions';
 
-const UserListItem = ({ user, deleteUser, setNotification }) => {
+const UserListItem = ({ user, deleteUserConnect, setNotificationConnect }) => {
   const [open, setOpen] = useState(false);
 
   let userLevelOutPrint;
@@ -34,8 +34,8 @@ const UserListItem = ({ user, deleteUser, setNotification }) => {
   };
   const confirmDelete = () => {
     setOpen(false);
-    deleteUser(user.id);
-    setNotification(`Käyttäjä ${user.username} poistettu!`, 'success');
+    deleteUserConnect(user.id);
+    setNotificationConnect(`Käyttäjä ${user.username} poistettu!`, 'success');
   };
 
   return (
@@ -86,15 +86,15 @@ UserListItem.propTypes = {
     username: PropTypes.string,
     zip: PropTypes.string
   }),
-  deleteUser: PropTypes.func,
-  setNotification: PropTypes.func
+  deleteUserConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const mapDispatchToProps = {
   setCurrent,
-  setNotification,
+  setNotificationConnect: setNotification,
   updateUser,
-  deleteUser
+  deleteUserConnect: deleteUser
 };
 
 const connectedUser = connect(null, mapDispatchToProps)(UserListItem);

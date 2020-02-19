@@ -30,7 +30,6 @@ export const generateReportTransfer = params => async dispatch => {
     const transferredReport = await reportService.generateReportDownload(
       params
     );
-    console.log(transferredReport);
     const reports = await reportService.getAllTransfers();
     dispatch({
       type: GET_ALL_REPORT_TRANSFERS,

@@ -27,10 +27,6 @@ export const getOneReport = id => async dispatch => {
     });
   } catch (error) {
     console.log(error);
-    // dispatch({
-    //   type: REPORT_ERROR,
-    //   payload: error.response.data
-    // });
   }
 };
 
@@ -114,7 +110,6 @@ export const createReport = newReport => async dispatch => {
         program_id: program.id,
         display: 1
       };
-      console.log('new report with new program', newReportWithNewProgram);
       const report = await reportService.createReport(newReportWithNewProgram);
       dispatch({
         type: CREATE_REPORT,
@@ -176,7 +171,6 @@ export const updateReport = updatedReport => async dispatch => {
 
 export const checkForDelete = id => async dispatch => {
   try {
-    console.log('id to add to delete tracks', id);
     dispatch({
       type: CHECK_FOR_DELETE,
       data: id
@@ -188,7 +182,6 @@ export const checkForDelete = id => async dispatch => {
 
 export const unCheckForDelete = id => async dispatch => {
   try {
-    console.log('uncheckd id to add to delete tracks', id);
     dispatch({
       type: UNCHECK_FOR_DELETE,
       data: id

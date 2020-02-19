@@ -20,7 +20,11 @@ const style = {
   padding: '2em'
 };
 
-const AddProgramModal = ({ login, createNewProgram, setNotification }) => {
+const AddProgramModal = ({
+  login,
+  createNewProgramConnect,
+  setNotificationConnect
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [name, setName] = useState('');
   const [identifier, setIdentifier] = useState('');
@@ -42,8 +46,8 @@ const AddProgramModal = ({ login, createNewProgram, setNotification }) => {
       site,
       user_id: login.id
     };
-    createNewProgram(programToAdd);
-    setNotification(`${programToAdd.name} lisätty!`, 'success');
+    createNewProgramConnect(programToAdd);
+    setNotificationConnect(`${programToAdd.name} lisätty!`, 'success');
     handleClose();
   };
 
@@ -132,8 +136,8 @@ const AddProgramModal = ({ login, createNewProgram, setNotification }) => {
 };
 
 AddProgramModal.propTypes = {
-  createNewProgram: PropTypes.func,
-  setNotification: PropTypes.func,
+  createNewProgramConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func,
   login: PropTypes.shape({
     first_name: PropTypes.string,
     last_name: PropTypes.string,
@@ -153,8 +157,8 @@ const mapStateToProps = state => {
   };
 };
 const connectedAddProgramModal = connect(mapStateToProps, {
-  setNotification,
-  createNewProgram
+  setNotificationConnect: setNotification,
+  createNewProgramConnect: createNewProgram
 })(AddProgramModal);
 
 export default connectedAddProgramModal;

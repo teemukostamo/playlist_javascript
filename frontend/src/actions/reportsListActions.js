@@ -46,7 +46,7 @@ export const getAllReportsByDateByUser = (date, user) => async dispatch => {
     dispatch({
       type: GET_ALL_REPORTS_BY_DATE,
       data: reports,
-      date: date
+      date
     });
   } catch (error) {
     console.log(error);
@@ -78,8 +78,7 @@ export const deleteInProgressReport = params => async dispatch => {
     dispatch({
       type: SET_LOADING
     });
-    const deletedReport = await reportService.deleteReport(params.report_id);
-    console.log(deletedReport);
+    await reportService.deleteReport(params.report_id);
     const reports = await reportService.getAllInProgress(params.user_id);
     dispatch({
       type: GET_ALL_IN_PROGRESS,
@@ -95,8 +94,7 @@ export const deleteReport = id => async dispatch => {
     dispatch({
       type: SET_LOADING
     });
-    const deletedReport = await reportService.deleteReport(id);
-    console.log(deletedReport);
+    await reportService.deleteReport(id);
     dispatch({
       type: DELETE_REPORT,
       data: id
@@ -107,7 +105,6 @@ export const deleteReport = id => async dispatch => {
 };
 
 export const filterByUserId = id => dispatch => {
-  console.log('id to filter', id);
   dispatch({
     type: FILTER_BY_USER_ID,
     data: id
@@ -115,7 +112,6 @@ export const filterByUserId = id => dispatch => {
 };
 
 export const filterByStatus = status => dispatch => {
-  console.log('status to filter', status);
   dispatch({
     type: FILTER_BY_STATUS,
     data: status
@@ -123,7 +119,6 @@ export const filterByStatus = status => dispatch => {
 };
 
 export const filterByText = text => async dispatch => {
-  console.log('text to filter', text);
   dispatch({
     type: FILTER_BY_TEXT,
     data: text

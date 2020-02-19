@@ -7,15 +7,20 @@ import moment from 'moment';
 import { deleteReport } from '../../actions/reportsListActions';
 import { setNotification } from '../../reducers/notificationReducer';
 
-const ReportListItem = ({ deleteReport, setNotification, login, report }) => {
+const ReportListItem = ({
+  deleteReportConnect,
+  setNotificationConnect,
+  login,
+  report
+}) => {
   const [open, setOpen] = useState(false);
   const cancelDelete = () => {
     setOpen(false);
   };
   const confirmDelete = () => {
     setOpen(false);
-    deleteReport(report.id);
-    setNotification(
+    deleteReportConnect(report.id);
+    setNotificationConnect(
       `${report.name} ${report.program_date} poistettu!`,
       'success'
     );
@@ -100,8 +105,8 @@ ReportListItem.propTypes = {
     token: PropTypes.string,
     username: PropTypes.string
   }).isRequired,
-  deleteReport: PropTypes.func,
-  setNotification: PropTypes.func
+  deleteReportConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -109,8 +114,8 @@ const mapStateToProps = state => ({
 });
 
 const connectedReportListItem = connect(mapStateToProps, {
-  deleteReport,
-  setNotification
+  deleteReportConnect: deleteReport,
+  setNotificationConnect: setNotification
 })(ReportListItem);
 
 export default connectedReportListItem;

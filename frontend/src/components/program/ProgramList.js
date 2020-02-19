@@ -7,9 +7,9 @@ import AddProgramModal from './AddProgramModal';
 import Notification from '../layout/Notification';
 import { getAllPrograms } from '../../actions/programActions';
 
-const ProgramList = ({ getAllPrograms, programs, login }) => {
+const ProgramList = ({ getAllProgramsConnect, programs, login }) => {
   useEffect(() => {
-    getAllPrograms();
+    getAllProgramsConnect();
     // eslint-disable-next-line
   }, []);
   if (programs.allPrograms === null || programs.loading === true) {
@@ -90,7 +90,7 @@ ProgramList.propTypes = {
     ),
     loading: PropTypes.bool
   }),
-  getAllPrograms: PropTypes.func
+  getAllProgramsConnect: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -98,8 +98,8 @@ const mapStateToProps = state => ({
   login: state.login
 });
 
-const connectedProgramList = connect(mapStateToProps, { getAllPrograms })(
-  ProgramList
-);
+const connectedProgramList = connect(mapStateToProps, {
+  getAllProgramsConnect: getAllPrograms
+})(ProgramList);
 
 export default connectedProgramList;

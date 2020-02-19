@@ -25,9 +25,9 @@ const ReportDetails = ({
   users,
   programs,
   login,
-  updateReport,
-  copyReport,
-  setNotification
+  updateReportConnect,
+  copyReportConnect,
+  setNotificationConnect
 }) => {
   const [programId, setProgramId] = useState('');
   const [programNumber, setProgramNumber] = useState('');
@@ -390,11 +390,11 @@ const ReportDetails = ({
       parseInt(updatedReportDetails.program_start_time) >=
       parseInt(updatedReportDetails.program_end_time)
     ) {
-      setNotification('Tarkasta aloitus- ja lopetusaika!', 'fail');
+      setNotificationConnect('Tarkasta aloitus- ja lopetusaika!', 'fail');
     } else {
       console.log('saving changes...', updatedReportDetails);
-      setNotification('Muutokset tallennettu!', 'success');
-      updateReport(updatedReportDetails);
+      setNotificationConnect('Muutokset tallennettu!', 'success');
+      updateReportConnect(updatedReportDetails);
     }
   };
 
@@ -415,8 +415,8 @@ const ReportDetails = ({
       rerun
     };
     const reportTracksToCopy = report.report;
-    copyReport(reportDetailsToCopy, reportTracksToCopy);
-    setNotification(
+    copyReportConnect(reportDetailsToCopy, reportTracksToCopy);
+    setNotificationConnect(
       `Raportti monistettu ajankohtaan ${moment(programDate).format(
         'YYYY-MM-DD'
       )}`,
@@ -665,9 +665,9 @@ ReportDetails.propTypes = {
     status: PropTypes.number,
     loading: PropTypes.bool
   }),
-  setNotification: PropTypes.func,
-  updateReport: PropTypes.func,
-  copyReport: PropTypes.func
+  setNotificationConnect: PropTypes.func,
+  updateReportConnect: PropTypes.func,
+  copyReportConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -682,9 +682,9 @@ const mapStateToProps = state => {
 };
 
 const connectedReportDetails = connect(mapStateToProps, {
-  updateReport,
-  copyReport,
-  setNotification
+  updateReportConnect: updateReport,
+  copyReportConnect: copyReport,
+  setNotificationConnect: setNotification
 })(ReportDetails);
 
 export default connectedReportDetails;

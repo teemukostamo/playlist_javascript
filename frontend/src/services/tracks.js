@@ -62,7 +62,6 @@ const checkDjonlineTracks = async searchParams => {
       report_id: searchParams.report_id
     });
   });
-  console.log('array of tracks going to backend', newArr);
   const newerArr = [];
   newArr.forEach((track, index) => {
     newerArr.push({
@@ -71,12 +70,10 @@ const checkDjonlineTracks = async searchParams => {
     });
   });
   const returnArr = [];
-  console.log('new arr to backend with sortable ranks', newerArr);
   newerArr.forEach(async track => {
     const request = await axios.post(`${baseUrl}/djonline`, track, config);
     returnArr.push(request.data);
   });
-  console.log('returned array from backend', returnArr);
   return returnArr;
 };
 

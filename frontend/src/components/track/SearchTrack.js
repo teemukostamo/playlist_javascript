@@ -9,7 +9,11 @@ import { setNotification } from '../../reducers/notificationReducer';
 import AddTrackModal from './AddTrackModal';
 import { useSearchTracksHook } from '../../hooks/searchTracksHook';
 
-const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
+const SearchTrack = ({
+  report,
+  addTrackToReportConnect,
+  setNotificationConnect
+}) => {
   const [trackToSave, setTrackToSave] = useState(null);
   const [redirect, setRedirect] = useState(false);
   const { setInputText, search } = useSearchTracksHook();
@@ -26,9 +30,9 @@ const SearchTrack = ({ report, addTrackToReport, setNotification }) => {
 
   const saveClick = () => {
     if (!trackToSave) {
-      setNotification('Valitse biisi!', 'fail');
+      setNotificationConnect('Valitse biisi!', 'fail');
     } else {
-      addTrackToReport(trackToSave);
+      addTrackToReportConnect(trackToSave);
       setTrackToSave(null);
     }
   };
@@ -104,8 +108,8 @@ SearchTrack.propTypes = {
     }),
     report: PropTypes.array
   }),
-  addTrackToReport: PropTypes.func,
-  setNotification: PropTypes.func
+  addTrackToReportConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -115,8 +119,8 @@ const mapStateToProps = state => {
 };
 const connectedSearchTrack = connect(mapStateToProps, {
   getAutocompleteResults,
-  addTrackToReport,
-  setNotification
+  addTrackToReportConnect: addTrackToReport,
+  setNotificationConnect: setNotification
 })(SearchTrack);
 
 export default connectedSearchTrack;

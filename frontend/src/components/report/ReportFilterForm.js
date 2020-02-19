@@ -11,8 +11,8 @@ import {
 const ReportFilterForm = ({
   users,
   login,
-  getAllReportsByDate,
-  getAllReportsByDateByUser
+  getAllReportsByDateConnect,
+  getAllReportsByDateByUserConnect
 }) => {
   const [reportMonth, setReportMonth] = useState('');
   const [reportYear, setReportYear] = useState('');
@@ -106,9 +106,9 @@ const ReportFilterForm = ({
     const date = `${reportYear}-${reportMonth}`;
 
     if (login.level === 1) {
-      getAllReportsByDateByUser(date, login.id);
+      getAllReportsByDateByUserConnect(date, login.id);
     } else {
-      getAllReportsByDate(date);
+      getAllReportsByDateConnect(date);
     }
   };
 
@@ -178,8 +178,8 @@ ReportFilterForm.propTypes = {
     token: PropTypes.string,
     username: PropTypes.string
   }),
-  getAllReportsByDate: PropTypes.func,
-  getAllReportsByDateByUser: PropTypes.func
+  getAllReportsByDateConnect: PropTypes.func,
+  getAllReportsByDateByUserConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -194,8 +194,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getOneReport,
-  getAllReportsByDate,
-  getAllReportsByDateByUser
+  getAllReportsByDateConnect: getAllReportsByDate,
+  getAllReportsByDateByUserConnect: getAllReportsByDateByUser
 };
 
 const connectedReportFilterForm = connect(

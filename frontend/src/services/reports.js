@@ -129,7 +129,7 @@ const updateReport = async updatedReport => {
 };
 
 // generate text file for download
-export const generateReportDownload = async params => {
+const generateReportDownload = async params => {
   try {
     const config = {
       headers: { Authorization: token, responseType: 'blob' }

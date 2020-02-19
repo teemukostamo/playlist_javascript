@@ -6,9 +6,9 @@ import AlbumDetailsForm from './AlbumDetailsForm';
 import { getOneAlbum } from '../../actions/albumActions';
 import TracksInAnAlbum from './TracksInAnAlbum';
 
-const AlbumDetails = ({ id, album, getOneAlbum }) => {
+const AlbumDetails = ({ id, album, getOneAlbumConnect }) => {
   useEffect(() => {
-    getOneAlbum(id);
+    getOneAlbumConnect(id);
     // eslint-disable-next-line
   }, [id]);
 
@@ -62,10 +62,10 @@ AlbumDetails.propTypes = {
     ),
     loading: PropTypes.bool
   }),
-  getOneAlbum: PropTypes.func
+  getOneAlbumConnect: PropTypes.func
 };
 
-const connectedAlbumDetails = connect(mapStateToProps, { getOneAlbum })(
-  AlbumDetails
-);
+const connectedAlbumDetails = connect(mapStateToProps, {
+  getOneAlbumConnect: getOneAlbum
+})(AlbumDetails);
 export default connectedAlbumDetails;

@@ -20,21 +20,21 @@ import Search from './components/search/Search';
 import Top100List from './components/top100/Top100List';
 import ReportWithTracks from './components/report/ReportWithTracks';
 import Notification from './components/layout/Notification';
-import { initializeUser, logout } from './actions/loginActions';
+import { initializeUser } from './actions/loginActions';
 import { initializeUsers } from './actions/userActions';
 import { initializePrograms } from './actions/programActions';
 
 const App = ({
   login,
-  initializePrograms,
-  initializeUser,
-  initializeUsers
+  initializeProgramsConnect,
+  initializeUserConnect,
+  initializeUsersConnect
 }) => {
   // initial logged in user, programs list, users list
   useEffect(() => {
-    initializeUser();
-    initializePrograms();
-    initializeUsers();
+    initializeUserConnect();
+    initializeProgramsConnect();
+    initializeUsersConnect();
     // eslint-disable-next-line
   }, [login.token]);
 
@@ -110,21 +110,22 @@ const App = ({
 };
 
 App.propTypes = {
-  login: PropTypes.shape({
-    user: PropTypes.shape,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
-    email: PropTypes.string,
-    id: PropTypes.number,
-    level: PropTypes.number,
-    loading: PropTypes.bool,
-    status: PropTypes.number,
-    token: PropTypes.string,
-    username: PropTypes.string
-  }),
-  initializeUser: PropTypes.func,
-  initializeUsers: PropTypes.func,
-  initializePrograms: PropTypes.func
+  // login: PropTypes.shape({
+  //   user: PropTypes.shape,
+  //   first_name: PropTypes.string,
+  //   last_name: PropTypes.string,
+  //   email: PropTypes.string,
+  //   id: PropTypes.number,
+  //   level: PropTypes.number,
+  //   loading: PropTypes.bool,
+  //   status: PropTypes.number,
+  //   token: PropTypes.string,
+  //   username: PropTypes.string
+  // }),
+  login: PropTypes.objectOf(PropTypes.any),
+  initializeUserConnect: PropTypes.func,
+  initializeUsersConnect: PropTypes.func,
+  initializeProgramsConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -138,10 +139,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  initializeUser,
-  logout,
-  initializePrograms,
-  initializeUsers
+  initializeUserConnect: initializeUser,
+  initializeProgramsConnect: initializePrograms,
+  initializeUsersConnect: initializeUsers
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -18,8 +18,8 @@ const AddToCurrentReport = ({
   track_id,
   track_title,
   length,
-  addTrackToReport,
-  setNotification
+  addTrackToReportConnect,
+  setNotificationConnect
 }) => {
   const [redirect, setRedirect] = useState(false);
   if (!report.reportDetails) {
@@ -32,8 +32,8 @@ const AddToCurrentReport = ({
       length,
       sortable_rank: report.report.length + 1
     };
-    addTrackToReport(trackToSave);
-    setNotification(
+    addTrackToReportConnect(trackToSave);
+    setNotificationConnect(
       `${track_title} lisätty raporttiin ${report.reportDetails.program_name}`,
       'success'
     );
@@ -106,8 +106,8 @@ AddToCurrentReport.propTypes = {
   track_id: PropTypes.number.isRequired,
   track_title: PropTypes.string.isRequired,
   length: PropTypes.number,
-  addTrackToReport: PropTypes.func,
-  setNotification: PropTypes.func
+  addTrackToReportConnect: PropTypes.func,
+  setNotificationConnect: PropTypes.func
 };
 
 const mapStateToProps = state => {
@@ -116,8 +116,8 @@ const mapStateToProps = state => {
   };
 };
 const connectedAddToCurrentReport = connect(mapStateToProps, {
-  setNotification,
-  addTrackToReport
+  setNotificationConnect: setNotification,
+  addTrackToReportConnect: addTrackToReport
 })(AddToCurrentReport);
 
 export default connectedAddToCurrentReport;

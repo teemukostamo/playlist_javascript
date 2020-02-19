@@ -5,7 +5,7 @@ import { Form, Input, Button, Dropdown, Grid } from 'semantic-ui-react';
 import AddTrackBtn from './AddTrackBtn';
 import { advancedSearch } from '../../actions/searchActions';
 
-const SearchForm = ({ advancedSearch }) => {
+const SearchForm = ({ advancedSearchConnect }) => {
   const [searchString, setSearchString] = useState('');
   const [searchTarget, setSearchTarget] = useState('ar');
 
@@ -36,7 +36,7 @@ const SearchForm = ({ advancedSearch }) => {
       query: searchString,
       kind: searchTarget
     };
-    advancedSearch(searchParams);
+    advancedSearchConnect(searchParams);
   };
   return (
     <Grid columns={2}>
@@ -74,9 +74,11 @@ const SearchForm = ({ advancedSearch }) => {
 };
 
 SearchForm.propTypes = {
-  advancedSearch: PropTypes.func.isRequired
+  advancedSearchConnect: PropTypes.func.isRequired
 };
 
-const connectedSearchForm = connect(null, { advancedSearch })(SearchForm);
+const connectedSearchForm = connect(null, {
+  advancedSearchConnect: advancedSearch
+})(SearchForm);
 
 export default connectedSearchForm;
