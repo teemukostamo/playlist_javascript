@@ -6,6 +6,7 @@ import { Form, Input, Button, Grid, Dimmer, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { updateAlbum } from '../../actions/albumActions';
 import { setNotification } from '../../reducers/notificationReducer';
+import ChangeArtistModal from './ChangeArtistModal';
 
 const AlbumDetailsForm = ({
   album_id,
@@ -56,16 +57,22 @@ const AlbumDetailsForm = ({
         <Form>
           <Form.Field>
             <label>Artistin nimi</label>
-            <Input
-              disabled
-              type='text'
-              defaultValue={currentAlbum[0].artist_name}
-            />
+            <Input disabled type='text' value={currentAlbum[0].artist_name} />
             <span>
-              <a href='!#'>Vaihda esittäjää </a> {'    '}
-              <Link to={`../artist/${currentAlbum[0].artist_id}`}>
+              <Link
+                style={{
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                  color: 'teal',
+                  marginRight: '1rem'
+                }}
+                to={`../artist/${currentAlbum[0].artist_id}`}
+              >
                 Muokkaa esittäjän tietoja
               </Link>
+            </span>
+            <span>
+              <ChangeArtistModal currentAlbum={currentAlbum} />
             </span>
           </Form.Field>
           <Form.Field

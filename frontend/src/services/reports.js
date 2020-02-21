@@ -84,6 +84,9 @@ const updateSortableRank = async remainingTracks => {
   const config = {
     headers: { Authorization: token }
   };
+  if (remainingTracks === null) {
+    return;
+  }
   remainingTracks.forEach(async (track, index) => {
     const trackToUpdate = {
       sortable_rank: index + 1

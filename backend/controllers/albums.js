@@ -89,3 +89,17 @@ exports.updateAlbum = asyncHandler(async (req, res, next) => {
   }
   res.status(200).json(`${updatedAlbum[0]} row('s) affected`);
 });
+
+// @desc    Change the artist of a track
+// @route   PUT /updateartist
+// @access  Private
+exports.changeArtist = asyncHandler(async (req, res) => {
+  const { album_id, artist_id } = req.body;
+  const changedArtist = await Album.update(
+    {
+      artist_id
+    },
+    { where: { id: album_id } }
+  );
+  res.status(200).json(`${changedArtist[0]} row(s) affected.`);
+});

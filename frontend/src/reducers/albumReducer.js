@@ -2,7 +2,8 @@ import {
   GET_ONE_ALBUM,
   GET_TRACKLIST_OF_ALBUM,
   CLEAR_CURRENT_ALBUM,
-  SET_LOADING
+  SET_LOADING,
+  CHANGE_ARTIST_OF_ALBUM
 } from '../actions/types';
 
 const initialState = {
@@ -30,6 +31,18 @@ const albumReducer = (state = initialState, action) => {
         ...state,
         currentAlbum: null,
         tracklist: null,
+        loading: false
+      };
+    case CHANGE_ARTIST_OF_ALBUM:
+      return {
+        ...state,
+        currentAlbum: [
+          {
+            ...state.currentAlbum[0],
+            artist_id: action.data.artist_id,
+            artist_name: action.data.artist_name
+          }
+        ],
         loading: false
       };
     case SET_LOADING:

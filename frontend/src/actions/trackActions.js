@@ -61,7 +61,6 @@ export const updateTrack = trackToUpdate => async dispatch => {
       type: SET_LOADING
     });
     const updatedTrack = await trackService.updateTrack(trackToUpdate);
-    console.log('updated track', updatedTrack);
     dispatch({
       type: UPDATE_TRACK,
       data: updatedTrack

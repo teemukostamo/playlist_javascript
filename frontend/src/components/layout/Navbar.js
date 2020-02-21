@@ -35,6 +35,7 @@ const Navbar = ({ first_name, last_name, login, logoutConnect }) => {
       onClick: handleLogoutClick
     }
   ];
+
   if (login.level === 1) {
     return (
       <div style={{ marginBottom: '1.5rem' }}>

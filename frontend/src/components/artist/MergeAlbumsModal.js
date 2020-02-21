@@ -32,6 +32,7 @@ const MergeAlbumsModal = ({
       mergeTo: album_id
     };
     mergeAlbumsFunctionConnect(mergeParams);
+    handleClose();
   };
 
   const mergeOptions = artist.albumList.map(album => ({

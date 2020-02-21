@@ -497,7 +497,7 @@ const ReportDetails = ({
                   selected={programDate}
                   disabledKeyboardNavigation
                   dateFormat='dd.MM.yyyy'
-                  onChange={date => setProgramDate(date)}
+                  onChange={date => setProgramDate(new Date(date))}
                   locale={fi}
                 />
                 <Form.Field

@@ -6,7 +6,8 @@ const router = express.Router();
 const {
   getOneAlbum,
   getAlbumTracklist,
-  updateAlbum
+  updateAlbum,
+  changeArtist
 } = require('../controllers/albums');
 
 router
@@ -15,5 +16,7 @@ router
   .put(verifyUser, updateAlbum);
 
 router.route('/tracklist/:id').get(verifyUser, getAlbumTracklist);
+
+router.route('/updateartist').put(verifyUser, changeArtist);
 
 module.exports = router;

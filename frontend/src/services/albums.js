@@ -35,9 +35,22 @@ const updateAlbum = async albumToUpdate => {
   return response.data;
 };
 
+const changeArtistId = async artistToUpdate => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const response = await axios.put(
+    '/api/albums/updateartist',
+    artistToUpdate,
+    config
+  );
+  return response.data;
+};
+
 export default {
   setToken,
   updateAlbum,
   getOneAlbum,
-  getTracklistOfAlbum
+  getTracklistOfAlbum,
+  changeArtistId
 };

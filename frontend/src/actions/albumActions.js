@@ -3,6 +3,7 @@ import {
   GET_TRACKLIST_OF_ALBUM,
   CLEAR_CURRENT_ALBUM,
   MERGE_ALBUMS,
+  CHANGE_ARTIST_OF_ALBUM,
   SET_LOADING
 } from './types';
 import albumService from '../services/albums';
@@ -71,4 +72,19 @@ export const updateAlbumState = mergeParams => async dispatch => {
     type: MERGE_ALBUMS,
     data: mergeParams
   });
+};
+
+export const updateArtistId = artistToUpdate => async dispatch => {
+  try {
+    dispatch({
+      type: SET_LOADING
+    });
+    await albumService.changeArtistId(artistToUpdate);
+    dispatch({
+      type: CHANGE_ARTIST_OF_ALBUM,
+      data: artistToUpdate
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
