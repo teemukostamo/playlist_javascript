@@ -13,7 +13,6 @@ import moment from 'moment';
 import ReportFilterForm from './ReportFilterForm';
 import FilterReportList from './FilterReportList';
 import ReportListItem from './ReportListItem';
-import Notification from '../layout/Notification';
 import {
   getAllReportsByDate,
   getAllReportsByDateByUser
@@ -45,8 +44,8 @@ const ReportList = ({
 
   if (reportsList.reportsList === null || reportsList.loading) {
     return (
-      <Dimmer active inverted>
-        <Loader inverted content='Ladataan...' />
+      <Dimmer active>
+        <Loader content='Ladataan...' />
       </Dimmer>
     );
   }
@@ -93,7 +92,6 @@ const ReportList = ({
   return (
     <Container>
       <ReportFilterForm />
-      <Notification />
       <h3>Raportit {reportListTimeDate}</h3>
       <FilterReportList />
       <Table striped>

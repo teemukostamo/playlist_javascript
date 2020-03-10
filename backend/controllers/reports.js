@@ -101,3 +101,68 @@ exports.updateSortableRanks = asyncHandler(async (req, res, next) => {
   );
   res.status(200).json(`${updatedReportTrack[0]} rows affected`);
 });
+
+// @desc    Get tracklist 15 most recent tracklists of a program for rh site
+// @route   GET /site
+// @access  Public
+exports.getSiteTracklist = asyncHandler(async (req, res) => {
+  const dateTimes = await db.query(
+    `
+    SELECT re.program_date
+		, re.program_start_time
+     FROM playlist__report as re
+     INNER JOIN playlist__program as pr ON re.program_id = pr.id
+     WHERE pr.name = "${req.query.name}"
+     AND re.status = 1
+     AND re.rerun is null
+     ORDER BY re.program_date desc
+     LIMIT 15
+  `,
+    {
+      type: db.QueryTypes.SELECT
+    }
+  );
+
+  if (dateTimes.length === 0) {
+    return res.status(404).json('false');
+  }
+
+  const dateArr = dateTimes.map(
+    dt => `${dt.program_date} ${dt.program_start_time}`
+  );
+
+  let result = {};
+
+  await Promise.all(
+    dateArr.map(async date => {
+      const tracks = await db.query(
+        `
+        SELECT ar.name as artist
+        , tr.name as song
+        , tr.spotify_id
+        , rt.created_at
+        , rt.sortable_rank
+      FROM playlist__track as tr
+      INNER JOIN playlist__artist as ar ON ar.id = tr.artist_id
+      INNER JOIN playlist__report_track as rt ON rt.track_id = tr.id
+      INNER JOIN playlist__report as re ON rt.report_id = re.id
+      INNER JOIN playlist__album as al ON tr.album_id = al.id
+      INNER JOIN playlist__program as pr ON re.program_id = pr.id
+      WHERE pr.name = "${req.query.name}"
+      AND re.status = 1
+      AND re.program_date = "${date.substring(0, 10)}"
+      ORDER BY rt.sortable_rank
+      `,
+        {
+          type: db.QueryTypes.SELECT
+        }
+      );
+      result = {
+        ...result,
+        [date]: tracks
+      };
+      return result;
+    })
+  );
+  res.status(200).json(result);
+});

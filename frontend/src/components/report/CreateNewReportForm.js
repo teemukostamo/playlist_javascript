@@ -310,7 +310,7 @@ const CreateNewReportForm = ({
       program_date: moment(programDate).format('YYYY-MM-DD'),
       program_start_time: programStartTime,
       program_end_time: programEndTime,
-      program_no: programNumber,
+      program_no: parseInt(programNumber),
       program_dj: dj,
       status: 0,
       rerun: null

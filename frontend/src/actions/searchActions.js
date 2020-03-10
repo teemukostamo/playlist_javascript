@@ -58,8 +58,8 @@ export const getCatIdFromDiscogs = query => async dispatch => {
   try {
     let catId;
     const results = await searchService.getCatIdFromDiscogs(query);
-    console.log(results.results);
-    if (results.results === undefined) {
+    console.log(results.results.length);
+    if (results.results.length === 0) {
       catId = 'EI ILMOITETTU';
     } else if (results.results[0].catno !== 'none') {
       catId = results.results[0].catno;

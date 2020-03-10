@@ -54,16 +54,9 @@ const App = ({
     );
   }
 
-  // return dj
-
-  // return toimitus
-
-  // return admin
   return (
     <Router>
       <div>
-        {/* Logged in as {login.username}
-        <button onClick={handleLogout}>logout</button> */}
         <Navbar first_name={login.first_name} last_name={login.last_name} />
       </div>
       <div>
@@ -110,18 +103,6 @@ const App = ({
 };
 
 App.propTypes = {
-  // login: PropTypes.shape({
-  //   user: PropTypes.shape,
-  //   first_name: PropTypes.string,
-  //   last_name: PropTypes.string,
-  //   email: PropTypes.string,
-  //   id: PropTypes.number,
-  //   level: PropTypes.number,
-  //   loading: PropTypes.bool,
-  //   status: PropTypes.number,
-  //   token: PropTypes.string,
-  //   username: PropTypes.string
-  // }),
   login: PropTypes.objectOf(PropTypes.any),
   initializeUserConnect: PropTypes.func,
   initializeUsersConnect: PropTypes.func,

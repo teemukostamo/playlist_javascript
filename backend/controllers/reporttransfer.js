@@ -34,7 +34,7 @@ exports.getAllTransfers = asyncHandler(async (req, res) => {
   res.status(200).json(transfers);
 });
 
-// @desc    Send file to client
+// @desc    Send REPORTSOFAMONTH.txt-file to client
 // @route   GET /:filename
 // @access  Private
 exports.sendFileToClient = asyncHandler(async (req, res) => {
@@ -195,10 +195,15 @@ exports.generateTransferFile = asyncHandler(async (req, res) => {
       // console.log('new cat_id', new_cat_id);
       // console.log('new cat_id length', new_cat_id.length);
 
+      // HANDLE TOO LONG DISCNO & TRACKNO .substr(0, 2)
+
       // get disc no
       let new_disc_no;
       if (track.disc_no === null) {
         new_disc_no = ' ';
+      } else if (track.disc_no.toString().length > 1) {
+        new_disc_no = track.disc_no.toString();
+        new_disc_no = new_disc_no.substr(0, 1);
       } else {
         new_disc_no = track.disc_no.toString();
       }
@@ -212,6 +217,9 @@ exports.generateTransferFile = asyncHandler(async (req, res) => {
         new_track_no = '  ';
       } else if (track.track_no.toString().length === 1) {
         new_track_no = ` ${track.track_no.toString()}`;
+      } else if (track.track_no.toString().length > 2) {
+        new_track_no = track.track_no.toString();
+        new_track_no = new_track_no.substr(0, 2);
       } else {
         new_track_no = track.track_no.toString();
       }

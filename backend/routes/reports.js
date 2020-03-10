@@ -7,8 +7,11 @@ const {
   getReportTracks,
   addTrackToReport,
   deleteTrackFromReport,
-  updateSortableRanks
+  updateSortableRanks,
+  getSiteTracklist
 } = require('../controllers/reports');
+
+router.route('/site').get(getSiteTracklist);
 
 router
   .route('/:id')

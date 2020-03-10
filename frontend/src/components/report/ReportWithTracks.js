@@ -201,28 +201,29 @@ ReportWithTracks.propTypes = {
         year: PropTypes.string
       })
     ),
-    report: PropTypes.arrayOf(
-      PropTypes.shape({
-        album_id: PropTypes.number,
-        album_name: PropTypes.string,
-        artist_id: PropTypes.number,
-        artist_name: PropTypes.string,
-        cat_id: PropTypes.string,
-        country: PropTypes.number,
-        disc_no: PropTypes.number,
-        isrc: PropTypes.string,
-        label: PropTypes.string,
-        length: PropTypes.number,
-        record_country: PropTypes.string,
-        report_id: PropTypes.number,
-        report_track_id: PropTypes.number,
-        sortable_rank: PropTypes.number,
-        spotify_id: PropTypes.string,
-        track_no: PropTypes.number,
-        track_title: PropTypes.string,
-        year: PropTypes.string
-      })
-    ),
+    // report: PropTypes.arrayOf(
+    //   PropTypes.shape({
+    //     album_id: PropTypes.number,
+    //     album_name: PropTypes.string,
+    //     artist_id: PropTypes.number,
+    //     artist_name: PropTypes.string,
+    //     cat_id: PropTypes.string,
+    //     country: PropTypes.number,
+    //     disc_no: PropTypes.number,
+    //     isrc: PropTypes.string,
+    //     label: PropTypes.string,
+    //     length: PropTypes.number,
+    //     record_country: PropTypes.string,
+    //     report_id: PropTypes.number,
+    //     report_track_id: PropTypes.number,
+    //     sortable_rank: PropTypes.number,
+    //     spotify_id: PropTypes.string,
+    //     track_no: PropTypes.number,
+    //     track_title: PropTypes.string,
+    //     year: PropTypes.string
+    //   })
+    // ),
+    report: PropTypes.array,
     loading: PropTypes.bool
   })
 };

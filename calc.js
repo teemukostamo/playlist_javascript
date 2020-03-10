@@ -681,7 +681,47 @@ let word = 'hheellloo';
 
 word.replace(/(.)\1+/g, '$1');
 
-const arr = [1, 2, 3];
+const datetime = [
+  { date: '2019-10-01', time: '07:00:00' },
+  { date: '2019-10-02', time: '07:00:00' },
+  { date: '2019-10-03', time: '07:00:00' }
+];
 
-const [foo] = arr;
-console.log(foo);
+const dateArr = datetime.map(dt => `${dt.date} ${dt.time}`);
+
+const songlist = [
+  {
+    song: 'In a Mellotone',
+    artist: 'BEN WEBSTER',
+    created_at: '2020-03-04 13:21:35',
+    spotify_id: null
+  },
+  {
+    song: 'Mr. Day',
+    artist: 'JOHN COLTRANE',
+    created_at: '2020-03-04 13:31:00',
+    spotify_id: null
+  },
+  {
+    song: 'Yellow Violet',
+    artist: 'ANDREW HILL',
+    created_at: '2020-03-04 13:35:31',
+    spotify_id: null
+  },
+  {
+    song: 'I Thought About You',
+    artist: 'MILES DAVIS',
+    created_at: '2020-03-04 13:50:05',
+    spotify_id: null
+  }
+];
+
+// const obj = {};
+
+// for (const key of dateArr) {
+//   obj[key] = songlist;
+// }
+
+const obj = dateArr.reduce((o, key) => ({ ...o, [key]: songlist }), {});
+
+console.log(obj);

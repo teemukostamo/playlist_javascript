@@ -13,7 +13,7 @@ import reportsListReducer from './reducers/reportsListReducer';
 import programReducer from './reducers/programReducer';
 import searchReducer from './reducers/searchReducer';
 
-const reducer = combineReducers({
+const appReducer = combineReducers({
   artist: artistReducer,
   album: albumReducer,
   track: trackReducer,
@@ -26,6 +26,17 @@ const reducer = combineReducers({
   users: userReducer
 });
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    // eslint-disable-next-line no-param-reassign
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+);
 
 export default store;
