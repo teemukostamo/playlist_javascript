@@ -33,7 +33,7 @@ exports.login = async (req, res) => {
     id: user.id
   };
   const token = jwt.sign(userForToken, process.env.SECRET, {
-    expiresIn: '1d'
+    // expiresIn: '1d'
   });
 
   // update last seen field
