@@ -102,7 +102,7 @@ exports.updateSortableRanks = asyncHandler(async (req, res, next) => {
   res.status(200).json(`${updatedReportTrack[0]} rows affected`);
 });
 
-// @desc    Get tracklist 15 most recent tracklists of a program for rh site
+// @desc    Get 15 most recent tracklists of a program for rh site
 // @route   GET /site
 // @access  Public
 exports.getSiteTracklist = asyncHandler(async (req, res) => {
