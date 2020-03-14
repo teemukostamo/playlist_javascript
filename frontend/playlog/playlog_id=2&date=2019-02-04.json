@@ -1,0 +1,62 @@
+{
+  "0": {
+    "date": "2019-02-04 13:02:29",
+    "id": "321302",
+    "composer": "",
+    "artist": "Vampire Weekend",
+    "artist_fi": "",
+    "additional_artist": "",
+    "conductor": "",
+    "song": "Harmony Hall (Radio Edit)",
+    "song_fi": "",
+    "label": "Sony",
+    "album": "Harmony Hall",
+    "length": "3:57",
+    "year": "2019"
+  },
+  "1": {
+    "date": "2019-02-04 12:56:15",
+    "id": "321591",
+    "composer": "",
+    "artist": "Asa & Band",
+    "artist_fi": "",
+    "additional_artist": "",
+    "conductor": "",
+    "song": "Surulliset Hiukset",
+    "song_fi": "",
+    "label": "Roihis Musica",
+    "album": "Uni Näkee Unta Meistä",
+    "length": "5:50",
+    "year": "2019"
+  },
+  "2": {
+    "date": "2019-02-04 12:51:40",
+    "id": "321844",
+    "composer": "",
+    "artist": "Henna Emilia & Houreet",
+    "artist_fi": "",
+    "additional_artist": "",
+    "conductor": "",
+    "song": "Anna mun uskoa",
+    "song_fi": "",
+    "label": "Stupido",
+    "album": "Lauluja ihmisistä & eläimistä",
+    "length": "4:25",
+    "year": "2019"
+  },
+  "3": {
+    "date": "2019-02-04 12:47:03",
+    "id": "321721",
+    "composer": "",
+    "artist": "Alma",
+    "artist_fi": "",
+    "additional_artist": "",
+    "conductor": "",
+    "song": "When I Die",
+    "song_fi": "",
+    "label": "Warner",
+    "album": "When I Die",
+    "length": "2:38",
+    "year": "2019"
+  }
+}

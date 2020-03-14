@@ -6,6 +6,7 @@ import {
   UPDATE_REPORT,
   CHECK_FOR_DELETE,
   UNCHECK_FOR_DELETE,
+  CLEAR_CHECKED_FOR_DELETE,
   CREATE_NEW_PROGRAM_ON_NEW_REPORT,
   SET_LOADING
 } from './types';
@@ -205,10 +206,14 @@ export const deleteChecked = (
       await reportService.deleteTrackFromReport(id);
     });
     await reportService.updateSortableRank(remainingTracks);
-    const report = await reportService.getOne(report_id);
+    // const report = await reportService.getOne(report_id);
+    // console.log(report);
     dispatch({
       type: GET_ONE_REPORT,
-      data: report
+      data: remainingTracks
+    });
+    dispatch({
+      type: CLEAR_CHECKED_FOR_DELETE
     });
   } catch (error) {
     console.log(error);

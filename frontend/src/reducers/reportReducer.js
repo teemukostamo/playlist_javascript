@@ -10,6 +10,7 @@ import {
   DELETE_TRACK_FROM_REPORT,
   CHECK_FOR_DELETE,
   UNCHECK_FOR_DELETE,
+  CLEAR_CHECKED_FOR_DELETE,
   CREATE_REPORT,
   UPDATE_REPORT,
   CLEAR_CURRENT_REPORT,
@@ -115,6 +116,11 @@ const reportReducer = (state = initialState, action) => {
         checkedForDelete: state.checkedForDelete.filter(
           id => id !== action.data
         )
+      };
+    case CLEAR_CHECKED_FOR_DELETE:
+      return {
+        ...state,
+        checkedForDelete: []
       };
     case CLEAR_CURRENT_REPORT:
       return {
