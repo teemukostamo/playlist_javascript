@@ -28,7 +28,8 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mysql2": "^1.7.0",
-    "sequelize": "^5.18.1"
+    "sequelize": "^5.18.1",
+    "windows-1252": "^1.0.0"
   },
   "repository": {
     "type": "git",

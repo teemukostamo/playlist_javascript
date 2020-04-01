@@ -37,7 +37,7 @@ const ReportWithTracks = ({
       } else {
         getOneReportConnect(parseInt(id));
       }
-    }, 1000);
+    }, 500);
     // eslint-disable-next-line
   }, [report.djonline]);
   // get report details by report id

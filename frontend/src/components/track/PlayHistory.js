@@ -4,11 +4,20 @@ import { Table, Dimmer, Loader } from 'semantic-ui-react';
 import PlayHistoryItem from './PlayHistoryItem';
 
 const PlayHistory = ({ playhistory }) => {
+  console.log(playhistory);
   if (playhistory === null) {
     return (
       <Dimmer>
         <Loader>Ladataan...</Loader>
       </Dimmer>
+    );
+  }
+  if (playhistory[0].result === 'No plays yet') {
+    return (
+      <React.Fragment>
+        <h4>Soittohistoria</h4>
+        <p>Ei soittoja</p>
+      </React.Fragment>
     );
   }
   return (
@@ -38,7 +47,8 @@ PlayHistory.propTypes = {
       program_date: PropTypes.string,
       program_id: PropTypes.number,
       report_id: PropTypes.number,
-      track_id: PropTypes.number
+      track_id: PropTypes.number,
+      result: PropTypes.string
     })
   )
 };

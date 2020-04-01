@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Icon, Popup } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import { setNotification } from '../../reducers/notificationReducer';
 import { addTrackToReport } from '../../actions/reportActions';
+
+// uncomment redirects and import useState in order to redirect to current report after
 
 const style = {
   borderRadius: 0,
@@ -21,7 +23,7 @@ const AddToCurrentReport = ({
   addTrackToReportConnect,
   setNotificationConnect
 }) => {
-  const [redirect, setRedirect] = useState(false);
+  // const [redirect, setRedirect] = useState(false);
   if (!report.reportDetails) {
     return null;
   }
@@ -37,11 +39,11 @@ const AddToCurrentReport = ({
       `${track_title} lisätty raporttiin ${report.reportDetails.program_name}`,
       'success'
     );
-    setRedirect(true);
+    // setRedirect(true);
   };
-  if (redirect) {
-    return <Redirect to={`/reports/${report.reportDetails.id}`} />;
-  }
+  // if (redirect) {
+  //   return <Redirect to={`/reports/${report.reportDetails.id}`} />;
+  // }
   return (
     <React.Fragment>
       <Popup

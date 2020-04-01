@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const PORT = process.env.PORT || 5000;
 let { DB_URI } = process.env;
-const { DB_URI_GOOGLE, DB_NAME, DB_SECRET } = process.env;
+const { DB_NAME, DB_SECRET } = process.env;
 
 // SSL keys decoded from base64 for heroku
 const CLIENT_CERT = Buffer.from(process.env.CLIENT_CERT, 'base64');
@@ -32,7 +32,6 @@ if (process.env.NODE_ENV === 'test') {
 
 module.exports = {
   DB_URI,
-  DB_URI_GOOGLE,
   DB_NAME,
   DB_SECRET,
   PORT,

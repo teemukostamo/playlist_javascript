@@ -15,6 +15,7 @@ import {
   UPDATE_REPORT,
   CLEAR_CURRENT_REPORT,
   SET_LOADING,
+  ADD_TRACK_TO_REPORT,
   REPORT_ERROR
 } from '../actions/types';
 
@@ -50,6 +51,11 @@ const reportReducer = (state = initialState, action) => {
         ...state,
         report: [...state.report, action.data],
         loading: false
+      };
+    case ADD_TRACK_TO_REPORT:
+      return {
+        ...state,
+        report: [...state.report, action.data]
       };
     case UPDATE_TRACK:
       return {

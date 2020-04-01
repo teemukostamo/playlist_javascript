@@ -48,9 +48,9 @@ exports.getAlbumTracklist = asyncHandler(async (req, res, next) => {
       , ar.name as artist_name
       , count(rt.track_id) as report_occurrence
      FROM playlist__album as al
-     INNER JOIN  playlist__artist as ar ON al.artist_id = ar.id
-     INNER JOIN  playlist__track as tr ON tr.album_id = al.id
-     INNER JOIN  playlist__report_track as rt ON  rt.track_id = tr.id
+     LEFT JOIN  playlist__artist as ar ON al.artist_id = ar.id
+     LEFT JOIN  playlist__track as tr ON tr.album_id = al.id
+     LEFT JOIN  playlist__report_track as rt ON  rt.track_id = tr.id
      WHERE al.id = ${req.params.id}
      group by track_id
      order by track_no asc, track_title asc
@@ -76,8 +76,8 @@ exports.updateAlbum = asyncHandler(async (req, res, next) => {
     {
       name,
       label,
-      cat_id,
-      year,
+      identifier: cat_id,
+      year: year.toString(),
       spotify_id
     },
     { where: { id: req.params.id } }

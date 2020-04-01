@@ -42,7 +42,7 @@ const AddTrackModal = ({
   const [sec, setSec] = useState('');
   const [country, setCountry] = useState('');
   const [recordCountry, setRecordCountry] = useState('');
-  const [people, setPeople] = useState('');
+  const [people, setPeople] = useState(null);
   const [discNo, setDiscNo] = useState('');
   const [trackNo, setTrackNo] = useState('');
   const [year, setYear] = useState('');
@@ -517,20 +517,23 @@ const AddTrackModal = ({
             placeholder='Levymerkki...'
             onChange={e => setLabel(e.target.value)}
             label={
-              <span>
-                Levymerkki{' '}
-                <Popup
-                  trigger={
-                    <Icon
-                      style={{ display: 'inline' }}
-                      name='question circle'
-                    />
-                  }
-                  content='Jos et tiedä levymerkkiä, kirjoita Ei tiedossa'
-                  style={style}
-                  inverted
-                />
-              </span>
+              <React.Fragment>
+                <span>
+                  Levymerkki{' '}
+                  <Popup
+                    trigger={
+                      <Icon
+                        style={{ display: 'inline' }}
+                        name='question circle'
+                      />
+                    }
+                    content='Jos et tiedä levymerkkiä, kirjoita Ei tiedossa'
+                    style={style}
+                    inverted
+                  />
+                </span>
+                <span style={{ display: 'inline', color: 'red' }}>*</span>
+              </React.Fragment>
             }
           />
           <Form.Field
@@ -556,6 +559,8 @@ const AddTrackModal = ({
                     inverted
                   />
                 </span>
+                <span style={{ display: 'inline', color: 'red' }}>*</span>
+
                 <Button
                   onClick={e => getDiscogs(e.preventDefault())}
                   size='mini'

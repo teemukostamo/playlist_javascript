@@ -73,7 +73,7 @@ const ChangeArtistModal = ({
         </button>
       }
     >
-      <Header>Vaihda biisin {currentAlbum.album_name} artistiksi:</Header>
+      <Header>Vaihda albumin {currentAlbum.album_name} artistiksi:</Header>
       <Modal.Content>
         <Form.Field>
           <div className='searchResults'>

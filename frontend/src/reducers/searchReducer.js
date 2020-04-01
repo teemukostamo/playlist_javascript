@@ -2,8 +2,8 @@ import {
   AUTOCOMPLETE_RESULTS,
   ADVANCED_RESULTS,
   SORT_ADVANCED_RESULTS,
-  GET_DISCOGS_CATID,
-  CLEAR_DISCOGS_CATID,
+  GET_DISCOGS_DATA,
+  CLEAR_DISCOGS_DATA,
   TOP_100,
   SET_SEARCH_LOADING,
   GET_CHANGE_ALBUM_OPTIONS,
@@ -59,12 +59,12 @@ const searchReducer = (state = initialState, action) => {
         top100Query: action.query,
         loading: false
       };
-    case GET_DISCOGS_CATID:
+    case GET_DISCOGS_DATA:
       return {
         ...state,
         discogsCatId: action.data
       };
-    case CLEAR_DISCOGS_CATID:
+    case CLEAR_DISCOGS_DATA:
       return {
         ...state,
         discogsCatId: null

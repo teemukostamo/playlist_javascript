@@ -6,9 +6,9 @@ import {
   UPDATE_REPORT,
   CHECK_FOR_DELETE,
   UNCHECK_FOR_DELETE,
-  CLEAR_CHECKED_FOR_DELETE,
   CREATE_NEW_PROGRAM_ON_NEW_REPORT,
-  SET_LOADING
+  SET_LOADING,
+  CLEAR_CHECKED_FOR_DELETE
 } from './types';
 import reportService from '../services/reports';
 import programService from '../services/programs';
@@ -221,16 +221,23 @@ export const deleteChecked = (
 };
 
 // eslint-disable-next-line camelcase
-export const updateSortableRank = (newOrder, report_id) => async dispatch => {
+export const updateSortableRank = newOrder => async dispatch => {
   try {
     dispatch({
       type: SET_LOADING
     });
     await reportService.updateSortableRank(newOrder);
-    const report = await reportService.getOne(report_id);
+    const updatedSortableRanks = [];
+    newOrder.forEach((track, index) => {
+      const item = {
+        ...track,
+        sortable_rank: index + 1
+      };
+      updatedSortableRanks.push(item);
+    });
     dispatch({
       type: GET_ONE_REPORT,
-      data: report
+      data: updatedSortableRanks
     });
   } catch (error) {
     console.log(error);

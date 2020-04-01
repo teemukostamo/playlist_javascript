@@ -16,7 +16,6 @@ import fi from 'date-fns/locale/fi';
 import moment from 'moment';
 import SearchTrack from '../track/SearchTrack';
 import GetDjOnlineTracks from '../track/GetDjOnlineTracks';
-import Togglable from '../layout/Togglable';
 import { updateReport, copyReport } from '../../actions/reportActions';
 import { setNotification } from '../../reducers/notificationReducer';
 
@@ -33,7 +32,6 @@ const ReportDetails = ({
   const [programNumber, setProgramNumber] = useState('');
   const [dj, setDj] = useState('');
   const [programDate, setProgramDate] = useState('');
-  console.log('report details program date', programDate);
   const [programStartTime, setProgramStartTime] = useState('');
   const [programEndTime, setProgramEndTime] = useState('');
   const [status, setStatus] = useState('');
@@ -54,7 +52,11 @@ const ReportDetails = ({
     }
   }, [report.reportDetails]);
 
-  if (report.reportDetails === null || users.users === null) {
+  if (
+    report.reportDetails === null ||
+    users.users === null ||
+    programs.allPrograms === null
+  ) {
     return (
       <Segment>
         <Dimmer active inverted>
@@ -64,7 +66,7 @@ const ReportDetails = ({
     );
   }
 
-  const programOptions = programs.activePrograms.map(program => ({
+  const programOptions = programs.allPrograms.map(program => ({
     key: program.id,
     text: program.name,
     value: program.id
@@ -371,7 +373,6 @@ const ReportDetails = ({
 
   // save changes to db
   const saveChanges = e => {
-    console.log('program date', programDate);
     e.preventDefault();
     const updatedReportDetails = {
       id: report.reportDetails.id,
@@ -392,7 +393,6 @@ const ReportDetails = ({
     ) {
       setNotificationConnect('Tarkasta aloitus- ja lopetusaika!', 'fail');
     } else {
-      console.log('saving changes...', updatedReportDetails);
       setNotificationConnect('Muutokset tallennettu!', 'success');
       updateReportConnect(updatedReportDetails);
     }
@@ -401,7 +401,6 @@ const ReportDetails = ({
   // copy report for rerun
   const handleCopyReportClick = e => {
     e.preventDefault();
-    console.log('klikd copy');
     const reportDetailsToCopy = {
       user_id: userId,
       program_id: programId,
@@ -451,14 +450,10 @@ const ReportDetails = ({
       <Header>Lisää biisi raporttiin:</Header>
       <Segment.Group horizontal>
         <Segment>
-          <Togglable color='blue' buttonLabel='Pikahaku'>
-            <SearchTrack />
-          </Togglable>
+          <SearchTrack />
         </Segment>
         <Segment>
-          <Togglable color='blue' buttonLabel='Hae biisit DJonlinesta'>
-            <GetDjOnlineTracks />
-          </Togglable>
+          <GetDjOnlineTracks />
         </Segment>
       </Segment.Group>
 
@@ -641,16 +636,16 @@ ReportDetails.propTypes = {
     loading: PropTypes.bool
   }),
   programs: PropTypes.shape({
-    activePrograms: PropTypes.arrayOf(
+    allPrograms: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.number,
-        user_id: PropTypes.number,
-        name: PropTypes.string,
-        identifier: PropTypes.string,
-        display: PropTypes.number,
-        site: PropTypes.number,
         created_at: PropTypes.string,
-        updated_at: PropTypes.string
+        display: PropTypes.number,
+        id: PropTypes.number,
+        identifier: PropTypes.string,
+        name: PropTypes.string,
+        site: PropTypes.number,
+        updated_at: PropTypes.string,
+        user_id: PropTypes.number
       })
     )
   }),

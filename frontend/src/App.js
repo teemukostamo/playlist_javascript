@@ -22,11 +22,12 @@ import ReportWithTracks from './components/report/ReportWithTracks';
 import Notification from './components/layout/Notification';
 import { initializeUser } from './actions/loginActions';
 import { initializeUsers } from './actions/userActions';
-import { initializePrograms } from './actions/programActions';
+import { initializePrograms, getAllPrograms } from './actions/programActions';
 
 const App = ({
   login,
   initializeProgramsConnect,
+  getAllProgramsConnect,
   initializeUserConnect,
   initializeUsersConnect
 }) => {
@@ -34,6 +35,7 @@ const App = ({
   useEffect(() => {
     initializeUserConnect();
     initializeProgramsConnect();
+    getAllProgramsConnect();
     initializeUsersConnect();
     // eslint-disable-next-line
   }, [login.token]);
@@ -105,6 +107,7 @@ const App = ({
 App.propTypes = {
   login: PropTypes.objectOf(PropTypes.any),
   initializeUserConnect: PropTypes.func,
+  getAllProgramsConnect: PropTypes.func,
   initializeUsersConnect: PropTypes.func,
   initializeProgramsConnect: PropTypes.func
 };
@@ -122,6 +125,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   initializeUserConnect: initializeUser,
   initializeProgramsConnect: initializePrograms,
+  getAllProgramsConnect: getAllPrograms,
   initializeUsersConnect: initializeUsers
 };
 

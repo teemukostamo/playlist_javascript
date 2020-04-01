@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Search, Button, Grid, Header } from 'semantic-ui-react';
+import { Form, Search, Button, Header } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 import { getAutocompleteResults } from '../../actions/searchActions';
 import { addTrackToReport } from '../../actions/reportActions';
@@ -61,42 +61,42 @@ const SearchTrack = ({
 
   return (
     <div style={{ marginLeft: '1rem', marginBottom: '1rem' }}>
-      <Grid divided='vertically'>
-        <Grid.Row columns='2'>
-          <Form>
-            <Header>Hae</Header>
-            <Form.Group widths='equal'>
-              <Form.Field>
-                <Search
-                  loading={search.loading}
-                  onResultSelect={handleResultSelect}
-                  onSearchChange={e => setInputText(e.target.value)}
-                  onSelectionChange={handleResultSelect}
-                  results={results}
-                  style={{ cursor: 'pointer' }}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Button color='green' onClick={saveClick}>
-                  Lisää biisi raporttiin
-                </Button>
-              </Form.Field>
-            </Form.Group>
-            <Form.Group widths='equal'>
-              <Form.Field>
-                {' '}
-                <Button onClick={goToAdvancedSearch} color='blue'>
-                  Tarkennettu haku
-                </Button>
-              </Form.Field>
-              <Form.Field>
-                {' '}
-                <AddTrackModal />
-              </Form.Field>
-            </Form.Group>
-          </Form>
-        </Grid.Row>
-      </Grid>
+      {/* <Grid divided='vertically'>
+        <Grid.Row columns='2'> */}
+      <Form>
+        <Header>Hae</Header>
+        <Form.Group>
+          <Form.Field width={8}>
+            <Search
+              loading={search.loading}
+              onResultSelect={handleResultSelect}
+              onSearchChange={e => setInputText(e.target.value)}
+              onSelectionChange={handleResultSelect}
+              results={results}
+              style={{ cursor: 'pointer' }}
+            />
+          </Form.Field>
+          <Form.Field width={8}>
+            <Button color='green' onClick={saveClick}>
+              Lisää biisi raporttiin
+            </Button>
+          </Form.Field>
+        </Form.Group>
+        <Form.Group>
+          <Form.Field width={8}>
+            {' '}
+            <Button onClick={goToAdvancedSearch} color='blue'>
+              Tarkennettu haku
+            </Button>
+          </Form.Field>
+          <Form.Field width={6}>
+            {' '}
+            <AddTrackModal />
+          </Form.Field>
+        </Form.Group>
+      </Form>
+      {/* </Grid.Row>
+      </Grid> */}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import {
   GET_DJONLINE_TRACKS,
   ADD_NEW_TRACK,
+  ADD_TRACK_TO_ALBUM,
   UPDATE_TRACK,
   SET_LOADING,
   GET_ONE_TRACK,
@@ -9,10 +10,12 @@ import {
   REMOVE_CURRENT_TRACK,
   CHANGE_ALBUM,
   CHANGE_ARTIST,
-  MERGE_TRACKS
+  MERGE_TRACKS,
+  ADD_TRACK_TO_REPORT
 } from './types';
 import trackService from '../services/tracks';
 import searchService from '../services/search';
+import reportService from '../services/reports';
 
 export const getDjonlineTracks = searchParams => async dispatch => {
   try {
@@ -50,6 +53,46 @@ export const addTrackToDb = trackToAdd => async () => {
   try {
     const track = await trackService.addTrackToDb(trackToAdd);
     console.log(track);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addTrackToAlbum = trackToAdd => async dispatch => {
+  try {
+    const track = await trackService.addTrackToAlbum(trackToAdd);
+    console.log(track);
+    dispatch({
+      type: ADD_TRACK_TO_ALBUM,
+      data: track
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addTrackToAlbumAndReport = trackToAdd => async dispatch => {
+  try {
+    const track = await trackService.addTrackToAlbum(trackToAdd);
+    const trackToReport = {
+      track_id: track.track_id,
+      report_id: trackToAdd.report_id,
+      length: trackToAdd.length,
+      sortable_rank: trackToAdd.sortable_rank
+    };
+    const report = await reportService.addTrackToReport(trackToReport);
+    const trackToReducer = {
+      ...report,
+      ...track
+    };
+    dispatch({
+      type: ADD_TRACK_TO_ALBUM,
+      data: track
+    });
+    dispatch({
+      type: ADD_TRACK_TO_REPORT,
+      data: trackToReducer
+    });
   } catch (error) {
     console.log(error);
   }

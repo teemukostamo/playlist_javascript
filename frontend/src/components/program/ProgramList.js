@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Container, Dimmer, Loader, Table } from 'semantic-ui-react';
 import ProgramListItem from './ProgramListItem';
 import AddProgramModal from './AddProgramModal';
-import Notification from '../layout/Notification';
 import { getAllPrograms } from '../../actions/programActions';
 
 const ProgramList = ({ getAllProgramsConnect, programs, login }) => {
@@ -29,7 +28,6 @@ const ProgramList = ({ getAllProgramsConnect, programs, login }) => {
           <AddProgramModal />
         </div>
 
-        <Notification />
         <Table>
           <Table.Header>
             <Table.Row>

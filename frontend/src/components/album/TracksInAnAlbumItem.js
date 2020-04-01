@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 import MergeAlbumTracksModal from './MergeAlbumTracksModal';
+import AddToCurrentReport from '../track/AddToCurrentReport';
 
 const TracksInAnAlbumItem = ({ track }) => {
   return (
@@ -23,7 +24,13 @@ const TracksInAnAlbumItem = ({ track }) => {
       </Table.Cell>
       <Table.Cell>{track.isrc}</Table.Cell>
       <Table.Cell>{track.report_occurrence}</Table.Cell>
-      <Table.Cell></Table.Cell>
+      <Table.Cell>
+        <AddToCurrentReport
+          track_title={track.track_title}
+          track_id={track.track_id}
+          length={track.length}
+        />
+      </Table.Cell>
     </Table.Row>
   );
 };
@@ -33,6 +40,7 @@ TracksInAnAlbumItem.propTypes = {
     track_id: PropTypes.number,
     track_title: PropTypes.string,
     artist_name: PropTypes.string,
+    length: PropTypes.number,
     track_no: PropTypes.number,
     disc_no: PropTypes.number,
     isrc: PropTypes.string,

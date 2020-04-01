@@ -68,10 +68,13 @@ exports.getPlayhistory = asyncHandler(async (req, res, next) => {
       type: db.QueryTypes.SELECT
     }
   );
+  // if (track.length === 0) {
+  //   return next(
+  //     new ErrorResponse(`no track found with the id ${req.params.id}`, 404)
+  //   );
+  // }
   if (track.length === 0) {
-    return next(
-      new ErrorResponse(`no track found with the id ${req.params.id}`, 404)
-    );
+    res.status(200).json([{ result: 'No plays yet' }]);
   }
   res.status(200).json(track);
 });
@@ -151,7 +154,7 @@ exports.updateTrack = asyncHandler(async (req, res) => {
     {
       name: album_name,
       identifier: cat_id,
-      year,
+      year: year.toString(),
       user_id
     },
     { where: { id: album_id } }
@@ -218,7 +221,6 @@ exports.addAndReport = asyncHandler(async (req, res) => {
 
   // see if artist exists
   const artist = await Artist.findOne({ where: { name: artist_name } });
-  // uudet artistit crashaa siihen et ao id
 
   if (!artist) {
     // create new artist
@@ -232,7 +234,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
       artist_id: newArtist.id,
       identifier: cat_id,
       label,
-      year
+      year: year.toString()
     });
     console.log('created new album', newAlbum);
 
@@ -301,7 +303,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
         artist_id: artist.id,
         identifier: cat_id,
         label,
-        year
+        year: year.toString()
       });
       console.log('created new album', newAlbum);
 
@@ -499,7 +501,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
       artist_id: newArtist.id,
       identifier: cat_id,
       label,
-      year
+      year: year.toString()
     });
     console.log('created new album', newAlbum);
 
@@ -557,7 +559,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
         artist_id: artist.id,
         identifier: cat_id,
         label,
-        year
+        year: year.toString()
       });
       console.log('created new album', newAlbum);
 
@@ -741,7 +743,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       artist_id: newArtist.id,
       identifier: cat_id,
       label,
-      year
+      year: year.toString()
     });
     console.log('created new album', newAlbum);
 
@@ -820,7 +822,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         artist_id: artist.id,
         identifier: cat_id,
         label,
-        year
+        year: year.toString()
       });
       console.log('created new album', newAlbum);
 
@@ -985,4 +987,63 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       res.status(201).json(trackToReturn);
     }
   }
+});
+
+// @desc    Add track to an existing album
+// @route   POST /addtracktoalbum
+// @access  Private
+exports.addTrackToAlbum = asyncHandler(async (req, res) => {
+  const {
+    track_title,
+    artist_name,
+    artist_id,
+    album_id,
+    cat_id,
+    label,
+    disc_no,
+    track_no,
+    length,
+    country,
+    record_country,
+    people,
+    comment,
+    isrc,
+    year,
+    user_id
+  } = req.body;
+
+  let stringifiedYear;
+  if (year === null) {
+    stringifiedYear = null;
+  } else {
+    stringifiedYear = year.toString();
+  }
+
+  const newTrack = await Track.create({
+    artist_id,
+    album_id,
+    name: track_title,
+    identifier: cat_id,
+    label,
+    side: disc_no,
+    track_no,
+    length,
+    people,
+    year: stringifiedYear,
+    comment,
+    record_country,
+    country,
+    isrc,
+    user_id
+  });
+  const trackToReturn = {
+    track_id: newTrack.id,
+    isrc,
+    disc_no,
+    track_no,
+    track_title,
+    artist_name,
+    report_occurrence: 0
+  };
+  res.status(201).json(trackToReturn);
 });

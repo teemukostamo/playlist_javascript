@@ -99,6 +99,19 @@ const addTrackToDb = async trackToAdd => {
   return response.data;
 };
 
+// add track to album without saving to a report
+const addTrackToAlbum = async trackToAdd => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const response = await axios.post(
+    `${baseUrl}/addtracktoalbum`,
+    trackToAdd,
+    config
+  );
+  return response.data;
+};
+
 const updateTrack = async trackToUpdate => {
   const config = {
     headers: { Authorization: token }
@@ -151,6 +164,7 @@ export default {
   setToken,
   checkDjonlineTracks,
   addNewTrack,
+  addTrackToAlbum,
   updateTrack,
   getOneTrack,
   getOneTrackHistory,

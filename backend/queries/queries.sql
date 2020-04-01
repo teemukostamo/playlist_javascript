@@ -221,3 +221,45 @@ START TRANSACTION;
 UPDATE playlist__track SET album_id=4025 WHERE album_id=134978;
 DELETE FROM playlist__album WHERE id=134978;
 COMMIT;
+
+-- get all plays in a period of time
+SELECT COUNT(*) as count
+        , rt.track_id
+        , tr.name as track_title
+        , tr.country as country
+        , tr.record_country
+        , al.name as album
+        , ar.name as artist
+        , al.id as album_id
+        , ar.id as artist_id
+        FROM playlist__report as re
+        INNER JOIN playlist__report_track as rt ON re.id = rt.report_id
+        INNER JOIN playlist__track as tr ON tr.id = rt.track_id
+        INNER JOIN playlist__artist as ar ON ar.id = tr.artist_id
+        INNER JOIN playlist__album as al ON al.id = tr.album_id
+        WHERE re.status = 1
+        AND re.program_date BETWEEN "2019-12-18" AND "2020-03-18"
+        GROUP BY rt.track_id
+        ORDER BY COUNT(*) DESC
+        LIMIT 12000
+
+-- get all finnish plays - where record country or country is set as finland
+SELECT COUNT(*) as count
+        , rt.track_id
+        , tr.name as track_title
+        , tr.country as country
+        , tr.record_country
+        , al.name as album
+        , ar.name as artist
+        , al.id as album_id
+        , ar.id as artist_id
+        FROM playlist__report as re
+        INNER JOIN playlist__report_track as rt ON re.id = rt.report_id
+        INNER JOIN playlist__track as tr ON tr.id = rt.track_id
+        INNER JOIN playlist__artist as ar ON ar.id = tr.artist_id
+        INNER JOIN playlist__album as al ON al.id = tr.album_id
+        WHERE re.status = 1
+        AND re.program_date BETWEEN "2019-12-18" AND "2020-03-18"
+        GROUP BY rt.track_id
+        ORDER BY COUNT(*) DESC
+        LIMIT 12000
