@@ -1,7 +1,5 @@
 const dotenv = require('dotenv');
 
-console.log('jo');
-
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
