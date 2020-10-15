@@ -1,5 +1,7 @@
 const dotenv = require('dotenv');
 
+console.log('kuis ny?');
+
 console.log('to');
 
 if (process.env.NODE_ENV !== 'production') {
