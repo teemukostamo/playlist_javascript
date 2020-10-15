@@ -7,7 +7,7 @@ import {
   Form,
   Button,
   Input,
-  Dropdown
+  Dropdown,
 } from 'semantic-ui-react';
 import { updateUser } from '../../actions/userActions';
 import { setNotification } from '../../reducers/notificationReducer';
@@ -38,7 +38,7 @@ const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
         last_name: lastName,
         email,
         level,
-        status
+        status,
       };
       setNotificationConnect(
         `Käyttäjän ${userToUpdate.first_name} ${userToUpdate.last_name} tiedot päivitetty!`,
@@ -56,7 +56,7 @@ const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
         last_name: lastName,
         email,
         level,
-        status
+        status,
       };
       updateUserConnect(userToUpdate);
       setNotificationConnect(
@@ -71,18 +71,18 @@ const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
     {
       key: 1,
       text: 'DJ',
-      value: 1
+      value: 1,
     },
     {
       key: 2,
       text: 'Toimitus',
-      value: 2
+      value: 2,
     },
     {
       key: 3,
       text: 'Admin',
-      value: 3
-    }
+      value: 3,
+    },
   ];
   const getLevel = (event, { value }) => {
     event.preventDefault();
@@ -124,7 +124,7 @@ const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
             focus
             type='password'
             placeholder='Salasana...'
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             label={
               <React.Fragment>
                 <span>Salasana - syötä vaihtaaksesi</span>
@@ -138,7 +138,7 @@ const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
             focus
             type='password'
             placeholder='Vahvista salasana...'
-            onChange={e => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             label={
               <React.Fragment>
                 <span>Salasana uudelleen</span>
@@ -153,7 +153,7 @@ const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
             defaultValue={firstName}
             type='text'
             placeholder='Etunimi...'
-            onChange={e => setFirstName(e.target.value)}
+            onChange={(e) => setFirstName(e.target.value)}
             label='Etunimi'
           />
           <Form.Field
@@ -162,7 +162,7 @@ const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
             defaultValue={lastName}
             type='text'
             placeholder='Sukunimi...'
-            onChange={e => setLastName(e.target.value)}
+            onChange={(e) => setLastName(e.target.value)}
             label='Sukunimi'
           />
           <Form.Field
@@ -171,7 +171,7 @@ const EditUserModal = ({ user, setNotificationConnect, updateUserConnect }) => {
             defaultValue={email}
             type='email'
             placeholder='Email...'
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             label='Email'
           />
           <Form.Field
@@ -221,15 +221,15 @@ EditUserModal.propTypes = {
     status: PropTypes.number,
     updated_at: PropTypes.string,
     username: PropTypes.string,
-    zip: PropTypes.string
+    zip: PropTypes.string,
   }),
   updateUserConnect: PropTypes.func,
-  setNotificationConnect: PropTypes.func
+  setNotificationConnect: PropTypes.func,
 };
 
 const connectedEditUserModal = connect(null, {
   setNotificationConnect: setNotification,
-  updateUserConnect: updateUser
+  updateUserConnect: updateUser,
 })(EditUserModal);
 
 export default connectedEditUserModal;

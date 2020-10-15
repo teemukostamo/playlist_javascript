@@ -1,0 +1,318 @@
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
+--
+-- Host: 127.0.0.1    Database: playlist-raw
+-- ------------------------------------------------------
+-- Server version	5.7.16
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `playlist__album`
+--
+
+DROP TABLE IF EXISTS `playlist__album`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `playlist__album` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `artist_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
+  `local` smallint(6) DEFAULT NULL,
+  `identifier` varchar(150) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `label` varchar(150) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `year` date DEFAULT NULL,
+  `spotify_id` varchar(22) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `playlist__album_I_1` (`name`),
+  KEY `playlist__album_FI_1` (`artist_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=153925 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist__album`
+--
+
+LOCK TABLES `playlist__album` WRITE;
+/*!40000 ALTER TABLE `playlist__album` DISABLE KEYS */;
+INSERT INTO `playlist__album` VALUES (153893,84965,'Meat Moon',NULL,'PROMO','Soliti','2016-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153894,84966,'Bitch Don’t Kill My Vibe / Get Free',NULL,'KOO-002','Kooyman Records','2015-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153895,84967,'No Frauds',NULL,'00602557566215','Young Money/Cash Money Records','2017-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153896,84968,'Otteita Tuomari Nurmion laulukirjasta',NULL,'POKOCD 332','Poko Rekords','2007-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153897,84969,'You Want It Darker',NULL,'88985365072','Columbia','2016-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153898,84970,'Cleopatra',NULL,'602547693259','Decca','2016-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153899,84971,'Hold On',NULL,'PROMO','Solina','2016-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153900,84972,'Räyhähenki Muistelee',NULL,'RA023','Ranka Recordings','1984-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153901,84973,'King',NULL,'7567-83800-2','Atlantic','2006-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153902,84974,'English Tapas',NULL,'RTRADCD925','Rough Trade','2017-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153903,84975,'The Bends',NULL,'7243 8 29626 2 5','Parlophone','1995-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153904,84976,'Starboy',NULL,'06025 5724677 3','Republic Records','2016-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153905,84977,'Forty Licks',NULL,'724381337820','ABKCO Music & Records','1968-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153906,84978,'So Much It Hurts',NULL,'-','-','2016-01-01',NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(153907,84979,'Antics',NULL,'OLE 616-2','Matador','2004-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153908,84980,'Hafa',NULL,'SNDWLP','Soundway','2016-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153909,84981,'Valkoinen Hetero',NULL,'00602557150490','Universal Music','2017-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153910,84982,'The Ultimate Party Album',NULL,'COL 512371 2','Sony Music Entertainment','1982-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153911,84983,'Greatest Hits',NULL,'88697 19412 2','Sony BMG Music Entertainment','1996-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153912,84984,'Love Remains The Same',NULL,'177169-2','Dynasty Recordings','2008-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153913,84985,'Greatest Hits',NULL,'LC 01846','Universal','1988-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153914,84986,'The Boy With The Arab Strap',NULL,'7243 8464292 1','Jeepster Recordings','1998-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153915,84987,'Coconut Oil - Ep',NULL,'-','-','2016-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153916,84988,'Led Zeppelin IV',NULL,'7567-82638-2','Atlantic Records','1971-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153917,84989,'Tarviin Vielä Yhden Yön Aikaa',NULL,'00602557523256','EMI Finland','2017-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153918,84990,'The Collection',NULL,'CCSCD 333','Castle Communications','1968-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153919,84991,'Mature',NULL,'0602547825506','Johanna Kustannus','2016-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153920,84992,'Poor Relations',NULL,'-','Twin Group','2016-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153921,84993,'Anymore',NULL,'PROMO','Mute','2017-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153922,84994,'American Teen',NULL,'88985-41432-1','Sony','2017-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153923,84995,'Lost Lost Lost',NULL,'','Timmion','2017-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(153924,84996,'Pain',NULL,'PROMO','Kobalt Label Services','2016-01-01',NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29');
+/*!40000 ALTER TABLE `playlist__album` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `playlist__artist`
+--
+
+DROP TABLE IF EXISTS `playlist__artist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `playlist__artist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
+  `spotify_id` varchar(22) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `old_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `playlist__artist_I_1` (`name`)
+) ENGINE=MyISAM AUTO_INCREMENT=84997 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist__artist`
+--
+
+LOCK TABLES `playlist__artist` WRITE;
+/*!40000 ALTER TABLE `playlist__artist` DISABLE KEYS */;
+INSERT INTO `playlist__artist` VALUES (84965,'LOVE SPORT',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84966,'SLY5THAVE & THE CLUBCASA CHAMBER ORCHESTRA',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84967,'NICKI MINAJ',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84968,'SIELUN VELJET',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84969,'LEONARD COHEN',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84970,'THE LUMINEERS',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84971,'CITYMAN',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84972,'KAUKO RÖYHKÄ',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84973,'T.I.',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84974,'SLEAFORD MODS',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84975,'RADIOHEAD',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84976,'THE WEEKND',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84977,'THE ROLLING STONES',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84978,'NIKI & THE DOVE',NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(84979,'INTERPOL',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84980,'IZEM',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84981,'SAMULI PUTRO',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84982,'ABC',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84983,'NAS',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84984,'VON HERTZEN BROTHERS',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84985,'ART OF NOISE',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84986,'BELLE & SEBASTIAN',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84987,'LIZZO',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84988,'LED ZEPPELIN',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84989,'ANNA PUU',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84990,'THE BAND',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84991,'RUGER HAUER',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84992,'MR TWIN SISTER',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84993,'GOLDFRAPP',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84994,'KHALID',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84995,'PRATT & MOODY',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(84996,'DE LA SOUL',NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29');
+/*!40000 ALTER TABLE `playlist__artist` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `playlist__program`
+--
+
+DROP TABLE IF EXISTS `playlist__program`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `playlist__program` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(128) COLLATE utf8_swedish_ci NOT NULL,
+  `identifier` varchar(255) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `display` tinyint(4) DEFAULT NULL,
+  `site` tinyint(4) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `playlist__program_I_1` (`name`),
+  KEY `playlist__program_FI_1` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1957 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist__program`
+--
+
+LOCK TABLES `playlist__program` WRITE;
+/*!40000 ALTER TABLE `playlist__program` DISABLE KEYS */;
+INSERT INTO `playlist__program` VALUES (1956,197,'Test Program','Details of test program',1,1,'2020-03-12 23:19:40','2020-03-12 23:20:23');
+/*!40000 ALTER TABLE `playlist__program` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `playlist__report`
+--
+
+DROP TABLE IF EXISTS `playlist__report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `playlist__report` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `program_id` int(11) NOT NULL,
+  `program_date` date NOT NULL,
+  `program_start_time` time NOT NULL,
+  `program_end_time` time NOT NULL,
+  `program_no` int(11) DEFAULT NULL,
+  `program_dj` varchar(64) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `rerun` tinyint(4) DEFAULT NULL,
+  `old_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `playlist__report_I_1` (`program_date`),
+  KEY `playlist__report_I_2` (`status`),
+  KEY `playlist__report_FI_1` (`program_id`),
+  KEY `playlist__report_FI_2` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=69915 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist__report`
+--
+
+LOCK TABLES `playlist__report` WRITE;
+/*!40000 ALTER TABLE `playlist__report` DISABLE KEYS */;
+INSERT INTO `playlist__report` VALUES (69914,197,1956,'2020-03-13','07:00:00','11:00:00',123,'Test User',1,NULL,NULL,'2020-03-12 23:21:16','2020-03-12 23:21:43');
+/*!40000 ALTER TABLE `playlist__report` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `playlist__report_track`
+--
+
+DROP TABLE IF EXISTS `playlist__report_track`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `playlist__report_track` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `track_id` int(11) NOT NULL,
+  `report_id` int(11) NOT NULL,
+  `length` smallint(6) DEFAULT NULL,
+  `comment` text COLLATE utf8_swedish_ci,
+  `old_id` int(11) DEFAULT NULL,
+  `sortable_rank` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `playlist__report_track_FI_1` (`track_id`),
+  KEY `playlist__report_track_FI_2` (`report_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1767652 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist__report_track`
+--
+
+LOCK TABLES `playlist__report_track` WRITE;
+/*!40000 ALTER TABLE `playlist__report_track` DISABLE KEYS */;
+INSERT INTO `playlist__report_track` VALUES (1767619,423039,69914,307,NULL,NULL,5,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767620,423040,69914,188,NULL,NULL,6,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767621,423041,69914,185,NULL,NULL,1,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767622,423042,69914,283,NULL,NULL,3,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767623,423043,69914,194,NULL,NULL,7,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767624,423044,69914,279,NULL,NULL,2,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767625,423045,69914,213,NULL,NULL,8,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767626,423046,69914,235,NULL,NULL,4,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767627,423047,69914,215,NULL,NULL,9,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767628,423048,69914,230,NULL,NULL,11,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767629,423049,69914,225,NULL,NULL,10,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767630,423050,69914,265,NULL,NULL,12,'2020-03-12 23:21:28','2020-03-15 17:55:19'),(1767631,423051,69914,188,NULL,NULL,13,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767632,423052,69914,224,NULL,NULL,14,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767633,423053,69914,292,NULL,NULL,15,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767634,423054,69914,239,NULL,NULL,16,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767635,423055,69914,228,NULL,NULL,17,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767636,423056,69914,207,NULL,NULL,18,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767637,423057,69914,281,NULL,NULL,19,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767638,423058,69914,224,NULL,NULL,20,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767639,423059,69914,211,NULL,NULL,21,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767640,423060,69914,293,NULL,NULL,22,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767641,423061,69914,156,NULL,NULL,23,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767642,423062,69914,203,NULL,NULL,24,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767643,423063,69914,287,NULL,NULL,25,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767644,423064,69914,234,NULL,NULL,26,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767645,423065,69914,272,NULL,NULL,27,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767646,423066,69914,255,NULL,NULL,28,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767647,423067,69914,261,NULL,NULL,29,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767648,423068,69914,200,NULL,NULL,30,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767649,423069,69914,199,NULL,NULL,31,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767650,423070,69914,172,NULL,NULL,32,'2020-03-12 23:21:29','2020-03-15 17:55:19'),(1767651,423071,69914,203,NULL,NULL,33,'2020-03-12 23:21:29','2020-03-15 17:55:19');
+/*!40000 ALTER TABLE `playlist__report_track` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `playlist__report_transfer`
+--
+
+DROP TABLE IF EXISTS `playlist__report_transfer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `playlist__report_transfer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `filename` varchar(18) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `period` date DEFAULT NULL,
+  `old_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `playlist__report_transfer_FI_1` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=188 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist__report_transfer`
+--
+
+LOCK TABLES `playlist__report_transfer` WRITE;
+/*!40000 ALTER TABLE `playlist__report_transfer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `playlist__report_transfer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `playlist__track`
+--
+
+DROP TABLE IF EXISTS `playlist__track`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `playlist__track` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `artist_id` int(11) NOT NULL,
+  `album_id` int(11) NOT NULL,
+  `identifier` varchar(150) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `label` varchar(255) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_swedish_ci NOT NULL,
+  `side` tinyint(4) DEFAULT NULL,
+  `track_no` int(11) DEFAULT NULL,
+  `length` smallint(6) DEFAULT NULL,
+  `people` text COLLATE utf8_swedish_ci,
+  `comment` text COLLATE utf8_swedish_ci,
+  `note` text COLLATE utf8_swedish_ci,
+  `record_country` varchar(2) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `country` tinyint(4) DEFAULT NULL,
+  `fixed` tinyint(4) DEFAULT NULL,
+  `isrc` varchar(12) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `file` char(23) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `file_order` int(11) unsigned DEFAULT NULL,
+  `spotify_id` varchar(22) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `old_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `playlist__track_I_1` (`name`),
+  KEY `playlist__track_FI_1` (`artist_id`),
+  KEY `playlist__track_FI_2` (`album_id`),
+  KEY `playlist__track_FI_3` (`user_id`),
+  KEY `playlist__track_FI_4` (`file_order`),
+  KEY `playlist__track_I_2` (`file`)
+) ENGINE=MyISAM AUTO_INCREMENT=423072 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist__track`
+--
+
+LOCK TABLES `playlist__track` WRITE;
+/*!40000 ALTER TABLE `playlist__track` DISABLE KEYS */;
+INSERT INTO `playlist__track` VALUES (423039,84965,153893,'PROMO','Soliti','Meat Moon',NULL,1,307,NULL,NULL,NULL,'FI',NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423040,84966,153894,'KOO-002','Kooyman Records','Bitch Don’t Kill My Vibe',NULL,1,188,NULL,NULL,NULL,'US',NULL,NULL,'US9AA1500036',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423041,84968,153896,'POKOCD 332','Poko Rekords','ÄLä Itke Iines',NULL,1,185,NULL,NULL,NULL,'FI',NULL,NULL,'FIUNP0600301',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423042,84967,153895,'00602557566215','Young Money/Cash Money Records','No Frauds (feat. Drake & Lil Wayne)',NULL,1,283,NULL,NULL,NULL,'US',NULL,NULL,'USCM51700014',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423043,84970,153898,'602547693259','Decca','Angela',NULL,5,194,NULL,NULL,NULL,'US',NULL,NULL,'USDMG1673805',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423044,84969,153897,'88985365072','Columbia','You Want It Darker',NULL,1,279,NULL,NULL,NULL,'CA',NULL,NULL,'CAC221600005',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423045,84971,153899,'PROMO','Solina','Hold On',NULL,1,213,NULL,NULL,NULL,'FI',NULL,NULL,'FISR61600025',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423046,84972,153900,'RA023','Ranka Recordings','Lauralle',NULL,3,235,NULL,NULL,NULL,'FI',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423047,84973,153901,'7567-83800-2','Atlantic','Why You Wanna',NULL,8,215,NULL,NULL,NULL,'US',NULL,NULL,'USAT20611307',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423048,84975,153903,'7243 8 29626 2 5','Parlophone','The Bends',NULL,2,230,NULL,NULL,NULL,'GB',NULL,NULL,'GBAYE9400054',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423049,84974,153902,'RTRADCD925','Rough Trade','B.H.S',NULL,11,225,NULL,NULL,NULL,'GB',NULL,NULL,'GBCVZ1600137',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423050,84976,153904,'06025 5724677 3','Republic Records','Secrets',NULL,6,265,NULL,NULL,NULL,'US',NULL,NULL,'USUG11601000',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423051,84977,153905,'724381337820','ABKCO Music & Records','Street Fighting Man',NULL,1,188,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:28','2020-03-12 23:21:28'),(423052,84978,153906,'-','-','So Much It Hurts',NULL,1,224,NULL,NULL,NULL,'SE',NULL,NULL,'SEWEE1502001',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423053,84979,153907,'OLE 616-2','Matador','Take You On A Cruise',NULL,4,292,NULL,NULL,NULL,'US',NULL,NULL,'USMTD0461604',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423054,84980,153908,'SNDWLP','Soundway','Agua Viva',NULL,5,239,NULL,NULL,NULL,'IE',NULL,NULL,'IELLH1500005',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423055,84981,153909,'00602557150490','Universal Music','Matkamuistot',NULL,2,228,NULL,NULL,NULL,'FI',NULL,NULL,'FIUM71600998',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423056,84982,153910,'COL 512371 2','Sony Music Entertainment','The Look Of Love (Part One)',NULL,14,207,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423057,84983,153911,'88697 19412 2','Sony BMG Music Entertainment','If I Ruled The World (Imagine That) (feat. Lauryn Hill)',NULL,7,281,NULL,NULL,NULL,'US',NULL,NULL,'USSM19601375',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423058,84984,153912,'177169-2','Dynasty Recordings','Faded Photographs',NULL,6,224,NULL,NULL,NULL,'FI',NULL,NULL,'FIDYR0800017',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423059,84985,153913,'LC 01846','Universal','Kiss (feat. Tom Jones)',NULL,2,211,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423060,84986,153914,'7243 8464292 1','Jeepster Recordings','Sleep The Clock Around',NULL,2,293,NULL,NULL,NULL,'GB',NULL,NULL,'GBCAX9801002',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423061,84974,153902,'RTRADCD925','Rough Trade','Moptop',NULL,3,156,NULL,NULL,NULL,'GB',NULL,NULL,'GBCVZ1600129',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423062,84987,153915,'-','-','Scuse Me',NULL,3,203,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423063,84988,153916,'7567-82638-2','Atlantic Records','Black Dog',NULL,1,287,NULL,NULL,NULL,'US',NULL,NULL,'USAT20300849',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423064,84989,153917,'00602557523256','EMI Finland','Tarviin Vielä Yhden Yön Aikaa',NULL,1,234,NULL,NULL,NULL,'FI',NULL,NULL,'FITFR1700006',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423065,84990,153918,'CCSCD 333','Castle Communications','The Weight',NULL,1,272,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423066,84991,153919,'0602547825506','Johanna Kustannus','Amazing',NULL,6,255,NULL,NULL,NULL,'FI',NULL,NULL,'FIUM71600056',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423067,84992,153920,'-','Twin Group','Poor Relations',NULL,1,261,NULL,NULL,NULL,'US',NULL,NULL,'USA2B1617565',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423068,84993,153921,'PROMO','Mute','Anymore',NULL,1,200,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423069,84994,153922,'88985-41432-1','Sony','Young Dumb & Broke',NULL,2,199,NULL,NULL,NULL,'US',NULL,NULL,'USRC11700144',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423070,84995,153923,'','Timmion','Lost Lost Lost',NULL,1,172,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29'),(423071,84996,153924,'PROMO','Kobalt Label Services','Pain (feat. Snoop Dogg)',NULL,1,203,NULL,NULL,NULL,'GB',NULL,NULL,'GBWWP1601855',NULL,NULL,NULL,NULL,NULL,'2020-03-12 23:21:29','2020-03-12 23:21:29');
+/*!40000 ALTER TABLE `playlist__track` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `playlist__user`
+--
+
+DROP TABLE IF EXISTS `playlist__user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `playlist__user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) COLLATE utf8_swedish_ci NOT NULL,
+  `password` varchar(60) COLLATE utf8_swedish_ci NOT NULL,
+  `first_name` varchar(128) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `last_name` varchar(128) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `email` varchar(64) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `address` varchar(128) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `zip` varchar(32) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `city` varchar(32) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `country` varchar(32) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `phone` varchar(32) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `level` tinyint(4) DEFAULT NULL,
+  `last_seen` datetime DEFAULT NULL,
+  `reset_key` varchar(40) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `old_id` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `playlist__user_U_1` (`username`)
+) ENGINE=MyISAM AUTO_INCREMENT=201 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `playlist__user`
+--
+
+LOCK TABLES `playlist__user` WRITE;
+/*!40000 ALTER TABLE `playlist__user` DISABLE KEYS */;
+INSERT INTO `playlist__user` VALUES (197,'test','$2b$10$wH9BWiv/VS0HjuYx9CVmLu85sKMfuPC6LaFhzuEBuwIUx9oc8moai','Test','User','test@test.com',NULL,NULL,NULL,NULL,NULL,1,3,'2020-03-15 17:54:47',NULL,NULL,'2020-03-12 23:17:08','2020-03-15 17:54:47'),(198,'ville','$2b$10$JFETi/mo0TbMFluhbM1lB.58w3mpVjkGUv6.hTuEkcNG2zIQMIVKG','Ville','Virtanen','ville@virtanen.com',NULL,NULL,NULL,NULL,NULL,1,1,'2020-03-12 23:25:27',NULL,NULL,'2020-03-12 23:23:56','2020-03-12 23:25:27'),(199,'john','$2b$10$N8xVed4MvU8OhbPTjMFFNO6NNK97bbMtjUh9msdAwp9BUZVxYeyAe','John','Doe','john@doe.com',NULL,NULL,NULL,NULL,NULL,1,2,'2020-03-12 23:25:36',NULL,NULL,'2020-03-12 23:24:20','2020-03-12 23:25:36'),(200,'joey','$2b$10$/a08gyaSNwEKpOIdDSbz0OH/GBYIN.morBRej08NKl3p5k49Wev1a','Joey','Moose','joey@moose.com',NULL,NULL,NULL,NULL,NULL,1,3,'2020-03-12 23:25:45',NULL,NULL,'2020-03-12 23:25:02','2020-03-12 23:25:45');
+/*!40000 ALTER TABLE `playlist__user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-04-10 15:17:45

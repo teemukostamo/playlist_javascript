@@ -8,13 +8,13 @@ import {
   Dimmer,
   Loader,
   Button,
-  Header
+  Header,
 } from 'semantic-ui-react';
 import {
   getOneReport,
   getReportDetails,
   deleteChecked,
-  updateSortableRank
+  updateSortableRank,
 } from '../../actions/reportActions';
 import ReportWithTracksItem from './ReportWithTracksItem';
 import ReportDetails from './ReportDetails';
@@ -26,7 +26,7 @@ const ReportWithTracks = ({
   getOneReportConnect,
   getReportDetailsConnect,
   deleteCheckedConnect,
-  updateSortableRankConnect
+  updateSortableRankConnect,
 }) => {
   const [dragState, setDragState] = useState(null);
   // get report tracks by report id
@@ -72,7 +72,7 @@ const ReportWithTracks = ({
       setDragState(array);
     },
     nodeSelector: 'tr',
-    handleSelector: 'i.arrows'
+    handleSelector: 'i.arrows',
   };
 
   if (report.report === null || report.reportDetails === null) {
@@ -103,6 +103,7 @@ const ReportWithTracks = ({
   return (
     <Container>
       <h3>Raportti</h3>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <ReactDragListView {...dragProps}>
         <Table striped>
           <Table.Header>
@@ -117,7 +118,7 @@ const ReportWithTracks = ({
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {report.report.map(track => (
+            {report.report.map((track) => (
               <ReportWithTracksItem key={track.report_track_id} track={track} />
             ))}
           </Table.Body>
@@ -133,7 +134,7 @@ const ReportWithTracks = ({
         style={{
           marginLeft: '1rem',
           marginBottom: '1rem',
-          marginTop: '1rem'
+          marginTop: '1rem',
         }}
       >
         Poista valitut
@@ -158,7 +159,7 @@ ReportWithTracks.propTypes = {
     loading: PropTypes.bool,
     status: PropTypes.number,
     token: PropTypes.string,
-    username: PropTypes.string
+    username: PropTypes.string,
   }),
   report: PropTypes.shape({
     checkedForDelete: PropTypes.array,
@@ -176,7 +177,7 @@ ReportWithTracks.propTypes = {
       user_id: PropTypes.number,
       username: PropTypes.string,
       first_name: PropTypes.string,
-      last_name: PropTypes.string
+      last_name: PropTypes.string,
     }),
     djonline: PropTypes.arrayOf(
       PropTypes.shape({
@@ -198,7 +199,7 @@ ReportWithTracks.propTypes = {
         track_no: PropTypes.string,
         track_title: PropTypes.string,
         user_id: PropTypes.number,
-        year: PropTypes.string
+        year: PropTypes.string,
       })
     ),
     // report: PropTypes.arrayOf(
@@ -224,15 +225,15 @@ ReportWithTracks.propTypes = {
     //   })
     // ),
     report: PropTypes.array,
-    loading: PropTypes.bool
-  })
+    loading: PropTypes.bool,
+  }),
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     report: state.report,
     reportsList: state.reportsList,
-    login: state.login
+    login: state.login,
   };
 };
 
@@ -240,7 +241,7 @@ const connectedReportWithTracks = connect(mapStateToProps, {
   getOneReportConnect: getOneReport,
   getReportDetailsConnect: getReportDetails,
   deleteCheckedConnect: deleteChecked,
-  updateSortableRankConnect: updateSortableRank
+  updateSortableRankConnect: updateSortableRank,
 })(ReportWithTracks);
 
 export default connectedReportWithTracks;

@@ -10,7 +10,7 @@ import {
   Container,
   Grid,
   Popup,
-  Icon
+  Icon,
 } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import fi from 'date-fns/locale/fi';
@@ -24,7 +24,7 @@ const CreateNewReportForm = ({
   programs,
   report,
   setNotificationConnect,
-  createReportConnect
+  createReportConnect,
 }) => {
   const [programId, setProgramId] = useState('');
   const [programNumber, setProgramNumber] = useState(null);
@@ -36,10 +36,10 @@ const CreateNewReportForm = ({
   const [redirect, setRedirect] = useState(false);
 
   // list of programoptions for select
-  const programOptions = programs.activePrograms.map(program => ({
+  const programOptions = programs.activePrograms.map((program) => ({
     key: program.id,
     text: program.name,
-    value: program.id
+    value: program.id,
   }));
   const getProgram = (event, { value }) => {
     event.preventDefault();
@@ -51,123 +51,123 @@ const CreateNewReportForm = ({
     {
       key: 0,
       text: '00:00',
-      value: '00:00:00'
+      value: '00:00:00',
     },
     {
       key: 1,
       text: '01:00',
-      value: '01:00:00'
+      value: '01:00:00',
     },
     {
       key: 2,
       text: '02:00',
-      value: '02:00:00'
+      value: '02:00:00',
     },
     {
       key: 3,
       text: '03:00',
-      value: '03:00:00'
+      value: '03:00:00',
     },
     {
       key: 4,
       text: '04:00',
-      value: '04:00:00'
+      value: '04:00:00',
     },
     {
       key: 5,
       text: '05:00',
-      value: '05:00:00'
+      value: '05:00:00',
     },
     {
       key: 6,
       text: '06:00',
-      value: '06:00:00'
+      value: '06:00:00',
     },
     {
       key: 7,
       text: '07:00',
-      value: '07:00:00'
+      value: '07:00:00',
     },
     {
       key: 8,
       text: '08:00',
-      value: '08:00:00'
+      value: '08:00:00',
     },
     {
       key: 9,
       text: '09:00',
-      value: '09:00:00'
+      value: '09:00:00',
     },
     {
       key: 10,
       text: '10:00',
-      value: '10:00:00'
+      value: '10:00:00',
     },
     {
       key: 11,
       text: '11:00',
-      value: '11:00:00'
+      value: '11:00:00',
     },
     {
       key: 12,
       text: '12:00',
-      value: '12:00:00'
+      value: '12:00:00',
     },
     {
       key: 13,
       text: '13:00',
-      value: '13:00:00'
+      value: '13:00:00',
     },
     {
       key: 14,
       text: '14:00',
-      value: '14:00:00'
+      value: '14:00:00',
     },
     {
       key: 15,
       text: '15:00',
-      value: '15:00:00'
+      value: '15:00:00',
     },
     {
       key: 16,
       text: '16:00',
-      value: '16:00:00'
+      value: '16:00:00',
     },
     {
       key: 17,
       text: '17:00',
-      value: '17:00:00'
+      value: '17:00:00',
     },
     {
       key: 18,
       text: '18:00',
-      value: '18:00:00'
+      value: '18:00:00',
     },
     {
       key: 19,
       text: '19:00',
-      value: '19:00:00'
+      value: '19:00:00',
     },
     {
       key: 20,
       text: '20:00',
-      value: '20:00:00'
+      value: '20:00:00',
     },
     {
       key: 21,
       text: '21:00',
-      value: '21:00:00'
+      value: '21:00:00',
     },
     {
       key: 22,
       text: '22:00',
-      value: '22:00:00'
+      value: '22:00:00',
     },
     {
       key: 23,
       text: '23:00',
-      value: '23:00:00'
-    }
+      value: '23:00:00',
+    },
   ];
   const getStartTime = (event, { value }) => {
     event.preventDefault();
@@ -179,123 +179,123 @@ const CreateNewReportForm = ({
     {
       key: 0,
       text: '01:00',
-      value: '01:00:00'
+      value: '01:00:00',
     },
     {
       key: 1,
       text: '02:00',
-      value: '02:00:00'
+      value: '02:00:00',
     },
     {
       key: 2,
       text: '03:00',
-      value: '03:00:00'
+      value: '03:00:00',
     },
     {
       key: 3,
       text: '04:00',
-      value: '04:00:00'
+      value: '04:00:00',
     },
     {
       key: 4,
       text: '05:00',
-      value: '05:00:00'
+      value: '05:00:00',
     },
     {
       key: 5,
       text: '06:00',
-      value: '06:00:00'
+      value: '06:00:00',
     },
     {
       key: 6,
       text: '07:00',
-      value: '07:00:00'
+      value: '07:00:00',
     },
     {
       key: 7,
       text: '08:00',
-      value: '08:00:00'
+      value: '08:00:00',
     },
     {
       key: 8,
       text: '09:00',
-      value: '09:00:00'
+      value: '09:00:00',
     },
     {
       key: 9,
       text: '10:00',
-      value: '10:00:00'
+      value: '10:00:00',
     },
     {
       key: 10,
       text: '11:00',
-      value: '11:00:00'
+      value: '11:00:00',
     },
     {
       key: 11,
       text: '12:00',
-      value: '12:00:00'
+      value: '12:00:00',
     },
     {
       key: 12,
       text: '13:00',
-      value: '13:00:00'
+      value: '13:00:00',
     },
     {
       key: 13,
       text: '14:00',
-      value: '14:00:00'
+      value: '14:00:00',
     },
     {
       key: 14,
       text: '15:00',
-      value: '15:00:00'
+      value: '15:00:00',
     },
     {
       key: 15,
       text: '16:00',
-      value: '16:00:00'
+      value: '16:00:00',
     },
     {
       key: 16,
       text: '17:00',
-      value: '17:00:00'
+      value: '17:00:00',
     },
     {
       key: 17,
       text: '18:00',
-      value: '18:00:00'
+      value: '18:00:00',
     },
     {
       key: 18,
       text: '19:00',
-      value: '19:00:00'
+      value: '19:00:00',
     },
     {
       key: 19,
       text: '20:00',
-      value: '20:00:00'
+      value: '20:00:00',
     },
     {
       key: 20,
       text: '21:00',
-      value: '21:00:00'
+      value: '21:00:00',
     },
     {
       key: 21,
       text: '22:00',
-      value: '22:00:00'
+      value: '22:00:00',
     },
     {
       key: 22,
       text: '23:00',
-      value: '23:00:00'
+      value: '23:00:00',
     },
     {
       key: 23,
       text: '23:59',
-      value: '23:59:59'
-    }
+      value: '23:59:59',
+    },
   ];
   const getEndTime = (event, { value }) => {
     event.preventDefault();
@@ -313,7 +313,7 @@ const CreateNewReportForm = ({
       program_no: parseInt(programNumber),
       program_dj: dj,
       status: 0,
-      rerun: null
+      rerun: null,
     };
     if (
       parseInt(newReport.program_end_time) <=
@@ -330,7 +330,7 @@ const CreateNewReportForm = ({
     borderRadius: 0,
     display: 'block',
     opacity: 0.9,
-    padding: '2em'
+    padding: '2em',
   };
 
   if (redirect && report.newReport !== null) {
@@ -385,14 +385,14 @@ const CreateNewReportForm = ({
                   control={Input}
                   type='text'
                   value={newProgramName}
-                  onChange={e => setNewProgramName(e.target.value)}
+                  onChange={(e) => setNewProgramName(e.target.value)}
                 />
               </Togglable>
             </Form.Field>
             <Form.Field
               control={Input}
               type='number'
-              onChange={e => setProgramNumber(e.target.value)}
+              onChange={(e) => setProgramNumber(e.target.value)}
               label={
                 <span>
                   Ohjelmanumero{' '}
@@ -414,7 +414,7 @@ const CreateNewReportForm = ({
               control={Input}
               type='text'
               value={dj}
-              onChange={e => setDj(e.target.value)}
+              onChange={(e) => setDj(e.target.value)}
               label='DJ'
             />
             <Form.Group widths='equal'>
@@ -423,7 +423,7 @@ const CreateNewReportForm = ({
                 locale={fi}
                 selected={programDate}
                 dateFormat='dd.MM.yyyy'
-                onChange={date => setProgramDate(date)}
+                onChange={(date) => setProgramDate(date)}
                 label='Ohjelman päivä'
               />
               <Form.Field
@@ -473,7 +473,7 @@ CreateNewReportForm.propTypes = {
     loading: PropTypes.bool,
     status: PropTypes.number,
     token: PropTypes.string,
-    username: PropTypes.string
+    username: PropTypes.string,
   }),
   programs: PropTypes.shape({
     activePrograms: PropTypes.arrayOf(
@@ -485,7 +485,7 @@ CreateNewReportForm.propTypes = {
         name: PropTypes.string,
         site: PropTypes.number,
         updated_at: PropTypes.string,
-        user_id: PropTypes.number
+        user_id: PropTypes.number,
       })
     ),
     allPrograms: PropTypes.arrayOf(
@@ -497,31 +497,31 @@ CreateNewReportForm.propTypes = {
         name: PropTypes.string,
         site: PropTypes.number,
         updated_at: PropTypes.string,
-        user_id: PropTypes.number
+        user_id: PropTypes.number,
       })
     ),
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }),
   report: PropTypes.shape({
     newReport: PropTypes.shape({
-      id: PropTypes.number
-    })
+      id: PropTypes.number,
+    }),
   }),
   setNotificationConnect: PropTypes.func,
-  createReportConnect: PropTypes.func
+  createReportConnect: PropTypes.func,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     report: state.report,
     programs: state.programs,
-    login: state.login
+    login: state.login,
   };
 };
 
 const connectedCreateNewReportForm = connect(mapStateToProps, {
   createReportConnect: createReport,
-  setNotificationConnect: setNotification
+  setNotificationConnect: setNotification,
 })(CreateNewReportForm);
 
 export default connectedCreateNewReportForm;

@@ -1,8 +1,6 @@
 const express = require('express');
 const verifyUser = require('../middleware/auth');
 
-console.log('testlog');
-
 const router = express.Router();
 
 const {

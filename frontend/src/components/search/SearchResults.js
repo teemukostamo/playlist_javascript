@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -54,7 +56,7 @@ const SearchResults = ({ search }) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {resultsToShow.map(result => (
+          {resultsToShow.map((result) => (
             <SearchResultItem key={result.track_id} result={result} />
           ))}
         </Table.Body>
@@ -75,17 +77,17 @@ SearchResults.propTypes = {
         program_date: PropTypes.string,
         report_id: PropTypes.number,
         track_id: PropTypes.number,
-        track_title: PropTypes.string
+        track_title: PropTypes.string,
       })
     ),
     loading: PropTypes.bool,
-    sortAdvancedResults: PropTypes.number
-  })
+    sortAdvancedResults: PropTypes.number,
+  }),
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    search: state.search
+    search: state.search,
   };
 };
 

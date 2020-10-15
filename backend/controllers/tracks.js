@@ -49,7 +49,7 @@ exports.getOneTrack = asyncHandler(async (req, res, next) => {
 // @desc    Get play history of one track
 // @route   GET /history/:id
 // @access  Private
-exports.getPlayhistory = asyncHandler(async (req, res, next) => {
+exports.getPlayhistory = asyncHandler(async (req, res) => {
   const track = await db.query(
     `
       SELECT pr.name as program_name
