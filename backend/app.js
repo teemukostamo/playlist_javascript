@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+console.log('yo');
 
 const app = express();
 
@@ -28,44 +29,47 @@ const db = require('./config/database');
 
 db.authenticate()
   .then(() => console.log('Database connected...'))
-  .catch(err => console.log(`Error: ${err}`));
+  .catch((err) => console.log(`Error: ${err}`));
 
-app.use(express.static(path.resolve(__dirname, 'build')));
+app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 
 app.get('/', function(req, res) {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`), err => {
-    if (err) {
-      res.status(500).send(err);
+  res.sendFile(
+    path.resolve(`${__dirname}../frontend/build/index.html`),
+    (err) => {
+      if (err) {
+        res.status(500).send(err);
+      }
     }
-  });
+  );
 });
 
 app.get('/reports*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 app.get('/top100*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 app.get('/search*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 app.get('/transfer*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 app.get('/users*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 app.get('/propgrams*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 app.get('/artist*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 app.get('/album*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 app.get('/track*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
 });
 
 app.use(bodyParser.json());
