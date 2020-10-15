@@ -15,25 +15,9 @@ beforeAll(async () => {
   token = req.body.token;
 });
 
-test('successful login returns 200', async () => {
-  const loginCredentials = {
-    username: 'test',
-    password: 'test',
-  };
+it('getting artist details should return 200', async () => {
   await api
-    .post('/api/login')
-    .send(loginCredentials)
-    .expect(200)
-    .expect('Content-Type', /application\/json/);
-});
-
-it('should require authorization', async () => {
-  await api.get('/api/users').expect(401);
-});
-
-it('should return list of users', async () => {
-  await api
-    .get('/api/users')
+    .get('/api/artists/details/84969')
     .set('Authorization', `bearer ${token}`)
     .expect(200);
 });

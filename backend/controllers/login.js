@@ -11,10 +11,9 @@ exports.login = async (req, res) => {
 
   // check if user exists, return 401 if not
   const user = await User.findOne({ where: { username } });
-  console.log(user);
   if (!user) {
     return res.status(401).json({
-      error: 'user not found!'
+      error: 'user not found!',
     });
   }
 
@@ -23,26 +22,21 @@ exports.login = async (req, res) => {
     user === null ? false : await bcrypt.compare(password, user.password);
   if (!(user && passwordCorrect)) {
     return res.status(401).json({
-      error: 'Invalid username or password'
+      error: 'Invalid username or password',
     });
   }
 
   // create user object for token
   const userForToken = {
     username: user.username,
-    id: user.id
+    id: user.id,
   };
   const token = jwt.sign(userForToken, process.env.SECRET, {
     // expiresIn: '1d'
   });
 
   // update last seen field
-  const updatedUser = await User.update(
-    { last_seen: new Date() },
-    { where: { username } }
-  );
-
-  console.log(updatedUser);
+  await User.update({ last_seen: new Date() }, { where: { username } });
 
   // response ok with token and username
   res.status(200).send({
@@ -53,6 +47,6 @@ exports.login = async (req, res) => {
     first_name: user.first_name,
     last_name: user.last_name,
     level: user.level,
-    status: user.status
+    status: user.status,
   });
 };

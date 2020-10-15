@@ -7,9 +7,10 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "rm -rf frontend/build && cd frontend && npm run build && cp -r build ../backend",
     "start": "cross-env NODE_ENV=production node backend",
     "start:test": "cross-env NODE_ENV=test node backend",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
     "watch": "cross-env NODE_ENV=development nodemon backend"
   },
   "cacheDirectories": [

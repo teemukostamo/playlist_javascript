@@ -1,6 +1,6 @@
+/* eslint-disable indent */
 const mysql = require('mysql');
 const db = require('../config/database');
-
 const asyncHandler = require('../middleware/async');
 
 // @desc    Get Top100 most played tracks, albums or artists of a certain month
@@ -9,6 +9,21 @@ const asyncHandler = require('../middleware/async');
 exports.getTop100 = asyncHandler(async (req, res) => {
   const startDate = mysql.escape(req.query.start_date);
   const endDate = mysql.escape(req.query.end_date);
+  let listBy = mysql.escape(req.query.list);
+
+  switch (req.query.list) {
+    case 'track_title':
+      listBy = 'track_title';
+      break;
+    case 'album_id':
+      listBy = 'album_id';
+      break;
+    case 'artist_id':
+      listBy = 'artist_id';
+      break;
+    default:
+      listBy = '';
+  }
   const result = await db.query(
     ` 
         SELECT COUNT(*) as count
@@ -25,7 +40,7 @@ exports.getTop100 = asyncHandler(async (req, res) => {
         INNER JOIN playlist__album as al ON al.id = tr.album_id
         WHERE re.status = 1
         AND re.program_date BETWEEN ${startDate} AND ${endDate}
-        GROUP BY ${req.query.list}
+        GROUP BY ${listBy}
         ORDER BY COUNT(*) DESC
         LIMIT 100
         `,
