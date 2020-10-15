@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 const mysql = require('mysql');
 const db = require('../config/database');
 
@@ -49,11 +50,24 @@ exports.advancedResults = asyncHandler(async (req, res) => {
   const { kind, query } = req.query;
   // eslint-disable-next-line quotes
   const searchString = query.replace(/'/g, "\\'");
-  console.log(searchString.length);
   if (searchString.length < 3) {
     return res.status(400).json({ error: 'query too short' });
   }
   const escapeSearchString = mysql.escape(`%${searchString}%`);
+  let escapedKind;
+  switch (kind) {
+    case 'al':
+      escapedKind = 'al';
+      break;
+    case 'ar':
+      escapedKind = 'ar';
+      break;
+    case 'tr':
+      escapedKind = 'tr';
+      break;
+    default:
+      escapedKind = '';
+  }
 
   const results = await db.query(
     `
@@ -72,7 +86,7 @@ exports.advancedResults = asyncHandler(async (req, res) => {
       INNER JOIN playlist__track as tr ON rt.track_id = tr.id
       INNER JOIN playlist__album as al ON tr.album_id = al.id
       INNER JOIN playlist__artist as ar ON tr.artist_id = ar.id AND al.artist_id = ar.id
-      WHERE ${kind}.name like ${escapeSearchString}
+      WHERE ${escapedKind}.name like ${escapeSearchString}
       GROUP BY tr.id
       ORDER BY track_title asc
       LIMIT 1000
