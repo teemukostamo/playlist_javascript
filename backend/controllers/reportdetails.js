@@ -1,3 +1,4 @@
+const mysql = require('mysql');
 const db = require('../config/database');
 const Report = require('../models/Report');
 
@@ -8,6 +9,7 @@ const ErrorResponse = require('../utils/errorResponse');
 // @route   GET /details/:id
 // @access  Private
 exports.getReportDetails = asyncHandler(async (req, res, next) => {
+  const id = mysql.escape(req.params.id);
   const report = await db.query(
     `
       SELECT pr.name as program_name
@@ -27,10 +29,10 @@ exports.getReportDetails = asyncHandler(async (req, res, next) => {
      FROM playlist__program as pr
      INNER JOIN playlist__report as re ON pr.id = re.program_id
      INNER JOIN playlist__user as us ON re.user_id = us.id
-     WHERE re.id = ${req.params.id}
+     WHERE re.id = ${id}
       `,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (report.length === 0) {
@@ -52,7 +54,7 @@ exports.createNewReport = asyncHandler(async (req, res) => {
     program_no,
     program_dj,
     status,
-    rerun
+    rerun,
   } = req.body;
 
   const savedReport = await Report.create({
@@ -64,7 +66,7 @@ exports.createNewReport = asyncHandler(async (req, res) => {
     program_no,
     program_dj,
     status,
-    rerun
+    rerun,
   });
   res.status(201).json(savedReport.toJSON());
 });
@@ -82,7 +84,7 @@ exports.updateReportDetails = asyncHandler(async (req, res, next) => {
     program_no,
     program_dj,
     status,
-    rerun
+    rerun,
   } = req.body;
 
   const updatedReport = await Report.update(
@@ -95,7 +97,7 @@ exports.updateReportDetails = asyncHandler(async (req, res, next) => {
       program_no,
       program_dj,
       status,
-      rerun
+      rerun,
     },
     { where: { id: req.body.id } }
   );

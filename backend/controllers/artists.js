@@ -1,3 +1,4 @@
+const mysql = require('mysql');
 const db = require('../config/database');
 const Artist = require('../models/Artist');
 
@@ -21,7 +22,7 @@ exports.getOneArtist = asyncHandler(async (req, res, next) => {
 // @route   GET /albumsby/:id
 // @access  Private
 exports.getAllAlbumsByArtist = asyncHandler(async (req, res, next) => {
-  console.log('req user', req.user);
+  const id = mysql.escape(req.params.id);
   const albumlist = await db.query(
     `
       SELECT al.id as album_id
@@ -36,12 +37,12 @@ exports.getAllAlbumsByArtist = asyncHandler(async (req, res, next) => {
      INNER JOIN playlist__artist as ar ON al.artist_id = ar.id
      INNER JOIN playlist__track as tr ON tr.album_id = al.id
      INNER JOIN playlist__report_track as rt ON rt.track_id = tr.id
-     WHERE ar.id = ${req.params.id}
+     WHERE ar.id = ${id}
      group by album_id
      ORDER BY al.name
     `,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (albumlist.length === 0) {
@@ -60,7 +61,7 @@ exports.updateArtist = asyncHandler(async (req, res, next) => {
   const updatedArtist = await Artist.update(
     {
       name,
-      spotify_id
+      spotify_id,
     },
     { where: { id: req.params.id } }
   );

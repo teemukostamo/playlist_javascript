@@ -1,4 +1,5 @@
 /* eslint-disable prefer-const */
+const mysql = require('mysql');
 const Track = require('../models/Track');
 const Album = require('../models/Album');
 const Artist = require('../models/Artist');
@@ -12,6 +13,7 @@ const ErrorResponse = require('../utils/errorResponse');
 // @route   GET /details/:id
 // @access  Private
 exports.getOneTrack = asyncHandler(async (req, res, next) => {
+  const id = mysql.escape(req.params.id);
   const track = await db.query(
     `SELECT t.name as track_title
       , ar.name as artist
@@ -33,9 +35,9 @@ exports.getOneTrack = asyncHandler(async (req, res, next) => {
      FROM playlist__track as t
      INNER JOIN playlist__artist as ar ON t.artist_id = ar.id
      INNER JOIN playlist__album as al ON t.album_id = al.id
-     WHERE t.id = ${req.params.id}`,
+     WHERE t.id = ${id}`,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (track.length === 0) {
@@ -50,6 +52,7 @@ exports.getOneTrack = asyncHandler(async (req, res, next) => {
 // @route   GET /history/:id
 // @access  Private
 exports.getPlayhistory = asyncHandler(async (req, res) => {
+  const id = mysql.escape(req.params.id);
   const track = await db.query(
     `
       SELECT pr.name as program_name
@@ -60,12 +63,12 @@ exports.getPlayhistory = asyncHandler(async (req, res) => {
       FROM playlist__program as pr
       INNER JOIN playlist__report as re ON re.program_id = pr.id
       INNER JOIN playlist__report_track as rt ON rt.report_id = re.id
-      WHERE rt.track_id = ${req.params.id}
+      WHERE rt.track_id = ${id}
       GROUP BY re.id
       ORDER BY program_date desc
       `,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   // if (track.length === 0) {
@@ -86,7 +89,7 @@ exports.changeAlbum = asyncHandler(async (req, res) => {
   const { track_id, album_id } = req.body;
   const changedAlbum = await Track.update(
     {
-      album_id
+      album_id,
     },
     { where: { id: track_id } }
   );
@@ -100,7 +103,7 @@ exports.changeArtist = asyncHandler(async (req, res) => {
   const { track_id, artist_id } = req.body;
   const changedArtist = await Track.update(
     {
-      artist_id
+      artist_id,
     },
     { where: { id: track_id } }
   );
@@ -131,7 +134,7 @@ exports.updateTrack = asyncHandler(async (req, res) => {
     artist_id,
     album_id,
     sortable_rank,
-    report_track_id
+    report_track_id,
   } = req.body;
 
   const trackToUpDate = await Track.update(
@@ -146,7 +149,7 @@ exports.updateTrack = asyncHandler(async (req, res) => {
       label,
       isrc,
       comment,
-      user_id
+      user_id,
     },
     { where: { id: track_id } }
   );
@@ -155,14 +158,14 @@ exports.updateTrack = asyncHandler(async (req, res) => {
       name: album_name,
       identifier: cat_id,
       year: year.toString(),
-      user_id
+      user_id,
     },
     { where: { id: album_id } }
   );
   const artistToUpdate = await Artist.update(
     {
       name: artist_name,
-      user_id
+      user_id,
     },
     { where: { id: artist_id } }
   );
@@ -186,7 +189,7 @@ exports.updateTrack = asyncHandler(async (req, res) => {
     artist_id,
     album_id,
     sortable_rank,
-    report_track_id
+    report_track_id,
   };
   console.log('updated track info', trackToUpDate);
   console.log('updated album info', albumToUpdate);
@@ -216,7 +219,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
     isrc,
     report_id,
     user_id,
-    sortable_rank
+    sortable_rank,
   } = req.body;
 
   // see if artist exists
@@ -225,7 +228,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
   if (!artist) {
     // create new artist
     const newArtist = await Artist.create({
-      name: artist_name
+      name: artist_name,
     });
     console.log('created new artist', newArtist);
     // create new album
@@ -234,7 +237,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
       artist_id: newArtist.id,
       identifier: cat_id,
       label,
-      year: year.toString()
+      year: year.toString(),
     });
     console.log('created new album', newAlbum);
 
@@ -253,7 +256,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
       people,
       comment,
       user_id,
-      isrc
+      isrc,
     });
     console.log('created new track', newTrack);
 
@@ -262,7 +265,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
       track_id: newTrack.id,
       report_id,
       length: newTrack.length,
-      sortable_rank
+      sortable_rank,
     });
     const trackToReturn = {
       id: newTrack.id,
@@ -286,7 +289,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
       report_id,
       report_track_id: newReportTrack.id,
       user_id: newTrack.user_id,
-      spotify_id: newTrack.spotify_id
+      spotify_id: newTrack.spotify_id,
     };
     console.log('adding to report track', newReportTrack);
     console.log('track to return', trackToReturn);
@@ -294,7 +297,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
   } else if (artist) {
     // see if album exists
     const album = await Album.findOne({
-      where: { artist_id: artist.id, name: album_name }
+      where: { artist_id: artist.id, name: album_name },
     });
     if (!album) {
       // create new album
@@ -303,7 +306,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
         artist_id: artist.id,
         identifier: cat_id,
         label,
-        year: year.toString()
+        year: year.toString(),
       });
       console.log('created new album', newAlbum);
 
@@ -322,7 +325,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
         people,
         comment,
         isrc,
-        user_id
+        user_id,
       });
       console.log('created new track', newTrack);
 
@@ -331,7 +334,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
         track_id: newTrack.id,
         report_id,
         length: newTrack.length,
-        sortable_rank
+        sortable_rank,
       });
       console.log('created new report-track', newReportTrack);
       const trackToReturn = {
@@ -356,14 +359,14 @@ exports.addAndReport = asyncHandler(async (req, res) => {
         report_id,
         report_track_id: newReportTrack.id,
         user_id: newTrack.user_id,
-        spotify_id: newTrack.spotify_id
+        spotify_id: newTrack.spotify_id,
       };
       console.log('track to return', trackToReturn);
       res.status(201).json(trackToReturn);
     } else {
       // see if track exists
       const track = await Track.findOne({
-        where: { artist_id: artist.id, album_id: album.id, name: track_title }
+        where: { artist_id: artist.id, album_id: album.id, name: track_title },
       });
 
       if (track) {
@@ -372,7 +375,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
           track_id: track.id,
           report_id,
           length: track.length,
-          sortable_rank
+          sortable_rank,
         });
         console.log('created new report track', newReportTrack);
 
@@ -398,7 +401,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
           report_id,
           report_track_id: newReportTrack.id,
           user_id: track.user_id,
-          spotify_id: track.spotify_id
+          spotify_id: track.spotify_id,
         };
         console.log('track to return', trackToReturn);
         return res.status(200).json(trackToReturn);
@@ -419,7 +422,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
         people,
         comment,
         user_id,
-        isrc
+        isrc,
       });
       console.log('created new track', newTrack);
 
@@ -428,7 +431,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
         track_id: newTrack.id,
         report_id,
         length: newTrack.length,
-        sortable_rank
+        sortable_rank,
       });
 
       console.log('new report-track', newReportTrack);
@@ -454,7 +457,7 @@ exports.addAndReport = asyncHandler(async (req, res) => {
         report_id,
         report_track_id: newReportTrack.id,
         user_id: newTrack.user_id,
-        spotify_id: newTrack.spotify_id
+        spotify_id: newTrack.spotify_id,
       };
       console.log('track to return', trackToReturn);
       res.status(201).json(trackToReturn);
@@ -482,7 +485,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
     people,
     comment,
     isrc,
-    user_id
+    user_id,
   } = req.body;
 
   // see if artist exists
@@ -492,7 +495,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
   if (!artist) {
     // create new artist
     const newArtist = await Artist.create({
-      name: artist_name
+      name: artist_name,
     });
     console.log('created new artist', newArtist);
     // create new album
@@ -501,7 +504,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
       artist_id: newArtist.id,
       identifier: cat_id,
       label,
-      year: year.toString()
+      year: year.toString(),
     });
     console.log('created new album', newAlbum);
 
@@ -520,7 +523,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
       people,
       comment,
       user_id,
-      isrc
+      isrc,
     });
     console.log('created new track', newTrack);
 
@@ -543,14 +546,14 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
       comment,
       isrc,
       user_id: newTrack.user_id,
-      spotify_id: newTrack.spotify_id
+      spotify_id: newTrack.spotify_id,
     };
     console.log('track to return', trackToReturn);
     res.status(201).json(trackToReturn);
   } else if (artist) {
     // see if album exists
     const album = await Album.findOne({
-      where: { artist_id: artist.id, name: album_name }
+      where: { artist_id: artist.id, name: album_name },
     });
     if (!album) {
       // create new album
@@ -559,7 +562,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
         artist_id: artist.id,
         identifier: cat_id,
         label,
-        year: year.toString()
+        year: year.toString(),
       });
       console.log('created new album', newAlbum);
 
@@ -578,7 +581,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
         people,
         comment,
         isrc,
-        user_id
+        user_id,
       });
       console.log('created new track', newTrack);
 
@@ -601,14 +604,14 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
         comment,
         isrc,
         user_id: newTrack.user_id,
-        spotify_id: newTrack.spotify_id
+        spotify_id: newTrack.spotify_id,
       };
       console.log('track to return', trackToReturn);
       res.status(201).json(trackToReturn);
     } else {
       // see if track exists
       const track = await Track.findOne({
-        where: { artist_id: artist.id, album_id: album.id, name: track_title }
+        where: { artist_id: artist.id, album_id: album.id, name: track_title },
       });
       console.log(track);
       if (track) {
@@ -631,7 +634,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
           comment,
           isrc,
           user_id: track.user_id,
-          spotify_id: track.spotify_id
+          spotify_id: track.spotify_id,
         };
         console.log('track to return', trackToReturn);
         return res.status(200).json(trackToReturn);
@@ -651,7 +654,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
         people,
         comment,
         user_id,
-        isrc
+        isrc,
       });
       console.log('created new track', newTrack);
 
@@ -674,7 +677,7 @@ exports.addNewTrack = asyncHandler(async (req, res) => {
         comment,
         isrc,
         user_id: newTrack.user_id,
-        spotify_id: newTrack.spotify_id
+        spotify_id: newTrack.spotify_id,
       };
       console.log('track to return', trackToReturn);
       res.status(201).json(trackToReturn);
@@ -704,7 +707,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
     people,
     comment,
     isrc,
-    report_id
+    report_id,
   } = req.body;
 
   // see if artist name ends with , the
@@ -725,7 +728,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
     where: db.where(
       db.fn('lower', db.col('name')),
       db.fn('lower', artist_name.toLowerCase())
-    )
+    ),
   });
 
   console.log('add djonline tracks artist', artist);
@@ -734,7 +737,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
   if (!artist) {
     // create new artist
     const newArtist = await Artist.create({
-      name: artist_name
+      name: artist_name,
     });
     console.log('created new artist', newArtist);
     // create new album
@@ -743,7 +746,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       artist_id: newArtist.id,
       identifier: cat_id,
       label,
-      year: year.toString()
+      year: year.toString(),
     });
     console.log('created new album', newAlbum);
 
@@ -761,7 +764,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       record_country,
       people,
       comment,
-      isrc
+      isrc,
     });
     console.log('created new track', newTrack);
 
@@ -770,7 +773,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       track_id: newTrack.id,
       report_id,
       length: newTrack.length,
-      sortable_rank
+      sortable_rank,
     });
     const trackToReturn = {
       id: newTrack.id,
@@ -794,7 +797,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       report_id,
       report_track_id: newReportTrack.id,
       user_id: newTrack.user_id,
-      spotify_id: newTrack.spotify_id
+      spotify_id: newTrack.spotify_id,
     };
     console.log('adding to report track', newReportTrack);
     console.log('track to return', trackToReturn);
@@ -810,8 +813,8 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         $col: db.where(
           db.fn('lower', db.col('name')),
           db.fn('lower', album_name.toLowerCase())
-        )
-      }
+        ),
+      },
     });
     console.log('add djonline tracks album', album);
 
@@ -822,7 +825,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         artist_id: artist.id,
         identifier: cat_id,
         label,
-        year: year.toString()
+        year: year.toString(),
       });
       console.log('created new album', newAlbum);
 
@@ -840,7 +843,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         record_country,
         people,
         comment,
-        isrc
+        isrc,
       });
       console.log('created new track', newTrack);
 
@@ -849,7 +852,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         track_id: newTrack.id,
         report_id,
         length: newTrack.length,
-        sortable_rank
+        sortable_rank,
       });
       console.log('created new report-track', newReportTrack);
       const trackToReturn = {
@@ -874,7 +877,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         report_id,
         report_track_id: newReportTrack.id,
         user_id: newTrack.user_id,
-        spotify_id: newTrack.spotify_id
+        spotify_id: newTrack.spotify_id,
       };
       console.log('track to return', trackToReturn);
       res.status(201).json(trackToReturn);
@@ -890,8 +893,8 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
           $col: db.where(
             db.fn('lower', db.col('name')),
             db.fn('lower', track_title.toLowerCase())
-          )
-        }
+          ),
+        },
       });
       console.log('add djonline tracks track', track);
 
@@ -901,7 +904,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
           track_id: track.id,
           report_id,
           length: track.length,
-          sortable_rank
+          sortable_rank,
         });
         console.log('created new report track', newReportTrack);
 
@@ -927,7 +930,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
           report_id,
           report_track_id: newReportTrack.id,
           user_id: track.user_id,
-          spotify_id: track.spotify_id
+          spotify_id: track.spotify_id,
         };
         console.log('track to return', trackToReturn);
         return res.status(200).json(trackToReturn);
@@ -946,7 +949,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         record_country,
         people,
         comment,
-        isrc
+        isrc,
       });
       console.log('created new track', newTrack);
 
@@ -955,7 +958,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         track_id: newTrack.id,
         report_id,
         length: newTrack.length,
-        sortable_rank
+        sortable_rank,
       });
 
       console.log('new report-track', newReportTrack);
@@ -981,7 +984,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         report_id,
         report_track_id: newReportTrack.id,
         user_id: newTrack.user_id,
-        spotify_id: newTrack.spotify_id
+        spotify_id: newTrack.spotify_id,
       };
       console.log('track to return', trackToReturn);
       res.status(201).json(trackToReturn);
@@ -1009,7 +1012,7 @@ exports.addTrackToAlbum = asyncHandler(async (req, res) => {
     comment,
     isrc,
     year,
-    user_id
+    user_id,
   } = req.body;
 
   let stringifiedYear;
@@ -1034,7 +1037,7 @@ exports.addTrackToAlbum = asyncHandler(async (req, res) => {
     record_country,
     country,
     isrc,
-    user_id
+    user_id,
   });
   const trackToReturn = {
     track_id: newTrack.id,
@@ -1043,7 +1046,7 @@ exports.addTrackToAlbum = asyncHandler(async (req, res) => {
     track_no,
     track_title,
     artist_name,
-    report_occurrence: 0
+    report_occurrence: 0,
   };
   res.status(201).json(trackToReturn);
 });

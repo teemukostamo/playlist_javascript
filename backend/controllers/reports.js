@@ -1,3 +1,4 @@
+const mysql = require('mysql');
 const db = require('../config/database');
 const Report_Track = require('../models/Report_Track');
 
@@ -8,7 +9,7 @@ const ErrorResponse = require('../utils/errorResponse');
 // @route   GET /:id
 // @access  Private
 exports.getReportTracks = asyncHandler(async (req, res) => {
-  console.log('req params id at reports controller', req.params.id);
+  const id = mysql.escape(req.params.id);
   const report = await db.query(
     `
       SELECT rt.sortable_rank
@@ -33,11 +34,11 @@ exports.getReportTracks = asyncHandler(async (req, res) => {
      INNER JOIN playlist__artist as ar ON ar.id = tr.artist_id
      INNER JOIN playlist__report_track as rt ON rt.track_id = tr.id
      INNER JOIN playlist__album as al ON tr.album_id = al.id
-     WHERE rt.report_id = ${req.params.id}
+     WHERE rt.report_id = ${id}
      ORDER BY sortable_rank asc
       `,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   res.status(200).json(report);
@@ -52,7 +53,7 @@ exports.addTrackToReport = asyncHandler(async (req, res) => {
     track_id,
     report_id,
     length,
-    sortable_rank
+    sortable_rank,
   });
   res.status(201).json(newReportTrack);
 });
@@ -62,7 +63,7 @@ exports.addTrackToReport = asyncHandler(async (req, res) => {
 // @access  Private
 exports.deleteTrackFromReport = asyncHandler(async (req, res, next) => {
   const report_track = await Report_Track.findOne({
-    where: { id: req.params.id }
+    where: { id: req.params.id },
   });
   if (!report_track) {
     return next(
@@ -73,7 +74,7 @@ exports.deleteTrackFromReport = asyncHandler(async (req, res, next) => {
     );
   }
   await Report_Track.destroy({
-    where: { id: req.params.id }
+    where: { id: req.params.id },
   });
   res.status(204).json({});
 });
@@ -83,7 +84,7 @@ exports.deleteTrackFromReport = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.updateSortableRanks = asyncHandler(async (req, res, next) => {
   const report_track = await Report_Track.findOne({
-    where: { id: req.params.id }
+    where: { id: req.params.id },
   });
   if (!report_track) {
     return next(
@@ -95,7 +96,7 @@ exports.updateSortableRanks = asyncHandler(async (req, res, next) => {
   }
   const updatedReportTrack = await Report_Track.update(
     {
-      sortable_rank: req.body.sortable_rank
+      sortable_rank: req.body.sortable_rank,
     },
     { where: { id: req.params.id } }
   );
@@ -106,20 +107,21 @@ exports.updateSortableRanks = asyncHandler(async (req, res, next) => {
 // @route   GET /site
 // @access  Public
 exports.getSiteTracklist = asyncHandler(async (req, res) => {
+  const programName = mysql.escape(req.query.name);
   const dateTimes = await db.query(
     `
     SELECT re.program_date
 		, re.program_start_time
      FROM playlist__report as re
      INNER JOIN playlist__program as pr ON re.program_id = pr.id
-     WHERE pr.name = "${req.query.name}"
+     WHERE pr.name = "${programName}"
      AND re.status = 1
      AND re.rerun is null
      ORDER BY re.program_date desc
      LIMIT 15
   `,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
 
@@ -128,13 +130,13 @@ exports.getSiteTracklist = asyncHandler(async (req, res) => {
   }
 
   const dateArr = dateTimes.map(
-    dt => `${dt.program_date} ${dt.program_start_time}`
+    (dt) => `${dt.program_date} ${dt.program_start_time}`
   );
 
   let result = {};
 
   await Promise.all(
-    dateArr.map(async date => {
+    dateArr.map(async (date) => {
       const tracks = await db.query(
         `
         SELECT ar.name as artist
@@ -148,18 +150,18 @@ exports.getSiteTracklist = asyncHandler(async (req, res) => {
       INNER JOIN playlist__report as re ON rt.report_id = re.id
       INNER JOIN playlist__album as al ON tr.album_id = al.id
       INNER JOIN playlist__program as pr ON re.program_id = pr.id
-      WHERE pr.name = "${req.query.name}"
+      WHERE pr.name = "${programName}"
       AND re.status = 1
       AND re.program_date = "${date.substring(0, 10)}"
       ORDER BY rt.sortable_rank
       `,
         {
-          type: db.QueryTypes.SELECT
+          type: db.QueryTypes.SELECT,
         }
       );
       result = {
         ...result,
-        [date]: tracks
+        [date]: tracks,
       };
       return result;
     })

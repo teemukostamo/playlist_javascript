@@ -1,3 +1,4 @@
+const mysql = require('mysql');
 const db = require('../config/database');
 const Album = require('../models/Album');
 
@@ -8,6 +9,7 @@ const ErrorResponse = require('../utils/errorResponse');
 // @route   GET /albumdetails/:id
 // @access  Private
 exports.getOneAlbum = asyncHandler(async (req, res, next) => {
+  const id = mysql.escape(req.params.id);
   const album = await db.query(
     `
       SELECT al.name as album_name
@@ -20,10 +22,10 @@ exports.getOneAlbum = asyncHandler(async (req, res, next) => {
       , ar.id as artist_id
       FROM playlist__artist as ar
       INNER JOIN playlist__album as al ON al.artist_id = ar.id
-      WHERE al.id = ${req.params.id}
+      WHERE al.id = ${id}
     `,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (album.length === 0) {
@@ -38,6 +40,7 @@ exports.getOneAlbum = asyncHandler(async (req, res, next) => {
 // @route   GET /tracklist/:id
 // @access  Private
 exports.getAlbumTracklist = asyncHandler(async (req, res, next) => {
+  const id = mysql.escape(req.params.id);
   const album = await db.query(
     `
       SELECT tr.id as track_id
@@ -51,12 +54,12 @@ exports.getAlbumTracklist = asyncHandler(async (req, res, next) => {
      LEFT JOIN  playlist__artist as ar ON al.artist_id = ar.id
      LEFT JOIN  playlist__track as tr ON tr.album_id = al.id
      LEFT JOIN  playlist__report_track as rt ON  rt.track_id = tr.id
-     WHERE al.id = ${req.params.id}
+     WHERE al.id = ${id}
      group by track_id
      order by track_no asc, track_title asc
     `,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (album.length === 0) {
@@ -78,7 +81,7 @@ exports.updateAlbum = asyncHandler(async (req, res, next) => {
       label,
       identifier: cat_id,
       year: year.toString(),
-      spotify_id
+      spotify_id,
     },
     { where: { id: req.params.id } }
   );
@@ -97,7 +100,7 @@ exports.changeArtist = asyncHandler(async (req, res) => {
   const { album_id, artist_id } = req.body;
   const changedArtist = await Album.update(
     {
-      artist_id
+      artist_id,
     },
     { where: { id: album_id } }
   );

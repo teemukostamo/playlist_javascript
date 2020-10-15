@@ -1,3 +1,4 @@
+const mysql = require('mysql');
 const db = require('../config/database');
 
 const asyncHandler = require('../middleware/async');
@@ -6,6 +7,8 @@ const asyncHandler = require('../middleware/async');
 // @route   GET /
 // @access  Private
 exports.getTop100 = asyncHandler(async (req, res) => {
+  const startDate = mysql.escape(req.query.start_date);
+  const endDate = mysql.escape(req.query.end_date);
   const result = await db.query(
     ` 
         SELECT COUNT(*) as count
@@ -21,13 +24,13 @@ exports.getTop100 = asyncHandler(async (req, res) => {
         INNER JOIN playlist__artist as ar ON ar.id = tr.artist_id
         INNER JOIN playlist__album as al ON al.id = tr.album_id
         WHERE re.status = 1
-        AND re.program_date BETWEEN "${req.query.start_date}" AND "${req.query.end_date}"
+        AND re.program_date BETWEEN ${startDate} AND ${endDate}
         GROUP BY ${req.query.list}
         ORDER BY COUNT(*) DESC
         LIMIT 100
         `,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (result) {

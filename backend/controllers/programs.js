@@ -1,3 +1,4 @@
+const mysql = require('mysql');
 const db = require('../config/database');
 const Program = require('../models/Program');
 const Report = require('../models/Report');
@@ -12,7 +13,7 @@ exports.getAllActivePrograms = asyncHandler(async (req, res, next) => {
   const programs = await db.query(
     'SELECT * FROM playlist__program WHERE display = 1 order by name asc',
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (programs.length === 0) {
@@ -28,7 +29,7 @@ exports.getAllPrograms = asyncHandler(async (req, res, next) => {
   const programs = await db.query(
     'SELECT * FROM playlist__program order by display desc, name asc',
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (programs.length === 0) {
@@ -41,10 +42,11 @@ exports.getAllPrograms = asyncHandler(async (req, res, next) => {
 // @route   GET /getone/:id
 // @access  Private
 exports.getOneProgram = asyncHandler(async (req, res, next) => {
+  const id = mysql.escape(req.params.id);
   const program = await db.query(
-    `SELECT * FROM playlist__program WHERE id = ${req.params.id}`,
+    `SELECT * FROM playlist__program WHERE id = ${id}`,
     {
-      type: db.QueryTypes.SELECT
+      type: db.QueryTypes.SELECT,
     }
   );
   if (program.length === 0) {
@@ -64,7 +66,7 @@ exports.createNewProgram = asyncHandler(async (req, res) => {
     identifier: req.body.identifier,
     name: req.body.name,
     display: 1,
-    site: 1
+    site: 1,
   });
   res.status(201).json(savedProgram);
 });
@@ -80,7 +82,7 @@ exports.updateProgram = asyncHandler(async (req, res, next) => {
       name,
       identifier,
       site,
-      display
+      display,
     },
     { where: { id } }
   );
@@ -100,7 +102,7 @@ exports.mergePrograms = asyncHandler(async (req, res) => {
     transaction = await db.transaction();
     await Report.update(
       {
-        program_id: mergeTo
+        program_id: mergeTo,
       },
       { where: { program_id: merge } }
     );
