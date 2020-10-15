@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-console.log('yo');
 
 const app = express();
 
@@ -35,7 +34,7 @@ app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 
 app.get('/', function(req, res) {
   res.sendFile(
-    path.resolve(`${__dirname}../frontend/build/index.html`),
+    path.resolve(__dirname, '../frontend/build/', 'index.html'),
     (err) => {
       if (err) {
         res.status(500).send(err);
@@ -45,31 +44,31 @@ app.get('/', function(req, res) {
 });
 
 app.get('/reports*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/top100*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/search*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/transfer*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/users*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/propgrams*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/artist*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/album*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/track*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}../frontend/build/index.html`));
+  res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 
 app.use(bodyParser.json());
@@ -88,10 +87,6 @@ app.use('/api/search', searchRouter);
 app.use('/api/top100', top100Router);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
-
-if (process.env.NODE_ENV === 'test') {
-  // add testing conf here
-}
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
