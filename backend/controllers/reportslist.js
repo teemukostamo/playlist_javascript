@@ -41,7 +41,6 @@ exports.getCurrentUsersReports = asyncHandler(async (req, res) => {
 // @access  Private
 exports.getAllReportsByMonth = asyncHandler(async (req, res) => {
   const date = mysql.escape(`${req.params.date}%`);
-  console.log(date);
   const reports = await db.query(
     `
       SELECT re.program_no

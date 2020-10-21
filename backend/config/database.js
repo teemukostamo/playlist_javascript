@@ -28,6 +28,9 @@ module.exports = new Sequelize(
   {
     host: config.DB_URI,
     dialect: 'mysql',
+    dialectOptions: {
+      multipleStatements: true,
+    },
     pool: {
       max: 5,
       min: 0,
