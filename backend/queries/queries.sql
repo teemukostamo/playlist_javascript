@@ -245,12 +245,12 @@ SELECT COUNT(*) as count
 
 -- get all finnish plays - where record country or country is set as finland
 SELECT COUNT(*) as count
-        , rt.track_id
-        , tr.name as track_title
-        , tr.country as country
-        , tr.record_country
-        , al.name as album
         , ar.name as artist
+		, tr.name as track_title
+		, al.name as album
+		, tr.country as country
+        , tr.record_country
+        , rt.track_id
         , al.id as album_id
         , ar.id as artist_id
         FROM playlist__report as re
@@ -260,6 +260,8 @@ SELECT COUNT(*) as count
         INNER JOIN playlist__album as al ON al.id = tr.album_id
         WHERE re.status = 1
         AND re.program_date BETWEEN "2019-12-18" AND "2020-03-18"
+        AND ((tr.record_country LIKE "%FI%" OR tr.country = 1)
+        OR (tr.country = 1 AND tr.record_country is null))
         GROUP BY rt.track_id
         ORDER BY COUNT(*) DESC
         LIMIT 12000

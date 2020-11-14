@@ -13,7 +13,7 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push -u origin master && npm run deploy",
     "start": "cross-env NODE_ENV=production node backend",
     "start:test": "cross-env NODE_ENV=test node backend",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles --testPathIgnorePatterns=frontend/cypress/integration/examples",
+    "test": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles --testPathIgnorePatterns=frontend/cypress/integration/examples --runInBand",
     "watch": "cross-env NODE_ENV=development nodemon backend"
   },
   "cacheDirectories": [

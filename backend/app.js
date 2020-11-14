@@ -58,7 +58,7 @@ app.get('/transfer*', (req, res) => {
 app.get('/users*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
-app.get('/propgrams*', (req, res) => {
+app.get('/programs*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../frontend/build/', 'index.html'));
 });
 app.get('/artist*', (req, res) => {
