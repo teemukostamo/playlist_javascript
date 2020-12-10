@@ -40,15 +40,15 @@ Home.propTypes = {
         name: PropTypes.string,
         site: PropTypes.number,
         updated_at: PropTypes.string,
-        user_id: PropTypes.number
+        user_id: PropTypes.number,
       })
-    )
-  })
+    ),
+  }),
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    programs: state.programs
+    programs: state.programs,
   };
 };
 
