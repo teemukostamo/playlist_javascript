@@ -27,13 +27,18 @@ const GetDjOnlineTracks = ({ report, getDjonlineTracksConnect }) => {
     {
       key: '928',
       text: 'Studio 1',
-      value: '928'
+      value: '928',
     },
     {
       key: '1047',
       text: 'Studio 2',
-      value: '1047'
-    }
+      value: '1047',
+    },
+    {
+      key: '1048',
+      text: 'Yösoittokone',
+      value: '1048',
+    },
   ];
 
   // list of program start time options
@@ -41,123 +46,123 @@ const GetDjOnlineTracks = ({ report, getDjonlineTracksConnect }) => {
     {
       key: '00:00',
       text: '00:00',
-      value: '00'
+      value: '00',
     },
     {
       key: '01:00',
       text: '01:00',
-      value: '01'
+      value: '01',
     },
     {
       key: '02:00',
       text: '02:00',
-      value: '02'
+      value: '02',
     },
     {
       key: '03:00',
       text: '03:00',
-      value: '03'
+      value: '03',
     },
     {
       key: '04:00',
       text: '04:00',
-      value: '04'
+      value: '04',
     },
     {
       key: '05:00',
       text: '05:00',
-      value: '05'
+      value: '05',
     },
     {
       key: '06:00',
       text: '06:00',
-      value: '06'
+      value: '06',
     },
     {
       key: '07:00',
       text: '07:00',
-      value: '07'
+      value: '07',
     },
     {
       key: '08:00',
       text: '08:00',
-      value: '08'
+      value: '08',
     },
     {
       key: '09:00',
       text: '09:00',
-      value: '09'
+      value: '09',
     },
     {
       key: '10:00',
       text: '10:00',
-      value: '10'
+      value: '10',
     },
     {
       key: '11:00',
       text: '11:00',
-      value: '11'
+      value: '11',
     },
     {
       key: '12:00',
       text: '12:00',
-      value: '12'
+      value: '12',
     },
     {
       key: '13:00',
       text: '13:00',
-      value: '13'
+      value: '13',
     },
     {
       key: '14:00',
       text: '14:00',
-      value: '14'
+      value: '14',
     },
     {
       key: '15:00',
       text: '15:00',
-      value: '15'
+      value: '15',
     },
     {
       key: '16:00',
       text: '16:00',
-      value: '16'
+      value: '16',
     },
     {
       key: '17:00',
       text: '17:00',
-      value: '17'
+      value: '17',
     },
     {
       key: '18:00',
       text: '18:00',
-      value: '18'
+      value: '18',
     },
     {
       key: '19:00',
       text: '19:00',
-      value: '19'
+      value: '19',
     },
     {
       key: '20:00',
       text: '20:00',
-      value: '20'
+      value: '20',
     },
     {
       key: '21:00',
       text: '21:00',
-      value: '21'
+      value: '21',
     },
     {
       key: '22:00',
       text: '22:00',
-      value: '22'
+      value: '22',
     },
     {
       key: '23:00',
       text: '23:00',
-      value: '23'
-    }
+      value: '23',
+    },
   ];
   const getStartTime = (event, { value }) => {
     event.preventDefault();
@@ -169,123 +174,123 @@ const GetDjOnlineTracks = ({ report, getDjonlineTracksConnect }) => {
     {
       key: '01:00',
       text: '01:00',
-      value: '01'
+      value: '01',
     },
     {
       key: '02:00',
       text: '02:00',
-      value: '02'
+      value: '02',
     },
     {
       key: '03:00',
       text: '03:00',
-      value: '03'
+      value: '03',
     },
     {
       key: '04:00',
       text: '04:00',
-      value: '04'
+      value: '04',
     },
     {
       key: '05:00',
       text: '05:00',
-      value: '05'
+      value: '05',
     },
     {
       key: '06:00',
       text: '06:00',
-      value: '06'
+      value: '06',
     },
     {
       key: '07:00',
       text: '07:00',
-      value: '07'
+      value: '07',
     },
     {
       key: '08:00',
       text: '08:00',
-      value: '08'
+      value: '08',
     },
     {
       key: '09:00',
       text: '09:00',
-      value: '09'
+      value: '09',
     },
     {
       key: '10:00',
       text: '10:00',
-      value: '10'
+      value: '10',
     },
     {
       key: '11:00',
       text: '11:00',
-      value: '11'
+      value: '11',
     },
     {
       key: '12:00',
       text: '12:00',
-      value: '12'
+      value: '12',
     },
     {
       key: '13:00',
       text: '13:00',
-      value: '13'
+      value: '13',
     },
     {
       key: '14:00',
       text: '14:00',
-      value: '14'
+      value: '14',
     },
     {
       key: '15:00',
       text: '15:00',
-      value: '15'
+      value: '15',
     },
     {
       key: '16:00',
       text: '16:00',
-      value: '16'
+      value: '16',
     },
     {
       key: '17:00',
       text: '17:00',
-      value: '17'
+      value: '17',
     },
     {
       key: '18:00',
       text: '18:00',
-      value: '18'
+      value: '18',
     },
     {
       key: '19:00',
       text: '19:00',
-      value: '19'
+      value: '19',
     },
     {
       key: '20:00',
       text: '20:00',
-      value: '20'
+      value: '20',
     },
     {
       key: '21:00',
       text: '21:00',
-      value: '21'
+      value: '21',
     },
     {
       key: '22:00',
       text: '22:00',
-      value: '22'
+      value: '22',
     },
     {
       key: '23:00',
       text: '23:00',
-      value: '23'
+      value: '23',
     },
     {
       key: '24:00',
       text: '24:00',
-      value: '24'
-    }
+      value: '24',
+    },
   ];
   const getEndTime = (event, { value }) => {
     event.preventDefault();
@@ -299,7 +304,7 @@ const GetDjOnlineTracks = ({ report, getDjonlineTracksConnect }) => {
       startTime,
       endTime,
       report_id: report.reportDetails.id,
-      sortable_rank_start: report.report.length
+      sortable_rank_start: report.report.length,
     };
     getDjonlineTracksConnect(searchParams);
   };
@@ -316,7 +321,7 @@ const GetDjOnlineTracks = ({ report, getDjonlineTracksConnect }) => {
                 selected={date}
                 dateFormat='dd.MM.yyyy'
                 locale={fi}
-                onChange={date => setDate(date)}
+                onChange={(date) => setDate(date)}
                 label='Valitse päivä'
               />
               <Form.Field
@@ -380,7 +385,7 @@ GetDjOnlineTracks.propTypes = {
       user_id: PropTypes.number,
       username: PropTypes.string,
       first_name: PropTypes.string,
-      last_name: PropTypes.string
+      last_name: PropTypes.string,
     }),
     report: PropTypes.arrayOf(
       PropTypes.shape({
@@ -401,21 +406,21 @@ GetDjOnlineTracks.propTypes = {
         spotify_id: PropTypes.string,
         track_no: PropTypes.number,
         track_title: PropTypes.string,
-        year: PropTypes.string
+        year: PropTypes.string,
       })
-    )
+    ),
   }),
-  getDjonlineTracksConnect: PropTypes.func
+  getDjonlineTracksConnect: PropTypes.func,
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    report: state.report
+    report: state.report,
   };
 };
 
 const connectedGetDjOnlineTracks = connect(mapStateToProps, {
-  getDjonlineTracksConnect: getDjonlineTracks
+  getDjonlineTracksConnect: getDjonlineTracks,
 })(GetDjOnlineTracks);
 
 export default connectedGetDjOnlineTracks;

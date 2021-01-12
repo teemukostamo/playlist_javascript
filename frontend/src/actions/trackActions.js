@@ -11,21 +11,22 @@ import {
   CHANGE_ALBUM,
   CHANGE_ARTIST,
   MERGE_TRACKS,
-  ADD_TRACK_TO_REPORT
+  ADD_TRACK_TO_REPORT,
 } from './types';
 import trackService from '../services/tracks';
 import searchService from '../services/search';
 import reportService from '../services/reports';
 
-export const getDjonlineTracks = searchParams => async dispatch => {
+export const getDjonlineTracks = (searchParams) => async (dispatch) => {
   try {
-    dispatch({
-      type: SET_LOADING
-    });
+    // dispatch({
+    //   type: SET_LOADING,
+    // });
     const tracks = await trackService.checkDjonlineTracks(searchParams);
+    console.log('get djonline tracks at trackactions', tracks);
     dispatch({
       type: GET_DJONLINE_TRACKS,
-      data: tracks
+      data: tracks,
     });
   } catch (error) {
     console.log(error);
@@ -33,15 +34,15 @@ export const getDjonlineTracks = searchParams => async dispatch => {
 };
 
 // add a new track and save it to current report
-export const addNewTrack = trackToAdd => async dispatch => {
+export const addNewTrack = (trackToAdd) => async (dispatch) => {
   try {
     dispatch({
-      type: SET_LOADING
+      type: SET_LOADING,
     });
     const track = await trackService.addNewTrack(trackToAdd);
     dispatch({
       type: ADD_NEW_TRACK,
-      data: track
+      data: track,
     });
   } catch (error) {
     console.log(error);
@@ -49,7 +50,7 @@ export const addNewTrack = trackToAdd => async dispatch => {
 };
 
 // add a new track to db - not in a report
-export const addTrackToDb = trackToAdd => async () => {
+export const addTrackToDb = (trackToAdd) => async () => {
   try {
     const track = await trackService.addTrackToDb(trackToAdd);
     console.log(track);
@@ -58,157 +59,157 @@ export const addTrackToDb = trackToAdd => async () => {
   }
 };
 
-export const addTrackToAlbum = trackToAdd => async dispatch => {
+export const addTrackToAlbum = (trackToAdd) => async (dispatch) => {
   try {
     const track = await trackService.addTrackToAlbum(trackToAdd);
     console.log(track);
     dispatch({
       type: ADD_TRACK_TO_ALBUM,
-      data: track
+      data: track,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const addTrackToAlbumAndReport = trackToAdd => async dispatch => {
+export const addTrackToAlbumAndReport = (trackToAdd) => async (dispatch) => {
   try {
     const track = await trackService.addTrackToAlbum(trackToAdd);
     const trackToReport = {
       track_id: track.track_id,
       report_id: trackToAdd.report_id,
       length: trackToAdd.length,
-      sortable_rank: trackToAdd.sortable_rank
+      sortable_rank: trackToAdd.sortable_rank,
     };
     const report = await reportService.addTrackToReport(trackToReport);
     const trackToReducer = {
       ...report,
-      ...track
+      ...track,
     };
     dispatch({
       type: ADD_TRACK_TO_ALBUM,
-      data: track
+      data: track,
     });
     dispatch({
       type: ADD_TRACK_TO_REPORT,
-      data: trackToReducer
+      data: trackToReducer,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateTrack = trackToUpdate => async dispatch => {
+export const updateTrack = (trackToUpdate) => async (dispatch) => {
   try {
     dispatch({
-      type: SET_LOADING
+      type: SET_LOADING,
     });
     const updatedTrack = await trackService.updateTrack(trackToUpdate);
     dispatch({
       type: UPDATE_TRACK,
-      data: updatedTrack
+      data: updatedTrack,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getOneTrack = id => async dispatch => {
+export const getOneTrack = (id) => async (dispatch) => {
   try {
     dispatch({
-      type: SET_LOADING
+      type: SET_LOADING,
     });
     const track = await trackService.getOneTrack(id);
     dispatch({
       type: GET_ONE_TRACK,
-      data: track
+      data: track,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getOneTrackHistory = id => async dispatch => {
+export const getOneTrackHistory = (id) => async (dispatch) => {
   try {
     dispatch({
-      type: CLEAR_CURRENT_TRACK
+      type: CLEAR_CURRENT_TRACK,
     });
     dispatch({
-      type: SET_LOADING
+      type: SET_LOADING,
     });
     const history = await trackService.getOneTrackHistory(id);
     dispatch({
       type: GET_ONE_TRACK_HISTORY,
-      data: history
+      data: history,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const removeCurrentTrack = () => async dispatch => {
+export const removeCurrentTrack = () => async (dispatch) => {
   dispatch({
-    type: REMOVE_CURRENT_TRACK
+    type: REMOVE_CURRENT_TRACK,
   });
 };
 
-export const mergeTrackFunction = mergeParams => async dispatch => {
+export const mergeTrackFunction = (mergeParams) => async (dispatch) => {
   try {
     dispatch({
-      type: SET_LOADING
+      type: SET_LOADING,
     });
     const mergeAction = await searchService.merge(mergeParams);
     console.log(mergeAction);
     const track = await trackService.getOneTrack(mergeParams.mergeTo);
     dispatch({
       type: GET_ONE_TRACK,
-      data: track
+      data: track,
     });
     const history = await trackService.getOneTrackHistory(mergeParams.mergeTo);
     dispatch({
       type: GET_ONE_TRACK_HISTORY,
-      data: history
+      data: history,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const changeAlbumId = albumToUpdate => async dispatch => {
+export const changeAlbumId = (albumToUpdate) => async (dispatch) => {
   try {
     dispatch({
-      type: SET_LOADING
+      type: SET_LOADING,
     });
     const updateAlbum = await trackService.updateAlbumId(albumToUpdate);
     console.log(updateAlbum);
     dispatch({
       type: CHANGE_ALBUM,
-      data: albumToUpdate
+      data: albumToUpdate,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const changeArtistId = artistToUpdate => async dispatch => {
+export const changeArtistId = (artistToUpdate) => async (dispatch) => {
   try {
     dispatch({
-      type: SET_LOADING
+      type: SET_LOADING,
     });
     const updateArtist = await trackService.updateArtistId(artistToUpdate);
     console.log(updateArtist);
     dispatch({
       type: CHANGE_ARTIST,
-      data: artistToUpdate
+      data: artistToUpdate,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateTrackState = mergeParams => async dispatch => {
+export const updateTrackState = (mergeParams) => async (dispatch) => {
   dispatch({
     type: MERGE_TRACKS,
-    data: mergeParams
+    data: mergeParams,
   });
 };

@@ -31,15 +31,15 @@ const ReportWithTracks = ({
   const [dragState, setDragState] = useState(null);
   // get report tracks by report id
   useEffect(() => {
-    setTimeout(() => {
-      if (id === undefined) {
-        getOneReportConnect(report.reportDetails.id);
-      } else {
-        getOneReportConnect(parseInt(id));
-      }
+    const timer = setTimeout(() => {
+      getOneReportConnect(parseInt(id));
     }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
     // eslint-disable-next-line
   }, [report.djonline]);
+
   // get report details by report id
   useEffect(() => {
     if (id === undefined) {
@@ -108,13 +108,13 @@ const ReportWithTracks = ({
         <Table striped>
           <Table.Header>
             <Table.Row>
-              <Table.Cell></Table.Cell>
+              <Table.Cell />
               <Table.Cell>#</Table.Cell>
               <Table.Cell>Artisti</Table.Cell>
               <Table.Cell>Biisi</Table.Cell>
               <Table.Cell>Kesto</Table.Cell>
-              <Table.Cell></Table.Cell>
-              <Table.Cell></Table.Cell>
+              <Table.Cell />
+              <Table.Cell />
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -123,7 +123,7 @@ const ReportWithTracks = ({
             ))}
           </Table.Body>
           <Table.Footer>
-            <Table.Row></Table.Row>
+            <Table.Row />
           </Table.Footer>
         </Table>
       </ReactDragListView>

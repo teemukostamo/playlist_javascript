@@ -4,7 +4,6 @@ import { Table, Dimmer, Loader } from 'semantic-ui-react';
 import PlayHistoryItem from './PlayHistoryItem';
 
 const PlayHistory = ({ playhistory }) => {
-  console.log(playhistory);
   if (playhistory === null) {
     return (
       <Dimmer>
@@ -31,7 +30,7 @@ const PlayHistory = ({ playhistory }) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {playhistory.map(pgm => (
+          {playhistory.map((pgm) => (
             <PlayHistoryItem key={pgm.report_id} pgm={pgm} />
           ))}
         </Table.Body>
@@ -48,9 +47,9 @@ PlayHistory.propTypes = {
       program_id: PropTypes.number,
       report_id: PropTypes.number,
       track_id: PropTypes.number,
-      result: PropTypes.string
+      result: PropTypes.string,
     })
-  )
+  ),
 };
 
 export default PlayHistory;

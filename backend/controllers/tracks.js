@@ -718,6 +718,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
   } else {
     artist_name = artist_name.toUpperCase();
   }
+
   if (record_country === '') {
     record_country = null;
   }
@@ -731,15 +732,11 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
     ),
   });
 
-  console.log('add djonline tracks artist', artist);
-  // uudet artistit crashaa siihen et ao id
-
   if (!artist) {
     // create new artist
     const newArtist = await Artist.create({
       name: artist_name,
     });
-    console.log('created new artist', newArtist);
     // create new album
     const newAlbum = await Album.create({
       name: album_name,
@@ -748,7 +745,6 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       label,
       year: year.toString(),
     });
-    console.log('created new album', newAlbum);
 
     // create new track
     const newTrack = await Track.create({
@@ -766,7 +762,6 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       comment,
       isrc,
     });
-    console.log('created new track', newTrack);
 
     // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
     const newReportTrack = await Report_Track.create({
@@ -799,8 +794,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
       user_id: newTrack.user_id,
       spotify_id: newTrack.spotify_id,
     };
-    console.log('adding to report track', newReportTrack);
-    console.log('track to return', trackToReturn);
+
     res.status(201).json(trackToReturn);
   } else if (artist) {
     // see if album exists
@@ -816,7 +810,6 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         ),
       },
     });
-    console.log('add djonline tracks album', album);
 
     if (!album) {
       // create new album
@@ -827,7 +820,6 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         label,
         year: year.toString(),
       });
-      console.log('created new album', newAlbum);
 
       // create new track
       const newTrack = await Track.create({
@@ -845,7 +837,6 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         comment,
         isrc,
       });
-      console.log('created new track', newTrack);
 
       // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
       const newReportTrack = await Report_Track.create({
@@ -854,7 +845,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         length: newTrack.length,
         sortable_rank,
       });
-      console.log('created new report-track', newReportTrack);
+
       const trackToReturn = {
         id: newTrack.id,
         artist_id: newTrack.artist_id,
@@ -879,13 +870,9 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         user_id: newTrack.user_id,
         spotify_id: newTrack.spotify_id,
       };
-      console.log('track to return', trackToReturn);
+
       res.status(201).json(trackToReturn);
     } else {
-      // see if track exists
-      // const track = await Track.findOne({
-      //   where: { artist_id: artist.id, album_id: album.id, name: track_title }
-      // });
       const track = await Track.findOne({
         where: {
           artist_id: artist.id,
@@ -896,17 +883,14 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
           ),
         },
       });
-      console.log('add djonline tracks track', track);
 
       if (track) {
-        // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
         const newReportTrack = await Report_Track.create({
           track_id: track.id,
           report_id,
           length: track.length,
           sortable_rank,
         });
-        console.log('created new report track', newReportTrack);
 
         const trackToReturn = {
           id: track.id,
@@ -932,7 +916,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
           user_id: track.user_id,
           spotify_id: track.spotify_id,
         };
-        console.log('track to return', trackToReturn);
+
         return res.status(200).json(trackToReturn);
       }
       // create new track
@@ -951,9 +935,7 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         comment,
         isrc,
       });
-      console.log('created new track', newTrack);
 
-      // täs kohtaa lisää biisi report-träkkiin raportti-idn kans
       const newReportTrack = await Report_Track.create({
         track_id: newTrack.id,
         report_id,
@@ -961,7 +943,6 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         sortable_rank,
       });
 
-      console.log('new report-track', newReportTrack);
       const trackToReturn = {
         id: newTrack.id,
         artist_id: newTrack.artist_id,
@@ -986,7 +967,6 @@ exports.addDjonlineTracks = asyncHandler(async (req, res) => {
         user_id: newTrack.user_id,
         spotify_id: newTrack.spotify_id,
       };
-      console.log('track to return', trackToReturn);
       res.status(201).json(trackToReturn);
     }
   }

@@ -16,7 +16,7 @@ import {
   CLEAR_CURRENT_REPORT,
   SET_LOADING,
   ADD_TRACK_TO_REPORT,
-  REPORT_ERROR
+  REPORT_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -28,64 +28,65 @@ const initialState = {
   loading: false,
   checkedForDelete: [],
   currentTrack: null,
-  error: null
+  error: null,
 };
 
 const reportReducer = (state = initialState, action) => {
+  console.log('action data at reportreducer', action);
   switch (action.type) {
     case GET_ONE_REPORT:
       return {
         ...state,
         report: action.data,
-        loading: false
+        loading: false,
       };
     case GET_DJONLINE_TRACKS:
       return {
         ...state,
-        report: [...state.report, action.data.map(track => track)],
+        report: [...state.report, ...action.data],
         djonline: action.data,
-        loading: false
+        // loading: false,
       };
     case ADD_NEW_TRACK:
       return {
         ...state,
         report: [...state.report, action.data],
-        loading: false
+        loading: false,
       };
     case ADD_TRACK_TO_REPORT:
       return {
         ...state,
-        report: [...state.report, action.data]
+        report: [...state.report, action.data],
       };
     case UPDATE_TRACK:
       return {
         ...state,
-        report: state.report.map(track =>
+        report: state.report.map((track) =>
           track.track_id === action.data.track_id ? action.data : track
         ),
-        loading: false
+        loading: false,
       };
     case SET_EDIT_TRACK_ID:
       return {
         ...state,
-        editTrackId: action.data
+        editTrackId: action.data,
       };
     case GET_ONE_TRACK:
       return {
         ...state,
         currentTrack: action.data,
-        loading: false
+        loading: false,
       };
     case REMOVE_CURRENT_TRACK:
       return {
         ...state,
-        currentTrack: null
+        currentTrack: null,
       };
     case GET_REPORT_DETAILS:
       return {
         ...state,
         reportDetails: action.data,
-        newReport: null
+        newReport: null,
         // loading: false
       };
     case CREATE_REPORT:
@@ -93,7 +94,7 @@ const reportReducer = (state = initialState, action) => {
         ...state,
         newReport: action.data,
         reportDetails: action.data,
-        loading: false
+        loading: false,
       };
 
     case UPDATE_REPORT:
@@ -101,47 +102,47 @@ const reportReducer = (state = initialState, action) => {
         ...state,
         reportDetails: action.data,
         newReport: null,
-        loading: false
+        loading: false,
       };
 
     case DELETE_TRACK_FROM_REPORT:
       return {
         ...state,
         report: state.report.filter(
-          track => track.report_track_id !== action.id
-        )
+          (track) => track.report_track_id !== action.id
+        ),
       };
     case CHECK_FOR_DELETE:
       return {
         ...state,
-        checkedForDelete: [action.data, ...state.checkedForDelete]
+        checkedForDelete: [action.data, ...state.checkedForDelete],
       };
     case UNCHECK_FOR_DELETE:
       return {
         ...state,
         checkedForDelete: state.checkedForDelete.filter(
-          id => id !== action.data
-        )
+          (id) => id !== action.data
+        ),
       };
     case CLEAR_CHECKED_FOR_DELETE:
       return {
         ...state,
-        checkedForDelete: []
+        checkedForDelete: [],
       };
     case CLEAR_CURRENT_REPORT:
       return {
         ...state,
-        report: []
+        report: [],
       };
     case SET_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case REPORT_ERROR:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
       };
 
     default:
